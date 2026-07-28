@@ -384,8 +384,8 @@ function setRoomStorage(id){ try{ localStorage.setItem('abaton_room',id); }catch
 function getSession(){
   try{ const raw=localStorage.getItem('abaton_session'); return raw?JSON.parse(raw):null; }catch(e){ return null; }
 }
-function saveSession({name,checkIn,checkOut}){
-  const session = {name,checkIn,checkOut,id:String(Date.now())};
+function saveSession({name,checkIn,checkOut,lang}){
+  const session = {name,checkIn,checkOut,lang:lang||"it",id:String(Date.now())};
   try{
     localStorage.setItem('abaton_session',JSON.stringify(session));
     localStorage.removeItem('abaton_onboarded_id');
@@ -403,6 +403,7 @@ function StaffPanel({session,onSave,onClear,onClose}) {
   const [checkIn,setCheckIn] = useState(session?.checkIn||"");
   const [checkOut,setCheckOut] = useState(session?.checkOut||"");
   const [room,setRoomSel] = useState(getRoom());
+  const [guestLang,setGuestLang] = useState(session?.lang||"it");
 
   if (!pinOk) {
     return (
@@ -433,6 +434,15 @@ function StaffPanel({session,onSave,onClear,onClose}) {
         <label style={{fontSize:"12",color:C.textM,display:"block",marginBottom:"6px"}}>Nome ospite</label>
         <input value={name} onChange={e=>setName(e.target.value)} placeholder="Es. Denise" style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15",outline:"none"}}/>
 
+        <label style={{fontSize:"12",color:C.textM,display:"block",marginBottom:"6px"}}>Lingua ospite</label>
+        <select value={guestLang} onChange={e=>setGuestLang(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15"}}>
+          <option value="it">🇮🇹 Italiano</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ru">🇷🇺 Русский</option>
+        </select>
+
         <div style={{display:"flex",gap:"10px",marginBottom:"20px"}}>
           <div style={{flex:1}}>
             <label style={{fontSize:"12",color:C.textM,display:"block",marginBottom:"6px"}}>Check-in</label>
@@ -444,7 +454,7 @@ function StaffPanel({session,onSave,onClear,onClose}) {
           </div>
         </div>
 
-        <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"15"}}>Salva nuovo ospite</button>
+        <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut,lang:guestLang}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"15"}}>Salva nuovo ospite</button>
         <button onClick={onClear} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15"}}>Pulisci dati ospite (check-out)</button>
         <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"13"}}>Chiudi</button>
       </div>
@@ -555,9 +565,10 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             {id:"abaton",    label:lang==="it"?"Abaton":"Abaton",      sym:"✦", bg:C.cream,    fg:C.blue},
             {id:"damanhur",  label:"Damanhur",                         sym:"◎", bg:C.goldPale, fg:C.goldD},
             {id:"wellness",  label:lang==="it"?"Benessere":"Wellness", sym:"◈", bg:"#EFF4ED",  fg:"#5A7A58"},
-            {id:"shop",      label:(lang==="it"||!lang?"Solo per te":"For you"),                             sym:"✧", bg:C.nebbia,   fg:C.blueM},
+            {id:"shop",      label:(lang==="it"||!lang?"I tuoi privilegi":"Your privileges"), sym:"✧", special:true},
           ].map(item=>(
-            <button key={item.id} onClick={()=>setPage(item.id)} style={{padding:"13px 18px",background:item.bg,border:`1px solid ${C.border}`,borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14",fontWeight:"400",letterSpacing:"0.04em",color:item.fg,display:"flex",alignItems:"center",gap:"7px",boxShadow:C.shadow}}>
+            <button key={item.id} onClick={()=>setPage(item.id)} style={item.special?{position:"relative",padding:"13px 20px",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14",fontWeight:"600",letterSpacing:"0.04em",color:C.white,display:"flex",alignItems:"center",gap:"7px",boxShadow:`0 4px 18px ${C.gold}66`}:{padding:"13px 18px",background:item.bg,border:`1px solid ${C.border}`,borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14",fontWeight:"400",letterSpacing:"0.04em",color:item.fg,display:"flex",alignItems:"center",gap:"7px",boxShadow:C.shadow}}>
+              {item.special&&<span style={{position:"absolute",top:"-3px",right:"-3px",width:"10px",height:"10px",borderRadius:"50%",background:"#fff",animation:"abatonPulse 1.4s ease-in-out infinite alternate"}}/>}
               <span style={{fontSize:"16"}}>{item.sym}</span>{item.label}
             </button>
           ))}
@@ -697,8 +708,71 @@ function ExperiencePage({t,lang,setPage}) {
 }
 
 // ── ABATON (replaces Stanze) ──────────────────────────────────────────────────
+// ── ROOM HOTSPOTS (mappa interattiva della stanza) ─────────────────────────────
+// NOTA: coordinate/etichette per "Terra" sono una bozza dedotta dalla foto reale.
+// Da confermare/correggere con Denise prima di estendere alle altre stanze.
+const ROOM_HOTSPOTS = {
+  Terra: [
+    {x:63,y:36,labelIT:"Pannello Selfico",labelEN:"Selfic Panel",descIT:"Il dipinto murale che amplifica l'intenzione della stanza — parte della tecnologia selfica di Damanhur.",descEN:"The wall painting that amplifies the room's intention — part of Damanhur's selfic technology."},
+    {x:31,y:40,labelIT:"Tende",labelEN:"Curtains",descIT:"Chiudile la sera per il buio completo: aiutano il sonno profondo e il ricordo dei sogni.",descEN:"Close them in the evening for full darkness: they help deep sleep and dream recall."},
+    {x:71,y:78,labelIT:"Letti artigianali",labelEN:"Handcrafted beds",descIT:"Realizzati a mano da artigiani locali, in legno naturale — nello stile essenziale di Damanhur.",descEN:"Handmade by local artisans in natural wood — in Damanhur's essential style."},
+    {x:90,y:70,labelIT:"Comodino e Selfica",labelEN:"Nightstand & Selfica",descIT:"Lo strumento selfico sul comodino accompagna il sonno: non spostarlo per mantenerne l'efficacia.",descEN:"The selfic tool on the nightstand supports sleep: please don't move it, to keep it effective."},
+    {x:16,y:80,labelIT:"Angolo lettura",labelEN:"Reading corner",descIT:"La poltroncina in vimini, pensata per un momento di sosta prima del sonno.",descEN:"The wicker chair, meant for a quiet pause before sleep."},
+  ],
+  Metalli: [
+    {x:65,y:38,labelIT:"Pannello Selfico",labelEN:"Selfic Panel",descIT:"Il grande pannello dipinto sopra il letto — la trasformazione alchemica rappresentata in forma e colore.",descEN:"The large painted panel above the bed — alchemical transformation represented in shape and colour."},
+    {x:8,y:48,labelIT:"Decorazione murale",labelEN:"Wall decoration",descIT:"Il simbolo dipinto sulla parete racconta una fase del percorso alchemico dei Metalli.",descEN:"The symbol painted on the wall tells one phase of the Metals' alchemical path."},
+    {x:50,y:78,labelIT:"Letto artigianale",labelEN:"Handcrafted bed",descIT:"Realizzato a mano in legno naturale, nello stile essenziale di Damanhur.",descEN:"Handmade in natural wood, in Damanhur's essential style."},
+    {x:79,y:80,labelIT:"Luce del comodino",labelEN:"Bedside light",descIT:"Illuminazione soffusa per la sera, pensata per accompagnare il passaggio al sonno.",descEN:"Soft evening lighting, designed to accompany the passage into sleep."},
+  ],
+  Acqua: [
+    {x:35,y:28,labelIT:"Pannello Selfico",labelEN:"Selfic Panel",descIT:"Il murale sopra il letto rappresenta le memorie profonde del cosmo, principio dell'acqua.",descEN:"The mural above the bed represents the deep memories of the cosmos, the principle of water."},
+    {x:20,y:78,labelIT:"Selfica luminosa",labelEN:"Luminous selfica",descIT:"La sfera luminosa sul comodino: parte della tecnologia selfica della stanza, non spostarla.",descEN:"The luminous sphere on the nightstand: part of the room's selfic technology, please don't move it."},
+    {x:78,y:88,labelIT:"Selfica luminosa",labelEN:"Luminous selfica",descIT:"Come la gemella sull'altro comodino, accompagna il sonno con una luce calda e soffusa.",descEN:"Like its twin on the other nightstand, it accompanies sleep with a warm, soft light."},
+    {x:50,y:70,labelIT:"Letto artigianale",labelEN:"Handcrafted bed",descIT:"Testata in legno naturale, realizzata a mano da artigiani locali.",descEN:"Natural wood headboard, handmade by local artisans."},
+  ],
+  Specchi: [
+    {x:60,y:48,labelIT:"Pannello Selfico",labelEN:"Selfic Panel",descIT:"Il grande specchio decorativo dorato: riflette non solo l'apparenza, ma l'essenza.",descEN:"The large golden decorative mirror-panel: it reflects not only appearance, but essence."},
+    {x:90,y:42,labelIT:"Armadio dipinto",labelEN:"Painted wardrobe",descIT:"L'armadio con decorazione artigianale, in tema con la sala degli Specchi.",descEN:"The wardrobe with handcrafted decoration, in keeping with the Mirrors room."},
+    {x:24,y:80,labelIT:"Letto artigianale",labelEN:"Handcrafted bed",descIT:"Realizzato a mano in legno naturale.",descEN:"Handmade in natural wood."},
+    {x:47,y:82,labelIT:"Luce del comodino",labelEN:"Bedside light",descIT:"Illuminazione soffusa per la sera.",descEN:"Soft evening lighting."},
+  ],
+  Popoli: [
+    {x:73,y:48,labelIT:"Pannello dei Popoli",labelEN:"Peoples Panel",descIT:"Il murale simbolico: i segni che rappresentano l'incontro tra i popoli e la coscienza collettiva.",descEN:"The symbolic mural: the signs representing the meeting of peoples and collective consciousness."},
+    {x:15,y:45,labelIT:"Tende",labelEN:"Curtains",descIT:"Chiudile la sera per il buio completo e il sonno profondo.",descEN:"Close them in the evening for full darkness and deep sleep."},
+    {x:10,y:75,labelIT:"Angolo scrittura",labelEN:"Writing corner",descIT:"La piccola scrivania, per annotare pensieri o sogni al risveglio.",descEN:"The small desk, for jotting down thoughts or dreams upon waking."},
+    {x:52,y:82,labelIT:"Letto artigianale",labelEN:"Handcrafted bed",descIT:"Realizzato a mano in legno naturale.",descEN:"Handmade in natural wood."},
+  ],
+};
+function RoomExplorer({room,lang}) {
+  const [active,setActive] = useState(null);
+  const spots = ROOM_HOTSPOTS[room.name]||[];
+  return (
+    <div>
+      <div style={{position:"relative",borderRadius:"20px",overflow:"hidden",boxShadow:C.shadow}}>
+        <img src={room.img} alt={room.name} style={{width:"100%",display:"block"}}/>
+        {spots.map((h,i)=>(
+          <button key={i} onClick={()=>setActive(active===i?null:i)} style={{position:"absolute",left:`${h.x}%`,top:`${h.y}%`,transform:"translate(-50%,-50%)",width:"30px",height:"30px",borderRadius:"50%",background:active===i?C.gold:"rgba(255,255,255,0.88)",border:`2px solid ${C.gold}`,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 10px rgba(0,0,0,0.35)",cursor:"pointer",padding:0,animation:active===null?"abatonPulse 1.8s ease-in-out infinite alternate":"none"}}>
+            <span style={{color:active===i?C.white:C.goldD,fontSize:"13",fontWeight:"700",fontFamily:FB}}>{i+1}</span>
+          </button>
+        ))}
+      </div>
+      {active!==null ? (
+        <div style={{marginTop:"14px",background:C.white,borderRadius:"16px",padding:"18px",boxShadow:C.shadow}}>
+          <div style={{fontFamily:FD,fontSize:"19",color:C.blue,marginBottom:"6px"}}>{lang==="it"?spots[active].labelIT:spots[active].labelEN}</div>
+          <div style={{fontSize:"14",color:C.textM,lineHeight:"1.7"}}>{lang==="it"?spots[active].descIT:spots[active].descEN}</div>
+        </div>
+      ) : (
+        <div style={{marginTop:"14px",fontSize:"13",color:C.textM,textAlign:"center",fontStyle:"italic"}}>
+          {lang==="it"?"Tocca i cerchi dorati per scoprire i dettagli della stanza":"Tap the golden circles to discover the room's details"}
+        </div>
+      )}
+    </div>
+  );
+}
 function AbatonPage({t,lang,setPage}) {
   const [sub,setSub] = useState(null);
+  const [roomDetail,setRoomDetail] = useState(null);
   const SUBS = [
     {id:"camere",   sym:"◇", labelIT:"Le Cinque Stanze",    labelEN:"The Five Rooms",    color:C.gold},
     {id:"living",   sym:"〰", labelIT:"Il Living",           labelEN:"The Living Space",  color:C.blueM},
@@ -784,6 +858,20 @@ function AbatonPage({t,lang,setPage}) {
       dreamReading:true,
     },
   };
+  if(sub==="camere"&&roomDetail) return(
+    <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
+      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+        <Back label={t.back} onClick={()=>setRoomDetail(null)}/>
+        <div style={{marginTop:"16px"}}><div style={{fontFamily:FD,fontSize:"34",fontWeight:"300",color:roomDetail.acc}}>{roomDetail.name}</div></div>
+      </div>
+      <div style={{padding:"24px 22px 0"}}>
+        <RoomExplorer room={roomDetail} lang={lang}/>
+        <WhiteCard style={{marginTop:"20px"}}>
+          <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>{lang==="it"?roomDetail.descIT:roomDetail.descEN}</div>
+        </WhiteCard>
+      </div>
+    </div>
+  );
   if(sub==="camere") return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
@@ -810,11 +898,18 @@ function AbatonPage({t,lang,setPage}) {
             <div style={{padding:"18px"}}>
               {!r.img&&<div style={{fontFamily:FD,fontSize:"24",color:r.acc,marginBottom:"10px"}}>{r.sym} {r.name}</div>}
               <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>{lang==="it"?r.descIT:r.descEN}</div>
-              {r.templeUrl&&(
-                <a href={r.templeUrl} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",padding:"8px 16px",background:`${r.acc}18`,border:`1px solid ${r.acc}44`,borderRadius:"20px",color:r.acc,textDecoration:"none",fontFamily:FB,fontSize:"13",letterSpacing:"0.1em"}}>
-                  {lang==="it"?"Scopri la Sala →":"Discover the Hall →"}
-                </a>
-              )}
+              <div style={{display:"flex",gap:"10px",flexWrap:"wrap",marginTop:"14px"}}>
+                {ROOM_HOTSPOTS[r.name]&&(
+                  <button onClick={()=>setRoomDetail(r)} style={{padding:"8px 16px",background:r.acc,border:"none",borderRadius:"20px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"13",letterSpacing:"0.05em"}}>
+                    {lang==="it"?"Esplora la stanza →":"Explore the room →"}
+                  </button>
+                )}
+                {r.templeUrl&&(
+                  <a href={r.templeUrl} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"8px 16px",background:`${r.acc}18`,border:`1px solid ${r.acc}44`,borderRadius:"20px",color:r.acc,textDecoration:"none",fontFamily:FB,fontSize:"13",letterSpacing:"0.1em"}}>
+                    {lang==="it"?"Scopri la Sala →":"Discover the Hall →"}
+                  </a>
+                )}
+              </div>
             </div>
           </WhiteCard>
         ))}
@@ -1299,7 +1394,7 @@ function GuestsPage({t,lang,setPage}) {
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"20px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
-        <div style={{fontFamily:FD,fontSize:"28",color:C.blue,marginTop:"16px"}}>{lang==="it"?"Solo per te":"Just for you"}</div>
+        <div style={{fontFamily:FD,fontSize:"28",color:C.blue,marginTop:"16px"}}>{lang==="it"?"I tuoi privilegi":"Your privileges"}</div>
         <div style={{fontFamily:FS,fontSize:"14",color:C.textM,fontStyle:"italic",marginTop:"4px"}}>{lang==="it"?"Ospiti Abaton · Sacred Dreams":"Abaton Guests · Sacred Dreams"}</div>
       </div>
       <div style={{padding:"0 22px"}}>
@@ -1436,7 +1531,7 @@ const NAV = [
 // ── APP ROOT ──────────────────────────────────────────────────────────────────
 export default function AbatonApp() {
   const [page,setPage] = useState("home");
-  const [lang,setLang] = useState("it");
+  const [lang,setLang] = useState(()=>getSession()?.lang||"it");
   const t = T[lang]||T.it;
   useEffect(()=>{
     const link=document.createElement("link"); link.rel="stylesheet"; link.href=FONT_URL;
@@ -1473,6 +1568,12 @@ export default function AbatonApp() {
         ? (lang==="it"?`${session.name}, sei nella Stanza ${roomInfo.name}. ${roomInfo.lineIT}`:`${session.name}, you're staying in the ${roomInfo.name} Room. ${roomInfo.lineEN}`)
         : (lang==="it"?`Un caloroso benvenuto, ${session.name}.`:`A warm welcome, ${session.name}.`),
     }] : []),
+    {key:"practical", icon:"◯",
+      title:lang==="it"?"Le informazioni utili":"The practical details",
+      desc:lang==="it"
+        ?`WiFi "abaton", password abaton1950. ${t.checkOut}. Silenzio dalle 22 alle 8. Trovi tutto anche nella schermata Home.`
+        :`WiFi "abaton", password abaton1950. ${t.checkOut}. Quiet hours from 22:00 to 8:00. You'll always find this on the Home screen.`,
+    },
     {key:"exp",   icon:"✦", title:lang==="it"?"Inizia da qui":"Start here",        desc:lang==="it"?"Scopri come vivere al meglio il tuo soggiorno ad Abaton":"Discover how to make the most of your stay at Abaton"},
     {key:"abaton",icon:"◈", title:lang==="it"?"Le Cinque Stanze":"The Five Rooms", desc:lang==="it"?"Esplora le stanze e il loro significato":"Explore the rooms and their meaning"},
     {key:"events",icon:"◎", title:lang==="it"?"Gli eventi":"Events",               desc:lang==="it"?"Scopri cosa accade questa settimana a Damanhur":"Discover what's happening this week at Damanhur"},
@@ -1487,6 +1588,7 @@ export default function AbatonApp() {
   const handleSaveSession = (data) => {
     const s = saveSession(data);
     setSession(s);
+    setLang(s.lang);
     setOnboardStep(0);
     setShowOnboard(true);
     setShowStaff(false);
@@ -1512,6 +1614,7 @@ export default function AbatonApp() {
   return(
     <div style={{display:"flex",minHeight:"100vh",background:C.bg}}>
       <style>{`
+        :root{color-scheme:light only}
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:0}
         input::placeholder{color:${C.textM}}
