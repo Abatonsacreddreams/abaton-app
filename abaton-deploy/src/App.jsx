@@ -518,11 +518,11 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             {[1,2,3].map(i=><div key={i} style={{height:"1px",width:`${i===2?48:24}px`,background:`${C.gold}${i===2?"cc":"66"}`}}/>)}
           </div>
           <div style={{fontFamily:FD,fontSize:"21",fontStyle:"italic",fontWeight:"600",letterSpacing:"0.18em",color:C.gold,textTransform:"uppercase",marginBottom:"14px",textShadow:"0 1px 6px rgba(200,168,106,0.3)"}}>Sacred Dreams</div>
-          <div style={{fontFamily:FD,fontSize:"19",fontStyle:"italic",color:"rgba(255,255,255,0.85)",textShadow:"0 2px 12px rgba(0,0,0,0.4)"}}>
+          <div style={{fontFamily:FD,fontSize:"23",fontStyle:"italic",color:"rgba(255,255,255,0.92)",textShadow:"0 2px 16px rgba(0,0,0,0.65)"}}>
             {date} · <WeatherWidget/>
           </div>
           {session?.name&&(
-            <div style={{fontFamily:FD,fontSize:"18",fontStyle:"italic",color:C.gold,marginTop:"8px",textShadow:"0 2px 12px rgba(0,0,0,0.4)"}}>
+            <div style={{fontFamily:FD,fontSize:"22",fontStyle:"italic",color:C.gold,marginTop:"8px",textShadow:"0 2px 16px rgba(0,0,0,0.65)"}}>
               {lang==="it"?`Il tuo soggiorno, ${session.name}`:`Your stay, ${session.name}`}
             </div>
           )}
@@ -538,7 +538,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <Circle size={200} bg={`linear-gradient(135deg,${C.gold},${C.goldD})`} onClick={()=>setPage("experience")} style={{border:`3px solid ${C.gold}`,boxShadow:`0 0 0 4px ${C.gold}44, 0 8px 32px rgba(154,124,69,0.45)`}}>
                 <div style={{textAlign:"center",padding:"20px"}}>
                   <div style={{fontSize:"24",color:C.white,marginBottom:"8px"}}>✦</div>
-                  <div style={{fontFamily:FD,fontSize:"18",color:C.white,fontWeight:"400",lineHeight:"1.3",whiteSpace:"pre-line"}}>
+                  <div style={{fontFamily:FD,fontSize:"21",color:C.white,fontWeight:"500",lineHeight:"1.3",whiteSpace:"pre-line",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
                     {t.expBtn}
                   </div>
                 </div>
@@ -554,7 +554,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             return <div key={i} style={{position:"absolute",left:`${x-4}px`,top:`${y-4}px`,width:"8px",height:"8px",borderRadius:"50%",background:i%2===0?C.gold:`${C.gold}44`}}/>;
           })}
         </div>
-        <div style={{fontFamily:FD,fontSize:"26",fontStyle:"italic",color:C.gold,textAlign:"center",lineHeight:"1.4",marginBottom:"6px",letterSpacing:"0.05em",textShadow:"0 1px 10px rgba(200,168,106,0.45)"}}>{t.tagline}</div>
+        <div style={{fontFamily:FD,fontSize:"30",fontStyle:"italic",fontWeight:"600",color:C.goldD,textAlign:"center",lineHeight:"1.4",marginBottom:"6px",letterSpacing:"0.05em",textShadow:"0 1px 2px rgba(0,0,0,0.12)"}}>{t.tagline}</div>
         {/* Soglia divider */}
         <div style={{display:"flex",justifyContent:"center",gap:"2px",margin:"10px 0 6px"}}>
           {[24,48,24].map((w,i)=><div key={i} style={{height:"1px",width:`${w}px`,background:`${C.gold}${i===1?"aa":"44"}`}}/>)}
