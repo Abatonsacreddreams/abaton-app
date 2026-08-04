@@ -36,7 +36,7 @@ const T = {
   it:{
     title:"Con te",
     tagline:"Sognare per ricordare.",
-    expBtn:"Vivere al meglio\nquesta esperienza",
+    expBtn:"Come prepararsi al meglio\nper i sogni",
     nav:["Home","Abaton","Damanhur","Benessere","Concierge"],
     eventsTitle:"Questa settimana a Damanhur",
     eventsFull:"Tutti gli eventi →",
@@ -71,7 +71,7 @@ const T = {
   en:{
     title:"With you",
     tagline:"Sleep to remember.",
-    expBtn:"How to best live\nthis experience",
+    expBtn:"How to best prepare\nfor your dreams",
     nav:["Home","Abaton","Damanhur","Wellness","Concierge"],
     eventsTitle:"This week at Damanhur",
     eventsFull:"All events →",
@@ -106,7 +106,7 @@ const T = {
   de:{
     title:"Mit dir",
     tagline:"Träumen, um zu erinnern.",
-    expBtn:"Diese Erfahrung\nvoll erleben",
+    expBtn:"Wie du dich am besten\nauf die Träume vorbereitest",
     nav:["Home","Abaton","Damanhur","Wellness","Concierge"],
     eventsTitle:"Diese Woche in Damanhur",
     eventsFull:"Alle Veranstaltungen →",
@@ -141,7 +141,7 @@ const T = {
   fr:{
     title:"Avec toi",
     tagline:"Rêver pour se souvenir.",
-    expBtn:"Vivre pleinement\ncette expérience",
+    expBtn:"Comment bien se préparer\naux rêves",
     nav:["Accueil","Abaton","Damanhur","Bien-être","Concierge"],
     eventsTitle:"Cette semaine à Damanhur",
     eventsFull:"Tous les événements →",
@@ -176,7 +176,7 @@ const T = {
   ru:{
     title:"С тобой",
     tagline:"Спать, чтобы помнить.",
-    expBtn:"Прожить этот опыт\nпо-настоящему",
+    expBtn:"Как лучше подготовиться\nко снам",
     nav:["Главная","Абатон","Дамандур","Велнес","Консьерж"],
     eventsTitle:"На этой неделе в Дамандуре",
     eventsFull:"Все события →",
@@ -211,8 +211,11 @@ const T = {
 };
 
 const SYS = {
-  it:`Sei il Concierge dell'Abaton Sacred Dreams — B&B sopra i Templi dell'Umanità di Damanhur, Piemonte, Italia. TONO: calmo, poetico, umano. Mai commerciale. RISPOSTE: 3-4 frasi max. WiFi "abaton" (email + password), 5 stanze (Terra, Metalli, Acqua, Specchi, Popoli), check-out 10:30, silenzio 22-8, eventi: +39 320 482 4427. Rispondi sempre in italiano.`,
-  en:`You are the Concierge of Abaton Sacred Dreams — experiential B&B above the Temples of Humanity, Damanhur, Italy. TONE: calm, poetic, human. Max 3-4 sentences. WiFi "abaton", 5 rooms, check-out 10:30, silence 10pm-8am. Respond in English.`,
+  it:`Sei il Concierge dell'Abaton Sacred Dreams — B&B sopra i Templi dell'Umanità di Damanhur, Piemonte, Italia. TONO: calmo, poetico, umano. Mai commerciale. RISPOSTE: 3-4 frasi max. WiFi "abaton" (email + password), 5 stanze (Terra, Metalli, Acqua, Specchi, Popoli), check-out 10:30, silenzio 22-8, eventi: +39 320 482 4427. IMPORTANTE: rispondi SEMPRE e SOLO in italiano, indipendentemente dalla lingua usata dall'ospite. Non usare mai altre lingue o alfabeti (es. cirillico).`,
+  en:`You are the Concierge of Abaton Sacred Dreams — experiential B&B above the Temples of Humanity, Damanhur, Italy. TONE: calm, poetic, human. Max 3-4 sentences. WiFi "abaton", 5 rooms, check-out 10:30, silence 10pm-8am. IMPORTANT: always reply ONLY in English, regardless of the language the guest writes in. Never use any other language or script (e.g. Cyrillic).`,
+  de:`Du bist der Concierge von Abaton Sacred Dreams — ein Erlebnis-B&B über den Tempeln der Menschheit, Damanhur, Italien. TON: ruhig, poetisch, menschlich. Max. 3-4 Sätze. WLAN "abaton", 5 Zimmer, Check-out 10:30, Ruhezeit 22-8 Uhr. WICHTIG: Antworte IMMER und AUSSCHLIESSLICH auf Deutsch, unabhängig von der Sprache des Gastes. Verwende niemals eine andere Sprache oder Schrift (z. B. Kyrillisch).`,
+  fr:`Tu es le Concierge d'Abaton Sacred Dreams — B&B expérientiel au-dessus des Temples de l'Humanité, Damanhur, Italie. TON: calme, poétique, humain. Max 3-4 phrases. WiFi "abaton", 5 chambres, départ 10h30, silence 22h-8h. IMPORTANT : réponds TOUJOURS et UNIQUEMENT en français, quelle que soit la langue utilisée par l'invité. N'utilise jamais une autre langue ou écriture (ex. cyrillique).`,
+  ru:`Ты — консьерж Abaton Sacred Dreams, B&B над Храмами Человечества, Дамандур, Италия. ТОН: спокойный, поэтичный, человечный. Максимум 3-4 предложения. Wi-Fi "abaton", 5 комнат, выезд до 10:30, тишина с 22 до 8. ВАЖНО: отвечай ВСЕГДА и ТОЛЬКО на русском языке, независимо от языка гостя. Никогда не используй другой язык или алфавит.`,
 };
 
 const EVENTS = [
@@ -243,7 +246,7 @@ const EVENTS = [
   {
     date:"28–30 Ago",dateEN:"28–30 Aug",
     title:"Damanhur Fest 2026",titleEN:"Damanhur Fest 2026",
-    time:"Tutto il weekend",loc:"Damjl, Via Pramarzo 3",
+    time:"Tutto il weekend",timeEN:"All weekend",loc:"Damjl, Via Pramarzo 3",
     desc:"Il grande festival estivo: workshop, meditazioni di gruppo, concerti, sogno lucido, trattamenti benessere. Tre giorni per sperimentare la vita come Popolo.",
     descEN:"The great summer festival: workshops, group meditations, concerts, lucid dreaming, wellness treatments. Three days to experience life as Popolo.",
     url:"https://fest.damanhur.org/"
@@ -251,7 +254,7 @@ const EVENTS = [
   {
     date:"31 Ago",dateEN:"31 Aug",
     title:"Capodanno Damanhuriano",titleEN:"Damanhurian New Year",
-    time:"Serata",loc:"Damjl",
+    time:"Serata",timeEN:"Evening",loc:"Damjl",
     desc:"La vigilia del Capodanno Damanhuriano: notte di musica, festa e il rituale del Falco Stellare — un magico rito di luce e intenzione sotto le stelle.",
     descEN:"Damanhurian New Year's Eve: a night of music, celebration and the Falco Stellare ritual — a magical rite of light and intention under the stars.",
     url:"https://damanhur.community/events/"
@@ -509,17 +512,17 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             <line x1="84" y1="9" x2="100" y2="18" stroke={C.gold} strokeWidth="0.8" opacity="0.7"/>
           </svg>
           {/* ABATON wordmark */}
-          <div onClick={handleWordmarkTap} style={{fontFamily:FD,fontSize:"56",fontWeight:"300",letterSpacing:"0.18em",lineHeight:"1",color:C.white,marginBottom:"6px",textTransform:"uppercase",textShadow:"0 4px 24px rgba(0,0,0,0.45)"}}>ABATON</div>
+          <div onClick={handleWordmarkTap} style={{fontFamily:FD,fontSize:"64",fontWeight:"300",letterSpacing:"0.18em",lineHeight:"1",color:C.white,marginBottom:"6px",textTransform:"uppercase",textShadow:"0 4px 24px rgba(0,0,0,0.45)"}}>ABATON</div>
           {/* Soglia divider */}
           <div style={{display:"flex",justifyContent:"center",gap:"2px",marginBottom:"8px"}}>
             {[1,2,3].map(i=><div key={i} style={{height:"1px",width:`${i===2?48:24}px`,background:`${C.gold}${i===2?"cc":"66"}`}}/>)}
           </div>
-          <div style={{fontFamily:FD,fontSize:"18",fontStyle:"italic",fontWeight:"600",letterSpacing:"0.18em",color:C.gold,textTransform:"uppercase",marginBottom:"14px",textShadow:"0 1px 6px rgba(200,168,106,0.3)"}}>Sacred Dreams</div>
-          <div style={{fontFamily:FD,fontSize:"17",fontStyle:"italic",color:"rgba(255,255,255,0.85)",textShadow:"0 2px 12px rgba(0,0,0,0.4)"}}>
+          <div style={{fontFamily:FD,fontSize:"21",fontStyle:"italic",fontWeight:"600",letterSpacing:"0.18em",color:C.gold,textTransform:"uppercase",marginBottom:"14px",textShadow:"0 1px 6px rgba(200,168,106,0.3)"}}>Sacred Dreams</div>
+          <div style={{fontFamily:FD,fontSize:"19",fontStyle:"italic",color:"rgba(255,255,255,0.85)",textShadow:"0 2px 12px rgba(0,0,0,0.4)"}}>
             {date} · <WeatherWidget/>
           </div>
           {session?.name&&(
-            <div style={{fontFamily:FD,fontSize:"16",fontStyle:"italic",color:C.gold,marginTop:"8px",textShadow:"0 2px 12px rgba(0,0,0,0.4)"}}>
+            <div style={{fontFamily:FD,fontSize:"18",fontStyle:"italic",color:C.gold,marginTop:"8px",textShadow:"0 2px 12px rgba(0,0,0,0.4)"}}>
               {lang==="it"?`Il tuo soggiorno, ${session.name}`:`Your stay, ${session.name}`}
             </div>
           )}
@@ -551,7 +554,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             return <div key={i} style={{position:"absolute",left:`${x-4}px`,top:`${y-4}px`,width:"8px",height:"8px",borderRadius:"50%",background:i%2===0?C.gold:`${C.gold}44`}}/>;
           })}
         </div>
-        <div style={{fontFamily:FD,fontSize:"23",fontStyle:"italic",color:C.gold,textAlign:"center",lineHeight:"1.4",marginBottom:"6px",letterSpacing:"0.05em",textShadow:"0 1px 10px rgba(200,168,106,0.45)"}}>{t.tagline}</div>
+        <div style={{fontFamily:FD,fontSize:"26",fontStyle:"italic",color:C.gold,textAlign:"center",lineHeight:"1.4",marginBottom:"6px",letterSpacing:"0.05em",textShadow:"0 1px 10px rgba(200,168,106,0.45)"}}>{t.tagline}</div>
         {/* Soglia divider */}
         <div style={{display:"flex",justifyContent:"center",gap:"2px",margin:"10px 0 6px"}}>
           {[24,48,24].map((w,i)=><div key={i} style={{height:"1px",width:`${w}px`,background:`${C.gold}${i===1?"aa":"44"}`}}/>)}
@@ -597,7 +600,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             <Pill>⟡ {t.wifiName}</Pill>
             <div style={{fontSize:"13px",color:C.textM,fontFamily:FB,letterSpacing:"0.05em",marginTop:"4px",paddingLeft:"4px"}}>Password: <span style={{color:C.textD,fontWeight:"600"}}>abaton1950</span></div>
             <Pill color={C.blue}>← {t.checkOut}</Pill>
-            <Pill color={C.textM}>◯ Silenzio 22–8</Pill>          </div>
+            <Pill color={C.textM}>◯ {lang==="it"?"Silenzio 22–8":"Quiet hours 10pm–8am"}</Pill>          </div>
           <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"14px",textDecoration:"none"}}>💬 {t.lateOut} →</a>
         </WhiteCard>
 
@@ -606,12 +609,12 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           {EVENTS.map((ev,i)=>(
             <a key={i} href={ev.url} target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",gap:"16px",padding:"16px 0",borderBottom:i<EVENTS.length-1?`1px solid ${C.border}`:"none",textDecoration:"none"}}>
               <div style={{textAlign:"center",minWidth:"52px"}}>
-                <div style={{fontSize:"13",color:C.textM,fontFamily:FB,textTransform:"uppercase",letterSpacing:"0.08em"}}>{(ev.date||"").split(" ")[0]}</div>
-                <div style={{fontFamily:FD,fontSize:"24",color:C.gold,lineHeight:"1"}}>{(ev.date||"").split(" ").slice(1).join(" ")||ev.date||""}</div>
+                <div style={{fontSize:"13",color:C.textM,fontFamily:FB,textTransform:"uppercase",letterSpacing:"0.08em"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ")[0]}</div>
+                <div style={{fontFamily:FD,fontSize:"24",color:C.gold,lineHeight:"1"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ").slice(1).join(" ")||ev.date||""}</div>
               </div>
               <div style={{flex:1}}>
                 <div style={{fontSize:"16",color:C.blue,marginBottom:"3px",fontWeight:"400"}}>{lang==="it"?ev.title:ev.titleEN||ev.title}</div>
-                <div style={{fontSize:"12",color:C.gold,marginBottom:"3px"}}>{ev.time} · {ev.loc||ev.place||""}</div>
+                <div style={{fontSize:"12",color:C.gold,marginBottom:"3px"}}>{lang==="it"?ev.time:ev.timeEN||ev.time} · {ev.loc||ev.place||""}</div>
                 <div style={{fontSize:"12",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?ev.desc:ev.descEN}</div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.gold} strokeWidth="1.5" width="16" height="16"><polyline points="9,18 15,12 9,6"/></svg>
@@ -1232,7 +1235,7 @@ function DamanPage({t,lang,setPage}) {
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
-          <Pill>Damanhur · dal 1975</Pill>
+          <Pill>{lang==="it"?"Damanhur · dal 1975":"Damanhur · since 1975"}</Pill>
           <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?"Un universo da scoprire":"A universe to discover"}</div>
         </div>
       </div>
@@ -1500,7 +1503,7 @@ function ConciergePage({t,lang,setPage}) {
           <div style={{width:"48px",height:"48px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20",color:C.white,flexShrink:0}}>✦</div>
           <div>
             <div style={{fontFamily:FD,fontSize:"24",color:C.blue}}>{t.concTitle}</div>
-            <div style={{fontSize:"13",color:C.textM}}>AI · sempre disponibile</div>
+            <div style={{fontSize:"13",color:C.textM}}>{lang==="it"?"AI · sempre disponibile":"AI · always available"}</div>
           </div>
         </div>
       </div>
