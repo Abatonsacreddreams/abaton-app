@@ -517,11 +517,11 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             {[1,2,3].map(i=><div key={i} style={{height:"1px",width:`${i===2?48:24}px`,background:`${C.gold}${i===2?"cc":"66"}`}}/>)}
           </div>
           <div style={{fontFamily:FD,fontSize:"21",fontStyle:"italic",fontWeight:"600",letterSpacing:"0.18em",color:C.gold,textTransform:"uppercase",marginBottom:"14px",textShadow:"0 1px 6px rgba(200,168,106,0.3)"}}>Sacred Dreams</div>
-          <div style={{fontFamily:FD,fontSize:"23",fontStyle:"italic",color:"rgba(255,255,255,0.92)",textShadow:"0 2px 16px rgba(0,0,0,0.65)"}}>
+          <div style={{fontFamily:FD,fontSize:"25",fontStyle:"italic",fontWeight:"700",color:"rgba(255,255,255,0.96)",textShadow:"0 2px 16px rgba(0,0,0,0.75)"}}>
             {date} · <WeatherWidget/>
           </div>
           {session?.name&&(
-            <div style={{fontFamily:FD,fontSize:"22",fontStyle:"italic",color:C.gold,marginTop:"8px",textShadow:"0 2px 16px rgba(0,0,0,0.65)"}}>
+            <div style={{fontFamily:FD,fontSize:"24",fontStyle:"italic",fontWeight:"700",color:C.gold,marginTop:"8px",textShadow:"0 2px 16px rgba(0,0,0,0.75)"}}>
               {lang==="it"?`Il tuo soggiorno, ${session.name}`:`Your stay, ${session.name}`}
             </div>
           )}
@@ -535,9 +535,9 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           <div style={{width:"260px",height:"260px",borderRadius:"50%",border:`1px dashed ${C.gold}55`,display:"flex",alignItems:"center",justifyContent:"center"}}>
             <div style={{width:"230px",height:"230px",borderRadius:"50%",border:`1px solid ${C.gold}33`,display:"flex",alignItems:"center",justifyContent:"center"}}>
               <Circle size={200} bg={`linear-gradient(135deg,${C.gold},${C.goldD})`} onClick={()=>setPage("experience")} style={{border:`3px solid ${C.gold}`,boxShadow:`0 0 0 4px ${C.gold}44, 0 8px 32px rgba(154,124,69,0.45)`}}>
-                <div style={{textAlign:"center",padding:"20px"}}>
-                  <div style={{fontSize:"24",color:C.white,marginBottom:"8px"}}>✦</div>
-                  <div style={{fontFamily:FD,fontSize:"21",color:C.white,fontWeight:"500",lineHeight:"1.3",whiteSpace:"pre-line",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
+                <div style={{textAlign:"center",padding:"14px"}}>
+                  <div style={{fontSize:"20",color:C.white,marginBottom:"4px"}}>✦</div>
+                  <div style={{fontFamily:FD,fontSize:"25",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
                     {t.expBtn}
                   </div>
                 </div>
@@ -583,7 +583,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <svg viewBox="0 0 24 24" fill="none" stroke={C.white} strokeWidth="2" width="18" height="18"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
             </div>
             <div>
-              <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"2px"}}>{lang==="it"?"Hai domande sul soggiorno?":"Questions about your stay?"}</div>
+              <div style={{fontFamily:FD,fontSize:"21",fontWeight:"600",color:C.blue,marginBottom:"2px"}}>{lang==="it"?"Hai domande sul soggiorno?":"Questions about your stay?"}</div>
               <div style={{fontSize:"13",color:C.textM}}>AI Concierge · 24h</div>
             </div>
           </button>
