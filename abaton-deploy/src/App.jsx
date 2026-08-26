@@ -1015,17 +1015,55 @@ function AbatonPage({t,lang,setPage}) {
                 <div style={{borderRadius:"16px",overflow:"hidden",marginBottom:"14px",boxShadow:C.shadow}}>
                   <img src="/rooms/schema-sogni.jpg" alt="Schema Teco" style={{width:"100%",display:"block"}}/>
                 </div>
-                <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8"}}>
-                  {lang==="it"
-                    ?"È possibile acquistare lo Schema Teco per portare questa esperienza con te, anche a casa.\n\nDisponibile in due preparazioni:\n\n• Prima preparazione — lo schema viene collegato alla frequenza personale della persona\n\n• Seconda preparazione — lo schema viene preparato direttamente nel Tempio, cucendo alla frequenza della persona una connessione energetica con il Tempio stesso\n\nContatta il personale per informazioni o per richiedere il tuo."
-                    :lang==="de"
-                    ?"Sie können das Teco-Schema erwerben, um diese Erfahrung mit nach Hause zu nehmen.\n\nIn zwei Versionen erhältlich:\n\n• Erste Zubereitung — das Schema wird mit der persönlichen Frequenz der Person verbunden\n\n• Zweite Zubereitung — das Schema wird direkt im Tempel vorbereitet und verbindet die Frequenz mit einer energetischen Verbindung zum Tempel\n\nBitte wenden Sie sich an das Personal."
-                    :lang==="fr"
-                    ?"Vous pouvez acquérir le Schéma Teco pour emporter cette expérience chez vous.\n\nDisponible en deux préparations:\n\n• Première préparation — le schéma est relié à la fréquence personnelle de la personne\n\n• Deuxième préparation — le schéma est préparé directement dans le Temple, tissant à la fréquence de la personne une connexion énergétique avec le Temple\n\nContactez le personnel pour plus d'informations."
-                    :lang==="ru"
-                    ?"Вы можете приобрести Схему Теко, чтобы унести этот опыт домой.\n\nДоступно в двух вариантах:\n\n• Первый вариант — схема связывается с личной частотой человека\n\n• Второй вариант — схема подготавливается в Храме, соединяя частоту человека с энергетической связью с самим Храмом\n\nОбратитесь к персоналу за информацией."
-                    :"You can purchase the Teco Schema to bring this experience home with you.\n\nAvailable in two preparations:\n\n• First preparation — the schema is connected to the personal frequency of the person\n\n• Second preparation — the schema is prepared directly in the Temple, weaving into the person's frequency an energetic connection with the Temple itself\n\nContact the staff for information or to request yours."}
-                </div>
+                {(() => {
+                  const TECO = {
+                    it:{intro:"È possibile acquistare lo Schema Teco per portare questa esperienza con te, anche a casa. Disponibile in due preparazioni:",
+                      items:[
+                        {title:"Prima preparazione",desc:"Lo schema viene collegato alla frequenza personale della persona."},
+                        {title:"Seconda preparazione",desc:"Lo schema viene preparato direttamente nel Tempio, cucendo alla frequenza della persona una connessione energetica con il Tempio stesso."},
+                      ],
+                      outro:"Contatta il personale per informazioni o per richiedere il tuo."},
+                    de:{intro:"Sie können das Teco-Schema erwerben, um diese Erfahrung mit nach Hause zu nehmen. In zwei Versionen erhältlich:",
+                      items:[
+                        {title:"Erste Zubereitung",desc:"Das Schema wird mit der persönlichen Frequenz der Person verbunden."},
+                        {title:"Zweite Zubereitung",desc:"Das Schema wird direkt im Tempel vorbereitet und verbindet die Frequenz mit einer energetischen Verbindung zum Tempel."},
+                      ],
+                      outro:"Bitte wenden Sie sich an das Personal."},
+                    fr:{intro:"Vous pouvez acquérir le Schéma Teco pour emporter cette expérience chez vous. Disponible en deux préparations:",
+                      items:[
+                        {title:"Première préparation",desc:"Le schéma est relié à la fréquence personnelle de la personne."},
+                        {title:"Deuxième préparation",desc:"Le schéma est préparé directement dans le Temple, tissant à la fréquence de la personne une connexion énergétique avec le Temple."},
+                      ],
+                      outro:"Contactez le personnel pour plus d'informations."},
+                    ru:{intro:"Вы можете приобрести Схему Теко, чтобы унести этот опыт домой. Доступно в двух вариантах:",
+                      items:[
+                        {title:"Первый вариант",desc:"Схема связывается с личной частотой человека."},
+                        {title:"Второй вариант",desc:"Схема подготавливается в Храме, соединяя частоту человека с энергетической связью с самим Храмом."},
+                      ],
+                      outro:"Обратитесь к персоналу за информацией."},
+                    en:{intro:"You can purchase the Teco Schema to bring this experience home with you. Available in two preparations:",
+                      items:[
+                        {title:"First preparation",desc:"The schema is connected to the personal frequency of the person."},
+                        {title:"Second preparation",desc:"The schema is prepared directly in the Temple, weaving into the person's frequency an energetic connection with the Temple itself."},
+                      ],
+                      outro:"Contact the staff for information or to request yours."},
+                  };
+                  const tk = TECO[lang]||TECO.en;
+                  return (
+                    <>
+                      <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",marginBottom:"14px"}}>{tk.intro}</div>
+                      <div style={{display:"flex",flexDirection:"column",gap:"10px",marginBottom:"14px"}}>
+                        {tk.items.map((item,i)=>(
+                          <div key={i} style={{background:C.goldPale,borderRadius:"14px",padding:"14px 16px"}}>
+                            <div style={{fontFamily:FB,fontSize:"12",fontWeight:"600",color:C.goldD,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:"5px"}}>{i+1}. {item.title}</div>
+                            <div style={{fontSize:"14",color:C.textS,lineHeight:"1.6"}}>{item.desc}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8"}}>{tk.outro}</div>
+                    </>
+                  );
+                })()}
               </div>
             </div>
           )}
@@ -1101,19 +1139,24 @@ function DamanPage({t,lang,setPage}) {
       it:"DamanhurCrea è il cuore pulsante dell'artigianato e della creatività damanhuriana.",
       en:"DamanhurCrea is the beating heart of Damanhurian craftsmanship and creativity.",
       links:[
-        {name:"Crea Salute",url:"https://www.creasalute.it/",descIT:"Centro olistico per il benessere: massaggi, trattamenti, pratiche di cura del corpo e dello spirito.",descEN:"Holistic wellness centre: massage, treatments, body and spirit care practices."},
-        {name:"Kythera",url:"https://www.kythera.it/",descIT:"Scuola di danza e movimento. Arte del corpo come linguaggio spirituale e creativo.",descEN:"School of dance and movement. The art of the body as a spiritual and creative language."},
+        {name:"Crea Salute",url:"https://www.creasalute.it/",descIT:"Poliambulatorio di medicina integrata: visite ed esami che uniscono la medicina convenzionale a pratiche complementari.",descEN:"Integrated medicine outpatient clinic: consultations and exams combining conventional medicine with complementary practices."},
+        {name:"Kythera",url:"https://www.kythera.it/",descIT:"Centro estetico. Trattamenti per la cura e la bellezza della persona.",descEN:"Beauty centre. Treatments for personal care and beauty."},
         {name:"Solerà",url:"https://solerasrl.com/",descIT:"Produzione di energia rinnovabile e soluzioni per la sostenibilità ambientale.",descEN:"Renewable energy production and environmental sustainability solutions."},
         {name:"Tentay Bio",url:"https://www.facebook.com/tentatybio/?locale=it_IT",descIT:"Produzione biologica damanuriana: alimenti, prodotti della terra coltivati con rispetto.",descEN:"Damanhurian organic production: food and earth products grown with care."},
         {name:"Galleria dei Quadri Selfici",url:"https://thetemples.org/it/quadri-selfici/",descIT:"Opere d'arte damanuriane con funzione selfica. Ogni quadro è uno strumento energetico oltre che un'opera visiva.",descEN:"Damanhurian artworks with a selfic function. Each painting is an energetic tool as well as a visual work."},
         {name:"Salone Olivetti",url:"",descIT:"Lo spazio espositivo e culturale di DamanhurCrea, cuore degli eventi artistici della comunità.",descEN:"The exhibition and cultural space of DamanhurCrea, heart of the community's artistic events."},
         {name:"Arielvo",url:"https://arielvo.it/",descIT:"Cucina biologica, nutriente e consapevole. Cibo vivo preparato con intenzione — il ristorante di DamanhurCrea.",descEN:"Organic, nourishing and conscious cuisine. Living food prepared with intention — DamanhurCrea's restaurant."},
         {name:"Orocrea",url:"https://orocrea.com/",descIT:"Gioielleria selfica e spirituale. Bracciali, collane, anelli creati con simbolismo e intenzione per il benessere.",descEN:"Selfic and spiritual jewellery. Bracelets, necklaces, rings crafted with symbolism and intention for well-being."},
+        {name:"SelEt",url:"https://shop.selfica.space/?shpxid=2b658e62-a31b-4162-9b63-a831a98c9933",descIT:"Strumenti selfici, tra cui le bottiglie per l'armonizzazione dell'acqua che trovi nella tua stanza.",descEN:"Selfic tools, including the water-harmonising bottles you find in your room."},
+        {name:"Damanhur Shop",url:"https://damanhur.shop/it",descIT:"Il negozio di gadget e oggettistica damanhuriana.",descEN:"The shop for Damanhurian gadgets and merchandise."},
+        {name:"Plant Music",url:"https://www.plantmusic.com/it/",descIT:"La musica delle piante: dispositivi che traducono i segnali elettrici delle piante in suono.",descEN:"Music from plants: devices that translate plants' electrical signals into sound."},
+        {name:"Welcome Center",url:"https://damanhur.travel/it/",descIT:"Il punto di riferimento per visite, soggiorni ed esperienze a Damanhur.",descEN:"The reference point for visits, stays and experiences at Damanhur."},
       ],
     },
     academy:{
       it:"La Damanhur Academy offre percorsi di formazione nella visione filosofica e spirituale di Damanhur. Corsi residenziali, workshop tematici, percorsi di ricerca.\n\nWisdom Lab — Le Lezioni Video\nUna serie di lezioni e conferenze registrate dai pensatori di Damanhur, disponibili per approfondire la filosofia, la pratica selfica e la visione del futuro.\n\nPer informazioni sui percorsi:\nwelcome@damanhur.it · +39 320 482 4427",
       en:"The Damanhur Academy offers training programs in Damanhur's philosophical and spiritual vision. Residential courses, thematic workshops, research paths.\n\nWisdom Lab — Video Lessons\nA series of recorded lectures and conferences by Damanhur's thinkers, available to deepen the philosophy, selfica practice and vision of the future.\n\nFor information on programs:\nwelcome@damanhur.it · +39 320 482 4427",
+      link:"https://damanhur.academy/?lang=it",linkLabelIT:"Sito Damanhur Academy →",linkLabelEN:"Damanhur Academy website →",
     },
     blog:{
       it:"La comunità di Damanhur è attiva a livello mondiale attraverso la piattaforma Damanhur Community — articoli, podcast, gruppi e iniziative globali.",
@@ -1212,7 +1255,7 @@ function DamanPage({t,lang,setPage}) {
               ))}
             </>
           )}
-          {dsub&&sub!=="media"&&sub!=="academy"&&sub!=="blog"&&SUBCONTENT[sub]&&(
+          {dsub&&sub!=="media"&&sub!=="blog"&&SUBCONTENT[sub]&&(
             <>
               {SUBCONTENT[sub]&&SUBCONTENT[sub].img&&(
                 <div style={{borderRadius:"20px",overflow:"hidden",marginBottom:"16px",boxShadow:C.shadow}}>
