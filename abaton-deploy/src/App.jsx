@@ -41,7 +41,7 @@ const T = {
     eventsTitle:"Questa settimana a Damanhur",
     eventsFull:"Tutti gli eventi →",
     eventsPhone:"+39 320 482 4427",
-    checkOut:"Partenza ore 10:30",
+    checkOut:"Check-out ore 10:30",
     lateOut:"Late check-out? Scrivici",
     wifiName:"WiFi  ·  abaton",
     back:"← indietro",
@@ -76,7 +76,7 @@ const T = {
     eventsTitle:"This week at Damanhur",
     eventsFull:"All events →",
     eventsPhone:"+39 320 482 4427",
-    checkOut:"Departure by 10:30",
+    checkOut:"Check-out by 10:30",
     lateOut:"Late check-out? Write us",
     wifiName:"WiFi  ·  abaton",
     back:"← back",
@@ -111,7 +111,7 @@ const T = {
     eventsTitle:"Diese Woche in Damanhur",
     eventsFull:"Alle Veranstaltungen →",
     eventsPhone:"+39 320 482 4427",
-    checkOut:"Abreise bis 10:30 Uhr",
+    checkOut:"Check-out bis 10:30 Uhr",
     lateOut:"Später Check-out? Schreiben Sie uns",
     wifiName:"WLAN  ·  abaton",
     back:"← zurück",
@@ -146,7 +146,7 @@ const T = {
     eventsTitle:"Cette semaine à Damanhur",
     eventsFull:"Tous les événements →",
     eventsPhone:"+39 320 482 4427",
-    checkOut:"Départ avant 10h30",
+    checkOut:"Check-out avant 10h30",
     lateOut:"Check-out tardif? Écrivez-nous",
     wifiName:"WiFi  ·  abaton",
     back:"← retour",
@@ -181,7 +181,7 @@ const T = {
     eventsTitle:"На этой неделе в Дамандуре",
     eventsFull:"Все события →",
     eventsPhone:"+39 320 482 4427",
-    checkOut:"Выезд до 10:30",
+    checkOut:"Check-out до 10:30",
     lateOut:"Поздний выезд? Напишите нам",
     wifiName:"Wi-Fi  ·  abaton",
     back:"← назад",
@@ -564,10 +564,10 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
         {/* BUBBLE NAVIGATION */}
         <div style={{display:"flex",gap:"10px",justifyContent:"center",flexWrap:"wrap",marginBottom:"36px"}}>
           {[
+            {id:"shop",      label:(lang==="it"||!lang?"I tuoi privilegi":"Your privileges"), sym:"✧", special:true},
             {id:"abaton",    label:lang==="it"?"Abaton":"Abaton",      sym:"✦", bg:C.cream,    fg:C.blue},
             {id:"damanhur",  label:"Damanhur",                         sym:"◎", bg:C.goldPale, fg:C.goldD},
             {id:"wellness",  label:lang==="it"?"Benessere":"Wellness", sym:"◈", bg:"#EFF4ED",  fg:"#5A7A58"},
-            {id:"shop",      label:(lang==="it"||!lang?"I tuoi privilegi":"Your privileges"), sym:"✧", special:true},
           ].map(item=>(
             <button key={item.id} onClick={()=>setPage(item.id)} style={item.special?{position:"relative",padding:"13px 20px",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14",fontWeight:"600",letterSpacing:"0.04em",color:C.white,display:"flex",alignItems:"center",gap:"7px",boxShadow:`0 4px 18px ${C.gold}66`}:{padding:"13px 18px",background:item.bg,border:`1px solid ${C.border}`,borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14",fontWeight:"400",letterSpacing:"0.04em",color:item.fg,display:"flex",alignItems:"center",gap:"7px",boxShadow:C.shadow}}>
               {item.special&&<span style={{position:"absolute",top:"-3px",right:"-3px",width:"10px",height:"10px",borderRadius:"50%",background:"#fff",animation:"abatonPulse 1.4s ease-in-out infinite alternate"}}/>}
@@ -595,11 +595,14 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
 
         {/* PRACTICAL INFO PILLS */}
         <WhiteCard style={{marginBottom:"32px"}}>
-          <div style={{display:"flex",flexWrap:"wrap",gap:"10px",marginBottom:"14px"}}>
+          <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",gap:"10px",marginBottom:"10px"}}>
             <Pill>⟡ {t.wifiName}</Pill>
-            <div style={{fontSize:"13px",color:C.textM,fontFamily:FB,letterSpacing:"0.05em",marginTop:"4px",paddingLeft:"4px"}}>Password: <span style={{color:C.textD,fontWeight:"600"}}>abaton1950</span></div>
-            <Pill color={C.blue}>← {t.checkOut}</Pill>
-            <Pill color={C.textM}>◯ {lang==="it"?"Silenzio 22–8":"Quiet hours 10pm–8am"}</Pill>          </div>
+            <div style={{fontSize:"13px",color:C.textM,fontFamily:FB,letterSpacing:"0.05em",paddingLeft:"4px"}}>Password: <span style={{color:C.textD,fontWeight:"600"}}>abaton1950</span></div>
+          </div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:"10px",marginBottom:"14px"}}>
+            <Pill color={C.goldD}>← {t.checkOut}</Pill>
+            <Pill color={C.goldD}>◯ {lang==="it"?"Silenzio 22–8":"Quiet hours 10pm–8am"}</Pill>
+          </div>
           <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"14px",textDecoration:"none"}}>💬 {t.lateOut} →</a>
         </WhiteCard>
 
@@ -624,6 +627,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <div style={{fontSize:"13",color:C.goldD,fontFamily:FB,fontWeight:"500",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:"6px"}}>{lang==="it"?"Per prenotarsi agli eventi":"To book events"}</div>
               <div style={{fontSize:"14",color:C.textS,lineHeight:"1.6",marginBottom:"8px"}}>{lang==="it"?"Contattare il Welcome Center di Damanhur:":"Contact Damanhur's Welcome Center:"}</div>
               <a href="tel:+393204824427" style={{fontFamily:FD,fontSize:"18",color:C.goldD,textDecoration:"none",display:"block"}}>{t.eventsPhone}</a>
+              <a href="mailto:welcome@dhwelcome.org" style={{fontFamily:FB,fontSize:"14",color:C.goldD,textDecoration:"none",display:"block",marginTop:"4px"}}>welcome@dhwelcome.org</a>
             </div>
             <a href="https://damanhur.community/events/" target="_blank" rel="noopener noreferrer" style={{color:C.gold,fontFamily:FB,fontSize:"14",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</a>
           </div>
@@ -710,76 +714,97 @@ function ExperiencePage({t,lang,setPage}) {
 }
 
 // ── ABATON (replaces Stanze) ──────────────────────────────────────────────────
-// ── ROOM HOTSPOTS (mappa interattiva della stanza) ─────────────────────────────
-// NOTA: coordinate/etichette per "Terra" sono una bozza dedotta dalla foto reale.
-// Da confermare/correggere con Denise prima di estendere alle altre stanze.
-const ROOM_HOTSPOTS = {
+// ── ROOM ITEM LIBRARY (testi condivisi tra le stanze, da materiale fornito da Denise) ──
+const RI = {
+  lampada: {labelIT:"Lampada",labelEN:"Lamp",descIT:"Decorata a mano dai nostri artisti, in armonia con il tema della stanza.",descEN:"Hand-decorated by our artists, in harmony with the room's theme."},
+  bottiglia: {labelIT:"Bottiglia Selfica",labelEN:"Selfic Bottle",descIT:"Preparata da SelEt: attivata a Damanhur in strutture selfiche dedicate, dove circuiti energetici sintonizzano l'acqua come portatrice di coerenza e vitalità. Riempila con l'acqua filtrata della living room, attendi almeno 10 minuti e bevi con presenza.",descEN:"Prepared by SelEt: activated at Damanhur in dedicated selfic structures, where energy circuits tune the water as a carrier of coherence and vitality. Fill it with the filtered water from the living room, wait at least 10 minutes, and drink with presence."},
+  comodino: {labelIT:"Comodino",labelEN:"Nightstand",descIT:"Creato dai nostri artigiani per questo spazio speciale. Suggeriamo di tenervi un quaderno per annotare sogni e percezioni, prima che svaniscano.",descEN:"Handmade by our artisans for this special space. We suggest keeping a notebook here to jot down dreams and perceptions before they fade."},
+  sponda: {labelIT:"Il letto",labelEN:"The bed",descIT:"Anche questo arredo è pensato e creato dai nostri artigiani damanhuriani.",descEN:"This piece too is designed and handmade by our Damanhurian artisans."},
+  materasso: {labelIT:"Materasso e lenzuola",labelEN:"Mattress & sheets",descIT:"Materasso con morbido topper e copertura antiallergica. Lenzuola 100% cotone, per accogliere al meglio il tuo riposo.",descEN:"Mattress with a soft topper and hypoallergenic cover. 100% cotton sheets, to welcome your rest at its best."},
+  cuscino: {labelIT:"Cuscino colorato",labelEN:"Coloured pillow",descIT:"La federa nasce da un quadro in seta dipinto a mano da Aythya, nostra artigiana — un'opera rimasta nei Templi dell'Umanità per oltre 20 anni.",descEN:"The pillowcase comes from a silk painting hand-made by Aythya, one of our artisans — a work that lived inside the Temples of Humanity for over 20 years."},
+  asciugamani: {labelIT:"Asciugamani",labelEN:"Towels",descIT:"100% cotone.",descEN:"100% cotton."},
+  schemaTeco: {labelIT:"Schema Teco",labelEN:"Teco Schema",descIT:"Uno schema per prepararti al meglio alla notte. Percorrilo con un dito per almeno 3 minuti prima di coricarti, pensando a un tema o una domanda: aiuta a ricordare i sogni e a fissare un'intenzione.",descEN:"A schema to prepare you for the night. Trace it with a finger for at least 3 minutes before sleeping, holding a theme or question in mind: it helps recall dreams and set an intention."},
+  pareti: {labelIT:"Le pareti",labelEN:"The walls",descIT:"Riprendono i dettagli della sala corrispondente nei Templi dell'Umanità — dipinte direttamente dagli artisti del Tempio.",descEN:"They echo the details of the corresponding hall in the Temples of Humanity — painted directly by the Temple's own artists."},
+  armadio: {labelIT:"L'armadio",labelEN:"The wardrobe",descIT:"Prodotto artigianalmente dai damanhuriani, per arredare al meglio questo luogo magico.",descEN:"Handcrafted by the Damanhurians, to furnish this magical place at its best."},
+  dreamscape: {labelIT:"Self dei Sogni — DreamScape Navigator",labelEN:"Dream Selfica — DreamScape Navigator",descIT:"Due sfere di vetro e circuiti in rame e ottone: un ricevitore per l'evoluzione cosciente che potenzia il tuo potere di sognare, da sveglio e nel sonno.",descEN:"Two glass spheres with copper and brass circuits: a receiver for conscious evolution that empowers your power to dream, awake and asleep."},
+  tendeBianche: {labelIT:"Tende bianche",labelEN:"White curtains",descIT:"Decorate artigianalmente riprendendo i dettagli delle sale del Tempio.",descEN:"Handcrafted decoration echoing the details of the Temple halls."},
+  tendeScure: {labelIT:"Tende oscuranti",labelEN:"Blackout curtains",descIT:"Chiudile bene prima di coricarti, così la luce del mattino non disturba il sonno.",descEN:"Close them well before sleeping, so morning light doesn't disturb your rest."},
+  bagno: {labelIT:"Il bagno",labelEN:"The bathroom",descIT:"Ogni stanza ha il proprio bagno con doccia.",descEN:"Every room has its own ensuite bathroom with shower."},
+  scrivania: {labelIT:"Scrivania",labelEN:"Writing desk",descIT:"Un angolo raccolto per scrivere, leggere o semplicemente fare una pausa.",descEN:"A quiet corner for writing, reading, or simply taking a pause."},
+  specchio: {labelIT:"Specchio",labelEN:"Mirror",descIT:"Per prepararti prima di uscire verso i Templi.",descEN:"To get ready before heading out to the Temples."},
+  quadroSelfico: {labelIT:"Quadro Selfico",labelEN:"Selfic Painting",descIT:"Frattali di realtà a più dimensioni, densi di significato — messaggi di conoscenza che attendono di essere richiamati dall'anima. Simboli e colori aprono a intuizioni e ampliano il cuore verso i campi del sapere.",descEN:"Fractals of multi-dimensional reality, dense with meaning — messages of knowledge waiting to be called back by the soul. Symbols and colours open us to intuition and expand the heart toward the fields of knowledge.",url:"https://thetemples.org/it/quadri-selfici/"},
+};
+const H = (key,x,y,over={}) => ({x,y,...RI[key],...over});
+
+// ── ROOM IMAGES (tour multi-foto con hotspot propri per ciascuna immagine) ─────
+const ROOM_IMAGES = {
   Terra: [
-    {x:68,y:32,labelIT:"Pannello Selfico",labelEN:"Selfic Panel",descIT:"Il pannello tessile ricamato sopra il letto — amplifica l'intenzione della stanza, parte della tecnologia selfica di Damanhur.",descEN:"The embroidered textile panel above the bed — amplifies the room's intention, part of Damanhur's selfic technology."},
-    {x:32,y:38,labelIT:"Tende",labelEN:"Curtains",descIT:"Chiudile la sera per il buio completo: aiutano il sonno profondo e il ricordo dei sogni.",descEN:"Close them in the evening for full darkness: they help deep sleep and dream recall."},
-    {x:58,y:70,labelIT:"Letto artigianale",labelEN:"Handcrafted bed",descIT:"Realizzato a mano da artigiani locali, in legno naturale — nello stile essenziale di Damanhur.",descEN:"Handmade by local artisans in natural wood — in Damanhur's essential style."},
-    {x:92,y:58,labelIT:"Comodino e luce",labelEN:"Nightstand & light",descIT:"Illuminazione soffusa per la sera, pensata per accompagnare il passaggio al sonno.",descEN:"Soft evening lighting, designed to accompany the passage into sleep."},
-    {x:90,y:75,labelIT:"Bottiglia Selfica",labelEN:"Selfic Bottle",descIT:"Preparata da Selet con uno schema selfico dedicato: armonizza e potenzia l'acqua che contiene.",descEN:"Prepared by Selet with a dedicated selfic schema: it harmonises and empowers the water it holds."},
+    {src:"/rooms/terra-1.jpg", hotspots:[H("pareti",58,28),H("tendeBianche",22,42),H("sponda",50,72),H("comodino",68,68),H("armadio",14,55),H("specchio",92,55)]},
+    {src:"/rooms/terra-2.jpg", hotspots:[H("cuscino",72,62),H("materasso",50,80),H("specchio",93,40)]},
+    {src:"/rooms/terra-3.jpg", hotspots:[H("lampada",68,48),H("bottiglia",85,48),H("comodino",75,78),H("cuscino",22,28)]},
+    {src:"/rooms/terra-4.jpg", hotspots:[H("asciugamani",35,55),H("schemaTeco",62,48),H("bottiglia",88,26)]},
+    {src:"/rooms/terra-5.jpg", hotspots:[H("dreamscape",48,35),H("armadio",30,72),H("tendeBianche",72,45),H("tendeScure",92,55)]},
+    {src:"/rooms/terra-6.jpg", hotspots:[H("bagno",46,55),H("pareti",78,40),H("scrivania",92,72)]},
+    {src:"/rooms/terra-7.jpg", hotspots:[H("quadroSelfico",15,35),H("scrivania",65,78)]},
   ],
   Metalli: [
-    {x:76,y:35,labelIT:"Pannello Selfico",labelEN:"Selfic Panel",descIT:"Il grande pannello a vela sopra il letto — la trasformazione alchemica rappresentata in forma e colore.",descEN:"The large sail-shaped panel above the bed — alchemical transformation represented in shape and colour."},
-    {x:43,y:48,labelIT:"Specchio",labelEN:"Mirror",descIT:"Lo specchio a figura intera, per prepararsi prima di uscire verso i Templi.",descEN:"The full-length mirror, to get ready before heading out to the Temples."},
-    {x:58,y:70,labelIT:"Letto artigianale",labelEN:"Handcrafted bed",descIT:"Realizzato a mano in legno naturale, nello stile essenziale di Damanhur.",descEN:"Handmade in natural wood, in Damanhur's essential style."},
-    {x:95,y:68,labelIT:"Comodino e luce",labelEN:"Nightstand & light",descIT:"Illuminazione soffusa per la sera, pensata per accompagnare il passaggio al sonno.",descEN:"Soft evening lighting, designed to accompany the passage into sleep."},
-    {x:10,y:76,labelIT:"Portabiti in legno",labelEN:"Wooden valet stand",descIT:"Il portabiti artigianale, comodo per l'ultima notte prima della partenza.",descEN:"The handcrafted valet stand, handy for the last night before departure."},
-    {x:97,y:80,labelIT:"Bottiglia Selfica",labelEN:"Selfic Bottle",descIT:"Preparata da Selet con uno schema selfico dedicato: armonizza e potenzia l'acqua che contiene.",descEN:"Prepared by Selet with a dedicated selfic schema: it harmonises and empowers the water it holds."},
+    {src:"/rooms/metalli-1.jpg", hotspots:[H("pareti",76,35),H("specchio",43,48),H("sponda",58,70),H("lampada",95,68),H("armadio",10,76),H("bottiglia",97,80)]},
+    {src:"/rooms/metalli-2.jpg", hotspots:[]},
+    {src:"/rooms/metalli-3.jpg", hotspots:[]},
   ],
   Acqua: [
-    {x:38,y:35,labelIT:"Pannello Selfico",labelEN:"Selfic Panel",descIT:"Il murale sopra il letto rappresenta le memorie profonde del cosmo, principio dell'acqua.",descEN:"The mural above the bed represents the deep memories of the cosmos, the principle of water."},
-    {x:76,y:52,labelIT:"Specchio",labelEN:"Mirror",descIT:"Lo specchio a figura intera, decorato in coerenza con la stanza.",descEN:"The full-length mirror, decorated to match the room."},
-    {x:10,y:42,labelIT:"Tende",labelEN:"Curtains",descIT:"Chiudile la sera per il buio completo e il sonno profondo.",descEN:"Close them in the evening for full darkness and deep sleep."},
-    {x:62,y:82,labelIT:"Selfica luminosa",labelEN:"Luminous selfica",descIT:"La sfera luminosa sul comodino: parte della tecnologia selfica della stanza, non spostarla.",descEN:"The luminous sphere on the nightstand: part of the room's selfic technology, please don't move it."},
-    {x:45,y:72,labelIT:"Letto artigianale",labelEN:"Handcrafted bed",descIT:"Testata in legno naturale, realizzata a mano da artigiani locali.",descEN:"Natural wood headboard, handmade by local artisans."},
-    {x:73,y:88,labelIT:"Bottiglia Selfica",labelEN:"Selfic Bottle",descIT:"Preparata da Selet con uno schema selfico dedicato: armonizza e potenzia l'acqua che contiene.",descEN:"Prepared by Selet with a dedicated selfic schema: it harmonises and empowers the water it holds."},
+    {src:"/rooms/acqua-1.jpg", hotspots:[H("pareti",38,35),H("specchio",76,52),H("tendeBianche",10,42),H("dreamscape",62,82),H("sponda",45,72),H("bottiglia",73,88)]},
+    {src:"/rooms/acqua-2.jpg", hotspots:[]},
   ],
   Specchi: [
-    {x:30,y:35,labelIT:"Pannello Selfico",labelEN:"Selfic Panel",descIT:"Il grande medaglione traforato dorato: riflette non solo l'apparenza, ma l'essenza.",descEN:"The large golden pierced medallion: it reflects not only appearance, but essence."},
-    {x:68,y:38,labelIT:"Tende",labelEN:"Curtains",descIT:"Chiudile la sera per il buio completo e il sonno profondo.",descEN:"Close them in the evening for full darkness and deep sleep."},
-    {x:22,y:85,labelIT:"Letto artigianale",labelEN:"Handcrafted bed",descIT:"Realizzato a mano in legno naturale.",descEN:"Handmade in natural wood."},
-    {x:52,y:38,labelIT:"Bottiglia Selfica",labelEN:"Selfic Bottle",descIT:"Preparata da Selet con uno schema selfico dedicato: armonizza e potenzia l'acqua che contiene.",descEN:"Prepared by Selet with a dedicated selfic schema: it harmonises and empowers the water it holds."},
+    {src:"/rooms/specchi-1.jpg", hotspots:[H("pareti",30,35),H("tendeBianche",68,38),H("sponda",22,85),H("bottiglia",52,38)]},
   ],
   Popoli: [
-    {x:88,y:35,labelIT:"Pannello dei Popoli",labelEN:"Peoples Panel",descIT:"Il murale simbolico: i segni che rappresentano l'incontro tra i popoli e la coscienza collettiva.",descEN:"The symbolic mural: the signs representing the meeting of peoples and collective consciousness."},
-    {x:41,y:45,labelIT:"Armadio dipinto",labelEN:"Painted wardrobe",descIT:"L'armadio con decorazione artigianale, in tema con la stanza dei Popoli.",descEN:"The wardrobe with handcrafted decoration, in keeping with the Peoples room."},
-    {x:68,y:60,labelIT:"Scrivania",labelEN:"Writing desk",descIT:"Per annotare pensieri o sogni al risveglio.",descEN:"For jotting down thoughts or dreams upon waking."},
-    {x:15,y:78,labelIT:"Letto artigianale",labelEN:"Handcrafted bed",descIT:"Realizzato a mano in legno naturale.",descEN:"Handmade in natural wood."},
-    {x:25,y:65,labelIT:"Bottiglia Selfica",labelEN:"Selfic Bottle",descIT:"Preparata da Selet con uno schema selfico dedicato: armonizza e potenzia l'acqua che contiene.",descEN:"Prepared by Selet with a dedicated selfic schema: it harmonises and empowers the water it holds."},
+    {src:"/rooms/popoli-1.jpg", hotspots:[H("pareti",85,40,{labelIT:"Pannello dei Popoli",labelEN:"Peoples Panel",descIT:"Il murale simbolico: i segni che rappresentano l'incontro tra i popoli e la coscienza collettiva.",descEN:"The symbolic mural: the signs representing the meeting of peoples and collective consciousness."}),H("tendeBianche",13,40),H("sponda",35,72),H("comodino",78,65)]},
+    {src:"/rooms/popoli-2.jpg", hotspots:[H("lampada",65,48),H("bottiglia",85,55),H("comodino",72,80)]},
+    {src:"/rooms/popoli-3.jpg", hotspots:[H("sponda",72,48)]},
+    {src:"/rooms/popoli-4.jpg", hotspots:[H("dreamscape",18,28),H("scrivania",62,62)]},
+    {src:"/rooms/popoli-5.jpg", hotspots:[H("tendeScure",35,55),H("tendeBianche",68,55)]},
+    {src:"/rooms/popoli-6.jpg", hotspots:[H("asciugamani",35,55),H("schemaTeco",55,62)]},
   ],
 };
 function RoomExplorer({room,lang}) {
+  const [activeImg,setActiveImg] = useState(0);
   const [active,setActive] = useState(null);
-  const spots = ROOM_HOTSPOTS[room.name]||[];
+  const images = ROOM_IMAGES[room.name]&&ROOM_IMAGES[room.name].length ? ROOM_IMAGES[room.name] : [{src:room.img,hotspots:[]}];
+  const current = images[activeImg]||images[0];
+  const spots = current.hotspots||[];
   return (
     <div>
       <div style={{position:"relative",borderRadius:"20px",overflow:"hidden",boxShadow:C.shadow}}>
-        <img src={room.img} alt={room.name} style={{width:"100%",display:"block"}}/>
+        <img src={current.src} alt={room.name} style={{width:"100%",display:"block"}}/>
         {spots.map((h,i)=>(
           <button key={i} onClick={()=>setActive(active===i?null:i)} style={{position:"absolute",left:`${h.x}%`,top:`${h.y}%`,transform:"translate(-50%,-50%)",width:"30px",height:"30px",borderRadius:"50%",background:active===i?C.gold:"rgba(255,255,255,0.88)",border:`2px solid ${C.gold}`,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 10px rgba(0,0,0,0.35)",cursor:"pointer",padding:0,animation:active===null?"abatonPulse 1.8s ease-in-out infinite alternate":"none"}}>
             <span style={{color:active===i?C.white:C.goldD,fontSize:"13",fontWeight:"700",fontFamily:FB}}>{i+1}</span>
           </button>
         ))}
       </div>
-      {active!==null ? (
+      {active!==null&&spots[active] ? (
         <div style={{marginTop:"14px",background:C.white,borderRadius:"16px",padding:"18px",boxShadow:C.shadow}}>
           <div style={{fontFamily:FD,fontSize:"19",color:C.blue,marginBottom:"6px"}}>{lang==="it"?spots[active].labelIT:spots[active].labelEN}</div>
           <div style={{fontSize:"14",color:C.textM,lineHeight:"1.7"}}>{lang==="it"?spots[active].descIT:spots[active].descEN}</div>
+          {spots[active].url&&(
+            <a href={spots[active].url} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"8px",color:C.gold,fontFamily:FB,fontSize:"13px",textDecoration:"none"}}>{lang==="it"?"Scopri di più →":"Learn more →"}</a>
+          )}
         </div>
       ) : (
         <div style={{marginTop:"14px",fontSize:"13",color:C.textM,textAlign:"center",fontStyle:"italic"}}>
-          {lang==="it"?"Tocca i cerchi dorati per scoprire i dettagli della stanza":"Tap the golden circles to discover the room's details"}
+          {spots.length>0
+            ? (lang==="it"?"Tocca i cerchi dorati per scoprire i dettagli":"Tap the golden circles to discover the details")
+            : (lang==="it"?"Scorri le foto qui sotto per esplorare la stanza":"Scroll the photos below to explore the room")}
         </div>
       )}
-      {room.gallery&&room.gallery.length>0&&(
+      {images.length>1&&(
         <div style={{display:"flex",gap:"10px",marginTop:"16px",overflowX:"auto",paddingBottom:"4px"}}>
-          {room.gallery.map((src,i)=>(
-            <div key={i} style={{flexShrink:0,borderRadius:"16px",overflow:"hidden",width:"180px",height:"120px",boxShadow:C.shadow}}>
-              <img src={src} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
-            </div>
+          {images.map((im,i)=>(
+            <button key={i} onClick={()=>{setActiveImg(i);setActive(null);}} style={{flexShrink:0,borderRadius:"14px",overflow:"hidden",width:"104px",height:"76px",padding:0,cursor:"pointer",border:i===activeImg?`3px solid ${C.gold}`:`1px solid ${C.border}`,opacity:i===activeImg?1:0.8,boxShadow:C.shadow}}>
+              <img src={im.src} alt="" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
+            </button>
           ))}
         </div>
       )}
@@ -800,21 +825,21 @@ function AbatonPage({t,lang,setPage}) {
   const ROOMS_BRIEF = [
     {
       name:"Terra", sym:"🌿", acc:"#7A9A4A",
-      img:"/rooms/terra-1.jpg", gallery:["/rooms/terra-2.jpg","/rooms/terra-3.jpg"],
+      img:"/rooms/terra-1.jpg",
       templeUrl:"https://thetemples.org/it/sala-della-terra/",
       descIT:"Dedicata alle forze della Natura e al principio maschile come elemento attivo e fecondante. La Sala della Terra celebra il viaggio dell'Umanità nelle forme e nel tempo.\n\nLa stanza dell'Abaton rispecchia questa frequenza: radicamento, abbondanza, crescita silenziosa. I materiali naturali e le forme organiche dei mobili parlano il linguaggio della Terra.",
       descEN:"Dedicated to the forces of Nature and the masculine principle as an active, fertilizing element. The Hall of Earth celebrates humanity's journey through forms and time.\n\nThe Abaton room mirrors this frequency: groundedness, abundance, silent growth. Natural materials and organic furniture forms speak the language of Earth.",
     },
     {
       name:"Metalli", sym:"⚗", acc:"#C07830",
-      img:"/rooms/metalli-1.jpg", gallery:["/rooms/metalli-2.jpg","/rooms/metalli-3.jpg"],
+      img:"/rooms/metalli-1.jpg",
       templeUrl:"https://thetemples.org/it/sala-dei-metalli/",
       descIT:"Dedicata alla trasformazione alchemica interiore, in questa sala sono rappresentate tutte le fasi di sviluppo dell'essere umano, tramite la metafora dei metalli. Il piombo che diventa oro.\n\nLa stanza dei Metalli ospita questa alchimia: la tecnologia selfica amplifica l'intenzione personale durante il sonno.",
       descEN:"Dedicated to inner alchemical transformation, representing all phases of human development through the metaphor of metals. Lead that becomes gold.\n\nThe Metals room hosts this alchemy: selfica technology amplifies personal intention during sleep.",
     },
     {
       name:"Acqua", sym:"〰", acc:C.blueM,
-      img:"/rooms/acqua-1.jpg", gallery:["/rooms/acqua-2.jpg"],
+      img:"/rooms/acqua-1.jpg",
       templeUrl:"https://thetemples.org/it/sala-dellacqua/",
       descIT:"La Sala dell'Acqua è dedicata al principio femminile, alle memorie profonde del cosmo e alla ciclicità di ogni essere vivente. L'acqua è il mezzo primordiale della vita.\n\nLa stanza dell'Acqua prepara al risveglio delle memorie più profonde.",
       descEN:"The Hall of Water is dedicated to the feminine principle, the deep memories of the cosmos and the cyclicality of every living being.\n\nThe Water room prepares for awakening the deepest memories.",
@@ -828,7 +853,7 @@ function AbatonPage({t,lang,setPage}) {
     },
     {
       name:"Popoli", sym:"✦", acc:C.blue,
-      img:"/rooms/popoli-1.jpg", gallery:["/rooms/popoli-2.jpg"],
+      img:"/rooms/popoli-1.jpg",
       templeUrl:null,
       descIT:"La Sala dei Popoli è una sala speciale dei Templi dell'Umanità — non visitabile nelle normali visite guidate. È un luogo che ospita eventi speciali, concerti, cerimonie e momenti di incontro collettivo di grande intensità.\n\nLa stanza dei Popoli porta questa frequenza: apertura alla coscienza collettiva, connessione con l'umanità intera.",
       descEN:"The Hall of Peoples is a special hall of the Temples — not open during normal guided visits. It hosts special events, concerts, ceremonies and moments of great collective intensity.\n\nThe Peoples room carries this frequency: openness to collective consciousness, connection with all of humanity.",
@@ -915,7 +940,7 @@ function AbatonPage({t,lang,setPage}) {
               {!r.img&&<div style={{fontFamily:FD,fontSize:"24",color:r.acc,marginBottom:"10px"}}>{r.sym} {r.name}</div>}
               <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>{lang==="it"?r.descIT:r.descEN}</div>
               <div style={{display:"flex",gap:"10px",flexWrap:"wrap",marginTop:"14px"}}>
-                {ROOM_HOTSPOTS[r.name]&&(
+                {ROOM_IMAGES[r.name]&&(
                   <button onClick={()=>setRoomDetail(r)} style={{padding:"8px 16px",background:r.acc,border:"none",borderRadius:"20px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"13",letterSpacing:"0.05em"}}>
                     {lang==="it"?"Esplora la stanza →":"Explore the room →"}
                   </button>
