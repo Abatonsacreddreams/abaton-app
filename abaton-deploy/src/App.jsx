@@ -748,13 +748,20 @@ const ROOM_IMAGES = {
     {src:"/rooms/terra-7.jpg", hotspots:[H("quadroSelfico",15,35),H("scrivania",65,78)]},
   ],
   Metalli: [
-    {src:"/rooms/metalli-1.jpg", hotspots:[H("pareti",76,35),H("specchio",43,48),H("sponda",58,70),H("lampada",95,68),H("armadio",10,76),H("bottiglia",97,80)]},
-    {src:"/rooms/metalli-2.jpg", hotspots:[]},
-    {src:"/rooms/metalli-3.jpg", hotspots:[]},
+    {src:"/rooms/metalli-1.jpg", hotspots:[H("pareti",62,35),H("tendeBianche",15,42),H("sponda",50,75),H("scrivania",43,60),H("bagno",38,18)]},
+    {src:"/rooms/metalli-2.jpg", hotspots:[H("pareti",50,25),H("sponda",25,55),H("lampada",6,70),H("bottiglia",15,68),H("asciugamani",50,85),H("schemaTeco",60,78)]},
+    {src:"/rooms/metalli-3.jpg", hotspots:[H("scrivania",35,60),H("armadio",78,45)]},
+    {src:"/rooms/metalli-4.jpg", hotspots:[H("tendeBianche",30,45),H("tendeScure",55,55)]},
+    {src:"/rooms/metalli-5.jpg", hotspots:[H("pareti",45,30),H("sponda",20,65),H("lampada",5,68)]},
   ],
   Acqua: [
-    {src:"/rooms/acqua-1.jpg", hotspots:[H("pareti",38,35),H("specchio",76,52),H("tendeBianche",10,42),H("dreamscape",62,82),H("sponda",45,72),H("bottiglia",73,88)]},
-    {src:"/rooms/acqua-2.jpg", hotspots:[]},
+    {src:"/rooms/acqua-1.jpg", hotspots:[H("pareti",55,25),H("tendeBianche",8,35),H("sponda",45,55),H("comodino",78,55),H("asciugamani",30,78)]},
+    {src:"/rooms/acqua-2.jpg", hotspots:[H("scrivania",72,72),H("bagno",22,65),H("pareti",48,45)]},
+    {src:"/rooms/acqua-3.jpg", hotspots:[H("lampada",68,45),H("bottiglia",88,52),H("comodino",75,80)]},
+    {src:"/rooms/acqua-4.jpg", hotspots:[H("tendeBianche",35,50),H("tendeScure",48,60),H("armadio",10,65)]},
+    {src:"/rooms/acqua-5.jpg", hotspots:[H("cuscino",32,35),H("asciugamani",28,68),H("schemaTeco",55,62),H("specchio",92,35)]},
+    {src:"/rooms/acqua-6.jpg", hotspots:[H("pareti",35,30),H("cuscino",52,85)]},
+    {src:"/rooms/acqua-7.jpg", hotspots:[H("dreamscape",18,60),H("sponda",85,80)]},
   ],
   Specchi: [
     {src:"/rooms/specchi-1.jpg", hotspots:[H("pareti",30,35),H("tendeBianche",68,38),H("sponda",22,85),H("bottiglia",52,38)]},
@@ -1429,11 +1436,6 @@ function GuestsPage({t,lang,setPage}) {
       setEmailSent(true);
     }
   };
-  const discounts = [
-    {shop:"Orocrea",code:"ABATON10",desc:lang==="it"?"Gioielleria selfica — 10% di sconto sui tuoi acquisti":"Selfic jewellery — 10% off your purchases",url:"https://orocrea.com/"},
-    {shop:"shop.selfica.space",code:"ABATON10",desc:lang==="it"?"Strumenti selfici e bracciali — 10% di sconto":"Selfic tools and bracelets — 10% off",url:"https://shop.selfica.space/"},
-    {shop:"Damjl Handmade",code:"ABATON10",desc:lang==="it"?"Artigianato damanhuriano — 10% di sconto":"Damanhurian handmade crafts — 10% off",url:"https://damjlhandmade.com/"},
-  ];
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"20px"}}>
@@ -1442,24 +1444,6 @@ function GuestsPage({t,lang,setPage}) {
         <div style={{fontFamily:FS,fontSize:"14",color:C.textM,fontStyle:"italic",marginTop:"4px"}}>{lang==="it"?"Ospiti Abaton · Sacred Dreams":"Abaton Guests · Sacred Dreams"}</div>
       </div>
       <div style={{padding:"0 22px"}}>
-
-        {/* DISCOUNT CODES */}
-        <Section title={lang==="it"?"I tuoi codici sconto":"Your discount codes"}>
-          <div style={{fontSize:"14",color:C.textM,lineHeight:"1.7",marginBottom:"16px"}}>
-            {lang==="it"
-              ?"Come ospite dell'Abaton hai diritto a sconti esclusivi nei negozi damanhuriani. Mostra il codice o inseriscilo al checkout."
-              :"As an Abaton guest you are entitled to exclusive discounts at Damanhurian shops. Show the code or enter it at checkout."}
-          </div>
-          {discounts.map((d,i)=>(
-            <a key={i} href={d.url} target="_blank" rel="noopener noreferrer" style={{display:"block",background:C.white,borderRadius:"18px",padding:"18px 20px",marginBottom:"12px",boxShadow:C.shadow,textDecoration:"none"}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"6px"}}>
-                <div style={{fontFamily:FD,fontSize:"17",color:C.blue}}>{d.shop}</div>
-                <div style={{background:C.gold,color:C.white,fontFamily:FB,fontSize:"13",letterSpacing:"0.1em",padding:"5px 12px",borderRadius:"10px"}}>{d.code}</div>
-              </div>
-              <div style={{fontSize:"13",color:C.textM}}>{d.desc}</div>
-            </a>
-          ))}
-        </Section>
 
         {/* PORTA UN AMICO */}
         <Section title={lang==="it"?"Porta un amico":"Bring a friend"}>
