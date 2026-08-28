@@ -21,7 +21,7 @@ const C = {
   bluePale:"#EAF0F8",
   text:    "#14223D",   // Notte
   textS:   "#3A4A6A",   // notte secondario
-  textM:   "#7E92B2",   // Luna
+  textM:   "#3E4E72",   // Notte chiaro (blu scuro, non più grigino)
   border:  "#E2D4BC",   // Pergamena border
   borderL: "#D8CCAA",
   shadow:  "0 4px 24px rgba(20,34,61,0.07)",
@@ -1156,7 +1156,7 @@ function DamanPage({t,lang,setPage}) {
     academy:{
       it:"La Damanhur Academy offre percorsi di formazione nella visione filosofica e spirituale di Damanhur. Corsi residenziali, workshop tematici, percorsi di ricerca.\n\nWisdom Lab — Le Lezioni Video\nUna serie di lezioni e conferenze registrate dai pensatori di Damanhur, disponibili per approfondire la filosofia, la pratica selfica e la visione del futuro.\n\nPer informazioni sui percorsi:\nwelcome@damanhur.it · +39 320 482 4427",
       en:"The Damanhur Academy offers training programs in Damanhur's philosophical and spiritual vision. Residential courses, thematic workshops, research paths.\n\nWisdom Lab — Video Lessons\nA series of recorded lectures and conferences by Damanhur's thinkers, available to deepen the philosophy, selfica practice and vision of the future.\n\nFor information on programs:\nwelcome@damanhur.it · +39 320 482 4427",
-      link:"https://damanhur.academy/?lang=it",linkLabelIT:"Sito Damanhur Academy →",linkLabelEN:"Damanhur Academy website →",
+      link:"https://members.damanhur.academy/",linkLabelIT:"Sito Damanhur Academy →",linkLabelEN:"Damanhur Academy website →",
     },
     blog:{
       it:"La comunità di Damanhur è attiva a livello mondiale attraverso la piattaforma Damanhur Community — articoli, podcast, gruppi e iniziative globali.",
