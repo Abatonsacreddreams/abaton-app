@@ -733,6 +733,13 @@ const RI = {
   scrivania: {labelIT:"Scrivania",labelEN:"Writing desk",descIT:"Un angolo raccolto per scrivere, leggere o semplicemente fare una pausa.",descEN:"A quiet corner for writing, reading, or simply taking a pause."},
   specchio: {labelIT:"Specchio",labelEN:"Mirror",descIT:"Per prepararti prima di uscire verso i Templi.",descEN:"To get ready before heading out to the Temples."},
   quadroSelfico: {labelIT:"Quadro Selfico",labelEN:"Selfic Painting",descIT:"Frattali di realtà a più dimensioni, densi di significato — messaggi di conoscenza che attendono di essere richiamati dall'anima. Simboli e colori aprono a intuizioni e ampliano il cuore verso i campi del sapere.",descEN:"Fractals of multi-dimensional reality, dense with meaning — messages of knowledge waiting to be called back by the soul. Symbols and colours open us to intuition and expand the heart toward the fields of knowledge.",url:"https://thetemples.org/it/quadri-selfici/"},
+  mosaico: {labelIT:"Mosaico del Labirinto",labelEN:"Labyrinth Mosaic",descIT:"Il mosaico a terra richiama la Sala del Labirinto nei Templi. Il tavolo di cristallo sopra di esso permette di ammirarne ogni dettaglio — realizzato dal laboratorio di mosaico damanhuriano.",descEN:"The floor mosaic echoes the Labyrinth Hall in the Temples. The crystal table above it lets you admire every detail — crafted by the Damanhurian mosaic workshop."},
+  libreria: {labelIT:"La Libreria",labelEN:"The Bookshelf",descIT:"Creata da un nostro artigiano con il legno del bosco sacro, ospita libri su Damanhur in diverse lingue del mondo.",descEN:"Handmade by one of our artisans using wood from the sacred forest, it holds books about Damanhur in many languages."},
+  lettura: {labelIT:"Angolo Lettura",labelEN:"Reading Corner",descIT:"Un angolo raccolto dove sederti, leggere e — se vuoi — ascoltare la musica delle piante.",descEN:"A quiet corner to sit, read and — if you like — listen to the music of plants."},
+  tarocchi: {labelIT:"I Tarocchi Damanhuriani",labelEN:"The Damanhurian Tarot",descIT:"Creati da Falco Tarassaco con le immagini dei Quadri Selfici. Sul tavolo di legno puoi fare una tua lettura della giornata o di una domanda su cui vuoi ampliare lo sguardo.",descEN:"Created by Falco Tarassaco using the imagery of the Selfic Paintings. On the wooden table you can do your own reading of the day, or of a question you'd like to explore."},
+  caffeMacchina: {labelIT:"Caffè e Tè",labelEN:"Coffee & Tea",descIT:"Macchina del caffè e tè a disposizione in ogni momento della giornata.",descEN:"Coffee and tea machine available any time of day."},
+  cucina: {labelIT:"La Cucina",labelEN:"The Kitchen",descIT:"A disposizione degli ospiti, con tutto ciò che serve per prepararsi un pasto e goderselo in questo luogo sacro.",descEN:"Available to guests, with everything you need to prepare a meal and enjoy it in this sacred place."},
+  acquaFiltrata: {labelIT:"Acqua Filtrata",labelEN:"Filtered Water",descIT:"Nel lavandino trovi un piccolo rubinetto di metallo con acqua filtrata di montagna, a temperatura ambiente, fredda o frizzante. Usa la bottiglia della tua stanza per portarla sempre con te.",descEN:"At the sink you'll find a small metal tap with filtered mountain water — still, cold or sparkling. Use your room's bottle to keep it with you."},
 };
 const H = (key,x,y,over={}) => ({x,y,...RI[key],...over});
 
@@ -762,6 +769,13 @@ const ROOM_IMAGES = {
     {src:"/rooms/acqua-5.jpg", hotspots:[H("cuscino",32,35),H("asciugamani",28,68),H("schemaTeco",55,62),H("specchio",92,35)]},
     {src:"/rooms/acqua-6.jpg", hotspots:[H("pareti",35,30),H("cuscino",52,85)]},
     {src:"/rooms/acqua-7.jpg", hotspots:[H("dreamscape",18,60),H("sponda",85,80)]},
+  ],
+  Living: [
+    {src:"/rooms/living-1.jpg", hotspots:[H("mosaico",45,82),H("libreria",62,45),H("lettura",23,68)]},
+    {src:"/rooms/living-2.jpg", hotspots:[H("libreria",58,40),H("lettura",18,80),H("mosaico",75,90)]},
+    {src:"/rooms/living-3.jpg", hotspots:[H("caffeMacchina",35,62)]},
+    {src:"/rooms/living-4.jpg", hotspots:[H("tarocchi",48,78),H("libreria",8,45)]},
+    {src:"/rooms/living-5.jpg", hotspots:[H("cucina",30,80),H("acquaFiltrata",68,70)]},
   ],
   Specchi: [
     {src:"/rooms/specchi-1.jpg", hotspots:[H("pareti",42,20),H("specchio",15,45),H("comodino",30,70),H("sponda",55,68),H("tendeBianche",78,40),H("scrivania",93,68)]},
@@ -982,7 +996,9 @@ function AbatonPage({t,lang,setPage}) {
           </div>
         </div>
         <div style={{padding:"24px 22px 0"}}>
-          {sc&&sc.img&&(
+          {sub==="living" ? (
+            <div style={{marginBottom:"16px"}}><RoomExplorer room={{name:"Living"}} lang={lang}/></div>
+          ) : sc&&sc.img&&(
             <div style={{borderRadius:"20px",overflow:"hidden",marginBottom:"16px",boxShadow:C.shadow}}>
               <img src={sc.img} alt={lang==="it"?sc.labelIT:sc.labelEN} style={{width:"100%",height:"200px",objectFit:"cover"}} onError={e=>{e.target.parentElement.style.display="none";}}/>
             </div>
