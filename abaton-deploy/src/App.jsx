@@ -764,7 +764,15 @@ const ROOM_IMAGES = {
     {src:"/rooms/acqua-7.jpg", hotspots:[H("dreamscape",18,60),H("sponda",85,80)]},
   ],
   Specchi: [
-    {src:"/rooms/specchi-1.jpg", hotspots:[H("pareti",30,35),H("tendeBianche",68,38),H("sponda",22,85),H("bottiglia",52,38)]},
+    {src:"/rooms/specchi-1.jpg", hotspots:[H("pareti",42,20),H("specchio",15,45),H("comodino",30,70),H("sponda",55,68),H("tendeBianche",78,40),H("scrivania",93,68)]},
+    {src:"/rooms/specchi-2.jpg", hotspots:[H("armadio",35,42),H("bagno",18,42),H("sponda",60,62),H("comodino",85,68),H("pareti",80,22)]},
+    {src:"/rooms/specchi-3.jpg", hotspots:[H("pareti",55,25),H("cuscino",62,65),H("tendeBianche",85,40)]},
+    {src:"/rooms/specchi-4.jpg", hotspots:[H("lampada",38,62),H("bottiglia",28,78),H("pareti",55,15),H("tendeBianche",80,25),H("cuscino",70,42)]},
+    {src:"/rooms/specchi-5.jpg", hotspots:[H("dreamscape",48,60)]},
+    {src:"/rooms/specchi-6.jpg", hotspots:[H("schemaTeco",48,65),H("asciugamani",75,55),H("cuscino",48,20)]},
+    {src:"/rooms/specchi-7.jpg", hotspots:[H("scrivania",75,55),H("lampada",48,35),H("tendeBianche",15,35),H("bagno",38,15)]},
+    {src:"/rooms/specchi-8.jpg", hotspots:[H("tendeScure",48,55)]},
+    {src:"/rooms/specchi-9.jpg", hotspots:[H("bagno",50,50),H("specchio",28,45),H("asciugamani",88,32)]},
   ],
   Popoli: [
     {src:"/rooms/popoli-1.jpg", hotspots:[H("pareti",85,40,{labelIT:"Pannello dei Popoli",labelEN:"Peoples Panel",descIT:"Il murale simbolico: i segni che rappresentano l'incontro tra i popoli e la coscienza collettiva.",descEN:"The symbolic mural: the signs representing the meeting of peoples and collective consciousness."}),H("tendeBianche",13,40),H("sponda",35,72),H("comodino",78,65)]},
