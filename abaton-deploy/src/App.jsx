@@ -262,9 +262,9 @@ const EVENTS = [
 ];
 
 const VIDEOS_MEDITATION = [
-  {id:"placeholder1",titleIT:"Meditazione del Mattino",titleEN:"Morning Meditation",dur:"12 min",color:C.gold},
-  {id:"placeholder2",titleIT:"Respiro e Presenza",titleEN:"Breath & Presence",dur:"18 min",color:C.blueM},
-  {id:"placeholder3",titleIT:"Sogno Consapevole",titleEN:"Conscious Dreaming",dur:"24 min",color:"#7A9A6A"},
+  {id:"placeholder1",titleIT:"Meditazione del Mattino",titleEN:"Morning Meditation",titleDE:"Morgenmeditation",titleFR:"Méditation du Matin",titleRU:"Утренняя медитация",dur:"12 min",color:C.gold},
+  {id:"placeholder2",titleIT:"Respiro e Presenza",titleEN:"Breath & Presence",titleDE:"Atem und Präsenz",titleFR:"Souffle et Présence",titleRU:"Дыхание и присутствие",dur:"18 min",color:C.blueM},
+  {id:"placeholder3",titleIT:"Sogno Consapevole",titleEN:"Conscious Dreaming",titleDE:"Bewusstes Träumen",titleFR:"Rêve Conscient",titleRU:"Осознанное сновидение",dur:"24 min",color:"#7A9A6A"},
 ];
 
 const DAMANHUR_VIDEOS = [
@@ -468,7 +468,8 @@ function StaffPanel({session,onSave,onClear,onClose}) {
 // ── HOME ──────────────────────────────────────────────────────────────────────
 function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
   const [showLang,setShowLang] = useState(false);
-  const date = new Date().toLocaleDateString(lang==="it"?"it-IT":"en-GB",{weekday:"long",day:"numeric",month:"long"});
+  const LOCALEMAP = {it:"it-IT",en:"en-GB",de:"de-DE",fr:"fr-FR",ru:"ru-RU"};
+  const date = new Date().toLocaleDateString(LOCALEMAP[lang]||"en-GB",{weekday:"long",day:"numeric",month:"long"});
   const tapRef = useRef({count:0,timer:null});
   const handleWordmarkTap = () => {
     const r = tapRef.current;
@@ -522,7 +523,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           </div>
           {session?.name&&(
             <div style={{fontFamily:FD,fontSize:"24",fontStyle:"italic",fontWeight:"700",color:C.gold,marginTop:"8px",textShadow:"0 2px 16px rgba(0,0,0,0.75)"}}>
-              {lang==="it"?`Il tuo soggiorno, ${session.name}`:`Your stay, ${session.name}`}
+              {lang==="it"?`Il tuo soggiorno, ${session.name}`:lang==="de"?`Dein Aufenthalt, ${session.name}`:lang==="fr"?`Votre séjour, ${session.name}`:lang==="ru"?`Ваше пребывание, ${session.name}`:`Your stay, ${session.name}`}
             </div>
           )}
         </div>
@@ -564,10 +565,10 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
         {/* BUBBLE NAVIGATION */}
         <div style={{display:"flex",gap:"10px",justifyContent:"center",flexWrap:"wrap",marginBottom:"36px"}}>
           {[
-            {id:"shop",      label:(lang==="it"||!lang?"I tuoi privilegi":"Your privileges"), sym:"✧", special:true},
-            {id:"abaton",    label:lang==="it"?"Abaton":"Abaton",      sym:"✦", bg:C.cream,    fg:C.blue},
+            {id:"shop",      label:(lang==="it"||!lang?"I tuoi privilegi":lang==="de"?"Deine Vorteile":lang==="fr"?"Vos privilèges":lang==="ru"?"Ваши привилегии":"Your privileges"), sym:"✧", special:true},
+            {id:"abaton",    label:"Abaton",      sym:"✦", bg:C.cream,    fg:C.blue},
             {id:"damanhur",  label:"Damanhur",                         sym:"◎", bg:C.goldPale, fg:C.goldD},
-            {id:"wellness",  label:lang==="it"?"Benessere":"Wellness", sym:"◈", bg:"#EFF4ED",  fg:"#5A7A58"},
+            {id:"wellness",  label:lang==="it"?"Benessere":lang==="de"?"Wellness":lang==="fr"?"Bien-être":lang==="ru"?"Велнес":"Wellness", sym:"◈", bg:"#EFF4ED",  fg:"#5A7A58"},
           ].map(item=>(
             <button key={item.id} onClick={()=>setPage(item.id)} style={item.special?{position:"relative",padding:"13px 20px",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14",fontWeight:"600",letterSpacing:"0.04em",color:C.white,display:"flex",alignItems:"center",gap:"7px",boxShadow:`0 4px 18px ${C.gold}66`}:{padding:"13px 18px",background:item.bg,border:`1px solid ${C.border}`,borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14",fontWeight:"400",letterSpacing:"0.04em",color:item.fg,display:"flex",alignItems:"center",gap:"7px",boxShadow:C.shadow}}>
               {item.special&&<span style={{position:"absolute",top:"-3px",right:"-3px",width:"10px",height:"10px",borderRadius:"50%",background:"#fff",animation:"abatonPulse 1.4s ease-in-out infinite alternate"}}/>}
@@ -583,13 +584,13 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <svg viewBox="0 0 24 24" fill="none" stroke={C.white} strokeWidth="2" width="18" height="18"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
             </div>
             <div>
-              <div style={{fontFamily:FD,fontSize:"21",fontWeight:"600",color:C.blue,marginBottom:"2px"}}>{lang==="it"?"Hai domande sul soggiorno?":"Questions about your stay?"}</div>
+              <div style={{fontFamily:FD,fontSize:"21",fontWeight:"600",color:C.blue,marginBottom:"2px"}}>{lang==="it"?"Hai domande sul soggiorno?":lang==="de"?"Fragen zu deinem Aufenthalt?":lang==="fr"?"Des questions sur votre séjour ?":lang==="ru"?"Есть вопросы о пребывании?":"Questions about your stay?"}</div>
               <div style={{fontSize:"13",color:C.textM}}>AI Concierge · 24h</div>
             </div>
           </button>
           <a href="https://wa.me/393510103842" target="_blank" rel="noopener noreferrer" style={{padding:"16px 14px",background:C.white,borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textDecoration:"none",boxShadow:C.shadow,flexShrink:0,gap:"4px"}}>
             <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path fill="#25D366" fillOpacity=".25" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/><path fill="#25D366" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.101-1.135l-.294-.175-3.048.906.906-3.048-.175-.294A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-            <div style={{fontSize:"9",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":"Contact"}<br/>{lang==="it"?"personale":"the team"}</div>
+            <div style={{fontSize:"9",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
           </a>
         </div>
 
@@ -601,9 +602,9 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           </div>
           <div style={{display:"flex",flexWrap:"wrap",gap:"10px",marginBottom:"14px"}}>
             <Pill color={C.goldD}>← {t.checkOut}</Pill>
-            <Pill color={C.goldD}>◯ {lang==="it"?"Silenzio 22–8":"Quiet hours 10pm–8am"}</Pill>
+            <Pill color={C.goldD}>◯ {lang==="it"?"Silenzio 22–8":lang==="de"?"Ruhezeit 22–8 Uhr":lang==="fr"?"Silence 22h–8h":lang==="ru"?"Тишина 22:00–8:00":"Quiet hours 10pm–8am"}</Pill>
           </div>
-          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"14px",textDecoration:"none"}}>💬 {t.lateOut} →</a>
+          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"14px",textDecoration:"none"}}>💬 {t.lateOut} →</a>
         </WhiteCard>
 
         {/* EVENTS */}
@@ -624,8 +625,8 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           ))}
           <div style={{paddingTop:"16px",display:"flex",flexDirection:"column",gap:"12px"}}>
             <div style={{padding:"14px 16px",background:C.goldPale,borderRadius:"14px"}}>
-              <div style={{fontSize:"13",color:C.goldD,fontFamily:FB,fontWeight:"500",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:"6px"}}>{lang==="it"?"Per prenotarsi agli eventi":"To book events"}</div>
-              <div style={{fontSize:"14",color:C.textS,lineHeight:"1.6",marginBottom:"8px"}}>{lang==="it"?"Contattare il Welcome Center di Damanhur:":"Contact Damanhur's Welcome Center:"}</div>
+              <div style={{fontSize:"13",color:C.goldD,fontFamily:FB,fontWeight:"500",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:"6px"}}>{lang==="it"?"Per prenotarsi agli eventi":lang==="de"?"Für die Anmeldung zu Veranstaltungen":lang==="fr"?"Pour réserver aux événements":lang==="ru"?"Для записи на мероприятия":"To book events"}</div>
+              <div style={{fontSize:"14",color:C.textS,lineHeight:"1.6",marginBottom:"8px"}}>{lang==="it"?"Contattare il Welcome Center di Damanhur:":lang==="de"?"Kontaktiere das Welcome Center von Damanhur:":lang==="fr"?"Contacter le Welcome Center de Damanhur :":lang==="ru"?"Свяжитесь с Welcome Center Даманхура:":"Contact Damanhur's Welcome Center:"}</div>
               <a href="tel:+393204824427" style={{fontFamily:FD,fontSize:"18",color:C.goldD,textDecoration:"none",display:"block"}}>{t.eventsPhone}</a>
               <a href="mailto:welcome@dhwelcome.org" style={{fontFamily:FB,fontSize:"14",color:C.goldD,textDecoration:"none",display:"block",marginTop:"4px"}}>welcome@dhwelcome.org</a>
             </div>
@@ -646,7 +647,7 @@ function ExperiencePage({t,lang,setPage}) {
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
-          <Pill>{lang==="it"?"Esperienza":"Experience"}</Pill>
+          <Pill>{lang==="it"?"Esperienza":lang==="de"?"Erlebnis":lang==="fr"?"Expérience":lang==="ru"?"Опыт":"Experience"}</Pill>
           <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px",lineHeight:"1.1"}}>{t.expBtn.replace("\n"," ")}</div>
         </div>
       </div>
@@ -661,7 +662,7 @@ function ExperiencePage({t,lang,setPage}) {
                 <div style={{width:"100px",height:"100px",borderRadius:"50%",background:`${v.color}18`,border:`2px solid ${v.color}44`,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",marginBottom:"8px",cursor:"pointer",position:"relative"}}>
                   <svg viewBox="0 0 24 24" fill={v.color} width="28" height="28"><polygon points="6,3 20,12 6,21"/></svg>
                 </div>
-                <div style={{fontSize:"14",color:C.blue,fontWeight:"400",maxWidth:"100px",lineHeight:"1.3"}}>{lang==="it"?v.titleIT:v.titleEN}</div>
+                <div style={{fontSize:"14",color:C.blue,fontWeight:"400",maxWidth:"100px",lineHeight:"1.3"}}>{LS(v,"title",lang)}</div>
                 <div style={{fontSize:"12",color:C.textM,marginTop:"2px"}}>{v.dur}</div>
               </div>
             ))}
@@ -669,18 +670,24 @@ function ExperiencePage({t,lang,setPage}) {
               <div style={{width:"100px",height:"100px",borderRadius:"50%",background:C.cream,border:`2px dashed ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:"8px"}}>
                 <div style={{fontSize:"28",color:C.textM}}>+</div>
               </div>
-              <div style={{fontSize:"13",color:C.textM}}>prossimamente</div>
+              <div style={{fontSize:"13",color:C.textM}}>{lang==="it"?"prossimamente":lang==="de"?"demnächst":lang==="fr"?"bientôt":lang==="ru"?"скоро":"coming soon"}</div>
             </div>
           </div>
         </Section>
 
         {/* SELFICA */}
         <WhiteCard style={{marginBottom:"24px",background:`linear-gradient(135deg,${C.goldPale},${C.white})`}}>
-          <Pill color={C.goldD}>{lang==="it"?"La Selfica dei Sogni":"Dream Selfica"}</Pill>
-          <div style={{fontFamily:FD,fontSize:"24",color:C.blue,marginTop:"12px",marginBottom:"12px"}}>{lang==="it"?"La Tecnologia del Sogno":"The Technology of Dreams"}</div>
+          <Pill color={C.goldD}>{lang==="it"?"La Selfica dei Sogni":lang==="de"?"Die Traum-Selfica":lang==="fr"?"La Selfica des Rêves":lang==="ru"?"Селфика Снов":"Dream Selfica"}</Pill>
+          <div style={{fontFamily:FD,fontSize:"24",color:C.blue,marginTop:"12px",marginBottom:"12px"}}>{lang==="it"?"La Tecnologia del Sogno":lang==="de"?"Die Technologie des Traums":lang==="fr"?"La Technologie du Rêve":lang==="ru"?"Технология сна":"The Technology of Dreams"}</div>
           <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>
             {lang==="it"
               ?"La Selfica dei Sogni si trova sopra l'armadio, orientata verso il letto — da dove lavora in silenzio per tutta la notte. È uno strumento energetico forgiato a mano dagli artigiani di Damanhur: spirali metalliche che creano un campo semi-autonomo, progettato per:\n\n• Ampliare e rendere più vivido il sogno\n• Favorire il ricordo al risveglio\n• Creare un campo di protezione durante il sonno\n\nNon va toccata. Il modo di relazionarsi con lei è attraverso il pensiero o la parola: prima di dormire, guardala da dove sei, osservane le spirali. Rivolgile un'intenzione, una domanda, un saluto. Lei riceve."
+              :lang==="de"
+              ?"Die Traum-Selfica befindet sich über dem Kleiderschrank, zum Bett ausgerichtet — von dort aus arbeitet sie die ganze Nacht in Stille. Sie ist ein von den Handwerkern Damanhurs handgeschmiedetes energetisches Instrument: Metallspiralen, die ein halbautonomes Feld erzeugen, entwickelt, um:\n\n• den Traum zu erweitern und lebendiger zu machen\n• die Erinnerung beim Aufwachen zu fördern\n• ein Schutzfeld während des Schlafs zu schaffen\n\nSie darf nicht berührt werden. Die Art, mit ihr in Beziehung zu treten, ist durch Gedanken oder Worte: Betrachte sie vor dem Schlafen von deinem Platz aus, beobachte ihre Spiralen. Richte eine Absicht, eine Frage, einen Gruß an sie. Sie empfängt."
+              :lang==="fr"
+              ?"La Selfica des Rêves se trouve au-dessus de l'armoire, orientée vers le lit — d'où elle travaille en silence toute la nuit. C'est un instrument énergétique forgé à la main par les artisans de Damanhur : des spirales métalliques créant un champ semi-autonome, conçu pour :\n\n• Amplifier et rendre le rêve plus vivide\n• Favoriser le souvenir au réveil\n• Créer un champ de protection pendant le sommeil\n\nElle ne doit pas être touchée. La façon de se relier à elle est par la pensée ou la parole : avant de dormir, regarde-la depuis où tu es, observe ses spirales. Adresse-lui une intention, une question, un salut. Elle reçoit."
+              :lang==="ru"
+              ?"Селфика Снов находится над шкафом, направленная к кровати — оттуда она тихо работает всю ночь. Это энергетический инструмент, выкованный вручную мастерами Даманхура: металлические спирали, создающие полуавтономное поле, предназначенное для того, чтобы:\n\n• расширять сон и делать его более ярким\n• способствовать запоминанию снов при пробуждении\n• создавать защитное поле во время сна\n\nЕё нельзя трогать. Способ взаимодействия с ней — через мысль или слово: перед сном посмотри на неё оттуда, где ты находишься, понаблюдай за спиралями. Обратись к ней с намерением, вопросом, приветствием. Она принимает."
               :"The Dream Selfica rests above the wardrobe, directed toward the bed — from where it works silently through the night. It is an energy tool hand-forged by Damanhur artisans: metal spirals creating a semi-autonomous field, designed to:\n\n• Expand and make the dream world more vivid\n• Facilitate dream recall upon waking\n• Create a protective field during sleep\n\nDo not touch it. Relate to it through thought or spoken word: before sleeping, look at it from where you are, observe its spirals. Bring it an intention, a question, a greeting. It receives."}
           </div>
           <a href="https://shop.selfica.space/pages/what-is-selfica" target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14",letterSpacing:"0.08em",textDecoration:"none"}}>
@@ -846,12 +853,12 @@ function AbatonPage({t,lang,setPage}) {
   const [sub,setSub] = useState(null);
   const [roomDetail,setRoomDetail] = useState(null);
   const SUBS = [
-    {id:"camere",   sym:"◇", labelIT:"Le Cinque Stanze",    labelEN:"The Five Rooms",    color:C.gold},
-    {id:"living",   sym:"〰", labelIT:"Il Living",           labelEN:"The Living Space",  color:C.blueM},
-    {id:"colazione",sym:"☀", labelIT:"La Colazione",        labelEN:"Breakfast",          color:"#C07A30"},
-    {id:"tempio",   sym:"✦", labelIT:"Connessione al Tempio",labelEN:"Temple Connection",color:C.goldD},
-    {id:"campo",    sym:"◎", labelIT:"Il Campo dell'Abaton",labelEN:"Abaton's Field",     color:C.blue},
-    {id:"sogno",    sym:"◈", labelIT:"L'Arte del Sogno",    labelEN:"The Art of Dreaming",color:"#7A6AAA"},
+    {id:"camere",   sym:"◇", labelIT:"Le Cinque Stanze",    labelEN:"The Five Rooms",    labelDE:"Die fünf Zimmer",         labelFR:"Les Cinq Chambres",       labelRU:"Пять комнат",       color:C.gold},
+    {id:"living",   sym:"〰", labelIT:"Il Living",           labelEN:"The Living Space",  labelDE:"Der Wohnbereich",         labelFR:"Le Salon",                labelRU:"Гостиная",           color:C.blueM},
+    {id:"colazione",sym:"☀", labelIT:"La Colazione",        labelEN:"Breakfast",          labelDE:"Das Frühstück",          labelFR:"Le Petit-Déjeuner",       labelRU:"Завтрак",            color:"#C07A30"},
+    {id:"tempio",   sym:"✦", labelIT:"Connessione al Tempio",labelEN:"Temple Connection",labelDE:"Verbindung zum Tempel",  labelFR:"Connexion au Temple",     labelRU:"Связь с Храмом",     color:C.goldD},
+    {id:"campo",    sym:"◎", labelIT:"Il Campo dell'Abaton",labelEN:"Abaton's Field",     labelDE:"Das Feld des Abaton",    labelFR:"Le Champ de l'Abaton",    labelRU:"Поле Абатона",       color:C.blue},
+    {id:"sogno",    sym:"◈", labelIT:"L'Arte del Sogno",    labelEN:"The Art of Dreaming",labelDE:"Die Kunst des Träumens", labelFR:"L'Art du Rêve",           labelRU:"Искусство сна",      color:"#7A6AAA"},
   ];
   const ROOMS_BRIEF = [
     {
@@ -1029,8 +1036,8 @@ function AbatonPage({t,lang,setPage}) {
         <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
           <Back label={t.back} onClick={()=>setSub(null)}/>
           <div style={{marginTop:"16px"}}>
-            <Pill color={label.color}>{lang==="it"?label.labelIT:label.labelEN}</Pill>
-            <div style={{fontFamily:FD,fontSize:"34",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?label.labelIT:label.labelEN}</div>
+            <Pill color={label.color}>{LS(label,"label",lang)}</Pill>
+            <div style={{fontFamily:FD,fontSize:"34",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{LS(label,"label",lang)}</div>
           </div>
         </div>
         <div style={{padding:"24px 22px 0"}}>
@@ -1038,7 +1045,7 @@ function AbatonPage({t,lang,setPage}) {
             <div style={{marginBottom:"16px"}}><RoomExplorer room={{name:"Living"}} lang={lang}/></div>
           ) : sc&&sc.img&&(
             <div style={{borderRadius:"20px",overflow:"hidden",marginBottom:"16px",boxShadow:C.shadow}}>
-              <img src={sc.img} alt={lang==="it"?sc.labelIT:sc.labelEN} style={{width:"100%",height:"200px",objectFit:"cover"}} onError={e=>{e.target.parentElement.style.display="none";}}/>
+              <img src={sc.img} alt={LS(label,"label",lang)} style={{width:"100%",height:"200px",objectFit:"cover"}} onError={e=>{e.target.parentElement.style.display="none";}}/>
             </div>
           )}
           <WhiteCard>
@@ -1170,70 +1177,97 @@ function AbatonPage({t,lang,setPage}) {
 function DamanPage({t,lang,setPage}) {
   const [sub,setSub] = useState(null);
   const COMMUNITIES = [
-    {id:"damjl", sym:"◎", color:C.blue, labelIT:"Damjl", labelEN:"Damjl",
+    {id:"damjl", sym:"◎", color:C.blue, labelIT:"Damjl", labelEN:"Damjl", labelDE:"Damjl", labelFR:"Damjl", labelRU:"Дамжл",
       descIT:"Capitale storica e spirituale di Damanhur. Qui si trovano il Tempio aperto ai visitatori, i circuiti percorribili, laboratori e negozi damanhuriani, assemblee e vita collettiva. Ospita anche il Somachandra, la tavola calda damanhuriana — luogo di incontro e scambio autentico. Via Pramarzo 3, Baldissero Canavese.",
       descEN:"The historic and spiritual capital of Damanhur. Home to the open Temple, walkable circuits, Damanhurian workshops and shops, assemblies and collective life. Also hosts the Somachandra — the Damanhurian canteen, a true meeting and exchange point. Via Pramarzo 3, Baldissero Canavese.",
+      descDE:"Die historische und spirituelle Hauptstadt von Damanhur. Hier befinden sich der für Besucher geöffnete Tempel, begehbare Rundgänge, damanhurianische Werkstätten und Geschäfte, Versammlungen und gemeinschaftliches Leben. Hier befindet sich auch das Somachandra, die damanhurianische Kantine — ein Ort echter Begegnung und Austausch. Via Pramarzo 3, Baldissero Canavese.",
+      descFR:"Capitale historique et spirituelle de Damanhur. On y trouve le Temple ouvert aux visiteurs, les circuits praticables, les ateliers et boutiques damanhuriens, les assemblées et la vie collective. Elle abrite aussi le Somachandra, la cantine damanhurienne — lieu de rencontre et d'échange authentique. Via Pramarzo 3, Baldissero Canavese.",
+      descRU:"Историческая и духовная столица Даманхура. Здесь находится Храм, открытый для посетителей, проходимые тоннели, дамантурские мастерские и магазины, собрания и коллективная жизнь. Здесь же расположена Сомачандра — дамантурская столовая, место подлинных встреч и общения. Via Pramarzo 3, Baldissero Canavese.",
       url:"https://damjl.org/chisiamo/",img:"https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=500&q=70&auto=format&fit=crop"},
-    {id:"etulte", sym:"🌲", color:"#4A7A4A", labelIT:"Etulte", labelEN:"Etulte",
+    {id:"etulte", sym:"🌲", color:"#4A7A4A", labelIT:"Etulte", labelEN:"Etulte", labelDE:"Etulte", labelFR:"Etulte", labelRU:"Этульте",
       descIT:"La comunità che custodisce l'area del Tempio, il bosco sacro e il territorio naturale che circonda Damanhur. Guardiani dell'ecosistema energetico: vivono in stretta relazione con la terra, gli alberi e gli animali selvatici, mantenendo vivo il campo naturale che sostiene l'intera Federazione.",
       descEN:"The community that cares for the Temple area, the sacred woods and the natural territory surrounding Damanhur. Guardians of the energetic ecosystem: they live in close relationship with the land, trees and wild animals, keeping alive the natural field that sustains the entire Federation.",
+      descDE:"Die Gemeinschaft, die das Tempelgebiet, den heiligen Wald und das natürliche Gebiet rund um Damanhur hütet. Hüter des energetischen Ökosystems: Sie leben in enger Beziehung zu Erde, Bäumen und Wildtieren und halten das natürliche Feld lebendig, das die gesamte Föderation trägt.",
+      descFR:"La communauté qui garde la zone du Temple, la forêt sacrée et le territoire naturel entourant Damanhur. Gardiens de l'écosystème énergétique : ils vivent en relation étroite avec la terre, les arbres et les animaux sauvages, maintenant vivant le champ naturel qui soutient toute la Fédération.",
+      descRU:"Сообщество, хранящее территорию Храма, священный лес и природные земли вокруг Даманхура. Хранители энергетической экосистемы: они живут в тесной связи с землёй, деревьями и дикими животными, поддерживая живым природное поле, питающее всю Федерацию.",
       url:"https://www.etulte.it/",img:"https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=70&auto=format&fit=crop"},
-    {id:"arca", sym:"〰", color:C.blueM, labelIT:"Arca Tentyris", labelEN:"Arca Tentyris",
+    {id:"arca", sym:"〰", color:C.blueM, labelIT:"Arca Tentyris", labelEN:"Arca Tentyris", labelDE:"Arca Tentyris", labelFR:"Arca Tentyris", labelRU:"Арка Тентирис",
       descIT:"Pionieri di modelli sociali alternativi. La comunità è collegata all'elemento acqua, al principio femminile e all'innovazione. Un laboratorio vivente di nuove forme di vita collettiva, ricerca creativa e soluzioni per il futuro.",
       descEN:"Pioneers of alternative social models. The community is connected to the water element, the feminine principle and innovation. A living laboratory of new forms of collective life, creative research and solutions for the future.",
+      descDE:"Pioniere alternativer Gesellschaftsmodelle. Die Gemeinschaft ist mit dem Element Wasser, dem weiblichen Prinzip und der Innovation verbunden. Ein lebendiges Labor für neue Formen kollektiven Lebens, kreativer Forschung und Zukunftslösungen.",
+      descFR:"Pionniers de modèles sociaux alternatifs. La communauté est liée à l'élément eau, au principe féminin et à l'innovation. Un laboratoire vivant de nouvelles formes de vie collective, de recherche créative et de solutions pour l'avenir.",
+      descRU:"Первопроходцы альтернативных социальных моделей. Сообщество связано со стихией воды, женским началом и инновациями. Живая лаборатория новых форм коллективной жизни, творческих исследований и решений для будущего.",
       url:"https://www.arca.tentyris.it/",img:"https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=500&q=70&auto=format&fit=crop"},
-    {id:"oropan", sym:"🌾", color:"#7A6030", labelIT:"Oro Pan", labelEN:"Oro Pan",
+    {id:"oropan", sym:"🌾", color:"#7A6030", labelIT:"Oro Pan", labelEN:"Oro Pan", labelDE:"Oro Pan", labelFR:"Oro Pan", labelRU:"Оро Пан",
       descIT:"La comunità dell'allevamento e dell'agricoltura. Porta avanti la connessione profonda tra essere umano, terra e animali. Il cibo è un atto sacro: prodotto con rispetto, consumato con consapevolezza. Le Terre di Oro Pan accolgono pascoli, orti e animali vissuti come compagni di vita.",
       descEN:"The community of animal husbandry and agriculture. Carries forward the deep connection between human beings, land and animals. Food is a sacred act: produced with respect, consumed with awareness. The Oro Pan lands host pastures, gardens and animals lived with as companions.",
+      descDE:"Die Gemeinschaft der Tierhaltung und Landwirtschaft. Sie pflegt die tiefe Verbindung zwischen Mensch, Erde und Tieren. Essen ist ein heiliger Akt: mit Respekt erzeugt, mit Bewusstsein verzehrt. Die Ländereien von Oro Pan beherbergen Weiden, Gärten und Tiere, die als Lebensgefährten betrachtet werden.",
+      descFR:"La communauté de l'élevage et de l'agriculture. Elle porte la connexion profonde entre l'être humain, la terre et les animaux. La nourriture est un acte sacré : produite avec respect, consommée avec conscience. Les Terres d'Oro Pan accueillent pâturages, potagers et animaux vécus comme des compagnons de vie.",
+      descRU:"Сообщество животноводства и земледелия. Оно поддерживает глубокую связь между человеком, землёй и животными. Еда — священный акт: производится с уважением, потребляется осознанно. Земли Оро Пан включают пастбища, огороды и животных, которых воспринимают как спутников жизни.",
       url:"https://terredioropan.it/",img:"https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=500&q=70&auto=format&fit=crop"},
   ];
   const DAMANSUBSECTIONS = [
-    {id:"templi",  sym:"✦", color:C.gold,  labelIT:"I Templi dell'Umanità",  labelEN:"Temples of Humanity"},
-    {id:"crea",    sym:"◈", color:C.goldD, labelIT:"Damanhur Crea",           labelEN:"Damanhur Crea"},
-    {id:"academy", sym:"⊕", color:C.blueM, labelIT:"Studia con Noi",          labelEN:"Study with Us"},
-    {id:"blog",    sym:"⊙", color:C.textS, labelIT:"Community & Blog",         labelEN:"Community & Blog"},
-    {id:"valle",   sym:"🌿",color:"#4A7A4A",labelIT:"Val Chiusella",            labelEN:"Val Chiusella"},
+    {id:"templi",  sym:"✦", color:C.gold,  labelIT:"I Templi dell'Umanità",  labelEN:"Temples of Humanity",  labelDE:"Die Tempel der Menschheit",  labelFR:"Les Temples de l'Humanité",  labelRU:"Храмы Человечества"},
+    {id:"crea",    sym:"◈", color:C.goldD, labelIT:"Damanhur Crea",           labelEN:"Damanhur Crea",         labelDE:"Damanhur Crea",              labelFR:"Damanhur Crea",              labelRU:"Damanhur Crea"},
+    {id:"academy", sym:"⊕", color:C.blueM, labelIT:"Studia con Noi",          labelEN:"Study with Us",         labelDE:"Bei uns lernen",              labelFR:"Étudier avec nous",          labelRU:"Учиться с нами"},
+    {id:"blog",    sym:"⊙", color:C.textS, labelIT:"Community & Blog",         labelEN:"Community & Blog",      labelDE:"Community & Blog",           labelFR:"Community & Blog",           labelRU:"Community & Blog"},
+    {id:"valle",   sym:"🌿",color:"#4A7A4A",labelIT:"Val Chiusella",            labelEN:"Val Chiusella",         labelDE:"Val Chiusella",              labelFR:"Val Chiusella",              labelRU:"Валь-Кьюзелла"},
   ];
   const SUBCONTENT = {
     templi:{
       img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop",
       it:"Nove sale sotterranee create interamente a mano — affreschi, mosaici, sculture, vetrate. Trent'anni di lavoro collettivo. National Geographic le ha definite 'la Cappella Sistina dei tempi moderni'.\n\nLe sale: Vittoria, Terra, Metalli, Tempio Azzurro, Labirinto, Acqua, Sfere, Specchi.\n\nDamanhur sta lavorando all'espansione: nuove sale, nuovi livelli, nuove connessioni. Un'opera che continua.\n\nVisita guidata ogni giorno — chiedici in reception.",
       en:"Nine underground halls entirely hand-created — frescoes, mosaics, sculptures, stained glass. Thirty years of collective work. National Geographic called them 'the Sistine Chapel of modern times'.\n\nThe halls: Victory, Earth, Metals, Blue Temple, Labyrinth, Water, Spheres, Mirrors.\n\nDamanhur is working on expansion: new halls, new levels, new connections. A work that continues.\n\nGuided tours daily — ask at reception.",
+      de:"Neun unterirdische Säle, vollständig von Hand geschaffen — Fresken, Mosaike, Skulpturen, Glasfenster. Dreißig Jahre gemeinschaftlicher Arbeit. National Geographic nannte sie 'die Sixtinische Kapelle der Neuzeit'.\n\nDie Säle: Sieg, Erde, Metalle, Blauer Tempel, Labyrinth, Wasser, Sphären, Spiegel.\n\nDamanhur arbeitet an der Erweiterung: neue Säle, neue Ebenen, neue Verbindungen. Ein Werk, das weitergeht.\n\nGeführte Besichtigung jeden Tag — frag an der Rezeption.",
+      fr:"Neuf salles souterraines entièrement créées à la main — fresques, mosaïques, sculptures, vitraux. Trente ans de travail collectif. National Geographic les a qualifiées de 'Chapelle Sixtine des temps modernes'.\n\nLes salles : Victoire, Terre, Métaux, Temple Bleu, Labyrinthe, Eau, Sphères, Miroirs.\n\nDamanhur travaille à l'expansion : nouvelles salles, nouveaux niveaux, nouvelles connexions. Une œuvre qui continue.\n\nVisite guidée tous les jours — demande à la réception.",
+      ru:"Девять подземных залов, полностью созданных вручную — фрески, мозаики, скульптуры, витражи. Тридцать лет коллективного труда. National Geographic назвал их «Сикстинской капеллой современности».\n\nЗалы: Победы, Земли, Металлов, Синий Храм, Лабиринт, Воды, Сфер, Зеркал.\n\nДаманхур продолжает расширение: новые залы, новые уровни, новые связи. Работа, которая продолжается.\n\nЭкскурсии проводятся ежедневно — спросите на ресепшен.",
     },
     crea:{
       it:"DamanhurCrea è il cuore pulsante dell'artigianato e della creatività damanhuriana.",
       en:"DamanhurCrea is the beating heart of Damanhurian craftsmanship and creativity.",
+      de:"DamanhurCrea ist das pulsierende Herz des damanhurianischen Handwerks und der Kreativität.",
+      fr:"DamanhurCrea est le cœur battant de l'artisanat et de la créativité damanhurienne.",
+      ru:"DamanhurCrea — это пульсирующее сердце дамантурского ремесла и творчества.",
       links:[
-        {name:"Crea Salute",url:"https://www.creasalute.it/",descIT:"Poliambulatorio di medicina integrata: visite ed esami che uniscono la medicina convenzionale a pratiche complementari.",descEN:"Integrated medicine outpatient clinic: consultations and exams combining conventional medicine with complementary practices."},
-        {name:"Kythera",url:"https://www.kythera.it/",descIT:"Centro estetico. Trattamenti per la cura e la bellezza della persona.",descEN:"Beauty centre. Treatments for personal care and beauty."},
-        {name:"Solerà",url:"https://solerasrl.com/",descIT:"Produzione di energia rinnovabile e soluzioni per la sostenibilità ambientale.",descEN:"Renewable energy production and environmental sustainability solutions."},
-        {name:"Tentay Bio",url:"https://www.facebook.com/tentatybio/?locale=it_IT",descIT:"Produzione biologica damanuriana: alimenti, prodotti della terra coltivati con rispetto.",descEN:"Damanhurian organic production: food and earth products grown with care."},
-        {name:"Galleria dei Quadri Selfici",url:"https://thetemples.org/it/quadri-selfici/",descIT:"Opere d'arte damanuriane con funzione selfica. Ogni quadro è uno strumento energetico oltre che un'opera visiva. Tel. +39 329 6354724",descEN:"Damanhurian artworks with a selfic function. Each painting is an energetic tool as well as a visual work. Tel. +39 329 6354724"},
-        {name:"Salone Olivetti",url:"",descIT:"Lo spazio espositivo e culturale di DamanhurCrea, cuore degli eventi artistici della comunità.",descEN:"The exhibition and cultural space of DamanhurCrea, heart of the community's artistic events."},
-        {name:"Arielvo",url:"https://arielvo.it/",descIT:"Cucina biologica, nutriente e consapevole. Cibo vivo preparato con intenzione — il ristorante di DamanhurCrea.",descEN:"Organic, nourishing and conscious cuisine. Living food prepared with intention — DamanhurCrea's restaurant."},
-        {name:"Orocrea",url:"https://orocrea.com/",descIT:"Gioielleria selfica e spirituale. Bracciali, collane, anelli creati con simbolismo e intenzione per il benessere. Tel. +39 333 7769815",descEN:"Selfic and spiritual jewellery. Bracelets, necklaces, rings crafted with symbolism and intention for well-being. Tel. +39 333 7769815"},
-        {name:"SelEt",url:"https://shop.selfica.space/?shpxid=2b658e62-a31b-4162-9b63-a831a98c9933",descIT:"Strumenti selfici, tra cui le bottiglie per l'armonizzazione dell'acqua che trovi nella tua stanza. Tel. +39 351 3774461",descEN:"Selfic tools, including the water-harmonising bottles you find in your room. Tel. +39 351 3774461"},
-        {name:"Damanhur Shop",url:"https://damanhur.shop/it",descIT:"Il negozio di gadget e oggettistica damanhuriana. Tel. +39 329 6354724",descEN:"The shop for Damanhurian gadgets and merchandise. Tel. +39 329 6354724"},
-        {name:"Plant Music",url:"https://www.plantmusic.com/it/",descIT:"La musica delle piante: dispositivi che traducono i segnali elettrici delle piante in suono. Tel. +39 329 6354724",descEN:"Music from plants: devices that translate plants' electrical signals into sound. Tel. +39 329 6354724"},
-        {name:"Cobra Statuette",url:"https://cobralloro.com/",descIT:"Laboratorio di pietre levigate, sculture e sfere energetiche. Tel. +39 348 5155710",descEN:"Workshop for polished stones, sculptures and energy spheres. Tel. +39 348 5155710"},
-        {name:"Welcome Center",url:"https://damanhur.travel/it/",descIT:"Il punto di riferimento per visite, soggiorni ed esperienze a Damanhur.",descEN:"The reference point for visits, stays and experiences at Damanhur."},
+        {name:"Crea Salute",url:"https://www.creasalute.it/",descIT:"Poliambulatorio di medicina integrata: visite ed esami che uniscono la medicina convenzionale a pratiche complementari.",descEN:"Integrated medicine outpatient clinic: consultations and exams combining conventional medicine with complementary practices.",descDE:"Ambulanz für integrative Medizin: Untersuchungen und Behandlungen, die konventionelle Medizin mit komplementären Praktiken verbinden.",descFR:"Cabinet polyvalent de médecine intégrée : consultations et examens combinant médecine conventionnelle et pratiques complémentaires.",descRU:"Поликлиника интегративной медицины: приёмы и обследования, сочетающие традиционную медицину с дополнительными практиками."},
+        {name:"Kythera",url:"https://www.kythera.it/",descIT:"Centro estetico. Trattamenti per la cura e la bellezza della persona.",descEN:"Beauty centre. Treatments for personal care and beauty.",descDE:"Kosmetikzentrum. Behandlungen für Körperpflege und Schönheit.",descFR:"Centre esthétique. Soins pour le bien-être et la beauté de la personne.",descRU:"Косметологический центр. Процедуры по уходу за телом и красотой."},
+        {name:"Solerà",url:"https://solerasrl.com/",descIT:"Produzione di energia rinnovabile e soluzioni per la sostenibilità ambientale.",descEN:"Renewable energy production and environmental sustainability solutions.",descDE:"Erzeugung erneuerbarer Energie und Lösungen für ökologische Nachhaltigkeit.",descFR:"Production d'énergie renouvelable et solutions pour la durabilité environnementale.",descRU:"Производство возобновляемой энергии и решения для экологической устойчивости."},
+        {name:"Tentay Bio",url:"https://www.facebook.com/tentatybio/?locale=it_IT",descIT:"Produzione biologica damanuriana: alimenti, prodotti della terra coltivati con rispetto.",descEN:"Damanhurian organic production: food and earth products grown with care.",descDE:"Damanhurianische Bio-Produktion: Lebensmittel, mit Respekt angebaute Erzeugnisse der Erde.",descFR:"Production biologique damanhurienne : aliments, produits de la terre cultivés avec respect.",descRU:"Дамантурское органическое производство: продукты земли, выращенные с уважением."},
+        {name:"Galleria dei Quadri Selfici",url:"https://thetemples.org/it/quadri-selfici/",descIT:"Opere d'arte damanuriane con funzione selfica. Ogni quadro è uno strumento energetico oltre che un'opera visiva. Tel. +39 329 6354724",descEN:"Damanhurian artworks with a selfic function. Each painting is an energetic tool as well as a visual work. Tel. +39 329 6354724",descDE:"Damanhurianische Kunstwerke mit selfischer Funktion. Jedes Gemälde ist neben einem visuellen Werk auch ein energetisches Instrument. Tel. +39 329 6354724",descFR:"Œuvres d'art damanhuriennes à fonction selfique. Chaque tableau est un instrument énergétique autant qu'une œuvre visuelle. Tél. +39 329 6354724",descRU:"Дамантурские произведения искусства с селфической функцией. Каждая картина — не только визуальное произведение, но и энергетический инструмент. Тел. +39 329 6354724"},
+        {name:"Salone Olivetti",url:"",descIT:"Lo spazio espositivo e culturale di DamanhurCrea, cuore degli eventi artistici della comunità.",descEN:"The exhibition and cultural space of DamanhurCrea, heart of the community's artistic events.",descDE:"Der Ausstellungs- und Kulturraum von DamanhurCrea, das Herz der künstlerischen Veranstaltungen der Gemeinschaft.",descFR:"L'espace d'exposition et culturel de DamanhurCrea, cœur des événements artistiques de la communauté.",descRU:"Выставочное и культурное пространство DamanhurCrea, сердце художественных мероприятий сообщества."},
+        {name:"Arielvo",url:"https://arielvo.it/",descIT:"Cucina biologica, nutriente e consapevole. Cibo vivo preparato con intenzione — il ristorante di DamanhurCrea.",descEN:"Organic, nourishing and conscious cuisine. Living food prepared with intention — DamanhurCrea's restaurant.",descDE:"Biologische, nahrhafte und bewusste Küche. Lebendige Speisen, mit Absicht zubereitet — das Restaurant von DamanhurCrea.",descFR:"Cuisine biologique, nourrissante et consciente. Nourriture vivante préparée avec intention — le restaurant de DamanhurCrea.",descRU:"Органическая, питательная и осознанная кухня. Живая еда, приготовленная с намерением — ресторан DamanhurCrea."},
+        {name:"Orocrea",url:"https://orocrea.com/",descIT:"Gioielleria selfica e spirituale. Bracciali, collane, anelli creati con simbolismo e intenzione per il benessere. Tel. +39 333 7769815",descEN:"Selfic and spiritual jewellery. Bracelets, necklaces, rings crafted with symbolism and intention for well-being. Tel. +39 333 7769815",descDE:"Selfischer und spiritueller Schmuck. Armbänder, Halsketten, Ringe, geschaffen mit Symbolik und Absicht für das Wohlbefinden. Tel. +39 333 7769815",descFR:"Bijouterie selfique et spirituelle. Bracelets, colliers, bagues créés avec symbolisme et intention pour le bien-être. Tél. +39 333 7769815",descRU:"Селфические и духовные украшения. Браслеты, ожерелья, кольца, созданные с символикой и намерением для благополучия. Тел. +39 333 7769815"},
+        {name:"SelEt",url:"https://shop.selfica.space/?shpxid=2b658e62-a31b-4162-9b63-a831a98c9933",descIT:"Strumenti selfici, tra cui le bottiglie per l'armonizzazione dell'acqua che trovi nella tua stanza. Tel. +39 351 3774461",descEN:"Selfic tools, including the water-harmonising bottles you find in your room. Tel. +39 351 3774461",descDE:"Selfische Instrumente, darunter die Flaschen zur Wasserharmonisierung, die du in deinem Zimmer findest. Tel. +39 351 3774461",descFR:"Instruments selfiques, dont les bouteilles d'harmonisation de l'eau que tu trouves dans ta chambre. Tél. +39 351 3774461",descRU:"Селфические инструменты, включая бутылки для гармонизации воды, которые вы найдёте в своей комнате. Тел. +39 351 3774461"},
+        {name:"Damanhur Shop",url:"https://damanhur.shop/it",descIT:"Il negozio di gadget e oggettistica damanhuriana. Tel. +39 329 6354724",descEN:"The shop for Damanhurian gadgets and merchandise. Tel. +39 329 6354724",descDE:"Der Laden für damanhurianische Gadgets und Objekte. Tel. +39 329 6354724",descFR:"La boutique de gadgets et d'objets damanhuriens. Tél. +39 329 6354724",descRU:"Магазин дамантурских сувениров и аксессуаров. Тел. +39 329 6354724"},
+        {name:"Plant Music",url:"https://www.plantmusic.com/it/",descIT:"La musica delle piante: dispositivi che traducono i segnali elettrici delle piante in suono. Tel. +39 329 6354724",descEN:"Music from plants: devices that translate plants' electrical signals into sound. Tel. +39 329 6354724",descDE:"Die Musik der Pflanzen: Geräte, die die elektrischen Signale der Pflanzen in Klang übersetzen. Tel. +39 329 6354724",descFR:"La musique des plantes : des appareils qui traduisent les signaux électriques des plantes en son. Tél. +39 329 6354724",descRU:"Музыка растений: устройства, преобразующие электрические сигналы растений в звук. Тел. +39 329 6354724"},
+        {name:"Cobra Statuette",url:"https://cobralloro.com/",descIT:"Laboratorio di pietre levigate, sculture e sfere energetiche. Tel. +39 348 5155710",descEN:"Workshop for polished stones, sculptures and energy spheres. Tel. +39 348 5155710",descDE:"Werkstatt für polierte Steine, Skulpturen und Energiekugeln. Tel. +39 348 5155710",descFR:"Atelier de pierres polies, sculptures et sphères énergétiques. Tél. +39 348 5155710",descRU:"Мастерская отшлифованных камней, скульптур и энергетических сфер. Тел. +39 348 5155710"},
+        {name:"Welcome Center",url:"https://damanhur.travel/it/",descIT:"Il punto di riferimento per visite, soggiorni ed esperienze a Damanhur.",descEN:"The reference point for visits, stays and experiences at Damanhur.",descDE:"Die Anlaufstelle für Besuche, Aufenthalte und Erlebnisse in Damanhur.",descFR:"Le point de référence pour les visites, séjours et expériences à Damanhur.",descRU:"Основной пункт для посещений, проживания и впечатлений в Даманхуре."},
       ],
     },
     academy:{
       it:"La Damanhur Academy offre percorsi di formazione nella visione filosofica e spirituale di Damanhur. Corsi residenziali, workshop tematici, percorsi di ricerca.\n\nWisdom Lab — Le Lezioni Video\nUna serie di lezioni e conferenze registrate dai pensatori di Damanhur, disponibili per approfondire la filosofia, la pratica selfica e la visione del futuro.\n\nPer informazioni sui percorsi:\nwelcome@damanhur.it · +39 320 482 4427",
       en:"The Damanhur Academy offers training programs in Damanhur's philosophical and spiritual vision. Residential courses, thematic workshops, research paths.\n\nWisdom Lab — Video Lessons\nA series of recorded lectures and conferences by Damanhur's thinkers, available to deepen the philosophy, selfica practice and vision of the future.\n\nFor information on programs:\nwelcome@damanhur.it · +39 320 482 4427",
-      link:"https://members.damanhur.academy/",linkLabelIT:"Sito Damanhur Academy →",linkLabelEN:"Damanhur Academy website →",
+      de:"Die Damanhur Academy bietet Ausbildungswege in der philosophischen und spirituellen Vision von Damanhur. Residenzkurse, thematische Workshops, Forschungswege.\n\nWisdom Lab — Die Videolektionen\nEine Reihe aufgezeichneter Vorlesungen und Konferenzen der Damanhur-Denker, verfügbar, um die Philosophie, die selfische Praxis und die Zukunftsvision zu vertiefen.\n\nFür Informationen zu den Kursen:\nwelcome@damanhur.it · +39 320 482 4427",
+      fr:"La Damanhur Academy propose des parcours de formation dans la vision philosophique et spirituelle de Damanhur. Cours résidentiels, ateliers thématiques, parcours de recherche.\n\nWisdom Lab — Les Leçons Vidéo\nUne série de leçons et conférences enregistrées par les penseurs de Damanhur, disponibles pour approfondir la philosophie, la pratique selfique et la vision de l'avenir.\n\nPour toute information sur les parcours :\nwelcome@damanhur.it · +39 320 482 4427",
+      ru:"Damanhur Academy предлагает образовательные программы в философском и духовном видении Даманхура. Очные курсы, тематические семинары, исследовательские программы.\n\nWisdom Lab — Видеолекции\nСерия записанных лекций и конференций мыслителей Даманхура, доступных для углубления философии, селфической практики и видения будущего.\n\nЗа информацией о программах обращайтесь:\nwelcome@damanhur.it · +39 320 482 4427",
+      link:"https://members.damanhur.academy/",linkLabelIT:"Sito Damanhur Academy →",linkLabelEN:"Damanhur Academy website →",linkLabelDE:"Damanhur Academy Website →",linkLabelFR:"Site de la Damanhur Academy →",linkLabelRU:"Сайт Damanhur Academy →",
     },
     blog:{
       it:"La comunità di Damanhur è attiva a livello mondiale attraverso la piattaforma Damanhur Community — articoli, podcast, gruppi e iniziative globali.",
       en:"The Damanhur community is globally active through the Damanhur Community platform — articles, podcasts, groups and global initiatives.",
+      de:"Die Damanhur-Gemeinschaft ist weltweit über die Plattform Damanhur Community aktiv — Artikel, Podcasts, Gruppen und globale Initiativen.",
+      fr:"La communauté de Damanhur est active dans le monde entier via la plateforme Damanhur Community — articles, podcasts, groupes et initiatives mondiales.",
+      ru:"Сообщество Даманхур активно по всему миру через платформу Damanhur Community — статьи, подкасты, группы и глобальные инициативы.",
     },
-    media:{it:"",en:""},
+    media:{it:"",en:"",de:"",fr:"",ru:""},
     valle:{
       img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop",
       it:"La Val Chiusella, insieme alla Valle Sacra, è il territorio che ospita Damanhur. Queste valli piemontesi custodiscono non solo una natura straordinaria, ma anche il cuore pulsante di una delle comunità spirituali più originali del mondo.",
       en:"Val Chiusella, together with the Sacred Valley, is the territory that is home to Damanhur. These Piedmontese valleys shelter not only extraordinary nature, but the living heart of one of the world's most original spiritual communities.",
-      link:"http://www.valchiusella360.it",linkLabelIT:"Scopri Valchiusella360.it →",linkLabelEN:"Discover Valchiusella360.it →",
+      de:"Das Val Chiusella bildet zusammen mit dem Heiligen Tal das Gebiet, in dem Damanhur beheimatet ist. Diese piemontesischen Täler bergen nicht nur eine außergewöhnliche Natur, sondern auch das pulsierende Herz einer der originellsten spirituellen Gemeinschaften der Welt.",
+      fr:"La Val Chiusella, avec la Vallée Sacrée, est le territoire qui abrite Damanhur. Ces vallées piémontaises abritent non seulement une nature extraordinaire, mais aussi le cœur battant de l'une des communautés spirituelles les plus originales du monde.",
+      ru:"Валь-Кьюзелла вместе со Священной долиной — территория, где находится Даманхур. Эти пьемонтские долины хранят не только удивительную природу, но и пульсирующее сердце одного из самых самобытных духовных сообществ мира.",
+      link:"http://www.valchiusella360.it",linkLabelIT:"Scopri Valchiusella360.it →",linkLabelEN:"Discover Valchiusella360.it →",linkLabelDE:"Valchiusella360.it entdecken →",linkLabelFR:"Découvrir Valchiusella360.it →",linkLabelRU:"Узнать больше на Valchiusella360.it →",
     },
   };
   const VALPLACES = [
