@@ -1404,7 +1404,7 @@ function DamanPage({t,lang,setPage}) {
 
   if(sub) {
     const sec = [...DAMANSUBSECTIONS,...COMMUNITIES].find(s=>s.id===sub);
-    const label = lang==="it"?sec.labelIT:sec.labelEN;
+    const label = LS(sec,"label",lang);
     const comm = COMMUNITIES.find(c=>c.id===sub);
     const dsub = DAMANSUBSECTIONS.find(d=>d.id===sub);
     return(
@@ -1420,7 +1420,7 @@ function DamanPage({t,lang,setPage}) {
           {comm&&(
             <>
               <WhiteCard>
-                <div style={{fontSize:"16",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{lang==="it"?comm.descIT:comm.descEN}</div>
+                <div style={{fontSize:"16",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{LS(comm,"desc",lang)}</div>
               </WhiteCard>
               {comm.url&&(
                 <a href={comm.url} target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"14px 20px",marginTop:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15",boxShadow:C.shadow,textAlign:"center"}}>
@@ -1431,7 +1431,7 @@ function DamanPage({t,lang,setPage}) {
           )}
           {sub==="blog"&&(
             <>
-              {[{url:"https://damanhur.org/blog",label:lang==="it"?"Vai al Blog →":"Go to Blog →"},{url:"https://damanhur.community",label:lang==="it"?"Entra nella Community →":"Join the Community →"}].map((link,i)=>(
+              {[{url:"https://damanhur.org/blog",label:lang==="it"?"Vai al Blog →":lang==="de"?"Zum Blog →":lang==="fr"?"Aller au Blog →":lang==="ru"?"Перейти в блог →":"Go to Blog →"},{url:"https://damanhur.community",label:lang==="it"?"Entra nella Community →":lang==="de"?"Der Community beitreten →":lang==="fr"?"Rejoindre la Communauté →":lang==="ru"?"Присоединиться к сообществу →":"Join the Community →"}].map((link,i)=>(
                 <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"16px 20px",marginBottom:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15",boxShadow:C.shadow}}>{link.label}</a>
               ))}
             </>
@@ -1440,24 +1440,24 @@ function DamanPage({t,lang,setPage}) {
             <>
               {SUBCONTENT[sub]&&SUBCONTENT[sub].img&&(
                 <div style={{borderRadius:"20px",overflow:"hidden",marginBottom:"16px",boxShadow:C.shadow}}>
-                  <img src={SUBCONTENT[sub].img} alt={lang==="it"?sec.labelIT:sec.labelEN} style={{width:"100%",height:"200px",objectFit:"cover"}} onError={e=>{e.target.parentElement.style.display="none";}}/>
+                  <img src={SUBCONTENT[sub].img} alt={label} style={{width:"100%",height:"200px",objectFit:"cover"}} onError={e=>{e.target.parentElement.style.display="none";}}/>
                 </div>
               )}
               <WhiteCard>
-                <div style={{fontSize:"16",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{lang==="it"?SUBCONTENT[sub].it:SUBCONTENT[sub].en}</div>
+                <div style={{fontSize:"16",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT[sub][lang]||SUBCONTENT[sub].it}</div>
                 {SUBCONTENT[sub].link&&(
                   <a href={SUBCONTENT[sub].link} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14",letterSpacing:"0.08em",textDecoration:"none"}}>
-                    {lang==="it"?SUBCONTENT[sub].linkLabelIT:SUBCONTENT[sub].linkLabelEN}
+                    {LS(SUBCONTENT[sub],"linkLabel",lang)}
                   </a>
                 )}
               </WhiteCard>
-              {sub==="templi"&&<a href="https://thetemples.org/it/" target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"14px 20px",background:C.goldPale,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14",textAlign:"center"}}>{lang==="it"?"Sito ufficiale Templi →":"Official Temple website →"}</a>}
+              {sub==="templi"&&<a href="https://thetemples.org/it/" target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"14px 20px",background:C.goldPale,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14",textAlign:"center"}}>{lang==="it"?"Sito ufficiale Templi →":lang==="de"?"Offizielle Tempel-Website →":lang==="fr"?"Site officiel des Temples →":lang==="ru"?"Официальный сайт Храмов →":"Official Temple website →"}</a>}
               {sub==="crea"&&SUBCONTENT.crea.links&&SUBCONTENT.crea.links.map((item,i)=>(
                 <WhiteCard key={i} style={{padding:"16px 20px",marginBottom:"10px"}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:"12px"}}>
                     <div style={{flex:1}}>
                       <div style={{fontFamily:FD,fontSize:"17",color:C.blue,marginBottom:"4px"}}>{item.name}</div>
-                      <div style={{fontSize:"14",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?item.descIT:item.descEN}</div>
+                      <div style={{fontSize:"14",color:C.textM,lineHeight:"1.5"}}>{LS(item,"desc",lang)}</div>
                     </div>
                     {item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" style={{color:C.goldD,fontFamily:FB,fontSize:"13",textDecoration:"none",flexShrink:0,marginTop:"2px"}}>{"→"}</a>}
                   </div>
@@ -1497,8 +1497,8 @@ function DamanPage({t,lang,setPage}) {
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
-          <Pill>{lang==="it"?"Damanhur · dal 1975":"Damanhur · since 1975"}</Pill>
-          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?"Un universo da scoprire":"A universe to discover"}</div>
+          <Pill>{lang==="it"?"Damanhur · dal 1975":lang==="de"?"Damanhur · seit 1975":lang==="fr"?"Damanhur · depuis 1975":lang==="ru"?"Даманхур · с 1975":"Damanhur · since 1975"}</Pill>
+          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?"Un universo da scoprire":lang==="de"?"Ein Universum zu entdecken":lang==="fr"?"Un univers à découvrir":lang==="ru"?"Вселенная, которую предстоит открыть":"A universe to discover"}</div>
         </div>
       </div>
       <div style={{padding:"24px 22px 0"}}>
@@ -1506,11 +1506,17 @@ function DamanPage({t,lang,setPage}) {
           <div style={{fontFamily:FD,fontSize:"17",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
             {lang==="it"
               ?"Una federazione di comunità, un laboratorio spirituale, un'opera d'arte collettiva. Fondato nel 1975 da Falco Tarassaco, riconosciuto dall'ONU come modello di sostenibilità."
+              :lang==="de"
+              ?"Eine Föderation von Gemeinschaften, ein spirituelles Labor, ein kollektives Kunstwerk. 1975 von Falco Tarassaco gegründet, von der UNO als Nachhaltigkeitsmodell anerkannt."
+              :lang==="fr"
+              ?"Une fédération de communautés, un laboratoire spirituel, une œuvre d'art collective. Fondée en 1975 par Falco Tarassaco, reconnue par l'ONU comme modèle de durabilité."
+              :lang==="ru"
+              ?"Федерация сообществ, духовная лаборатория, коллективное произведение искусства. Основан в 1975 году Фалько Тарассако, признан ООН моделью устойчивого развития."
               :"A federation of communities, a spiritual laboratory, a collective work of art. Founded in 1975 by Falco Tarassaco, recognized by the UN as a sustainability model."}
           </div>
         </WhiteCard>
 
-        <Section title={lang==="it"?"Luoghi e Spazi":"Places & Spaces"}>
+        <Section title={lang==="it"?"Luoghi e Spazi":lang==="de"?"Orte & Räume":lang==="fr"?"Lieux et Espaces":lang==="ru"?"Места и пространства":"Places & Spaces"}>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"12px"}}>
             {DAMANSUBSECTIONS.map(s=>(
               <button key={s.id} onClick={()=>setSub(s.id)} style={{padding:"20px 16px",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",textAlign:"left",boxShadow:C.shadow}}>
@@ -1521,7 +1527,7 @@ function DamanPage({t,lang,setPage}) {
           </div>
         </Section>
 
-        <Section title={lang==="it"?"Le 4 Comunità":"The 4 Communities"}>
+        <Section title={lang==="it"?"Le 4 Comunità":lang==="de"?"Die 4 Gemeinschaften":lang==="fr"?"Les 4 Communautés":lang==="ru"?"4 сообщества":"The 4 Communities"}>
           <div style={{fontFamily:FS,fontSize:"15",color:C.textM,lineHeight:"1.6",padding:"4px 4px 16px",borderBottom:`1px solid ${C.border}`,marginBottom:"16px"}}>
             {lang==="it"
               ? "Damanhur è organizzata in comunità distinte per preservare la qualità autentica delle relazioni. La ricerca sociale ha mostrato che ogni essere umano può mantenere al massimo circa 200 relazioni significative: oltre questo numero, i legami si indeboliscono. Suddividersi in comunità più piccole permette a ogni persona di essere davvero conosciuta e riconosciuta. Esistono inoltre comunità di Damanhur sparse nel mondo."
@@ -1530,18 +1536,18 @@ function DamanPage({t,lang,setPage}) {
               : lang==="fr"
               ? "Damanhur est organisée en communautés distinctes pour préserver l'authenticité des relations. La recherche sociale montre que chaque être humain peut entretenir environ 200 relations significatives. Des communautés plus petites permettent d'être vraiment connu et reconnu. Il existe aussi des communautés Damanhur dans le monde entier."
               : lang==="ru"
-              ? "Дамандур организован в отдельные сообщества для сохранения подлинного качества отношений. Социальные исследования показывают, что каждый человек может поддерживать около 200 значимых связей. Небольшие сообщества позволяют каждому быть по-настоящему узнанным. Существуют также сообщества Дамандура по всему миру."
+              ? "Даманхур организован в отдельные сообщества для сохранения подлинного качества отношений. Социальные исследования показывают, что каждый человек может поддерживать около 200 значимых связей. Небольшие сообщества позволяют каждому быть по-настоящему узнанным. Существуют также сообщества Даманхура по всему миру."
               : "Damanhur is organised into distinct communities to preserve the authentic quality of relationships. Social research shows that each human being can maintain around 200 meaningful bonds: beyond this, ties weaken. Smaller communities allow every person to be truly known and recognised. There are also Damanhur communities around the world."
             }
           </div>
           {COMMUNITIES.map((c,i)=>(
             <button key={i} onClick={()=>setSub(c.id)} style={{width:"100%",padding:"0",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",boxShadow:C.shadow,marginBottom:"10px",textAlign:"left",overflow:"hidden"}}>
-              {c.img&&<img src={c.img} alt={lang==="it"?c.labelIT:c.labelEN} style={{width:"100%",height:"90px",objectFit:"cover"}}/>}
+              {c.img&&<img src={c.img} alt={LS(c,"label",lang)} style={{width:"100%",height:"90px",objectFit:"cover"}}/>}
               <div style={{display:"flex",alignItems:"center",gap:"14px",padding:"14px 18px"}}>
               <div style={{width:"40px",height:"40px",borderRadius:"50%",background:`${c.color}18`,border:`2px solid ${c.color}33`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20",flexShrink:0}}>{c.sym}</div>
               <div style={{flex:1}}>
-                <div style={{fontFamily:FD,fontSize:"20",color:c.color,marginBottom:"2px"}}>{lang==="it"?c.labelIT:c.labelEN}</div>
-                <div style={{fontSize:"13",color:C.textM,fontFamily:FB}}>{(lang==="it"?c.descIT:c.descEN).substring(0,60)}…</div>
+                <div style={{fontFamily:FD,fontSize:"20",color:c.color,marginBottom:"2px"}}>{LS(c,"label",lang)}</div>
+                <div style={{fontSize:"13",color:C.textM,fontFamily:FB}}>{LS(c,"desc",lang).substring(0,60)}…</div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.textM} strokeWidth="1.5" width="16" height="16"><polyline points="9,18 15,12 9,6"/></svg>
               </div>
