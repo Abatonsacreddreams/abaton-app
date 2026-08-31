@@ -833,8 +833,8 @@ function RoomExplorer({room,lang}) {
       ) : (
         <div style={{marginTop:"14px",fontSize:"13",color:C.textM,textAlign:"center",fontStyle:"italic"}}>
           {spots.length>0
-            ? (lang==="it"?"Tocca i cerchi dorati per scoprire i dettagli":"Tap the golden circles to discover the details")
-            : (lang==="it"?"Scorri le foto qui sotto per esplorare la stanza":"Scroll the photos below to explore the room")}
+            ? (lang==="it"?"Tocca i cerchi dorati per scoprire i dettagli":lang==="de"?"Tippe auf die goldenen Kreise, um mehr zu erfahren":lang==="fr"?"Touche les cercles dorés pour découvrir les détails":lang==="ru"?"Коснитесь золотых кружков, чтобы узнать подробности":"Tap the golden circles to discover the details")
+            : (lang==="it"?"Scorri le foto qui sotto per esplorare la stanza":lang==="de"?"Scrolle durch die Fotos unten, um das Zimmer zu erkunden":lang==="fr"?"Fais défiler les photos ci-dessous pour explorer la chambre":lang==="ru"?"Пролистайте фото ниже, чтобы осмотреть комнату":"Scroll the photos below to explore the room")}
         </div>
       )}
       {images.length>1&&(
@@ -988,13 +988,19 @@ function AbatonPage({t,lang,setPage}) {
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setSub(null)}/>
-        <div style={{marginTop:"16px"}}><div style={{fontFamily:FD,fontSize:"34",fontWeight:"300",color:C.blue}}>{lang==="it"?"Le Cinque Stanze":"The Five Rooms"}</div></div>
+        <div style={{marginTop:"16px"}}><div style={{fontFamily:FD,fontSize:"34",fontWeight:"300",color:C.blue}}>{lang==="it"?"Le Cinque Stanze":lang==="de"?"Die fünf Zimmer":lang==="fr"?"Les Cinq Chambres":lang==="ru"?"Пять комнат":"The Five Rooms"}</div></div>
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <WhiteCard style={{background:C.goldPale,marginBottom:"24px"}}>
           <div style={{fontFamily:FD,fontSize:"18",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
             {lang==="it"
               ?"Ogni stanza è connessa a una sala dei Templi dell'Umanità. I materiali, i dipinti, la Selfica — tutto parla la lingua di quello spazio sacro."
+              :lang==="de"
+              ?"Jedes Zimmer ist mit einem Saal der Tempel der Menschheit verbunden. Die Materialien, die Gemälde, die Selfica — alles spricht die Sprache dieses heiligen Raums."
+              :lang==="fr"
+              ?"Chaque chambre est reliée à une salle des Temples de l'Humanité. Les matériaux, les peintures, la Selfica — tout parle le langage de cet espace sacré."
+              :lang==="ru"
+              ?"Каждая комната связана с залом Храмов Человечества. Материалы, росписи, Селфика — всё говорит на языке этого священного пространства."
               :"Each room is connected to a hall in the Temples of Humanity. The materials, paintings, Selfica — everything speaks the language of that sacred space."}
           </div>
         </WhiteCard>
@@ -1013,12 +1019,12 @@ function AbatonPage({t,lang,setPage}) {
               <div style={{display:"flex",gap:"10px",flexWrap:"wrap",marginTop:"14px"}}>
                 {ROOM_IMAGES[r.name]&&(
                   <button onClick={()=>setRoomDetail(r)} style={{padding:"8px 16px",background:r.acc,border:"none",borderRadius:"20px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"13",letterSpacing:"0.05em"}}>
-                    {lang==="it"?"Esplora la stanza →":"Explore the room →"}
+                    {lang==="it"?"Esplora la stanza →":lang==="de"?"Zimmer erkunden →":lang==="fr"?"Explorer la chambre →":lang==="ru"?"Осмотреть комнату →":"Explore the room →"}
                   </button>
                 )}
                 {r.templeUrl&&(
                   <a href={r.templeUrl} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"8px 16px",background:`${r.acc}18`,border:`1px solid ${r.acc}44`,borderRadius:"20px",color:r.acc,textDecoration:"none",fontFamily:FB,fontSize:"13",letterSpacing:"0.1em"}}>
-                    {lang==="it"?"Scopri la Sala →":"Discover the Hall →"}
+                    {lang==="it"?"Scopri la Sala →":lang==="de"?"Saal entdecken →":lang==="fr"?"Découvrir la salle →":lang==="ru"?"Узнать о зале →":"Discover the Hall →"}
                   </a>
                 )}
               </div>
@@ -1149,7 +1155,7 @@ function AbatonPage({t,lang,setPage}) {
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill>Abaton Sacred Dreams</Pill>
-          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px",lineHeight:"1.1"}}>{lang==="it"?"Un campo intelligente":"An intelligent field"}</div>
+          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px",lineHeight:"1.1"}}>{lang==="it"?"Un campo intelligente":lang==="de"?"Ein intelligentes Feld":lang==="fr"?"Un champ intelligent":lang==="ru"?"Разумное поле":"An intelligent field"}</div>
         </div>
       </div>
       <div style={{padding:"24px 22px 0"}}>
@@ -1157,6 +1163,12 @@ function AbatonPage({t,lang,setPage}) {
           <div style={{fontFamily:FD,fontSize:"18",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
             {lang==="it"
               ?"L'Abaton non è stato concepito come una semplice struttura ricettiva, ma come un campo intelligente, un ambiente vivo capace di sostenere l'essere umano nel ricordare chi è."
+              :lang==="de"
+              ?"Das Abaton wurde nicht als einfache Unterkunft konzipiert, sondern als intelligentes Feld, eine lebendige Umgebung, die den Menschen dabei unterstützt, sich daran zu erinnern, wer er ist."
+              :lang==="fr"
+              ?"L'Abaton n'a pas été conçu comme une simple structure d'accueil, mais comme un champ intelligent, un environnement vivant capable de soutenir l'être humain dans le fait de se souvenir de qui il est."
+              :lang==="ru"
+              ?"Абатон задуман не как обычное средство размещения, а как разумное поле, живая среда, способная поддержать человека в том, чтобы вспомнить, кто он есть."
               :"Abaton was not conceived as a simple accommodation, but as an intelligent field, a living environment capable of supporting the human being in remembering who they are."}
           </div>
         </WhiteCard>
@@ -1164,7 +1176,7 @@ function AbatonPage({t,lang,setPage}) {
           {SUBS.map(s=>(
             <button key={s.id} onClick={()=>setSub(s.id)} style={{padding:"22px 18px",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",textAlign:"left",boxShadow:C.shadow,fontFamily:FB}}>
               <div style={{fontSize:"28",color:s.color,marginBottom:"10px"}}>{s.sym}</div>
-              <div style={{fontSize:"15",fontWeight:"500",color:C.blue,lineHeight:"1.3"}}>{lang==="it"?s.labelIT:s.labelEN}</div>
+              <div style={{fontSize:"15",fontWeight:"500",color:C.blue,lineHeight:"1.3"}}>{LS(s,"label",lang)}</div>
             </button>
           ))}
         </div>
@@ -1490,7 +1502,7 @@ function DamanPage({t,lang,setPage}) {
             {DAMANSUBSECTIONS.map(s=>(
               <button key={s.id} onClick={()=>setSub(s.id)} style={{padding:"20px 16px",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",textAlign:"left",boxShadow:C.shadow}}>
                 <div style={{fontSize:"26",color:s.color,marginBottom:"8px"}}>{s.sym}</div>
-                <div style={{fontFamily:FB,fontSize:"15",fontWeight:"500",color:C.blue}}>{lang==="it"?s.labelIT:s.labelEN}</div>
+                <div style={{fontFamily:FB,fontSize:"15",fontWeight:"500",color:C.blue}}>{LS(s,"label",lang)}</div>
               </button>
             ))}
           </div>
