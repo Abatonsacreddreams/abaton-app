@@ -1564,27 +1564,42 @@ function WellnessPage({t,lang,setPage}) {
   const PROVIDERS = [
     {id:"selet", name:"SelEt", color:"#C07830", bg:"#FAF0E6", phone:"393513774461",
       treatments:[
-        {nameIT:"Pranoself",nameEN:"Pranoself",
+        {nameIT:"Pranoself",nameEN:"Pranoself",nameDE:"Pranoself",nameFR:"Pranoself",nameRU:"Pranoself",
           descIT:"Trattamento con energia pranica, incanalata verso la persona attraverso una struttura energetica selfica che ne amplifica l'efficacia.",
-          descEN:"Treatment with prana energy that is channeled towards the individual through a selfica energetic structure, which amplifies its effectiveness."},
-        {nameIT:"Cabina di Allineamento",nameEN:"Alignment Cabin",
+          descEN:"Treatment with prana energy that is channeled towards the individual through a selfica energetic structure, which amplifies its effectiveness.",
+          descDE:"Behandlung mit Prana-Energie, die über eine selfische Energiestruktur zur Person geleitet wird, welche ihre Wirksamkeit verstärkt.",
+          descFR:"Traitement à l'énergie pranique, canalisée vers la personne à travers une structure énergétique selfique qui en amplifie l'efficacité.",
+          descRU:"Лечение пранической энергией, направляемой к человеку через селфическую энергетическую структуру, усиливающую её эффективность."},
+        {nameIT:"Cabina di Allineamento",nameEN:"Alignment Cabin",nameDE:"Ausrichtungskabine",nameFR:"Cabine d'Alignement",nameRU:"Кабина выравнивания",
           descIT:"Cabine che creano linee temporali alternative, permettendo al corpo di fondersi con una versione più sana di sé stesso.",
-          descEN:"Cabins are structures that create alternate timelines that allow the body to merge with a healthier version of itself."},
-        {nameIT:"Cabina di Ringiovanimento",nameEN:"Rejuvenation Cabin",
+          descEN:"Cabins are structures that create alternate timelines that allow the body to merge with a healthier version of itself.",
+          descDE:"Kabinen, die alternative Zeitlinien erzeugen und es dem Körper ermöglichen, mit einer gesünderen Version seiner selbst zu verschmelzen.",
+          descFR:"Cabines créant des lignes temporelles alternatives, permettant au corps de fusionner avec une version plus saine de lui-même.",
+          descRU:"Кабины, создающие альтернативные временные линии, позволяющие телу слиться с более здоровой версией самого себя."},
+        {nameIT:"Cabina di Ringiovanimento",nameEN:"Rejuvenation Cabin",nameDE:"Verjüngungskabine",nameFR:"Cabine de Rajeunissement",nameRU:"Кабина омоложения",
           descIT:"Combinazione di tecnologie selfiche avanzate per favorire la rigenerazione cellulare e riequilibrare corpo e mente.",
-          descEN:"Combination of advanced selfica technologies to promote cell regeneration and rebalance body and mind."},
+          descEN:"Combination of advanced selfica technologies to promote cell regeneration and rebalance body and mind.",
+          descDE:"Kombination fortschrittlicher selfischer Technologien zur Förderung der Zellregeneration und zum Wiederausgleich von Körper und Geist.",
+          descFR:"Combinaison de technologies selfiques avancées pour favoriser la régénération cellulaire et rééquilibrer corps et esprit.",
+          descRU:"Сочетание передовых селфических технологий для стимуляции клеточной регенерации и восстановления баланса тела и разума."},
       ]},
     {id:"elasel", name:"Elasel", color:"#8A7AA8", bg:"#F4F0FA", phone:"393312946774",
       treatments:[
-        {nameIT:"Trattamento Selfico",nameEN:"Selfic Treatment",
+        {nameIT:"Trattamento Selfico",nameEN:"Selfic Treatment",nameDE:"Selfische Behandlung",nameFR:"Traitement Selfique",nameRU:"Селфическая процедура",
           descIT:"Trattamento con selfiche specifiche per il benessere, posizionate su diverse zone del corpo. Ha un effetto rilassante e rigenerante.",
-          descEN:"Treatment with specific selfica connected to well-being placed on different areas of the body. It has a relaxing and regenerating effect on the body."},
+          descEN:"Treatment with specific selfica connected to well-being placed on different areas of the body. It has a relaxing and regenerating effect on the body.",
+          descDE:"Behandlung mit spezifischen Selfica für das Wohlbefinden, die an verschiedenen Körperstellen platziert werden. Hat eine entspannende und regenerierende Wirkung.",
+          descFR:"Traitement avec des selfiques spécifiques pour le bien-être, placées sur différentes zones du corps. Effet relaxant et régénérant.",
+          descRU:"Лечение специфическими селфиками для благополучия, размещёнными на разных участках тела. Оказывает расслабляющее и восстанавливающее действие."},
       ]},
     {id:"kythera", name:"Kythera", color:"#5A9AB8", bg:"#EDF5F8", phone:"393518526082",
       treatments:[
-        {nameIT:"Massaggio Selfico",nameEN:"Selfic Massage",
+        {nameIT:"Massaggio Selfico",nameEN:"Selfic Massage",nameDE:"Selfische Massage",nameFR:"Massage Selfique",nameRU:"Селфический массаж",
           descIT:"Trattamento che utilizza la selfica per il ringiovanimento e la pulizia della memoria cutanea, per favorire rigenerazione ed equilibrio fisico e spirituale.",
-          descEN:"Treatment using selfica for rejuvenation and cleansing of skin memory in order to promote regeneration, physical and spiritual balance."},
+          descEN:"Treatment using selfica for rejuvenation and cleansing of skin memory in order to promote regeneration, physical and spiritual balance.",
+          descDE:"Behandlung, die die Selfica zur Verjüngung und Reinigung des Hautgedächtnisses nutzt, um Regeneration sowie körperliches und spirituelles Gleichgewicht zu fördern.",
+          descFR:"Traitement utilisant la selfica pour le rajeunissement et le nettoyage de la mémoire cutanée, favorisant la régénération et l'équilibre physique et spirituel.",
+          descRU:"Процедура с использованием селфики для омоложения и очищения кожной памяти, способствующая регенерации и физическому и духовному равновесию."},
       ]},
   ];
   return(
@@ -1592,8 +1607,8 @@ function WellnessPage({t,lang,setPage}) {
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
-          <Pill color={C.blueM}>{lang==="it"?"Benessere & Guarigione":"Wellness & Healing"}</Pill>
-          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?"Prenditi cura di te":"Take care of yourself"}</div>
+          <Pill color={C.blueM}>{lang==="it"?"Benessere & Guarigione":lang==="de"?"Wellness & Heilung":lang==="fr"?"Bien-être & Guérison":lang==="ru"?"Велнес и исцеление":"Wellness & Healing"}</Pill>
+          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?"Prenditi cura di te":lang==="de"?"Sorge für dich selbst":lang==="fr"?"Prends soin de toi":lang==="ru"?"Позаботься о себе":"Take care of yourself"}</div>
         </div>
       </div>
 
@@ -1602,6 +1617,12 @@ function WellnessPage({t,lang,setPage}) {
           <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8"}}>
             {lang==="it"
               ?"Una delle caratteristiche uniche dell'offerta olistica di Damanhur è l'integrazione della tecnologia Selfica, un'arte-scienza antica riscoperta e sviluppata qui da oltre 50 anni. Le Selfiche, collegate a forze cosmiche specifiche, utilizzano strutture basate su geometrie sacre, metalli e sostanze alchemiche per favorire l'evoluzione personale e collettiva, sostenendo la guarigione e l'espansione delle capacità umane."
+              :lang==="de"
+              ?"Eines der einzigartigen Merkmale des ganzheitlichen Angebots von Damanhur ist die Integration der Selfica-Technologie, einer alten Kunst-Wissenschaft, die hier seit über 50 Jahren wiederentdeckt und weiterentwickelt wird. Die Selfica, verbunden mit spezifischen kosmischen Kräften, nutzen Strukturen, die auf heiligen Geometrien, Metallen und alchemistischen Substanzen basieren, um die persönliche und kollektive Evolution zu fördern und Heilung sowie die Erweiterung menschlicher Fähigkeiten zu unterstützen."
+              :lang==="fr"
+              ?"L'une des caractéristiques uniques de l'offre holistique de Damanhur est l'intégration de la technologie Selfique, un art-science ancien redécouvert et développé ici depuis plus de 50 ans. Les Selfiques, reliées à des forces cosmiques spécifiques, utilisent des structures basées sur des géométries sacrées, des métaux et des substances alchimiques pour favoriser l'évolution personnelle et collective, soutenant la guérison et l'expansion des capacités humaines."
+              :lang==="ru"
+              ?"Одна из уникальных особенностей целостного подхода Даманхура — интеграция технологии Селфика, древнего искусства-науки, заново открытого и развиваемого здесь уже более 50 лет. Селфики, связанные с определёнными космическими силами, используют структуры на основе священных геометрий, металлов и алхимических веществ для содействия личной и коллективной эволюции, поддерживая исцеление и расширение человеческих возможностей."
               :"One of the unique features of the holistic wellness offerings at Damanhur is the integration of Selfica technology, an ancient art-science rediscovered and developed right here for over 50 years. The Selfica, connected to specific cosmic forces, use structures based on sacred geometries, metals and alchemical substances to promote personal and collective evolution, supporting healing and the expansion of human capabilities."}
           </div>
         </WhiteCard>
@@ -1610,10 +1631,10 @@ function WellnessPage({t,lang,setPage}) {
         <WhiteCard style={{marginBottom:"16px",background:C.goldPale,border:`1px solid ${C.gold}33`}}>
           <div style={{display:"flex",alignItems:"center",gap:"12px",marginBottom:"10px"}}>
             <span style={{fontSize:"22",color:C.gold}}>✦</span>
-            <div style={{fontFamily:FD,fontSize:"20",color:C.goldD}}>{lang==="it"?"Meditazione nei Templi":"Temple Meditation"}</div>
+            <div style={{fontFamily:FD,fontSize:"20",color:C.goldD}}>{lang==="it"?"Meditazione nei Templi":lang==="de"?"Meditation in den Tempeln":lang==="fr"?"Méditation dans les Temples":lang==="ru"?"Медитация в Храмах":"Temple Meditation"}</div>
           </div>
           <div style={{fontSize:"14",color:C.textS,lineHeight:"1.7",marginBottom:"14px"}}>
-            {lang==="it"?"Un momento di silenzio guidato negli spazi sacri dei Templi dell'Umanità.":"A guided moment of silence in the sacred spaces of the Temples of Humanity."}
+            {lang==="it"?"Un momento di silenzio guidato negli spazi sacri dei Templi dell'Umanità.":lang==="de"?"Ein geführter Moment der Stille in den heiligen Räumen der Tempel der Menschheit.":lang==="fr"?"Un moment de silence guidé dans les espaces sacrés des Temples de l'Humanité.":lang==="ru"?"Момент управляемой тишины в священных пространствах Храмов Человечества.":"A guided moment of silence in the sacred spaces of the Temples of Humanity."}
           </div>
           <button onClick={()=>setPage("concierge")} style={{padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14",letterSpacing:"0.05em"}}>{t.book}</button>
         </WhiteCard>
@@ -1625,24 +1646,24 @@ function WellnessPage({t,lang,setPage}) {
             <div style={{display:"flex",flexDirection:"column",gap:"14px",marginBottom:"16px"}}>
               {p.treatments.map((tr,i)=>(
                 <div key={i}>
-                  <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"3px"}}>{lang==="it"?tr.nameIT:tr.nameEN}</div>
-                  <div style={{fontSize:"14",color:C.textS,lineHeight:"1.6"}}>{lang==="it"?tr.descIT:tr.descEN}</div>
+                  <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"3px"}}>{LS(tr,"name",lang)}</div>
+                  <div style={{fontSize:"14",color:C.textS,lineHeight:"1.6"}}>{LS(tr,"desc",lang)}</div>
                 </div>
               ))}
             </div>
-            <a href={`https://wa.me/${p.phone}?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei informazioni sui trattamenti ${p.name}.`:`Hello, I would like information about ${p.name} treatments.`)}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
-              💬 {lang==="it"?`Contatta ${p.name} →`:`Contact ${p.name} →`}
+            <a href={`https://wa.me/${p.phone}?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei informazioni sui trattamenti ${p.name}.`:lang==="de"?`Guten Tag, ich hätte gerne Informationen zu den ${p.name}-Behandlungen.`:lang==="fr"?`Bonjour, je souhaiterais des informations sur les soins ${p.name}.`:lang==="ru"?`Здравствуйте, хотел(а) бы получить информацию о процедурах ${p.name}.`:`Hello, I would like information about ${p.name} treatments.`)}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
+              💬 {lang==="it"?`Contatta ${p.name} →`:lang==="de"?`${p.name} kontaktieren →`:lang==="fr"?`Contacter ${p.name} →`:lang==="ru"?`Связаться с ${p.name} →`:`Contact ${p.name} →`}
             </a>
           </WhiteCard>
         ))}
 
         <a href="https://shop.selfica.space/" target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"16px 20px",marginBottom:"24px",background:C.blue,borderRadius:"18px",color:C.white,textDecoration:"none",textAlign:"center",fontFamily:FB,fontSize:"14",letterSpacing:"0.05em"}}>
-          {lang==="it"?"Scopri di più sulla Selfica →":"Find out more on Selfica →"}
+          {lang==="it"?"Scopri di più sulla Selfica →":lang==="de"?"Mehr über Selfica erfahren →":lang==="fr"?"En savoir plus sur la Selfica →":lang==="ru"?"Узнать больше о Селфике →":"Find out more on Selfica →"}
         </a>
 
         <div style={{padding:"18px 20px",background:C.white,borderRadius:"20px",boxShadow:C.shadow}}>
           <div style={{fontSize:"14",color:C.textM,lineHeight:"1.7",marginBottom:"10px"}}>
-            {lang==="it"?"Per trattamenti esterni o info: contatta la direzione o il Welcome Center di Damanhur.":"For external treatments or info: contact management or Damanhur's Welcome Center."}
+            {lang==="it"?"Per trattamenti esterni o info: contatta la direzione o il Welcome Center di Damanhur.":lang==="de"?"Für externe Behandlungen oder Infos: Kontaktiere die Leitung oder das Welcome Center von Damanhur.":lang==="fr"?"Pour des soins externes ou des informations : contacte la direction ou le Welcome Center de Damanhur.":lang==="ru"?"По вопросам внешних процедур или информации: свяжитесь с администрацией или Welcome Center Даманхура.":"For external treatments or info: contact management or Damanhur's Welcome Center."}
           </div>
           <a href="tel:+393204824427" style={{color:C.gold,fontFamily:FB,fontSize:"15",textDecoration:"none"}}>📞 +39 320 482 4427</a>
         </div>
