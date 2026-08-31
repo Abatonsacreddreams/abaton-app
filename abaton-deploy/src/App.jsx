@@ -724,6 +724,7 @@ function ExperiencePage({t,lang,setPage}) {
 // ── ROOM ITEM LIBRARY (testi condivisi tra le stanze, da materiale fornito da Denise) ──
 const LANGSUF = {it:"IT",en:"EN",de:"DE",fr:"FR",ru:"RU"};
 const LS = (obj, base, lang) => (obj[base+(LANGSUF[lang]||"IT")] || obj[base+"IT"]);
+const LD = (v, lang) => (typeof v==="string" ? v : (v[lang]||v.it));
 const RI = {
   lampada: {labelIT:"Lampada",labelEN:"Lamp",labelDE:"Lampe",labelFR:"Lampe",labelRU:"Лампа",descIT:"Decorata a mano dai nostri artisti, in armonia con il tema della stanza.",descEN:"Hand-decorated by our artists, in harmony with the room's theme.",descDE:"Handdekoriert von unseren Künstlern, im Einklang mit dem Thema des Zimmers.",descFR:"Décorée à la main par nos artistes, en harmonie avec le thème de la chambre.",descRU:"Декорирована вручную нашими художниками, в гармонии с темой комнаты."},
   bottiglia: {labelIT:"Bottiglia Selfica",labelEN:"Selfic Bottle",labelDE:"Selfische Flasche",labelFR:"Bouteille Selfique",labelRU:"Селфическая бутылка",descIT:"Preparata da SelEt: attivata a Damanhur in strutture selfiche dedicate, dove circuiti energetici sintonizzano l'acqua come portatrice di coerenza e vitalità. Riempila con l'acqua filtrata della living room, attendi almeno 10 minuti e bevi con presenza.",descEN:"Prepared by SelEt: activated at Damanhur in dedicated selfic structures, where energy circuits tune the water as a carrier of coherence and vitality. Fill it with the filtered water from the living room, wait at least 10 minutes, and drink with presence.",descDE:"Hergestellt von SelEt: Jede Flasche wird in Damanhur in eigens dafür vorgesehenen selfischen Strukturen aktiviert, wo Energiekreisläufe das Wasser als Träger von Kohärenz und Vitalität abstimmen. Fülle sie mit dem gefilterten Wasser aus dem Wohnbereich, warte mindestens 10 Minuten und trinke bewusst.",descFR:"Préparée par SelEt : chaque bouteille est activée à Damanhur dans des structures selfiques dédiées, où des circuits énergétiques accordent l'eau comme porteuse de cohérence et de vitalité. Remplis-la avec l'eau filtrée du salon, attends au moins 10 minutes et bois en pleine conscience.",descRU:"Подготовлена SelEt: каждая бутылка активируется в Дамантуре в специальных селфических структурах, где энергетические контуры настраивают воду как носителя согласованности и жизненной силы. Наполни её отфильтрованной водой из гостиной, подожди минимум 10 минут и пей осознанно."},
@@ -1283,107 +1284,119 @@ function DamanPage({t,lang,setPage}) {
     },
   };
   const VALPLACES = [
-    {n:"Monti Pelati",d:{it:"Riserva naturale con rocce di magnesite. Al tramonto sembrano brillare.",en:"Nature reserve with magnesite rocks. They glow at sunset."},em:"⛰"},
-    {n:"Chiusella — Le Guje",d:{it:"Pozze smeraldo tra i boschi. Fredda e rigenerante.",en:"Emerald pools amid woodland. Cold and regenerating."},em:"〰"},
-    {n:"Borgofranco d'Ivrea",d:{it:"Cittadina storica. Mercato, gastronomia, Anfiteatro Morenico.",en:"Historic town. Market, gastronomy, Glacial Amphitheater."},em:"🏘"},
-    {n:"Lago Sirio",d:{it:"Piccolo lago glaciale a Ivrea.",en:"Small glacial lake near Ivrea."},em:"💧"},
-    {n:lang==="it"?"Guide ed Escursioni":"Guided Tours & Excursions",d:{
+    {n:"Monti Pelati",d:{it:"Riserva naturale con rocce di magnesite. Al tramonto sembrano brillare.",en:"Nature reserve with magnesite rocks. They glow at sunset.",de:"Naturschutzgebiet mit Magnesitfelsen. Bei Sonnenuntergang scheinen sie zu leuchten.",fr:"Réserve naturelle aux roches de magnésite. Elles semblent briller au coucher du soleil.",ru:"Природный заповедник с магнезитовыми скалами. На закате они словно светятся."},em:"⛰"},
+    {n:"Chiusella — Le Guje",d:{it:"Pozze smeraldo tra i boschi. Fredda e rigenerante.",en:"Emerald pools amid woodland. Cold and regenerating.",de:"Smaragdgrüne Wasserbecken inmitten der Wälder. Kalt und erfrischend.",fr:"Bassins émeraude au cœur des bois. Froids et régénérants.",ru:"Изумрудные заводи среди лесов. Холодные и освежающие."},em:"〰"},
+    {n:"Borgofranco d'Ivrea",d:{it:"Cittadina storica. Mercato, gastronomia, Anfiteatro Morenico.",en:"Historic town. Market, gastronomy, Glacial Amphitheater.",de:"Historisches Städtchen. Markt, Gastronomie, Moränenamphitheater.",fr:"Petite ville historique. Marché, gastronomie, Amphithéâtre morainique.",ru:"Исторический городок. Рынок, гастрономия, ледниковый амфитеатр."},em:"🏘"},
+    {n:"Lago Sirio",d:{it:"Piccolo lago glaciale a Ivrea.",en:"Small glacial lake near Ivrea.",de:"Kleiner Gletschersee bei Ivrea.",fr:"Petit lac glaciaire près d'Ivrea.",ru:"Небольшое ледниковое озеро близ Ивреи."},em:"💧"},
+    {n:{it:"Guide ed Escursioni",en:"Guided Tours & Excursions",de:"Geführte Touren & Ausflüge",fr:"Visites Guidées & Excursions",ru:"Экскурсии и прогулки"},d:{
       it:"Visite guidate, escursioni di gruppo, trekking, camminate notturne e noleggio e-bike.",
-      en:"Guided tours, group hiking events, trekking, night walks and e-bike rental."
+      en:"Guided tours, group hiking events, trekking, night walks and e-bike rental.",
+      de:"Geführte Besichtigungen, Gruppenwanderungen, Trekking, Nachtwanderungen und E-Bike-Verleih.",
+      fr:"Visites guidées, randonnées en groupe, trekking, marches nocturnes et location d'e-bikes.",
+      ru:"Экскурсии с гидом, групповые походы, треккинг, ночные прогулки и прокат электровелосипедов."
     },em:"🥾",
     expanded:true,
     list:[
-      {cat:lang==="it"?"Visite guidate":"Guided tours",items:[
-        {name:lang==="it"?"Con Muflone":"With Muflone",note:"+39 320 4780924"},
-        {name:lang==="it"?"Con Manuel":"With Manuel",note:"+39 338 9174651"},
+      {cat:{it:"Visite guidate",en:"Guided tours",de:"Geführte Besichtigungen",fr:"Visites guidées",ru:"Экскурсии с гидом"},items:[
+        {name:{it:"Con Muflone",en:"With Muflone",de:"Mit Muflone",fr:"Avec Muflone",ru:"С Муфлоне"},note:"+39 320 4780924"},
+        {name:{it:"Con Manuel",en:"With Manuel",de:"Mit Manuel",fr:"Avec Manuel",ru:"С Мануэлем"},note:"+39 338 9174651"},
       ]},
-      {cat:lang==="it"?"E-bike":"E-bike",items:[
-        {name:lang==="it"?"Noleggio ed escursioni con guida esperta":"Rental and excursions with expert guides",note:"+39 338 9174651"},
+      {cat:"E-bike",items:[
+        {name:{it:"Noleggio ed escursioni con guida esperta",en:"Rental and excursions with expert guides",de:"Verleih und Ausflüge mit erfahrenem Guide",fr:"Location et excursions avec guide expérimenté",ru:"Прокат и экскурсии с опытным гидом"},note:"+39 338 9174651"},
       ]},
     ]},
-    {n:lang==="it"?"Laghi, Sentieri e Torrenti":"Lakes, Trails & Streams",d:{
+    {n:{it:"Laghi, Sentieri e Torrenti",en:"Lakes, Trails & Streams",de:"Seen, Wanderwege & Bäche",fr:"Lacs, Sentiers et Torrents",ru:"Озёра, тропы и ручьи"},d:{
       it:"Il territorio intorno a Damanhur, tra acque e cammini.",
-      en:"The territory around Damanhur, between waters and trails."
+      en:"The territory around Damanhur, between waters and trails.",
+      de:"Das Gebiet rund um Damanhur, zwischen Gewässern und Wegen.",
+      fr:"Le territoire autour de Damanhur, entre eaux et chemins.",
+      ru:"Территория вокруг Даманхура, между водами и тропами."
     },em:"🏞",
     expanded:true,
     list:[
-      {cat:lang==="it"?"Laghi":"Lakes",items:[
-        {name:lang==="it"?"Lago di Viverone":"Lake Viverone",note:""},
-        {name:lang==="it"?"Lago di Meugliano":"Lake of Meugliano",note:""},
-        {name:lang==="it"?"I Laghi di Alice":"Alice's Lakes",note:""},
+      {cat:{it:"Laghi",en:"Lakes",de:"Seen",fr:"Lacs",ru:"Озёра"},items:[
+        {name:{it:"Lago di Viverone",en:"Lake Viverone",de:"Viveronesee",fr:"Lac de Viverone",ru:"Озеро Виверон"},note:""},
+        {name:{it:"Lago di Meugliano",en:"Lake of Meugliano",de:"Meuglianosee",fr:"Lac de Meugliano",ru:"Озеро Меульяно"},note:""},
+        {name:{it:"I Laghi di Alice",en:"Alice's Lakes",de:"Die Seen von Alice",fr:"Les Lacs d'Alice",ru:"Озёра Аличе"},note:""},
       ]},
-      {cat:lang==="it"?"Sentieri":"Routes",items:[
-        {name:lang==="it"?"Parco Nazionale del Gran Paradiso":"Gran Paradiso National Park",note:""},
-        {name:lang==="it"?"Parco Naturale del Lago di Candia":"Natural Park Lake Candia",note:""},
-        {name:lang==="it"?"Sentiero di Oropa":"Oropa Trail",note:""},
-        {name:lang==="it"?"Anfiteatro Morenico di Ivrea":"Moraine amphitheatre of Ivrea",note:""},
-        {name:lang==="it"?"Valle Sacra":"Sacred Valley",note:""},
-        {name:lang==="it"?"I sentieri degli Opifici":"The trails of the 'Opifici'",note:""},
+      {cat:{it:"Sentieri",en:"Routes",de:"Wanderwege",fr:"Sentiers",ru:"Маршруты"},items:[
+        {name:{it:"Parco Nazionale del Gran Paradiso",en:"Gran Paradiso National Park",de:"Nationalpark Gran Paradiso",fr:"Parc National du Gran Paradiso",ru:"Национальный парк Гран-Парадизо"},note:""},
+        {name:{it:"Parco Naturale del Lago di Candia",en:"Natural Park Lake Candia",de:"Naturpark Lago di Candia",fr:"Parc Naturel du Lac de Candia",ru:"Природный парк озера Кандия"},note:""},
+        {name:{it:"Sentiero di Oropa",en:"Oropa Trail",de:"Oropa-Weg",fr:"Sentier d'Oropa",ru:"Тропа Оропа"},note:""},
+        {name:{it:"Anfiteatro Morenico di Ivrea",en:"Moraine amphitheatre of Ivrea",de:"Moränenamphitheater von Ivrea",fr:"Amphithéâtre morainique d'Ivrea",ru:"Моренный амфитеатр Ивреа"},note:""},
+        {name:{it:"Valle Sacra",en:"Sacred Valley",de:"Heiliges Tal",fr:"Vallée Sacrée",ru:"Священная долина"},note:""},
+        {name:{it:"I sentieri degli Opifici",en:"The trails of the 'Opifici'",de:"Die Pfade der 'Opifici'",fr:"Les sentiers des 'Opifici'",ru:"Тропы «Опифичи»"},note:""},
       ]},
-      {cat:lang==="it"?"Torrenti e cascate":"Rivers & waterfalls",items:[
-        {name:lang==="it"?"Cascate del Fondo":"Fondo waterfalls",note:""},
+      {cat:{it:"Torrenti e cascate",en:"Rivers & waterfalls",de:"Bäche und Wasserfälle",fr:"Torrents et cascades",ru:"Ручьи и водопады"},items:[
+        {name:{it:"Cascate del Fondo",en:"Fondo waterfalls",de:"Wasserfälle von Fondo",fr:"Cascades du Fondo",ru:"Водопады Фондо"},note:""},
         {name:"Garavot's Guje",note:""},
       ]},
     ]},
-    {n:lang==="it"?"Città e Terme nei Dintorni":"Nearby Cities & Spas",d:{
+    {n:{it:"Città e Terme nei Dintorni",en:"Nearby Cities & Spas",de:"Städte & Thermen in der Umgebung",fr:"Villes et Thermes Environnants",ru:"Города и термы поблизости"},d:{
       it:"Da Damanhur è facile raggiungere città d'arte e terme per una giornata diversa.",
-      en:"From Damanhur it's easy to reach art cities and spas for a different kind of day."
+      en:"From Damanhur it's easy to reach art cities and spas for a different kind of day.",
+      de:"Von Damanhur aus erreicht man leicht Kunststädte und Thermalbäder für einen etwas anderen Tag.",
+      fr:"Depuis Damanhur, il est facile de rejoindre des villes d'art et des thermes pour une journée différente.",
+      ru:"Из Даманхура легко добраться до городов искусства и термальных курортов для особого дня."
     },em:"🏛",
     expanded:true,
     list:[
-      {cat:lang==="it"?"Città":"Cities",items:[
-        {name:lang==="it"?"Torino — 50 km da Damanhur":"Turin — 50 km from Damanhur",note:lang==="it"?"Capitale del Piemonte, cultura e gastronomia di rilievo: la Mole Antonelliana, il Museo Egizio, Palazzo Reale. Da non perdere il Parco del Valentino e Piazza Castello.":"Capital of Piedmont, with distinguished culture and gastronomy: the Mole Antonelliana, the Egyptian Museum, the Royal Palace. Don't miss Valentino Park and Piazza Castello."},
-        {name:lang==="it"?"Ivrea — 16 km da Damanhur":"Ivrea — 16 km from Damanhur",note:lang==="it"?"Storia e innovazione, legata al patrimonio industriale Olivetti, al Castello e alla Cattedrale. Passeggiata lungo il Naviglio ammirando l'Anfiteatro Romano.":"A mix of history and innovation, linked to the Olivetti industrial heritage, the Castle and the Cathedral. Walk along the Naviglio admiring the Roman Amphitheatre."},
-        {name:lang==="it"?"Aosta — 80 km da Damanhur":"Aosta — 80 km from Damanhur",note:lang==="it"?"Gioiello storico tra le Alpi, con resti romani come l'Arco di Augusto e il Teatro Romano. Attività all'aperto tutto l'anno: trekking, mountain bike, sci.":"A historic jewel nestled in the Alps, with Roman remains such as the Arch of Augustus and the Roman Theatre. Outdoor activities all year round: trekking, mountain biking, skiing."},
+      {cat:{it:"Città",en:"Cities",de:"Städte",fr:"Villes",ru:"Города"},items:[
+        {name:{it:"Torino — 50 km da Damanhur",en:"Turin — 50 km from Damanhur",de:"Turin — 50 km von Damanhur",fr:"Turin — 50 km de Damanhur",ru:"Турин — 50 км от Даманхура"},note:{it:"Capitale del Piemonte, cultura e gastronomia di rilievo: la Mole Antonelliana, il Museo Egizio, Palazzo Reale. Da non perdere il Parco del Valentino e Piazza Castello.",en:"Capital of Piedmont, with distinguished culture and gastronomy: the Mole Antonelliana, the Egyptian Museum, the Royal Palace. Don't miss Valentino Park and Piazza Castello.",de:"Hauptstadt des Piemont, bedeutende Kultur und Gastronomie: die Mole Antonelliana, das Ägyptische Museum, der Königspalast. Nicht verpassen: der Valentino-Park und die Piazza Castello.",fr:"Capitale du Piémont, culture et gastronomie remarquables : la Mole Antonelliana, le Musée Égyptien, le Palais Royal. À ne pas manquer : le Parc du Valentino et la Piazza Castello.",ru:"Столица Пьемонта, значимая культура и гастрономия: Моле Антонеллиана, Египетский музей, Королевский дворец. Обязательно посетите парк Валентино и площадь Пьяцца Кастелло."}},
+        {name:{it:"Ivrea — 16 km da Damanhur",en:"Ivrea — 16 km from Damanhur",de:"Ivrea — 16 km von Damanhur",fr:"Ivrea — 16 km de Damanhur",ru:"Иврея — 16 км от Даманхура"},note:{it:"Storia e innovazione, legata al patrimonio industriale Olivetti, al Castello e alla Cattedrale. Passeggiata lungo il Naviglio ammirando l'Anfiteatro Romano.",en:"A mix of history and innovation, linked to the Olivetti industrial heritage, the Castle and the Cathedral. Walk along the Naviglio admiring the Roman Amphitheatre.",de:"Geschichte und Innovation, verbunden mit dem industriellen Erbe von Olivetti, dem Schloss und der Kathedrale. Ein Spaziergang entlang des Naviglio mit Blick auf das Römische Amphitheater.",fr:"Histoire et innovation, liées au patrimoine industriel Olivetti, au Château et à la Cathédrale. Promenade le long du Naviglio en admirant l'Amphithéâtre Romain.",ru:"История и инновации, связанные с промышленным наследием Оливетти, замком и собором. Прогулка вдоль канала Навильо с видом на римский амфитеатр."}},
+        {name:{it:"Aosta — 80 km da Damanhur",en:"Aosta — 80 km from Damanhur",de:"Aosta — 80 km von Damanhur",fr:"Aoste — 80 km de Damanhur",ru:"Аоста — 80 км от Даманхура"},note:{it:"Gioiello storico tra le Alpi, con resti romani come l'Arco di Augusto e il Teatro Romano. Attività all'aperto tutto l'anno: trekking, mountain bike, sci.",en:"A historic jewel nestled in the Alps, with Roman remains such as the Arch of Augustus and the Roman Theatre. Outdoor activities all year round: trekking, mountain biking, skiing.",de:"Historisches Juwel in den Alpen, mit römischen Überresten wie dem Augustusbogen und dem Römischen Theater. Outdoor-Aktivitäten das ganze Jahr über: Trekking, Mountainbike, Skifahren.",fr:"Joyau historique niché dans les Alpes, avec des vestiges romains comme l'Arc d'Auguste et le Théâtre Romain. Activités de plein air toute l'année : trekking, VTT, ski.",ru:"Исторический жемчужина в Альпах с римскими памятниками — Аркой Августа и Римским театром. Активный отдых круглый год: треккинг, горный велосипед, лыжи."}},
       ]},
-      {cat:lang==="it"?"Terme e Sauna":"Spa & Sauna",items:[
-        {name:lang==="it"?"Terme di Saint-Vincent":"Terme di Saint-Vincent",note:lang==="it"?"60 km da Damanhur":"60 km from Damanhur"},
-        {name:lang==="it"?"Pré Saint Didier Thermal Bath":"Pré Saint Didier Thermal Bath",note:lang==="it"?"110 km da Damanhur":"110 km from Damanhur"},
-        {name:lang==="it"?"Sauna Koivu":"Sauna Koivu",note:lang==="it"?"13 km da Damanhur":"13 km from Damanhur"},
+      {cat:{it:"Terme e Sauna",en:"Spa & Sauna",de:"Thermen & Sauna",fr:"Thermes et Sauna",ru:"Термы и сауна"},items:[
+        {name:"Terme di Saint-Vincent",note:{it:"60 km da Damanhur",en:"60 km from Damanhur",de:"60 km von Damanhur",fr:"60 km de Damanhur",ru:"60 км от Даманхура"}},
+        {name:"Pré Saint Didier Thermal Bath",note:{it:"110 km da Damanhur",en:"110 km from Damanhur",de:"110 km von Damanhur",fr:"110 km de Damanhur",ru:"110 км от Даманхура"}},
+        {name:"Sauna Koivu",note:{it:"13 km da Damanhur",en:"13 km from Damanhur",de:"13 km von Damanhur",fr:"13 km de Damanhur",ru:"13 км от Даманхура"}},
       ]},
     ]},
-    {n:lang==="it"?"Ristoranti nei Dintorni":"Nearby Restaurants",d:{
+    {n:{it:"Ristoranti nei Dintorni",en:"Nearby Restaurants",de:"Restaurants in der Umgebung",fr:"Restaurants aux Alentours",ru:"Рестораны поблизости"},d:{
       it:"Una selezione curata per i nostri ospiti.",
-      en:"A curated selection for our guests."
+      en:"A curated selection for our guests.",
+      de:"Eine sorgfältige Auswahl für unsere Gäste.",
+      fr:"Une sélection soignée pour nos hôtes.",
+      ru:"Тщательно подобранная подборка для наших гостей."
     },em:"🍴",
     expanded:true,
     list:[
-      {cat:lang==="it"?"In Damanhur":"In Damanhur",items:[
-        {name:"Somachandra Cafè",note:lang==="it"?"Tavola calda damanhuriana — pranzo solo. Cucina semplice e genuina nel cuore di Damjl.":"Damanhurian canteen — lunch only. Simple, authentic food in the heart of Damjl."},
-        {name:"Arielvo Cafè",note:lang==="it"?"In DamanhurCrea. Pranzo solo, piatti caldi e freddi.":"In DamanhurCrea. Lunch only, hot and cold dishes."},
+      {cat:"In Damanhur",items:[
+        {name:"Somachandra Cafè",note:{it:"Tavola calda damanhuriana — pranzo solo. Cucina semplice e genuina nel cuore di Damjl.",en:"Damanhurian canteen — lunch only. Simple, authentic food in the heart of Damjl.",de:"Damanhurianische Kantine — nur Mittagessen. Einfache, authentische Küche im Herzen von Damjl.",fr:"Cantine damanhurienne — déjeuner uniquement. Cuisine simple et authentique au cœur de Damjl.",ru:"Дамантурская столовая — только обед. Простая, настоящая кухня в сердце Дамжла."}},
+        {name:"Arielvo Cafè",note:{it:"In DamanhurCrea. Pranzo solo, piatti caldi e freddi.",en:"In DamanhurCrea. Lunch only, hot and cold dishes.",de:"In DamanhurCrea. Nur Mittagessen, warme und kalte Gerichte.",fr:"À DamanhurCrea. Déjeuner uniquement, plats chauds et froids.",ru:"В DamanhurCrea. Только обед, горячие и холодные блюда."}},
       ]},
-      {cat:lang==="it"?"Vistrorio ≈ 3 km":"Vistrorio ≈ 3 km",items:[
-        {name:"La Diga dei Sapori",note:lang==="it"?"Cucina piemontese classica in ambiente familiare.":"Classic Piedmontese cuisine, family atmosphere."},
-        {name:"La Tofeja",note:lang==="it"?"La tofeja — fagioli e cotenna lentamente cotti. Specialità canavesana.":"La tofeja — slow-cooked beans and pork rind. Local speciality."},
+      {cat:"Vistrorio ≈ 3 km",items:[
+        {name:"La Diga dei Sapori",note:{it:"Cucina piemontese classica in ambiente familiare.",en:"Classic Piedmontese cuisine, family atmosphere.",de:"Klassische piemontesische Küche in familiärer Atmosphäre.",fr:"Cuisine piémontaise classique dans une ambiance familiale.",ru:"Классическая пьемонтская кухня в семейной атмосфере."}},
+        {name:"La Tofeja",note:{it:"La tofeja — fagioli e cotenna lentamente cotti. Specialità canavesana.",en:"La tofeja — slow-cooked beans and pork rind. Local speciality.",de:"La Tofeja — langsam gegarte Bohnen mit Schwarte. Canavese-Spezialität.",fr:"La tofeja — haricots et couenne longuement mijotés. Spécialité du Canavese.",ru:"Тофея — фасоль с беконом медленного приготовления. Местный деликатес Канавезе."}},
       ]},
-      {cat:lang==="it"?"Castellamonte ≈ 8 km":"Castellamonte ≈ 8 km",items:[
-        {name:"Fast Pizza & Lunch",note:lang==="it"?"Pizza al taglio e piatti del giorno.":"Pizza by the slice and daily specials."},
-        {name:"I Tre Re",note:lang==="it"?"Ristorante storico, buona selezione vini piemontesi.":"Historic restaurant, fine Piedmontese wines."},
-        {name:"Ristorante Pizzeria Jolly",note:lang==="it"?"Classica pizzeria per famiglie o serate informali.":"Classic pizza restaurant, great for families."},
-        {name:"Goretti – Pizzeria & Pasticceria",note:lang==="it"?"Panificio e pasticceria storica. Ottima per colazione.":"Traditional bakery. Perfect for breakfast."},
+      {cat:"Castellamonte ≈ 8 km",items:[
+        {name:"Fast Pizza & Lunch",note:{it:"Pizza al taglio e piatti del giorno.",en:"Pizza by the slice and daily specials.",de:"Pizza nach Gewicht und Tagesgerichte.",fr:"Pizza à la coupe et plats du jour.",ru:"Пицца на вес и блюда дня."}},
+        {name:"I Tre Re",note:{it:"Ristorante storico, buona selezione vini piemontesi.",en:"Historic restaurant, fine Piedmontese wines.",de:"Historisches Restaurant, gute Auswahl an piemontesischen Weinen.",fr:"Restaurant historique, belle sélection de vins piémontais.",ru:"Исторический ресторан, хороший выбор пьемонтских вин."}},
+        {name:"Ristorante Pizzeria Jolly",note:{it:"Classica pizzeria per famiglie o serate informali.",en:"Classic pizza restaurant, great for families.",de:"Klassische Pizzeria für Familien oder zwanglose Abende.",fr:"Pizzeria classique pour familles ou soirées informelles.",ru:"Классическая пиццерия для семей или неформальных вечеров."}},
+        {name:"Goretti – Pizzeria & Pasticceria",note:{it:"Panificio e pasticceria storica. Ottima per colazione.",en:"Traditional bakery. Perfect for breakfast.",de:"Traditionsbäckerei und Konditorei. Perfekt zum Frühstück.",fr:"Boulangerie et pâtisserie historique. Idéale pour le petit-déjeuner.",ru:"Историческая пекарня и кондитерская. Отлично подходит для завтрака."}},
       ]},
-      {cat:lang==="it"?"Rivarolo Canavese ≈ 15 km":"Rivarolo Canavese ≈ 15 km",items:[
-        {name:"Al Bistrot",note:lang==="it"?"Atmosfera informale, ottimo rapporto qualità/prezzo.":"Relaxed atmosphere and good value."},
-        {name:"Antica Locanda dell'Orco",note:lang==="it"?"Piatti canavesani autentici in locanda storica.":"Authentic Canavese dishes, historic inn."},
-        {name:"Casa Bro",note:lang==="it"?"Cucina creativa in ambiente curato. Per serate speciali.":"Creative cuisine. Great for a special dinner."},
-        {name:"Ristorante 3K Enoteca",note:lang==="it"?"Enoteca con cucina, cibo e vini selezionati.":"Wine bar with kitchen — food and curated wines."},
-        {name:"Partage Wine Restaurant",note:lang==="it"?"Cucina raffinata con focus sul vino. Ideale per cene romantiche.":"Refined cuisine, wine focus. Ideal for romance."},
-        {name:"Kombu Sushi",note:lang==="it"?"Sushi di qualità anche in Canavese.":"Quality sushi in the Canavese area."},
+      {cat:"Rivarolo Canavese ≈ 15 km",items:[
+        {name:"Al Bistrot",note:{it:"Atmosfera informale, ottimo rapporto qualità/prezzo.",en:"Relaxed atmosphere and good value.",de:"Entspannte Atmosphäre, gutes Preis-Leistungs-Verhältnis.",fr:"Ambiance décontractée, excellent rapport qualité-prix.",ru:"Непринуждённая атмосфера, отличное соотношение цены и качества."}},
+        {name:"Antica Locanda dell'Orco",note:{it:"Piatti canavesani autentici in locanda storica.",en:"Authentic Canavese dishes, historic inn.",de:"Authentische Canavese-Gerichte in historischem Gasthaus.",fr:"Plats canavesans authentiques dans une auberge historique.",ru:"Аутентичные блюда Канавезе в историческом трактире."}},
+        {name:"Casa Bro",note:{it:"Cucina creativa in ambiente curato. Per serate speciali.",en:"Creative cuisine. Great for a special dinner.",de:"Kreative Küche in gepflegtem Ambiente. Für besondere Abende.",fr:"Cuisine créative dans un cadre soigné. Pour des soirées spéciales.",ru:"Творческая кухня в ухоженной обстановке. Для особых вечеров."}},
+        {name:"Ristorante 3K Enoteca",note:{it:"Enoteca con cucina, cibo e vini selezionati.",en:"Wine bar with kitchen — food and curated wines.",de:"Weinbar mit Küche — Speisen und ausgewählte Weine.",fr:"Bar à vin avec cuisine — plats et vins sélectionnés.",ru:"Винный бар с кухней — блюда и подобранные вина."}},
+        {name:"Partage Wine Restaurant",note:{it:"Cucina raffinata con focus sul vino. Ideale per cene romantiche.",en:"Refined cuisine, wine focus. Ideal for romance.",de:"Raffinierte Küche mit Fokus auf Wein. Ideal für romantische Abendessen.",fr:"Cuisine raffinée axée sur le vin. Idéal pour un dîner romantique.",ru:"Изысканная кухня с акцентом на вино. Идеально для романтического ужина."}},
+        {name:"Kombu Sushi",note:{it:"Sushi di qualità anche in Canavese.",en:"Quality sushi in the Canavese area.",de:"Qualitäts-Sushi auch im Canavese.",fr:"Sushi de qualité, même dans le Canavese.",ru:"Качественные суши в регионе Канавезе."}},
       ]},
-      {cat:lang==="it"?"Ivrea ≈ 18 km":"Ivrea ≈ 18 km",items:[
-        {name:"La Mugnaia",note:lang==="it"?"Storico ristorante di Ivrea, cucina piemontese.":"One of Ivrea's historic restaurants."},
-        {name:"Aquila Nera",note:lang==="it"?"Menu stagionale, vini locali eccellenti.":"Seasonal menu, excellent local wines."},
-        {name:"Cantine Morbelli",note:lang==="it"?"Cantina storica con degustazioni e cucina abbinata.":"Historic wine cellar, tastings and paired cuisine."},
-        {name:"Ocio",note:lang==="it"?"Locale vivace e moderno, apprezzato dai locali.":"Lively and modern, popular with locals."},
-        {name:"Pasticceria Balla",note:lang==="it"?"La torta 900 è una specialità da non perdere!":"Don't miss the 'torta 900' — a true local gem!"},
-        {name:"Moma Bar",note:lang==="it"?"Bar e ristorante nel cuore di Ivrea. Ottimo per aperitivo.":"Bar and restaurant in Ivrea's heart. Great for aperitivo."},
-        {name:"Fumi",note:lang==="it"?"Sushi e cucina cinese di buona qualità.":"Good sushi and Chinese cuisine."},
+      {cat:"Ivrea ≈ 18 km",items:[
+        {name:"La Mugnaia",note:{it:"Storico ristorante di Ivrea, cucina piemontese.",en:"One of Ivrea's historic restaurants.",de:"Historisches Restaurant in Ivrea, piemontesische Küche.",fr:"Restaurant historique d'Ivrea, cuisine piémontaise.",ru:"Исторический ресторан Ивреи, пьемонтская кухня."}},
+        {name:"Aquila Nera",note:{it:"Menu stagionale, vini locali eccellenti.",en:"Seasonal menu, excellent local wines.",de:"Saisonale Speisekarte, ausgezeichnete lokale Weine.",fr:"Menu saisonnier, excellents vins locaux.",ru:"Сезонное меню, отличные местные вина."}},
+        {name:"Cantine Morbelli",note:{it:"Cantina storica con degustazioni e cucina abbinata.",en:"Historic wine cellar, tastings and paired cuisine.",de:"Historischer Weinkeller mit Verkostungen und passender Küche.",fr:"Cave historique avec dégustations et cuisine accordée.",ru:"Исторический винный погреб с дегустациями и сочетаемой кухней."}},
+        {name:"Ocio",note:{it:"Locale vivace e moderno, apprezzato dai locali.",en:"Lively and modern, popular with locals.",de:"Lebendiger, moderner Ort, bei Einheimischen beliebt.",fr:"Lieu animé et moderne, apprécié des habitants.",ru:"Оживлённое современное место, популярное у местных жителей."}},
+        {name:"Pasticceria Balla",note:{it:"La torta 900 è una specialità da non perdere!",en:"Don't miss the 'torta 900' — a true local gem!",de:"Die 'Torta 900' ist eine Spezialität, die man nicht verpassen sollte!",fr:"La 'torta 900' est une spécialité à ne pas manquer !",ru:"Торт «900» — обязательный к пробе местный деликатес!"}},
+        {name:"Moma Bar",note:{it:"Bar e ristorante nel cuore di Ivrea. Ottimo per aperitivo.",en:"Bar and restaurant in Ivrea's heart. Great for aperitivo.",de:"Bar und Restaurant im Herzen von Ivrea. Perfekt für einen Aperitif.",fr:"Bar et restaurant au cœur d'Ivrea. Parfait pour l'apéritif.",ru:"Бар и ресторан в сердце Ивреи. Отлично подходит для аперитива."}},
+        {name:"Fumi",note:{it:"Sushi e cucina cinese di buona qualità.",en:"Good sushi and Chinese cuisine.",de:"Gutes Sushi und chinesische Küche.",fr:"Bons sushis et cuisine chinoise.",ru:"Хорошие суши и китайская кухня."}},
       ]},
-      {cat:lang==="it"?"Nell'Area":"In the Area",items:[
-        {name:"L'Incontro – Meugliano",note:lang==="it"?"Cucina genuina immersa nella natura della Serra Canavese.":"Genuine cuisine nestled in Serra Canavese nature."},
-        {name:"La Terrazza sul Canavese – Muriaglio",note:lang==="it"?"Vista mozzafiato sul Canavese. Perfetto per pranzo o cena.":"Breathtaking Canavese views. Perfect for lunch or dinner."},
-        {name:"Rosselli 77 – Cuorgnè",note:lang==="it"?"Si mangia circondati da oggetti d'antiquariato. Un'esperienza unica!":"Dine surrounded by antiques — truly unique!"},
-        {name:"La Bella Dormiente – Pavone Canavese",note:lang==="it"?"B&B con ristorante in contesto tranquillo. Cucina familiare.":"B&B with restaurant. Homestyle cooking and warm welcome."},
+      {cat:{it:"Nell'Area",en:"In the Area",de:"In der Umgebung",fr:"Dans les environs",ru:"Поблизости"},items:[
+        {name:"L'Incontro – Meugliano",note:{it:"Cucina genuina immersa nella natura della Serra Canavese.",en:"Genuine cuisine nestled in Serra Canavese nature.",de:"Ursprüngliche Küche inmitten der Natur der Serra Canavese.",fr:"Cuisine authentique nichée dans la nature de la Serra Canavese.",ru:"Настоящая кухня в окружении природы Серра-Канавезе."}},
+        {name:"La Terrazza sul Canavese – Muriaglio",note:{it:"Vista mozzafiato sul Canavese. Perfetto per pranzo o cena.",en:"Breathtaking Canavese views. Perfect for lunch or dinner.",de:"Atemberaubender Blick auf das Canavese. Perfekt zum Mittag- oder Abendessen.",fr:"Vue à couper le souffle sur le Canavese. Parfait pour le déjeuner ou le dîner.",ru:"Захватывающий вид на Канавезе. Идеально для обеда или ужина."}},
+        {name:"Rosselli 77 – Cuorgnè",note:{it:"Si mangia circondati da oggetti d'antiquariato. Un'esperienza unica!",en:"Dine surrounded by antiques — truly unique!",de:"Speisen umgeben von Antiquitäten. Ein einzigartiges Erlebnis!",fr:"On mange entouré d'objets anciens. Une expérience unique !",ru:"Обед в окружении антиквариата. По-настоящему уникальный опыт!"}},
+        {name:"La Bella Dormiente – Pavone Canavese",note:{it:"B&B con ristorante in contesto tranquillo. Cucina familiare.",en:"B&B with restaurant. Homestyle cooking and warm welcome.",de:"B&B mit Restaurant in ruhiger Umgebung. Hausmannskost.",fr:"B&B avec restaurant dans un cadre tranquille. Cuisine familiale.",ru:"B&B с рестораном в спокойной обстановке. Домашняя кухня."}},
       ]},
     ]
   },
@@ -1455,15 +1468,15 @@ function DamanPage({t,lang,setPage}) {
                   <div style={{display:"flex",gap:"12px",alignItems:"flex-start"}}>
                     <span style={{fontSize:"24",marginTop:"2px"}}>{p.em}</span>
                     <div style={{flex:1}}>
-                      <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"3px"}}>{p.n}</div>
-                      <div style={{fontSize:"14",color:C.textM,marginBottom:p.list?"10px":"0"}}>{lang==="it"?p.d.it:lang==="de"?p.d.it:lang==="fr"?p.d.it:lang==="ru"?p.d.it:p.d.en}</div>
+                      <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"3px"}}>{LD(p.n,lang)}</div>
+                      <div style={{fontSize:"14",color:C.textM,marginBottom:p.list?"10px":"0"}}>{LD(p.d,lang)}</div>
                       {p.list&&p.list.map((cat,ci)=>(
                         <div key={ci} style={{marginBottom:"12px"}}>
-                          <div style={{fontFamily:FB,fontSize:"13",letterSpacing:"0.08em",color:C.gold,textTransform:"uppercase",marginBottom:"6px"}}>{cat.cat}</div>
+                          <div style={{fontFamily:FB,fontSize:"13",letterSpacing:"0.08em",color:C.gold,textTransform:"uppercase",marginBottom:"6px"}}>{LD(cat.cat,lang)}</div>
                           {cat.items.map((r,ri)=>(
                             <div key={ri} style={{paddingBottom:"6px",borderBottom:`1px solid ${C.border}`,marginBottom:"6px"}}>
-                              <div style={{fontFamily:FD,fontSize:"16",color:C.textD,fontWeight:"500"}}>{r.name}</div>
-                              <div style={{fontSize:"13",color:C.textM,lineHeight:"1.4"}}>{r.note}</div>
+                              <div style={{fontFamily:FD,fontSize:"16",color:C.textD,fontWeight:"500"}}>{LD(r.name,lang)}</div>
+                              <div style={{fontSize:"13",color:C.textM,lineHeight:"1.4"}}>{LD(r.note,lang)}</div>
                             </div>
                           ))}
                         </div>
