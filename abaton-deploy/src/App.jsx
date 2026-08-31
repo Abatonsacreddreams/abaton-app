@@ -177,8 +177,8 @@ const T = {
     title:"С тобой",
     tagline:"Спать, чтобы помнить.",
     expBtn:"Как лучше подготовиться\nко снам",
-    nav:["Главная","Абатон","Дамандур","Велнес","Консьерж"],
-    eventsTitle:"На этой неделе в Дамандуре",
+    nav:["Главная","Абатон","Даманхур","Велнес","Консьерж"],
+    eventsTitle:"На этой неделе в Даманхуре",
     eventsFull:"Все события →",
     eventsPhone:"+39 320 482 4427",
     checkOut:"Check-out до 10:30",
@@ -188,7 +188,7 @@ const T = {
     concTitle:"Спросите Абатон",
     concWelcome:"Я здесь, спокойно и внимательно.\nЧто вам нужно?",
     concPlaceholder:"Напишите что-нибудь...",
-    suggestions:["Что я могу сделать сегодня?","Мне нужен отдых","Не могу заснуть","Что такое Дамандур?"],
+    suggestions:["Что я могу сделать сегодня?","Мне нужен отдых","Не могу заснуть","Что такое Даманхур?"],
     ritualTitle:"Ночной ритуал",
     ritualSteps:[
       {id:"r1",text:"Отключить все устройства"},
@@ -215,7 +215,7 @@ const SYS = {
   en:`You are the Concierge of Abaton Sacred Dreams — experiential B&B above the Temples of Humanity, Damanhur, Italy. TONE: calm, poetic, human. Max 3-4 sentences. WiFi "abaton", 5 rooms, check-out 10:30, silence 10pm-8am. IMPORTANT: always reply ONLY in English, regardless of the language the guest writes in. Never use any other language or script (e.g. Cyrillic).`,
   de:`Du bist der Concierge von Abaton Sacred Dreams — ein Erlebnis-B&B über den Tempeln der Menschheit, Damanhur, Italien. TON: ruhig, poetisch, menschlich. Max. 3-4 Sätze. WLAN "abaton", 5 Zimmer, Check-out 10:30, Ruhezeit 22-8 Uhr. WICHTIG: Antworte IMMER und AUSSCHLIESSLICH auf Deutsch, unabhängig von der Sprache des Gastes. Verwende niemals eine andere Sprache oder Schrift (z. B. Kyrillisch).`,
   fr:`Tu es le Concierge d'Abaton Sacred Dreams — B&B expérientiel au-dessus des Temples de l'Humanité, Damanhur, Italie. TON: calme, poétique, humain. Max 3-4 phrases. WiFi "abaton", 5 chambres, départ 10h30, silence 22h-8h. IMPORTANT : réponds TOUJOURS et UNIQUEMENT en français, quelle que soit la langue utilisée par l'invité. N'utilise jamais une autre langue ou écriture (ex. cyrillique).`,
-  ru:`Ты — консьерж Abaton Sacred Dreams, B&B над Храмами Человечества, Дамандур, Италия. ТОН: спокойный, поэтичный, человечный. Максимум 3-4 предложения. Wi-Fi "abaton", 5 комнат, выезд до 10:30, тишина с 22 до 8. ВАЖНО: отвечай ВСЕГДА и ТОЛЬКО на русском языке, независимо от языка гостя. Никогда не используй другой язык или алфавит.`,
+  ru:`Ты — консьерж Abaton Sacred Dreams, B&B над Храмами Человечества, Даманхур, Италия. ТОН: спокойный, поэтичный, человечный. Максимум 3-4 предложения. Wi-Fi "abaton", 5 комнат, выезд до 10:30, тишина с 22 до 8. ВАЖНО: отвечай ВСЕГДА и ТОЛЬКО на русском языке, независимо от языка гостя. Никогда не используй другой язык или алфавит.`,
 };
 
 const EVENTS = [
@@ -691,7 +691,7 @@ function ExperiencePage({t,lang,setPage}) {
               :"The Dream Selfica rests above the wardrobe, directed toward the bed — from where it works silently through the night. It is an energy tool hand-forged by Damanhur artisans: metal spirals creating a semi-autonomous field, designed to:\n\n• Expand and make the dream world more vivid\n• Facilitate dream recall upon waking\n• Create a protective field during sleep\n\nDo not touch it. Relate to it through thought or spoken word: before sleeping, look at it from where you are, observe its spirals. Bring it an intention, a question, a greeting. It receives."}
           </div>
           <a href="https://shop.selfica.space/pages/what-is-selfica" target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14",letterSpacing:"0.08em",textDecoration:"none"}}>
-            {lang==="it"?"Scopri di più sulla Selfica, una tecnologia nata a Damanhur →":lang==="de"?"Mehr über Selfica erfahren, eine in Damanhur entwickelte Technologie →":lang==="fr"?"En savoir plus sur la Selfica, une technologie née à Damanhur →":lang==="ru"?"Узнать больше о Селфике, технологии, созданной в Дамандуре →":"Learn more about Selfica, a technology born in Damanhur →"}
+            {lang==="it"?"Scopri di più sulla Selfica, una tecnologia nata a Damanhur →":lang==="de"?"Mehr über Selfica erfahren, eine in Damanhur entwickelte Technologie →":lang==="fr"?"En savoir plus sur la Selfica, une technologie née à Damanhur →":lang==="ru"?"Узнать больше о Селфике, технологии, созданной в Даманхуре →":"Learn more about Selfica, a technology born in Damanhur →"}
           </a>
         </WhiteCard>
 
@@ -828,7 +828,7 @@ function RoomExplorer({room,lang}) {
           <div style={{fontFamily:FD,fontSize:"19",color:C.blue,marginBottom:"6px"}}>{LS(spots[active],"label",lang)}</div>
           <div style={{fontSize:"14",color:C.textM,lineHeight:"1.7"}}>{LS(spots[active],"desc",lang)}</div>
           {spots[active].url&&(
-            <a href={spots[active].url} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"8px",color:C.gold,fontFamily:FB,fontSize:"13px",textDecoration:"none"}}>{lang==="it"?"Scopri di più →":"Learn more →"}</a>
+            <a href={spots[active].url} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"8px",color:C.gold,fontFamily:FB,fontSize:"13px",textDecoration:"none"}}>{lang==="it"?"Scopri di più →":lang==="de"?"Mehr erfahren →":lang==="fr"?"En savoir plus →":lang==="ru"?"Узнать больше →":"Learn more →"}</a>
           )}
         </div>
       ) : (
