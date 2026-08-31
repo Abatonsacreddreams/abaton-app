@@ -220,44 +220,44 @@ const SYS = {
 
 const EVENTS = [
   {
-    date:"Mar 22 Lug",dateEN:"Tue 22 Jul",
+    date:"Lun 31 Ago",dateEN:"Mon 31 Aug",
+    title:"Falco Stellare e Capodanno Damanhuriano",titleEN:"Stellar Falcon & Damanhurian New Year",
+    time:"18:30 – 00:00",loc:"Damjl, Via Pramarzo 3",
+    desc:"Un rito di luce sotto le stelle: la comunità accende il Falco Stellare per salutare la fine del vecchio anno e l'inizio del nuovo, tra musica e festa.",
+    descEN:"A rite of light beneath the stars, as the community lights the Stellar Falcon to close the old year and welcome the new, amid music and celebration.",
+    url:"https://damanhur.community/event/falco-stellare-damanhurian-new-year-3/"
+  },
+  {
+    date:"Mer 02 Set",dateEN:"Wed 02 Sep",
     title:"Serata con i Teorici",titleEN:"Meeting with Theoreticians",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Una serata di ricerca e riflessione con i Teorici di Damanhur — incontri settimanali aperti a visitatori e ospiti.",
     descEN:"A weekly evening of research and reflection with Damanhur's Theoreticians, open to visitors and guests.",
-    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-07-22/"
+    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-09-02/"
   },
   {
-    date:"Mer 23 Lug",dateEN:"Wed 23 Jul",
-    title:"Assemblea Generale Sociale",titleEN:"Social General Meeting",
-    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"L'assemblea comunitaria settimanale di Damanhur: decisioni, condivisioni, vita collettiva.",
-    descEN:"Damanhur's weekly community assembly: decisions, sharing, collective life.",
-    url:"https://damanhur.community/event/social-general-meeting/2026-07-23/"
+    date:"04–06 Set",dateEN:"04–06 Sep",
+    title:"Conversazioni Sacre: il Risveglio della Coscienza Verde",titleEN:"Sacred Conversations: Your Green Consciousness Reawakening",
+    time:"Tutto il weekend",timeEN:"All weekend",loc:"Boschi Sacri, Via Feipiano 7",
+    desc:"Tre giorni immersi nei Boschi Sacri per riscoprire il legame silenzioso tra l'essere umano e il mondo vegetale.",
+    descEN:"Three days immersed in the Sacred Woods, rediscovering the quiet bond between humankind and the plant world.",
+    url:"https://damanhur.community/event/3-day-experience-sacred-conversations-your-green-consciousness-reawakening-6/"
   },
   {
-    date:"Gio 24 Lug",dateEN:"Thu 24 Jul",
+    date:"Ven 04 Set",dateEN:"Fri 04 Sep",
     title:"Venerdì con Falco",titleEN:"Fridays with Falco",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Serate dedicate all'insegnamento e alla visione di Falco Tarassaco, fondatore di Damanhur. Incontri profondi e trasformativi.",
-    descEN:"Evenings dedicated to the teachings and vision of Falco Tarassaco, founder of Damanhur. Deep and transformative gatherings.",
-    url:"https://damanhur.community/event/fridays-with-falco/2026-07-24/"
+    desc:"Serate dedicate all'insegnamento e alla visione di Falco Tarassaco, fondatore di Damanhur, attraverso i suoi video.",
+    descEN:"Evenings devoted to the teaching and vision of Falco Tarassaco, Damanhur's founder, shared through his videos.",
+    url:"https://damanhur.community/event/fridays-with-falco/2026-09-04/"
   },
   {
-    date:"28–30 Ago",dateEN:"28–30 Aug",
-    title:"Damanhur Fest 2026",titleEN:"Damanhur Fest 2026",
-    time:"Tutto il weekend",timeEN:"All weekend",loc:"Damjl, Via Pramarzo 3",
-    desc:"Il grande festival estivo: workshop, meditazioni di gruppo, concerti, sogno lucido, trattamenti benessere. Tre giorni per sperimentare la vita come Popolo.",
-    descEN:"The great summer festival: workshops, group meditations, concerts, lucid dreaming, wellness treatments. Three days to experience life as Popolo.",
-    url:"https://fest.damanhur.org/"
-  },
-  {
-    date:"31 Ago",dateEN:"31 Aug",
-    title:"Capodanno Damanhuriano",titleEN:"Damanhurian New Year",
-    time:"Serata",timeEN:"Evening",loc:"Damjl",
-    desc:"La vigilia del Capodanno Damanhuriano: notte di musica, festa e il rituale del Falco Stellare — un magico rito di luce e intenzione sotto le stelle.",
-    descEN:"Damanhurian New Year's Eve: a night of music, celebration and the Falco Stellare ritual — a magical rite of light and intention under the stars.",
-    url:"https://damanhur.community/events/"
+    date:"Dom 06 Set",dateEN:"Sun 06 Sep",
+    title:"Rito GET settimanale",titleEN:"Damanhur GET weekly",
+    time:"11:30 – 13:30",loc:"Templi dell'Umanità, Via Baldissero 21",
+    desc:"Un rito settimanale ai Templi dell'Umanità, dove i doni e la conoscenza del Popolo si uniscono in un patrimonio condiviso.",
+    descEN:"A weekly ritual at the Temples of Humankind, where the Popolo's gifts and knowledge are gathered into a shared treasury.",
+    url:"https://damanhur.community/event/damanhur-get-weekly/2026-09-06/"
   },
 ];
 
@@ -376,11 +376,11 @@ const Section = ({title,children,style={}}) => (
 // ── TABLET / STAFF: stanza fissa del device + sessione ospite corrente ────────
 const STAFF_PIN = "1950";
 const ROOMS_LIST = [
-  {id:"terra",   name:"Terra",   lineIT:"Dedicata alle forze della Natura e al principio maschile come elemento attivo e fecondante.", lineEN:"Dedicated to the forces of Nature and the masculine principle as an active, fertilizing element."},
-  {id:"metalli", name:"Metalli", lineIT:"Dedicata alla trasformazione alchemica interiore, attraverso la metafora dei metalli — il piombo che diventa oro.", lineEN:"Dedicated to inner alchemical transformation, through the metaphor of metals — lead that becomes gold."},
-  {id:"acqua",   name:"Acqua",   lineIT:"Dedicata al principio femminile, alle memorie profonde del cosmo e alla ciclicità di ogni essere vivente.", lineEN:"Dedicated to the feminine principle, the deep memories of the cosmos and the cyclicality of every living being."},
-  {id:"specchi", name:"Specchi", lineIT:"Dedicata all'aria, alle forze solari, alla riunificazione dell'umanità come principio umano, spirituale e divino.", lineEN:"Dedicated to air, solar forces, and the reunification of humanity as a human, spiritual and divine principle."},
-  {id:"popoli",  name:"Popoli",  lineIT:"Una sala speciale dei Templi dell'Umanità — non visitabile nelle normali visite guidate.", lineEN:"A special hall of the Temples of Humanity — not open during normal guided visits."},
+  {id:"terra",   name:"Terra",   lineIT:"Dedicata alle forze della Natura e al principio maschile come elemento attivo e fecondante.", lineEN:"Dedicated to the forces of Nature and the masculine principle as an active, fertilizing element.", lineDE:"Der Erde gewidmet und dem männlichen Prinzip als aktives, befruchtendes Element.", lineFR:"Dédiée aux forces de la Nature et au principe masculin comme élément actif et fécondant.", lineRU:"Посвящён силам Природы и мужскому принципу как активному, оплодотворяющему элементу."},
+  {id:"metalli", name:"Metalli", lineIT:"Dedicata alla trasformazione alchemica interiore, attraverso la metafora dei metalli — il piombo che diventa oro.", lineEN:"Dedicated to inner alchemical transformation, through the metaphor of metals — lead that becomes gold.", lineDE:"Gewidmet der inneren alchemistischen Transformation, durch die Metapher der Metalle — Blei, das zu Gold wird.", lineFR:"Dédiée à la transformation alchimique intérieure, à travers la métaphore des métaux — le plomb qui devient or.", lineRU:"Посвящён внутренней алхимической трансформации через метафору металлов — свинец, превращающийся в золото."},
+  {id:"acqua",   name:"Acqua",   lineIT:"Dedicata al principio femminile, alle memorie profonde del cosmo e alla ciclicità di ogni essere vivente.", lineEN:"Dedicated to the feminine principle, the deep memories of the cosmos and the cyclicality of every living being.", lineDE:"Dem weiblichen Prinzip gewidmet, den tiefen Erinnerungen des Kosmos und der Zyklizität jedes Lebewesens.", lineFR:"Dédiée au principe féminin, aux mémoires profondes du cosmos et à la cyclicité de tout être vivant.", lineRU:"Посвящён женскому принципу, глубинным воспоминаниям космоса и цикличности всего живого."},
+  {id:"specchi", name:"Specchi", lineIT:"Dedicata all'aria, alle forze solari, alla riunificazione dell'umanità come principio umano, spirituale e divino.", lineEN:"Dedicated to air, solar forces, and the reunification of humanity as a human, spiritual and divine principle.", lineDE:"Gewidmet der Luft, den solaren Kräften und der Wiedervereinigung der Menschheit als menschliches, spirituelles und göttliches Prinzip.", lineFR:"Dédiée à l'air, aux forces solaires et à la réunification de l'humanité comme principe humain, spirituel et divin.", lineRU:"Посвящён воздуху, солнечным силам и воссоединению человечества как человеческого, духовного и божественного начала."},
+  {id:"popoli",  name:"Popoli",  lineIT:"Una sala speciale dei Templi dell'Umanità — non visitabile nelle normali visite guidate.", lineEN:"A special hall of the Temples of Humanity — not open during normal guided visits.", lineDE:"Ein besonderer Saal der Tempel der Menschheit — bei normalen Führungen nicht zugänglich.", lineFR:"Une salle spéciale des Temples de l'Humanité — non ouverte aux visites guidées normales.", lineRU:"Особый зал Храмов Человечества — недоступный при обычных экскурсиях."},
 ];
 function getRoom(){ try{ return localStorage.getItem('abaton_room')||""; }catch(e){ return ""; } }
 function setRoomStorage(id){ try{ localStorage.setItem('abaton_room',id); }catch(e){} }
@@ -1691,47 +1691,59 @@ function GuestsPage({t,lang,setPage}) {
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"20px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
-        <div style={{fontFamily:FD,fontSize:"28",color:C.blue,marginTop:"16px"}}>{lang==="it"?"I tuoi privilegi":"Your privileges"}</div>
-        <div style={{fontFamily:FS,fontSize:"14",color:C.textM,fontStyle:"italic",marginTop:"4px"}}>{lang==="it"?"Ospiti Abaton · Sacred Dreams":"Abaton Guests · Sacred Dreams"}</div>
+        <div style={{fontFamily:FD,fontSize:"28",color:C.blue,marginTop:"16px"}}>{lang==="it"?"I tuoi privilegi":lang==="de"?"Deine Vorteile":lang==="fr"?"Vos privilèges":lang==="ru"?"Ваши привилегии":"Your privileges"}</div>
+        <div style={{fontFamily:FS,fontSize:"14",color:C.textM,fontStyle:"italic",marginTop:"4px"}}>{lang==="it"?"Ospiti Abaton · Sacred Dreams":lang==="de"?"Abaton Gäste · Sacred Dreams":lang==="fr"?"Hôtes Abaton · Sacred Dreams":lang==="ru"?"Гости Абатона · Sacred Dreams":"Abaton Guests · Sacred Dreams"}</div>
       </div>
       <div style={{padding:"0 22px"}}>
 
         {/* PORTA UN AMICO */}
-        <Section title={lang==="it"?"Porta un amico":"Bring a friend"}>
+        <Section title={lang==="it"?"Porta un amico":lang==="de"?"Bring einen Freund mit":lang==="fr"?"Parraine un ami":lang==="ru"?"Приведи друга":"Bring a friend"}>
           <div style={{background:C.goldPale,borderRadius:"20px",padding:"22px",border:`1px solid ${C.gold}44`}}>
             <div style={{fontSize:"14",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
               {lang==="it"
                 ?"Conosci qualcuno che potrebbe beneficiare di questo luogo? Condividi la tua esperienza all'Abaton — per ogni amico che prenota grazie a te, riceverai uno sconto esclusivo sul tuo prossimo soggiorno."
+                :lang==="de"
+                ?"Kennst du jemanden, der von diesem Ort profitieren könnte? Teile deine Erfahrung im Abaton — für jeden Freund, der dank dir bucht, erhältst du einen exklusiven Rabatt auf deinen nächsten Aufenthalt."
+                :lang==="fr"
+                ?"Connais-tu quelqu'un qui pourrait profiter de cet endroit ? Partage ton expérience à l'Abaton — pour chaque ami qui réserve grâce à toi, tu recevras une réduction exclusive sur ton prochain séjour."
+                :lang==="ru"
+                ?"Знаете кого-то, кому это место могло бы пригодиться? Поделитесь своим опытом в Абатоне — за каждого друга, который забронирует благодаря вам, вы получите эксклюзивную скидку на следующее пребывание."
                 :"Do you know someone who could benefit from this place? Share your Abaton experience — for every friend who books thanks to you, you will receive an exclusive discount on your next stay."}
             </div>
-            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":"Hello, I would like to refer a friend for a stay at Abaton.")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
-              💬 {lang==="it"?"Scrivi al personale →":"Message the staff →"}
+            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":lang==="de"?"Guten Tag, ich möchte einen Freund für einen Aufenthalt im Abaton empfehlen.":lang==="fr"?"Bonjour, je souhaiterais recommander un ami pour un séjour à l'Abaton.":lang==="ru"?"Здравствуйте, хотел(а) бы порекомендовать друга для пребывания в Абатоне.":"Hello, I would like to refer a friend for a stay at Abaton.")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
+              💬 {lang==="it"?"Scrivi al personale →":lang==="de"?"Dem Personal schreiben →":lang==="fr"?"Écrire au personnel →":lang==="ru"?"Написать персоналу →":"Message the staff →"}
             </a>
           </div>
         </Section>
 
         {/* NEWSLETTER */}
-        <Section title={lang==="it"?"Rimani connesso":"Stay connected"}>
+        <Section title={lang==="it"?"Rimani connesso":lang==="de"?"Bleib verbunden":lang==="fr"?"Reste connecté":lang==="ru"?"Оставайтесь на связи":"Stay connected"}>
           <div style={{background:C.white,borderRadius:"20px",padding:"22px",boxShadow:C.shadow}}>
             <div style={{fontSize:"14",color:C.textS,lineHeight:"1.8",marginBottom:"18px"}}>
               {lang==="it"
                 ?"Iscriviti alla newsletter per ricevere aggiornamenti sugli eventi di Damanhur, offerte esclusive per ospiti e notizie dal campo dell'Abaton."
+                :lang==="de"
+                ?"Abonniere den Newsletter, um Updates zu Damanhur-Veranstaltungen, exklusive Gästeangebote und Neuigkeiten aus dem Feld des Abaton zu erhalten."
+                :lang==="fr"
+                ?"Inscris-toi à la newsletter pour recevoir les actualités des événements de Damanhur, des offres exclusives pour les hôtes et des nouvelles du champ de l'Abaton."
+                :lang==="ru"
+                ?"Подпишитесь на рассылку, чтобы получать новости о мероприятиях Даманхура, эксклюзивные предложения для гостей и новости из поля Абатона."
                 :"Subscribe to the newsletter to receive updates on Damanhur events, exclusive guest offers and news from the Abaton field."}
             </div>
             {emailSent
               ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontSize:"18"}}>
-                  ✦ {lang==="it"?"Grazie! Ti ricontatteremo presto.":"Thank you! We will be in touch soon."}
+                  ✦ {lang==="it"?"Grazie! Ti ricontatteremo presto.":lang==="de"?"Danke! Wir melden uns bald bei dir.":lang==="fr"?"Merci ! Nous te recontacterons bientôt.":lang==="ru"?"Спасибо! Мы скоро свяжемся с вами.":"Thank you! We will be in touch soon."}
                 </div>
               : <div style={{display:"flex",gap:"10px"}}>
                   <input
                     value={email}
                     onChange={e=>setEmail(e.target.value)}
                     onKeyDown={e=>e.key==="Enter"&&handleEmailSubmit()}
-                    placeholder={lang==="it"?"La tua email":"Your email"}
+                    placeholder={lang==="it"?"La tua email":lang==="de"?"Deine E-Mail":lang==="fr"?"Ton e-mail":lang==="ru"?"Ваш email":"Your email"}
                     style={{flex:1,padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14",background:C.bg,outline:"none"}}
                   />
                   <button onClick={handleEmailSubmit} style={{padding:"13px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14",whiteSpace:"nowrap"}}>
-                    {lang==="it"?"Iscriviti":"Subscribe"}
+                    {lang==="it"?"Iscriviti":lang==="de"?"Abonnieren":lang==="fr"?"S'inscrire":lang==="ru"?"Подписаться":"Subscribe"}
                   </button>
                 </div>
             }
@@ -1769,7 +1781,7 @@ function ConciergePage({t,lang,setPage}) {
           <div style={{width:"48px",height:"48px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20",color:C.white,flexShrink:0}}>✦</div>
           <div>
             <div style={{fontFamily:FD,fontSize:"24",color:C.blue}}>{t.concTitle}</div>
-            <div style={{fontSize:"13",color:C.textM}}>{lang==="it"?"AI · sempre disponibile":"AI · always available"}</div>
+            <div style={{fontSize:"13",color:C.textM}}>{lang==="it"?"AI · sempre disponibile":lang==="de"?"KI · immer verfügbar":lang==="fr"?"IA · toujours disponible":lang==="ru"?"ИИ · всегда на связи":"AI · always available"}</div>
           </div>
         </div>
       </div>
@@ -1842,20 +1854,26 @@ export default function AbatonApp() {
   const onboardSteps = [
     ...(session ? [{
       key:"welcome", icon:"✦",
-      title: lang==="it"?"Il tuo soggiorno inizia qui":"Your stay begins here",
+      title: lang==="it"?"Il tuo soggiorno inizia qui":lang==="de"?"Dein Aufenthalt beginnt hier":lang==="fr"?"Votre séjour commence ici":lang==="ru"?"Ваше пребывание начинается здесь":"Your stay begins here",
       desc: roomInfo
-        ? (lang==="it"?`${session.name}, sei nella Stanza ${roomInfo.name}. ${roomInfo.lineIT}`:`${session.name}, you're staying in the ${roomInfo.name} Room. ${roomInfo.lineEN}`)
-        : (lang==="it"?`Un caloroso benvenuto, ${session.name}.`:`A warm welcome, ${session.name}.`),
+        ? (lang==="it"?`${session.name}, sei nella Stanza ${roomInfo.name}. ${roomInfo.lineIT}`:lang==="de"?`${session.name}, du wohnst im Zimmer ${roomInfo.name}. ${roomInfo.lineDE}`:lang==="fr"?`${session.name}, tu séjournes dans la Chambre ${roomInfo.name}. ${roomInfo.lineFR}`:lang==="ru"?`${session.name}, вы находитесь в комнате ${roomInfo.name}. ${roomInfo.lineRU}`:`${session.name}, you're staying in the ${roomInfo.name} Room. ${roomInfo.lineEN}`)
+        : (lang==="it"?`Un caloroso benvenuto, ${session.name}.`:lang==="de"?`Ein herzliches Willkommen, ${session.name}.`:lang==="fr"?`Une chaleureuse bienvenue, ${session.name}.`:lang==="ru"?`Тёплый привет, ${session.name}.`:`A warm welcome, ${session.name}.`),
     }] : []),
     {key:"practical", icon:"◯",
-      title:lang==="it"?"Le informazioni utili":"The practical details",
+      title:lang==="it"?"Le informazioni utili":lang==="de"?"Die praktischen Informationen":lang==="fr"?"Les informations pratiques":lang==="ru"?"Полезная информация":"The practical details",
       desc:lang==="it"
         ?`WiFi "abaton", password abaton1950. ${t.checkOut}. Silenzio dalle 22 alle 8. Trovi tutto anche nella schermata Home.`
+        :lang==="de"
+        ?`WLAN "abaton", Passwort abaton1950. ${t.checkOut}. Ruhezeit von 22 bis 8 Uhr. Du findest alles auch auf dem Home-Bildschirm.`
+        :lang==="fr"
+        ?`WiFi "abaton", mot de passe abaton1950. ${t.checkOut}. Silence de 22h à 8h. Tu retrouveras tout cela sur l'écran d'accueil.`
+        :lang==="ru"
+        ?`WiFi «abaton», пароль abaton1950. ${t.checkOut}. Тишина с 22:00 до 8:00. Всё это вы также найдёте на главном экране.`
         :`WiFi "abaton", password abaton1950. ${t.checkOut}. Quiet hours from 22:00 to 8:00. You'll always find this on the Home screen.`,
     },
-    {key:"exp",   icon:"✦", title:lang==="it"?"Inizia da qui":"Start here",        desc:lang==="it"?"Scopri come vivere al meglio il tuo soggiorno ad Abaton":"Discover how to make the most of your stay at Abaton"},
-    {key:"abaton",icon:"◈", title:lang==="it"?"Le Cinque Stanze":"The Five Rooms", desc:lang==="it"?"Esplora le stanze e il loro significato":"Explore the rooms and their meaning"},
-    {key:"events",icon:"◎", title:lang==="it"?"Gli eventi":"Events",               desc:lang==="it"?"Scopri cosa accade questa settimana a Damanhur":"Discover what's happening this week at Damanhur"},
+    {key:"exp",   icon:"✦", title:lang==="it"?"Inizia da qui":lang==="de"?"Hier beginnen":lang==="fr"?"Commence ici":lang==="ru"?"Начни отсюда":"Start here",        desc:lang==="it"?"Scopri come vivere al meglio il tuo soggiorno ad Abaton":lang==="de"?"Entdecke, wie du deinen Aufenthalt im Abaton optimal gestaltest":lang==="fr"?"Découvre comment vivre au mieux ton séjour à l'Abaton":lang==="ru"?"Узнайте, как лучше всего провести время в Абатоне":"Discover how to make the most of your stay at Abaton"},
+    {key:"abaton",icon:"◈", title:lang==="it"?"Le Cinque Stanze":lang==="de"?"Die fünf Zimmer":lang==="fr"?"Les Cinq Chambres":lang==="ru"?"Пять комнат":"The Five Rooms", desc:lang==="it"?"Esplora le stanze e il loro significato":lang==="de"?"Erkunde die Zimmer und ihre Bedeutung":lang==="fr"?"Explore les chambres et leur signification":lang==="ru"?"Изучите комнаты и их значение":"Explore the rooms and their meaning"},
+    {key:"events",icon:"◎", title:lang==="it"?"Gli eventi":lang==="de"?"Die Veranstaltungen":lang==="fr"?"Les événements":lang==="ru"?"Мероприятия":"Events",               desc:lang==="it"?"Scopri cosa accade questa settimana a Damanhur":lang==="de"?"Entdecke, was diese Woche in Damanhur passiert":lang==="fr"?"Découvre ce qui se passe cette semaine à Damanhur":lang==="ru"?"Узнайте, что происходит на этой неделе в Даманхуре":"Discover what's happening this week at Damanhur"},
   ];
   const dismissOnboard = () => {
     try {
@@ -1932,7 +1950,7 @@ export default function AbatonApp() {
           <div style={{background:C.white,borderRadius:"28px",padding:"32px 28px",maxWidth:"340px",width:"100%",textAlign:"center"}} onClick={e=>e.stopPropagation()}>
             <div style={{fontFamily:FD,fontSize:"28px",color:C.gold,marginBottom:"6px"}}>Abaton</div>
             <div style={{fontFamily:FS,fontSize:"14px",color:C.textM,marginBottom:"28px",fontStyle:"italic"}}>
-              {lang==="it"?"Benvenuto. Qualche cosa da esplorare:":"Welcome. A few things to explore:"}
+              {lang==="it"?"Benvenuto. Qualche cosa da esplorare:":lang==="de"?"Willkommen. Ein paar Dinge zum Entdecken:":lang==="fr"?"Bienvenue. Quelques choses à explorer :":lang==="ru"?"Добро пожаловать. Несколько вещей, которые стоит изучить:":"Welcome. A few things to explore:"}
             </div>
             {onboardSteps.map((s,i)=>(
               <div key={i} style={{display:"flex",gap:"14px",alignItems:"flex-start",marginBottom:"20px",textAlign:"left",opacity:onboardStep===i?1:0.45,transition:"opacity 0.3s"}} onClick={()=>setOnboardStep(i)}>
@@ -1947,10 +1965,10 @@ export default function AbatonApp() {
               {onboardStep > 0 && <button onClick={()=>setOnboardStep(p=>p-1)} style={{flex:1,padding:"12px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",fontFamily:FB,fontSize:"13px",color:C.textM,cursor:"pointer"}}>←</button>}
               {onboardStep < onboardSteps.length-1
                 ? <button onClick={()=>setOnboardStep(p=>p+1)} style={{flex:2,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"13px",cursor:"pointer",letterSpacing:"0.05em"}}>
-                    {lang==="it"?"Avanti →":"Next →"}
+                    {lang==="it"?"Avanti →":lang==="de"?"Weiter →":lang==="fr"?"Suivant →":lang==="ru"?"Далее →":"Next →"}
                   </button>
                 : <button onClick={dismissOnboard} style={{flex:2,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"13px",cursor:"pointer",letterSpacing:"0.05em"}}>
-                    {lang==="it"?"Inizia →":"Let's go →"}
+                    {lang==="it"?"Inizia →":lang==="de"?"Los geht's →":lang==="fr"?"C'est parti →":lang==="ru"?"Начнём →":"Let's go →"}
                   </button>
               }
             </div>
