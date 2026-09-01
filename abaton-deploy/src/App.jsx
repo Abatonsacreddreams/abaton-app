@@ -1641,7 +1641,7 @@ function WellnessPage({t,lang,setPage}) {
           <div style={{fontSize:"14",color:C.textS,lineHeight:"1.7",marginBottom:"14px"}}>
             {lang==="it"?"Un momento di silenzio guidato negli spazi sacri dei Templi dell'Umanità.":lang==="de"?"Ein geführter Moment der Stille in den heiligen Räumen der Tempel der Menschheit.":lang==="fr"?"Un moment de silence guidé dans les espaces sacrés des Temples de l'Humanité.":lang==="ru"?"Момент управляемой тишины в священных пространствах Храмов Человечества.":"A guided moment of silence in the sacred spaces of the Temples of Humanity."}
           </div>
-          <button onClick={()=>setPage("concierge")} style={{padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14",letterSpacing:"0.05em"}}>{t.book}</button>
+          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei prenotare una Meditazione nei Templi dell'Umanità.":lang==="de"?"Guten Tag, ich möchte eine Meditation in den Tempeln der Menschheit buchen.":lang==="fr"?"Bonjour, je souhaiterais réserver une Méditation dans les Temples de l'Humanité.":lang==="ru"?"Здравствуйте, хотел(а) бы записаться на медитацию в Храмах Человечества.":"Hello, I would like to book a Temple Meditation.")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14",letterSpacing:"0.05em",textDecoration:"none"}}>{t.book}</a>
         </WhiteCard>
 
         {/* PROVIDERS: SelEt / Elasel / Kythera */}
@@ -1656,8 +1656,8 @@ function WellnessPage({t,lang,setPage}) {
                 </div>
               ))}
             </div>
-            <a href={`https://wa.me/${p.phone}?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei informazioni sui trattamenti ${p.name}.`:lang==="de"?`Guten Tag, ich hätte gerne Informationen zu den ${p.name}-Behandlungen.`:lang==="fr"?`Bonjour, je souhaiterais des informations sur les soins ${p.name}.`:lang==="ru"?`Здравствуйте, хотел(а) бы получить информацию о процедурах ${p.name}.`:`Hello, I would like information about ${p.name} treatments.`)}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
-              💬 {lang==="it"?`Contatta ${p.name} →`:lang==="de"?`${p.name} kontaktieren →`:lang==="fr"?`Contacter ${p.name} →`:lang==="ru"?`Связаться с ${p.name} →`:`Contact ${p.name} →`}
+            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`)}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
+              💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
             </a>
           </WhiteCard>
         ))}
