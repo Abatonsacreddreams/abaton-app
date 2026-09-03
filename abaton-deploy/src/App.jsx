@@ -501,18 +501,6 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
         </div>
         <div style={{position:"relative",zIndex:1}}>
           <img src="/logo-eye.png" alt="Abaton" style={{width:"200px",maxWidth:"62%",height:"auto",display:"block",margin:"0 auto 18px",filter:"drop-shadow(0 6px 22px rgba(0,0,0,0.4))"}}/>
-          {/* Constellation mark */}
-          <svg viewBox="0 0 120 32" width="80" height="22" style={{display:"block",margin:"0 auto 10px"}}>
-            <circle cx="18" cy="20" r="2" fill={C.gold} opacity="0.9"/>
-            <circle cx="42" cy="10" r="2.5" fill={C.gold}/>
-            <circle cx="62" cy="16" r="1.8" fill={C.gold} opacity="0.8"/>
-            <circle cx="82" cy="8" r="2.5" fill={C.gold}/>
-            <circle cx="102" cy="18" r="2" fill={C.gold} opacity="0.9"/>
-            <line x1="20" y1="19" x2="40" y2="11" stroke={C.gold} strokeWidth="0.8" opacity="0.7"/>
-            <line x1="44" y1="11" x2="60" y2="16" stroke={C.gold} strokeWidth="0.8" opacity="0.7"/>
-            <line x1="64" y1="15" x2="80" y2="9" stroke={C.gold} strokeWidth="0.8" opacity="0.7"/>
-            <line x1="84" y1="9" x2="100" y2="18" stroke={C.gold} strokeWidth="0.8" opacity="0.7"/>
-          </svg>
           {/* ABATON wordmark */}
           <div onClick={handleWordmarkTap} style={{fontFamily:FD,fontSize:"64",fontWeight:"300",letterSpacing:"0.18em",lineHeight:"1",color:C.white,marginBottom:"6px",textTransform:"uppercase",textShadow:"0 4px 24px rgba(0,0,0,0.45)"}}>ABATON</div>
           {/* Soglia divider */}
