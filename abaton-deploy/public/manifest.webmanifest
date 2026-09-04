@@ -1,0 +1,16 @@
+{
+  "name": "Abaton Sacred Dreams",
+  "short_name": "Abaton",
+  "description": "Guest companion app for Abaton Sacred Dreams, the B&B above the Temples of Humanity in Damanhur.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F2DFCF",
+  "theme_color": "#F2DFCF",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
