@@ -220,44 +220,44 @@ const SYS = {
 
 const EVENTS = [
   {
-    date:"Lun 31 Ago",dateEN:"Mon 31 Aug",
-    title:"Falco Stellare e Capodanno Damanhuriano",titleEN:"Stellar Falcon & Damanhurian New Year",
-    time:"18:30 – 00:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Un rito di luce sotto le stelle: la comunità accende il Falco Stellare per salutare la fine del vecchio anno e l'inizio del nuovo, tra musica e festa.",
-    descEN:"A rite of light beneath the stars, as the community lights the Stellar Falcon to close the old year and welcome the new, amid music and celebration.",
-    url:"https://damanhur.community/event/falco-stellare-damanhurian-new-year-3/"
+    date:"07–12 Set",dateEN:"07–12 Sep",
+    title:"Formazione dei Formatori",titleEN:"Training of Trainers",
+    time:"Tutta la settimana",timeEN:"All week",loc:"Arca Tentyris, Via Baldissero 21",
+    desc:"Un percorso intensivo per chi desidera approfondire l'arte di insegnare e facilitare, coltivando la collaborazione tra le comunità.",
+    descEN:"An intensive path for those who wish to deepen the art of teaching and facilitating, nurturing collaboration within communities.",
+    url:"https://damanhur.community/event/training-of-trainers/"
   },
   {
-    date:"Mer 02 Set",dateEN:"Wed 02 Sep",
+    date:"Mer 09 Set",dateEN:"Wed 09 Sep",
     title:"Serata con i Teorici",titleEN:"Meeting with Theoreticians",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Una serata di ricerca e riflessione con i Teorici di Damanhur — incontri settimanali aperti a visitatori e ospiti.",
     descEN:"A weekly evening of research and reflection with Damanhur's Theoreticians, open to visitors and guests.",
-    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-09-02/"
+    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-09-09/"
   },
   {
-    date:"04–06 Set",dateEN:"04–06 Sep",
-    title:"Conversazioni Sacre: il Risveglio della Coscienza Verde",titleEN:"Sacred Conversations: Your Green Consciousness Reawakening",
-    time:"Tutto il weekend",timeEN:"All weekend",loc:"Boschi Sacri, Via Feipiano 7",
-    desc:"Tre giorni immersi nei Boschi Sacri per riscoprire il legame silenzioso tra l'essere umano e il mondo vegetale.",
-    descEN:"Three days immersed in the Sacred Woods, rediscovering the quiet bond between humankind and the plant world.",
-    url:"https://damanhur.community/event/3-day-experience-sacred-conversations-your-green-consciousness-reawakening-6/"
+    date:"Gio 10 Set",dateEN:"Thu 10 Sep",
+    title:"Assemblea Sociale Generale",titleEN:"Social General Meeting",
+    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
+    desc:"Una serata pubblica dedicata ai temi sociali e politici della comunità, aperta a tutti.",
+    descEN:"A public evening dedicated to the community's social and political themes, open to everyone.",
+    url:"https://damanhur.community/event/social-general-meeting/2026-09-10/"
   },
   {
-    date:"Ven 04 Set",dateEN:"Fri 04 Sep",
+    date:"Ven 11 Set",dateEN:"Fri 11 Sep",
     title:"Venerdì con Falco",titleEN:"Fridays with Falco",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Serate dedicate all'insegnamento e alla visione di Falco Tarassaco, fondatore di Damanhur, attraverso i suoi video.",
     descEN:"Evenings devoted to the teaching and vision of Falco Tarassaco, Damanhur's founder, shared through his videos.",
-    url:"https://damanhur.community/event/fridays-with-falco/2026-09-04/"
+    url:"https://damanhur.community/event/fridays-with-falco/2026-09-11/"
   },
   {
-    date:"Dom 06 Set",dateEN:"Sun 06 Sep",
-    title:"Rito GET settimanale",titleEN:"Damanhur GET weekly",
-    time:"11:30 – 13:30",loc:"Templi dell'Umanità, Via Baldissero 21",
-    desc:"Un rito settimanale ai Templi dell'Umanità, dove i doni e la conoscenza del Popolo si uniscono in un patrimonio condiviso.",
-    descEN:"A weekly ritual at the Temples of Humankind, where the Popolo's gifts and knowledge are gathered into a shared treasury.",
-    url:"https://damanhur.community/event/damanhur-get-weekly/2026-09-06/"
+    date:"Sab 12 Set",dateEN:"Sat 12 Sep",
+    title:"Rito GET",titleEN:"Damanhur GET ritual",
+    time:"19:45 – 21:00",loc:"Damjl, Via Pramarzo 3",
+    desc:"Un rito suggestivo per comprendere a fondo il legame profondo che unisce il Popolo di Damanhur.",
+    descEN:"An evocative ritual that reveals the deep bond uniting the people of Damanhur.",
+    url:"https://damanhur.community/event/damanhur-get-ritual-3/2026-09-12/"
   },
 ];
 
