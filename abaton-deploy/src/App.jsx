@@ -1250,19 +1250,19 @@ function DamanPage({t,lang,setPage}) {
     expanded:true,
     list:[
       {cat:{it:"Farmacia",en:"Pharmacy",de:"Apotheke",fr:"Pharmacie",ru:"Аптека"},items:[
-        {name:{it:"Farmacia più vicina",en:"Nearest pharmacy",de:"Nächste Apotheke",fr:"Pharmacie la plus proche",ru:"Ближайшая аптека"},url:gmaps("farmacia vicino a Baldissero Canavese"),note:""},
+        {name:{it:"Farmacia più vicina",en:"Nearest pharmacy",de:"Nächste Apotheke",fr:"Pharmacie la plus proche",ru:"Ближайшая аптека"},url:gmaps("farmacia vicino a Vidracco"),note:""},
       ]},
       {cat:{it:"Bancomat",en:"ATM",de:"Geldautomat",fr:"Distributeur",ru:"Банкомат"},items:[
-        {name:{it:"Bancomat più vicino",en:"Nearest ATM",de:"Nächster Geldautomat",fr:"Distributeur le plus proche",ru:"Ближайший банкомат"},url:gmaps("bancomat vicino a Baldissero Canavese"),note:""},
+        {name:{it:"Bancomat più vicino",en:"Nearest ATM",de:"Nächster Geldautomat",fr:"Distributeur le plus proche",ru:"Ближайший банкомат"},url:gmaps("bancomat vicino a Vidracco"),note:""},
       ]},
       {cat:{it:"Taxi",en:"Taxi",de:"Taxi",fr:"Taxi",ru:"Такси"},items:[
-        {name:{it:"Taxi / NCC nella zona",en:"Taxi / private driver nearby",de:"Taxi / Fahrdienst in der Nähe",fr:"Taxi / VTC dans la zone",ru:"Такси поблизости"},url:gmaps("taxi vicino a Baldissero Canavese"),note:""},
+        {name:{it:"Taxi / NCC nella zona",en:"Taxi / private driver nearby",de:"Taxi / Fahrdienst in der Nähe",fr:"Taxi / VTC dans la zone",ru:"Такси поблизости"},url:gmaps("taxi vicino a Vidracco"),note:""},
       ]},
       {cat:{it:"Supermercato",en:"Supermarket",de:"Supermarkt",fr:"Supermarché",ru:"Супермаркет"},items:[
-        {name:{it:"Supermercato più vicino",en:"Nearest supermarket",de:"Nächster Supermarkt",fr:"Supermarché le plus proche",ru:"Ближайший супермаркет"},url:gmaps("supermercato vicino a Baldissero Canavese"),note:""},
+        {name:{it:"Supermercato più vicino",en:"Nearest supermarket",de:"Nächster Supermarkt",fr:"Supermarché le plus proche",ru:"Ближайший супермаркет"},url:gmaps("supermercato vicino a Vidracco"),note:""},
       ]},
       {cat:{it:"Benzina",en:"Petrol station",de:"Tankstelle",fr:"Station-service",ru:"АЗС"},items:[
-        {name:{it:"Distributore più vicino",en:"Nearest petrol station",de:"Nächste Tankstelle",fr:"Station-service la plus proche",ru:"Ближайшая заправка"},url:gmaps("distributore di benzina vicino a Baldissero Canavese"),note:""},
+        {name:{it:"Distributore più vicino",en:"Nearest petrol station",de:"Nächste Tankstelle",fr:"Station-service la plus proche",ru:"Ближайшая заправка"},url:gmaps("distributore di benzina vicino a Vidracco"),note:""},
       ]},
     ]},
     {n:{it:"Guide ed Escursioni",en:"Guided Tours & Excursions",de:"Geführte Touren & Ausflüge",fr:"Visites Guidées & Excursions",ru:"Экскурсии и прогулки"},d:{
@@ -1748,10 +1748,10 @@ function GuestsPage({t,lang,setPage}) {
               {lang==="it"?"Se hai amato il tuo soggiorno, una recensione pubblica ci aiuta moltissimo.":lang==="de"?"Wenn dir dein Aufenthalt gefallen hat, hilft uns eine öffentliche Bewertung enorm.":lang==="fr"?"Si tu as aimé ton séjour, un avis public nous aide énormément.":lang==="ru"?"Если вам понравилось пребывание, публичный отзыв очень нам поможет.":"If you loved your stay, a public review helps us enormously."}
             </div>
             <div style={{display:"flex",gap:"10px",flexWrap:"wrap"}}>
-              <a href={gmaps("Abaton Sacred Dreams Baldissero Canavese")} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review Google",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14",boxShadow:C.shadow}}>
+              <a href="https://g.page/r/CX8uKstnGHC8EAE/review" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review Google",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14",boxShadow:C.shadow}}>
                 Google →
               </a>
-              <a href="https://www.google.com/search?q=Abaton+Sacred+Dreams+TripAdvisor" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review TripAdvisor",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14",boxShadow:C.shadow}}>
+              <a href="https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review TripAdvisor",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14",boxShadow:C.shadow}}>
                 TripAdvisor →
               </a>
             </div>
