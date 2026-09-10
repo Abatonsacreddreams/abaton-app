@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   try {
     await sql`CREATE TABLE IF NOT EXISTS feedback (id SERIAL PRIMARY KEY, rating INT, comment TEXT, room TEXT, lang TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT now())`;
-    const [totals, byType, topLabels, byLang, byDay, recentQuestions, feedbackSummary, recentFeedback] = await Promise.all([
+    const [totals, byType, topLabels, byLang, byDay, recentQuestions, feedbackSummary, recentFeedback, recentErrors] = await Promise.all([
       sql`SELECT COUNT(*)::int AS count FROM events`,
       sql`SELECT type, COUNT(*)::int AS count FROM events GROUP BY type ORDER BY count DESC`,
       sql`SELECT type, label, COUNT(*)::int AS count FROM events WHERE type IN ('link','page','room') GROUP BY type, label ORDER BY count DESC LIMIT 20`,
@@ -16,6 +16,7 @@ export default async function handler(req, res) {
       sql`SELECT label, lang, created_at FROM events WHERE type = 'concierge' ORDER BY created_at DESC LIMIT 50`,
       sql`SELECT COUNT(*)::int AS count, AVG(rating)::float AS avg FROM feedback`,
       sql`SELECT rating, comment, room, lang, created_at FROM feedback ORDER BY created_at DESC LIMIT 50`,
+      sql`SELECT label, lang, created_at FROM events WHERE type = 'concierge_error' ORDER BY created_at DESC LIMIT 30`,
     ]);
     return res.status(200).json({
       total: totals.rows[0]?.count || 0,
@@ -27,6 +28,7 @@ export default async function handler(req, res) {
       feedbackCount: feedbackSummary.rows[0]?.count || 0,
       feedbackAvg: feedbackSummary.rows[0]?.avg || null,
       recentFeedback: recentFeedback.rows,
+      recentErrors: recentErrors.rows,
     });
   } catch (err) {
     return res.status(500).json({ error: 'Internal server error', detail: String(err && err.message || err) });

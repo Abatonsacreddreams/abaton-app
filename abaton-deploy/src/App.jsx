@@ -195,6 +195,14 @@ const T = {
   },
 };
 
+const CONC_ERR = {
+  it:"Mi dispiace, in questo momento ho un problema di connessione. Riprova tra qualche istante 🙏 Se il problema persiste, scrivi allo staff su WhatsApp.",
+  en:"Sorry, I'm having a connection issue right now. Please try again in a moment 🙏 If it keeps happening, message our staff on WhatsApp.",
+  de:"Es tut mir leid, gerade gibt es ein Verbindungsproblem. Bitte versuchen Sie es in Kürze erneut 🙏 Falls es weiterhin auftritt, schreiben Sie unserem Team auf WhatsApp.",
+  fr:"Désolé, je rencontre un problème de connexion en ce moment. Merci de réessayer dans un instant 🙏 Si cela persiste, contactez notre équipe sur WhatsApp.",
+  ru:"Извините, сейчас проблема с подключением. Пожалуйста, попробуйте снова через минуту 🙏 Если проблема не исчезнет, напишите нашей команде в WhatsApp.",
+};
+
 const SYS_FACTS = `
 INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiesta sopra — traduci il contenuto se necessario, ma non i fatti):
 - Check-out: 10:30. Late check-out gratuito fino alle 13:00 se disponibile (chiedere su WhatsApp/Telegram); a pagamento 60€ fino alle 18:00. Bagagli lasciabili in reception previo accordo.
@@ -352,7 +360,7 @@ function WeatherWidget() {
 
 // ── SHARED ────────────────────────────────────────────────────────────────────
 const Back = ({label,onClick}) => (
-  <button onClick={onClick} style={{background:"none",border:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14px",letterSpacing:"0.1em",display:"flex",alignItems:"center",gap:"4px",padding:0}}>{label}</button>
+  <button onClick={onClick} style={{background:"none",border:"none",color:C.blue,cursor:"pointer",fontFamily:FB,fontSize:"14px",fontWeight:"600",letterSpacing:"0.1em",display:"flex",alignItems:"center",gap:"4px",padding:0}}>{label}</button>
 );
 function Pill({children,color=C.gold}) {
   return <span style={{display:"inline-block",padding:"4px 14px",background:`${color}15`,border:`1px solid ${color}44`,borderRadius:"20px",fontSize:"9px",fontFamily:FB,letterSpacing:"0.18em",textTransform:"uppercase",color}}>{children}</span>;
@@ -689,6 +697,7 @@ const LANGSUF = {it:"IT",en:"EN",de:"DE",fr:"FR",ru:"RU"};
 const LS = (obj, base, lang) => (obj[base+(LANGSUF[lang]||"IT")] || obj[base+"IT"]);
 const LD = (v, lang) => (typeof v==="string" ? v : (v[lang]||v.it));
 const gmaps = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const scrollTop0 = () => { const el=document.getElementById("scrollRoot"); if(el) el.scrollTop=0; };
 const track = (type, label, extra={}) => {
   try {
     fetch("/api/track", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({type, label, ...extra})}).catch(()=>{});
@@ -822,6 +831,7 @@ function RoomExplorer({room,lang}) {
 function AbatonPage({t,lang,setPage}) {
   const [sub,setSub] = useState(null);
   const [roomDetail,setRoomDetail] = useState(null);
+  useEffect(()=>{ scrollTop0(); },[sub,roomDetail]);
   const SUBS = [
     {id:"camere",   sym:"◇", labelIT:"Le Cinque Stanze",    labelEN:"The Five Rooms",    labelDE:"Die fünf Zimmer",         labelFR:"Les Cinq Chambres",       labelRU:"Пять комнат",       color:C.gold},
     {id:"living",   sym:"〰", labelIT:"Il Living",           labelEN:"The Living Space",  labelDE:"Der Wohnbereich",         labelFR:"Le Salon",                labelRU:"Гостиная",           color:C.blueM},
@@ -1158,6 +1168,7 @@ function AbatonPage({t,lang,setPage}) {
 // ── DAMANHUR ──────────────────────────────────────────────────────────────────
 function DamanPage({t,lang,setPage}) {
   const [sub,setSub] = useState(null);
+  useEffect(()=>{ scrollTop0(); },[sub]);
   const COMMUNITIES = [
     {id:"damjl", sym:"◎", color:C.blue, labelIT:"Damjl", labelEN:"Damjl", labelDE:"Damjl", labelFR:"Damjl", labelRU:"Дамжл",
       descIT:"Capitale storica e spirituale di Damanhur. Qui si trovano il Tempio aperto ai visitatori, i circuiti percorribili, laboratori e negozi damanhuriani, assemblee e vita collettiva. Ospita anche il Somachandra, la tavola calda damanhuriana — luogo di incontro e scambio autentico. Via Pramarzo 3, Baldissero Canavese.",
@@ -1829,8 +1840,17 @@ function ConciergePage({t,lang,setPage}) {
     try{
       const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-5",max_tokens:1000,system:SYS[lang]||SYS.en,messages:next})});
       const data=await res.json();
-      setMessages([...next,{role:"assistant",content:data.content?.[0]?.text||"…"}]);
-    }catch{setMessages([...next,{role:"assistant",content:"…"}]);}
+      const reply=data.content?.[0]?.text;
+      if(reply){
+        setMessages([...next,{role:"assistant",content:reply}]);
+      }else{
+        track("concierge_error", (data.error&&(data.error.message||data.error.type))||`http_${res.status}`, {lang});
+        setMessages([...next,{role:"assistant",content:CONC_ERR[lang]||CONC_ERR.en}]);
+      }
+    }catch(err){
+      track("concierge_error", String((err&&err.message)||err), {lang});
+      setMessages([...next,{role:"assistant",content:CONC_ERR[lang]||CONC_ERR.en}]);
+    }
     finally{setLoading(false);}
   };
   return(
@@ -1991,6 +2011,20 @@ function DashboardPage({t,lang,setPage}) {
           </WhiteCard>
         </Section>
 
+        <Section title="Errori concierge">
+          <WhiteCard>
+            <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
+              {(data.recentErrors||[]).map((e,i)=>(
+                <div key={i} style={{paddingBottom:"10px",borderBottom:i<(data.recentErrors.length-1)?`1px solid ${C.border}`:"none"}}>
+                  <div style={{fontSize:"14px",color:"#B04A4A"}}>{e.label}</div>
+                  <div style={{fontSize:"11px",color:C.textM,marginTop:"2px"}}>{e.lang?.toUpperCase()} · {new Date(e.created_at).toLocaleString("it-IT")}</div>
+                </div>
+              ))}
+              {(!data.recentErrors||data.recentErrors.length===0)&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessun errore registrato.</div>}
+            </div>
+          </WhiteCard>
+        </Section>
+
         <Section title="Ultimi feedback">
           <WhiteCard>
             <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
@@ -2015,7 +2049,7 @@ export default function AbatonApp() {
   const [page,setPage] = useState("home");
   const [lang,setLang] = useState(()=>getSession()?.lang||"it");
   const t = T[lang]||T.it;
-  const goPage = (id) => { track("page", id, {lang}); setPage(id); };
+  const goPage = (id) => { track("page", id, {lang}); setPage(id); scrollTop0(); };
   const goLang = (l) => { track("lang", l); setLang(l); };
   useEffect(()=>{
     const link=document.createElement("link"); link.rel="stylesheet"; link.href=FONT_URL;
@@ -2117,7 +2151,7 @@ export default function AbatonApp() {
           {NAV.map(({id,Icon})=>{
             const active = page===id||(page==="experience"&&id==="home");
             return(
-              <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 8px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9px",fontWeight:active?"500":"300",letterSpacing:"0.1em",textTransform:"uppercase",transition:"color 0.2s"}}>
+              <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 8px",color:active?C.gold:C.blue,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9px",fontWeight:active?"500":"300",letterSpacing:"0.1em",textTransform:"uppercase",transition:"color 0.2s"}}>
                 <Icon/>{t.nav[NAV.indexOf(NAV.find(n=>n.id===id))]}
               </button>
             );
@@ -2126,13 +2160,13 @@ export default function AbatonApp() {
       )}
       <div style={{flex:1,display:"flex",justifyContent:"center",minWidth:0}}>
         <div style={{width:"100%",maxWidth:isLandscape?"1100px":"768px",color:C.text,fontFamily:FB,position:"relative"}}>
-          <div style={{overflowY:noNav.includes(page)?"hidden":"auto",height:"100vh"}}>{render()}</div>
+          <div id="scrollRoot" style={{overflowY:noNav.includes(page)?"hidden":"auto",height:"100vh"}}>{render()}</div>
           {!isLandscape&&!noNav.includes(page)&&(
             <nav style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:"768px",background:`${C.card}f8`,backdropFilter:"blur(20px)",borderTop:`1px solid ${C.border}`,display:"flex",justifyContent:"space-around",padding:"10px 0 18px",zIndex:200,boxShadow:"0 -4px 20px rgba(26,48,96,0.06)"}}>
               {NAV.map(({id,Icon})=>{
                 const active = page===id||(page==="experience"&&id==="home");
                 return(
-                  <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 14px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9px",fontWeight:active?"500":"300",letterSpacing:"0.12em",textTransform:"uppercase",transition:"color 0.2s"}}>
+                  <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 14px",color:active?C.gold:C.blue,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9px",fontWeight:active?"500":"300",letterSpacing:"0.12em",textTransform:"uppercase",transition:"color 0.2s"}}>
                     <Icon/>{t.nav[NAV.indexOf(NAV.find(n=>n.id===id))]}
                   </button>
                 );
