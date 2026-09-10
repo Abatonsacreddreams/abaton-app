@@ -500,14 +500,11 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           )}
         </div>
         <div style={{position:"relative",zIndex:1}}>
-          <img src="/logo-eye.png" alt="Abaton" onClick={handleWordmarkTap} style={{width:"200px",maxWidth:"62%",height:"auto",display:"block",margin:"0 auto 18px",filter:"drop-shadow(0 6px 22px rgba(0,0,0,0.4))",cursor:"pointer"}}/>
-          {/* ABATON wordmark */}
-          <div style={{fontFamily:FD,fontSize:"64",fontWeight:"300",letterSpacing:"0.18em",lineHeight:"1",color:C.white,marginBottom:"6px",textTransform:"uppercase",textShadow:"0 4px 24px rgba(0,0,0,0.45)"}}>ABATON</div>
+          <img src="/logo-full.png" alt="Abaton Sacred Dreams" onClick={handleWordmarkTap} style={{width:"280px",maxWidth:"78%",height:"auto",display:"block",margin:"0 auto 14px",filter:"drop-shadow(0 6px 22px rgba(0,0,0,0.4))",cursor:"pointer"}}/>
           {/* Soglia divider */}
           <div style={{display:"flex",justifyContent:"center",gap:"2px",marginBottom:"8px"}}>
             {[1,2,3].map(i=><div key={i} style={{height:"1px",width:`${i===2?48:24}px`,background:`${C.gold}${i===2?"cc":"66"}`}}/>)}
           </div>
-          <div style={{fontFamily:FD,fontSize:"21",fontStyle:"italic",fontWeight:"600",letterSpacing:"0.18em",color:C.gold,textTransform:"uppercase",marginBottom:"14px",textShadow:"0 1px 6px rgba(200,168,106,0.3)"}}>Sacred Dreams</div>
           <div style={{fontFamily:FD,fontSize:"25",fontStyle:"italic",fontWeight:"700",color:"rgba(255,255,255,0.96)",textShadow:"0 2px 16px rgba(0,0,0,0.75)"}}>
             {date} · <WeatherWidget/>
           </div>
@@ -923,7 +920,7 @@ function AbatonPage({t,lang,setPage}) {
       de:"Das Abaton ist in der direkten Aura der Tempel der Menschheit erbaut. Das ist kein geografischer Zufall — es ist eine energetische und funktionale Entscheidung.\n\nDie Tempel repräsentieren das Werk, die Vision, das kollektive Gedächtnis des menschlichen Potenzials. Das Abaton ist ihr stiller Verstärker: der Ort, an dem der Körper und das Traumfeld des Gastes diese Frequenz empfangen, integrieren und verarbeiten können.\n\nDie Wandmalereien greifen die Motive der Säle auf. Auch das Licht ist in Resonanz mit den unterirdischen Räumen gestaltet.",
       fr:"L'Abaton est construit dans l'aura directe des Temples de l'Humanité. Ce n'est pas une coïncidence géographique — c'est un choix énergétique et fonctionnel.\n\nLes Temples représentent l'œuvre, la vision, la mémoire collective du potentiel humain. L'Abaton en est l'amplificateur silencieux : le lieu où le corps et le champ onirique de l'hôte peuvent recevoir, intégrer et métaboliser cette fréquence.\n\nLes peintures murales reprennent les motifs des salles. Même la lumière est pensée en résonance avec les espaces souterrains.",
       ru:"Абатон построен в прямой ауре Храмов Человечества. Это не географическое совпадение — это энергетический и функциональный выбор.\n\nХрамы представляют собой труд, видение, коллективную память человеческого потенциала. Абатон — их тихий усилитель: место, где тело и сновидческое поле гостя могут принимать, интегрировать и усваивать эту частоту.\n\nНастенные росписи повторяют мотивы залов. Даже освещение продумано в резонансе с подземными пространствами.",
-      gallery:[TEMPIO_EXT1,TEMPIO_EXT2,TEMPIO_EXT3],
+      gallery:[TEMPIO_EXT1,TEMPIO_EXT2,TEMPIO_EXT3,"/damanhur/tempio-2.jpg"],
     },
     campo:{
       img:"https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80&auto=format&fit=crop",
@@ -1200,7 +1197,7 @@ function DamanPage({t,lang,setPage}) {
   ];
   const SUBCONTENT = {
     templi:{
-      img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop",
+      img:"/damanhur/tempio-1.jpg",
       it:"Nove sale sotterranee create interamente a mano — affreschi, mosaici, sculture, vetrate. Trent'anni di lavoro collettivo. National Geographic le ha definite 'la Cappella Sistina dei tempi moderni'.\n\nLe sale: Vittoria, Terra, Metalli, Tempio Azzurro, Labirinto, Acqua, Sfere, Specchi.\n\nDamanhur sta lavorando all'espansione: nuove sale, nuovi livelli, nuove connessioni. Un'opera che continua.\n\nVisita guidata ogni giorno — chiedici in reception.",
       en:"Nine underground halls entirely hand-created — frescoes, mosaics, sculptures, stained glass. Thirty years of collective work. National Geographic called them 'the Sistine Chapel of modern times'.\n\nThe halls: Victory, Earth, Metals, Blue Temple, Labyrinth, Water, Spheres, Mirrors.\n\nDamanhur is working on expansion: new halls, new levels, new connections. A work that continues.\n\nGuided tours daily — ask at reception.",
       de:"Neun unterirdische Säle, vollständig von Hand geschaffen — Fresken, Mosaike, Skulpturen, Glasfenster. Dreißig Jahre gemeinschaftlicher Arbeit. National Geographic nannte sie 'die Sixtinische Kapelle der Neuzeit'.\n\nDie Säle: Sieg, Erde, Metalle, Blauer Tempel, Labyrinth, Wasser, Sphären, Spiegel.\n\nDamanhur arbeitet an der Erweiterung: neue Säle, neue Ebenen, neue Verbindungen. Ein Werk, das weitergeht.\n\nGeführte Besichtigung jeden Tag — frag an der Rezeption.",
@@ -1614,6 +1611,9 @@ function WellnessPage({t,lang,setPage}) {
       </div>
 
       <div style={{padding:"24px 22px 0"}}>
+        <div style={{borderRadius:"20px",overflow:"hidden",marginBottom:"16px",boxShadow:C.shadow}}>
+          <img src="/damanhur/benessere-1.jpg" alt="Trattamento Selfico" style={{width:"100%",height:"200px",objectFit:"cover",display:"block"}}/>
+        </div>
         <WhiteCard style={{marginBottom:"24px"}}>
           <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8"}}>
             {lang==="it"
