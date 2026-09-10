@@ -311,27 +311,27 @@ function BreathingPlayer({t}) {
         <svg viewBox="0 0 24 24" fill={C.white} width="20" height="20"><polygon points="6,3 20,12 6,21"/></svg>
       </div>
       <div style={{textAlign:"left"}}>
-        <div style={{fontFamily:FD,fontSize:"20",color:C.blue,marginBottom:"3px"}}>{t.breathTitle}</div>
-        <div style={{fontSize:"14",color:C.textM,fontWeight:"300"}}>{t.breathDesc}</div>
+        <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"3px"}}>{t.breathTitle}</div>
+        <div style={{fontSize:"14px",color:C.textM,fontWeight:"300"}}>{t.breathDesc}</div>
       </div>
     </button>
   );
   if(st==="done") return(
     <div style={{padding:"24px",background:C.goldPale,borderRadius:"20px",textAlign:"center"}}>
-      <div style={{fontFamily:FD,fontSize:"28",color:C.gold,marginBottom:"6px"}}>✦</div>
-      <div style={{fontFamily:FD,fontSize:"24",color:C.blue}}>Buon sogno</div>
+      <div style={{fontFamily:FD,fontSize:"28px",color:C.gold,marginBottom:"6px"}}>✦</div>
+      <div style={{fontFamily:FD,fontSize:"24px",color:C.blue}}>Buon sogno</div>
     </div>
   );
   return(
     <div style={{padding:"24px",background:C.goldPale,borderRadius:"20px"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"16px"}}>
-        <div style={{fontFamily:FD,fontSize:"32",color:C.gold}}>{labels[phase]||phase}</div>
-        <div style={{fontFamily:FD,fontSize:"22",color:C.textM}}>{min}:{String(sec).padStart(2,"0")}</div>
+        <div style={{fontFamily:FD,fontSize:"32px",color:C.gold}}>{labels[phase]||phase}</div>
+        <div style={{fontFamily:FD,fontSize:"22px",color:C.textM}}>{min}:{String(sec).padStart(2,"0")}</div>
       </div>
       <div style={{height:"4px",background:C.cream,borderRadius:"2px",overflow:"hidden",marginBottom:"16px"}}>
         <div style={{height:"100%",width:`${pct*100}%`,background:`linear-gradient(90deg,${C.gold},${C.goldL})`,transition:"width 1s linear",borderRadius:"2px"}}/>
       </div>
-      <button onClick={()=>{stopAll();setSt("idle");}} style={{background:"transparent",border:`1px solid ${C.border}`,borderRadius:"10px",padding:"8px 18px",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14"}}>■ stop</button>
+      <button onClick={()=>{stopAll();setSt("idle");}} style={{background:"transparent",border:`1px solid ${C.border}`,borderRadius:"10px",padding:"8px 18px",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14px"}}>■ stop</button>
     </div>
   );
 }
@@ -347,15 +347,15 @@ function WeatherWidget() {
       }).catch(()=>{});
   },[]);
   if(!wx) return null;
-  return <span style={{fontSize:"16",color:"inherit"}}>{wx.icon} {wx.temp}°C</span>;
+  return <span style={{fontSize:"16px",color:"inherit"}}>{wx.icon} {wx.temp}°C</span>;
 }
 
 // ── SHARED ────────────────────────────────────────────────────────────────────
 const Back = ({label,onClick}) => (
-  <button onClick={onClick} style={{background:"none",border:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14",letterSpacing:"0.1em",display:"flex",alignItems:"center",gap:"4px",padding:0}}>{label}</button>
+  <button onClick={onClick} style={{background:"none",border:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14px",letterSpacing:"0.1em",display:"flex",alignItems:"center",gap:"4px",padding:0}}>{label}</button>
 );
 function Pill({children,color=C.gold}) {
-  return <span style={{display:"inline-block",padding:"4px 14px",background:`${color}15`,border:`1px solid ${color}44`,borderRadius:"20px",fontSize:"9",fontFamily:FB,letterSpacing:"0.18em",textTransform:"uppercase",color}}>{children}</span>;
+  return <span style={{display:"inline-block",padding:"4px 14px",background:`${color}15`,border:`1px solid ${color}44`,borderRadius:"20px",fontSize:"9px",fontFamily:FB,letterSpacing:"0.18em",textTransform:"uppercase",color}}>{children}</span>;
 }
 const Circle = ({children,size=160,bg=C.gold,onClick,shadow=true}) => (
   <button onClick={onClick} style={{width:`${size}px`,height:`${size}px`,borderRadius:"50%",background:bg,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:onClick?"pointer":"default",border:"none",flexShrink:0,boxShadow:shadow?C.shadowG:"none",transition:"transform 0.2s"}}>
@@ -367,7 +367,7 @@ function WhiteCard({children,style={}}) {
 }
 const Section = ({title,children,style={}}) => (
   <div style={{marginBottom:"32px",...style}}>
-    <div style={{fontSize:"12",fontWeight:"500",letterSpacing:"0.2em",textTransform:"uppercase",color:C.gold,fontFamily:FB,marginBottom:"14px"}}>{title}</div>
+    <div style={{fontSize:"12px",fontWeight:"500",letterSpacing:"0.2em",textTransform:"uppercase",color:C.gold,fontFamily:FB,marginBottom:"14px"}}>{title}</div>
     {children}
   </div>
 );
@@ -411,8 +411,8 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard}) {
     return (
       <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.88)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={onClose}>
         <div onClick={e=>e.stopPropagation()} style={{background:C.white,borderRadius:"20px",padding:"28px",width:"100%",maxWidth:"320px"}}>
-          <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"14px"}}>Accesso staff</div>
-          <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&(pin===STAFF_PIN?setPinOk(true):setPin(""))} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"16",marginBottom:"12px",outline:"none"}}/>
+          <div style={{fontFamily:FD,fontSize:"18px",color:C.blue,marginBottom:"14px"}}>Accesso staff</div>
+          <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&(pin===STAFF_PIN?setPinOk(true):setPin(""))} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"16px",marginBottom:"12px",outline:"none"}}/>
           <div style={{display:"flex",gap:"10px"}}>
             <button onClick={onClose} style={{flex:1,padding:"12px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",cursor:"pointer",fontFamily:FB}}>Annulla</button>
             <button onClick={()=>{ if(pin===STAFF_PIN) setPinOk(true); else setPin(""); }} style={{flex:1,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB}}>Entra</button>
@@ -425,19 +425,19 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard}) {
   return (
     <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.88)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px",overflowY:"auto"}}>
       <div style={{background:C.white,borderRadius:"20px",padding:"28px",width:"100%",maxWidth:"380px"}}>
-        <div style={{fontFamily:FD,fontSize:"20",color:C.blue,marginBottom:"18px"}}>Pannello Staff</div>
+        <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"18px"}}>Pannello Staff</div>
 
-        <label style={{fontSize:"12",color:C.textM,display:"block",marginBottom:"6px"}}>Stanza di questo tablet</label>
-        <select value={room} onChange={e=>setRoomSel(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15"}}>
+        <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Stanza di questo tablet</label>
+        <select value={room} onChange={e=>setRoomSel(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15px"}}>
           <option value="">— seleziona —</option>
           {ROOMS_LIST.map(r=><option key={r.id} value={r.id}>{r.name}</option>)}
         </select>
 
-        <label style={{fontSize:"12",color:C.textM,display:"block",marginBottom:"6px"}}>Nome ospite</label>
-        <input value={name} onChange={e=>setName(e.target.value)} placeholder="Es. Denise" style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15",outline:"none"}}/>
+        <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Nome ospite</label>
+        <input value={name} onChange={e=>setName(e.target.value)} placeholder="Es. Denise" style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15px",outline:"none"}}/>
 
-        <label style={{fontSize:"12",color:C.textM,display:"block",marginBottom:"6px"}}>Lingua ospite</label>
-        <select value={guestLang} onChange={e=>setGuestLang(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15"}}>
+        <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Lingua ospite</label>
+        <select value={guestLang} onChange={e=>setGuestLang(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15px"}}>
           <option value="it">🇮🇹 Italiano</option>
           <option value="en">🇬🇧 English</option>
           <option value="de">🇩🇪 Deutsch</option>
@@ -447,19 +447,19 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard}) {
 
         <div style={{display:"flex",gap:"10px",marginBottom:"20px"}}>
           <div style={{flex:1}}>
-            <label style={{fontSize:"12",color:C.textM,display:"block",marginBottom:"6px"}}>Check-in</label>
-            <input type="date" value={checkIn} onChange={e=>setCheckIn(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14"}}/>
+            <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Check-in</label>
+            <input type="date" value={checkIn} onChange={e=>setCheckIn(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px"}}/>
           </div>
           <div style={{flex:1}}>
-            <label style={{fontSize:"12",color:C.textM,display:"block",marginBottom:"6px"}}>Check-out</label>
-            <input type="date" value={checkOut} onChange={e=>setCheckOut(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14"}}/>
+            <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Check-out</label>
+            <input type="date" value={checkOut} onChange={e=>setCheckOut(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px"}}/>
           </div>
         </div>
 
-        <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut,lang:guestLang}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"15"}}>Salva nuovo ospite</button>
-        <button onClick={onClear} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15"}}>Pulisci dati ospite (check-out)</button>
-        {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15"}}>📊 Vedi statistiche →</button>}
-        <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"13"}}>Chiudi</button>
+        <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut,lang:guestLang}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>Salva nuovo ospite</button>
+        <button onClick={onClear} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>Pulisci dati ospite (check-out)</button>
+        {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>📊 Vedi statistiche →</button>}
+        <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"13px"}}>Chiudi</button>
       </div>
     </div>
   );
@@ -488,13 +488,13 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
       <div style={{padding:"48px 28px 140px",textAlign:"center",position:"relative",backgroundImage:"url(data:image/jpeg;base64,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)",backgroundSize:"cover",backgroundPosition:"center"}}>
         <div style={{position:"absolute",inset:0,background:C.blue,opacity:0.94}}/>
         <div style={{position:"absolute",top:"20px",right:"20px"}}>
-          <button onClick={()=>setShowLang(!showLang)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",padding:"7px 12px",color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"13",boxShadow:C.shadow}}>
+          <button onClick={()=>setShowLang(!showLang)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",padding:"7px 12px",color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"13px",boxShadow:C.shadow}}>
             {lang.toUpperCase()}
           </button>
           {showLang&&(
             <div style={{position:"absolute",top:"40px",right:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"8px",minWidth:"148px",zIndex:200,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
               {[["it","🇮🇹 Italiano"],["en","🇬🇧 English"],["de","🇩🇪 Deutsch"],["fr","🇫🇷 Français"],["ru","🇷🇺 Русский"]].map(([l,lb])=>(
-                <button key={l} onClick={()=>{setLang(l);setShowLang(false);}} style={{display:"block",width:"100%",textAlign:"left",padding:"9px 13px",background:lang===l?C.goldPale:"transparent",color:lang===l?C.goldD:C.textS,border:"none",borderRadius:"8px",cursor:"pointer",fontFamily:FB,fontSize:"15"}}>{lb}</button>
+                <button key={l} onClick={()=>{setLang(l);setShowLang(false);}} style={{display:"block",width:"100%",textAlign:"left",padding:"9px 13px",background:lang===l?C.goldPale:"transparent",color:lang===l?C.goldD:C.textS,border:"none",borderRadius:"8px",cursor:"pointer",fontFamily:FB,fontSize:"15px"}}>{lb}</button>
               ))}
             </div>
           )}
@@ -505,11 +505,11 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           <div style={{display:"flex",justifyContent:"center",gap:"2px",marginBottom:"8px"}}>
             {[1,2,3].map(i=><div key={i} style={{height:"1px",width:`${i===2?48:24}px`,background:`${C.gold}${i===2?"cc":"66"}`}}/>)}
           </div>
-          <div style={{fontFamily:FD,fontSize:"25",fontStyle:"italic",fontWeight:"700",color:"rgba(255,255,255,0.96)",textShadow:"0 2px 16px rgba(0,0,0,0.75)"}}>
+          <div style={{fontFamily:FD,fontSize:"25px",fontStyle:"italic",fontWeight:"700",color:"rgba(255,255,255,0.96)",textShadow:"0 2px 16px rgba(0,0,0,0.75)"}}>
             {date} · <WeatherWidget/>
           </div>
           {session?.name&&(
-            <div style={{fontFamily:FD,fontSize:"24",fontStyle:"italic",fontWeight:"700",color:C.gold,marginTop:"8px",textShadow:"0 2px 16px rgba(0,0,0,0.75)"}}>
+            <div style={{fontFamily:FD,fontSize:"24px",fontStyle:"italic",fontWeight:"700",color:C.gold,marginTop:"8px",textShadow:"0 2px 16px rgba(0,0,0,0.75)"}}>
               {lang==="it"?`Il tuo soggiorno, ${session.name}`:lang==="de"?`Dein Aufenthalt, ${session.name}`:lang==="fr"?`Votre séjour, ${session.name}`:lang==="ru"?`Ваше пребывание, ${session.name}`:`Your stay, ${session.name}`}
             </div>
           )}
@@ -524,8 +524,8 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             <div style={{width:"230px",height:"230px",borderRadius:"50%",border:`1px solid ${C.gold}33`,display:"flex",alignItems:"center",justifyContent:"center"}}>
               <Circle size={200} bg={`linear-gradient(135deg,${C.gold},${C.goldD})`} onClick={()=>setPage("experience")} style={{border:`3px solid ${C.gold}`,boxShadow:`0 0 0 4px ${C.gold}44, 0 8px 32px rgba(154,124,69,0.45)`}}>
                 <div style={{textAlign:"center",padding:"14px"}}>
-                  <div style={{fontSize:"20",color:C.white,marginBottom:"4px"}}>✦</div>
-                  <div style={{fontFamily:FD,fontSize:"25",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
+                  <div style={{fontSize:"20px",color:C.white,marginBottom:"4px"}}>✦</div>
+                  <div style={{fontFamily:FD,fontSize:"31px",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
                     {t.expBtn}
                   </div>
                 </div>
@@ -541,7 +541,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             return <div key={i} style={{position:"absolute",left:`${x-4}px`,top:`${y-4}px`,width:"8px",height:"8px",borderRadius:"50%",background:i%2===0?C.gold:`${C.gold}44`}}/>;
           })}
         </div>
-        <div style={{fontFamily:FD,fontSize:"30",fontStyle:"italic",fontWeight:"600",color:C.goldD,textAlign:"center",lineHeight:"1.4",marginBottom:"6px",letterSpacing:"0.05em",textShadow:"0 1px 2px rgba(0,0,0,0.12)"}}>{t.tagline}</div>
+        <div style={{fontFamily:FD,fontSize:"30px",fontStyle:"italic",fontWeight:"600",color:C.goldD,textAlign:"center",lineHeight:"1.4",marginBottom:"6px",letterSpacing:"0.05em",textShadow:"0 1px 2px rgba(0,0,0,0.12)"}}>{t.tagline}</div>
         {/* Soglia divider */}
         <div style={{display:"flex",justifyContent:"center",gap:"2px",margin:"10px 0 6px"}}>
           {[24,48,24].map((w,i)=><div key={i} style={{height:"1px",width:`${w}px`,background:`${C.gold}${i===1?"aa":"44"}`}}/>)}
@@ -557,9 +557,9 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             {id:"damanhur",  label:"Damanhur",                         sym:"◎", bg:C.goldPale, fg:C.goldD},
             {id:"wellness",  label:lang==="it"?"Benessere":lang==="de"?"Wellness":lang==="fr"?"Bien-être":lang==="ru"?"Велнес":"Wellness", sym:"◈", bg:"#EFF4ED",  fg:"#5A7A58"},
           ].map(item=>(
-            <button key={item.id} onClick={()=>setPage(item.id)} style={item.special?{position:"relative",padding:"13px 20px",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14",fontWeight:"600",letterSpacing:"0.04em",color:C.white,display:"flex",alignItems:"center",gap:"7px",boxShadow:`0 4px 18px ${C.gold}66`}:{padding:"13px 18px",background:item.bg,border:`1px solid ${C.border}`,borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14",fontWeight:"400",letterSpacing:"0.04em",color:item.fg,display:"flex",alignItems:"center",gap:"7px",boxShadow:C.shadow}}>
+            <button key={item.id} onClick={()=>setPage(item.id)} style={item.special?{position:"relative",padding:"13px 20px",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14px",fontWeight:"600",letterSpacing:"0.04em",color:C.white,display:"flex",alignItems:"center",gap:"7px",boxShadow:`0 4px 18px ${C.gold}66`}:{padding:"13px 18px",background:item.bg,border:`1px solid ${C.border}`,borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14px",fontWeight:"400",letterSpacing:"0.04em",color:item.fg,display:"flex",alignItems:"center",gap:"7px",boxShadow:C.shadow}}>
               {item.special&&<span style={{position:"absolute",top:"-3px",right:"-3px",width:"10px",height:"10px",borderRadius:"50%",background:"#fff",animation:"abatonPulse 1.4s ease-in-out infinite alternate"}}/>}
-              <span style={{fontSize:"16"}}>{item.sym}</span>{item.label}
+              <span style={{fontSize:"16px"}}>{item.sym}</span>{item.label}
             </button>
           ))}
         </div>
@@ -571,13 +571,13 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <svg viewBox="0 0 24 24" fill="none" stroke={C.white} strokeWidth="2" width="18" height="18"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
             </div>
             <div>
-              <div style={{fontFamily:FD,fontSize:"21",fontWeight:"600",color:C.blue,marginBottom:"2px"}}>{lang==="it"?"Hai domande sul soggiorno?":lang==="de"?"Fragen zu deinem Aufenthalt?":lang==="fr"?"Des questions sur votre séjour ?":lang==="ru"?"Есть вопросы о пребывании?":"Questions about your stay?"}</div>
-              <div style={{fontSize:"13",color:C.textM}}>AI Concierge · 24h</div>
+              <div style={{fontFamily:FD,fontSize:"26px",fontWeight:"600",color:C.blue,marginBottom:"2px",lineHeight:"1.2"}}>{lang==="it"?"Hai domande sul soggiorno?":lang==="de"?"Fragen zu deinem Aufenthalt?":lang==="fr"?"Des questions sur votre séjour ?":lang==="ru"?"Есть вопросы о пребывании?":"Questions about your stay?"}</div>
+              <div style={{fontSize:"13px",color:C.textM}}>AI Concierge · 24h</div>
             </div>
           </button>
           <a href="https://wa.me/393510103842" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp staff (home)",{lang})} style={{padding:"16px 14px",background:C.white,borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textDecoration:"none",boxShadow:C.shadow,flexShrink:0,gap:"4px"}}>
             <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path fill="#25D366" fillOpacity=".25" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/><path fill="#25D366" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.101-1.135l-.294-.175-3.048.906.906-3.048-.175-.294A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-            <div style={{fontSize:"9",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
+            <div style={{fontSize:"9px",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
           </a>
         </div>
 
@@ -599,25 +599,25 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           {EVENTS.map((ev,i)=>(
             <a key={i} href={ev.url} target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",gap:"16px",padding:"16px 0",borderBottom:i<EVENTS.length-1?`1px solid ${C.border}`:"none",textDecoration:"none"}}>
               <div style={{textAlign:"center",minWidth:"52px"}}>
-                <div style={{fontSize:"13",color:C.textM,fontFamily:FB,textTransform:"uppercase",letterSpacing:"0.08em"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ")[0]}</div>
-                <div style={{fontFamily:FD,fontSize:"24",color:C.gold,lineHeight:"1"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ").slice(1).join(" ")||ev.date||""}</div>
+                <div style={{fontSize:"13px",color:C.textM,fontFamily:FB,textTransform:"uppercase",letterSpacing:"0.08em"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ")[0]}</div>
+                <div style={{fontFamily:FD,fontSize:"24px",color:C.gold,lineHeight:"1"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ").slice(1).join(" ")||ev.date||""}</div>
               </div>
               <div style={{flex:1}}>
-                <div style={{fontSize:"16",color:C.blue,marginBottom:"3px",fontWeight:"400"}}>{lang==="it"?ev.title:ev.titleEN||ev.title}</div>
-                <div style={{fontSize:"12",color:C.gold,marginBottom:"3px"}}>{lang==="it"?ev.time:ev.timeEN||ev.time} · {ev.loc||ev.place||""}</div>
-                <div style={{fontSize:"12",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?ev.desc:ev.descEN}</div>
+                <div style={{fontSize:"16px",color:C.blue,marginBottom:"3px",fontWeight:"400"}}>{lang==="it"?ev.title:ev.titleEN||ev.title}</div>
+                <div style={{fontSize:"12px",color:C.gold,marginBottom:"3px"}}>{lang==="it"?ev.time:ev.timeEN||ev.time} · {ev.loc||ev.place||""}</div>
+                <div style={{fontSize:"12px",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?ev.desc:ev.descEN}</div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.gold} strokeWidth="1.5" width="16" height="16"><polyline points="9,18 15,12 9,6"/></svg>
             </a>
           ))}
           <div style={{paddingTop:"16px",display:"flex",flexDirection:"column",gap:"12px"}}>
             <div style={{padding:"14px 16px",background:C.goldPale,borderRadius:"14px"}}>
-              <div style={{fontSize:"13",color:C.goldD,fontFamily:FB,fontWeight:"500",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:"6px"}}>{lang==="it"?"Per prenotarsi agli eventi":lang==="de"?"Für die Anmeldung zu Veranstaltungen":lang==="fr"?"Pour réserver aux événements":lang==="ru"?"Для записи на мероприятия":"To book events"}</div>
-              <div style={{fontSize:"14",color:C.textS,lineHeight:"1.6",marginBottom:"8px"}}>{lang==="it"?"Contattare il Welcome Center di Damanhur:":lang==="de"?"Kontaktiere das Welcome Center von Damanhur:":lang==="fr"?"Contacter le Welcome Center de Damanhur :":lang==="ru"?"Свяжитесь с Welcome Center Даманхура:":"Contact Damanhur's Welcome Center:"}</div>
-              <a href="tel:+393204824427" style={{fontFamily:FD,fontSize:"18",color:C.goldD,textDecoration:"none",display:"block"}}>{t.eventsPhone}</a>
-              <a href="mailto:welcome@dhwelcome.org" style={{fontFamily:FB,fontSize:"14",color:C.goldD,textDecoration:"none",display:"block",marginTop:"4px"}}>welcome@dhwelcome.org</a>
+              <div style={{fontSize:"13px",color:C.goldD,fontFamily:FB,fontWeight:"500",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:"6px"}}>{lang==="it"?"Per prenotarsi agli eventi":lang==="de"?"Für die Anmeldung zu Veranstaltungen":lang==="fr"?"Pour réserver aux événements":lang==="ru"?"Для записи на мероприятия":"To book events"}</div>
+              <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.6",marginBottom:"8px"}}>{lang==="it"?"Contattare il Welcome Center di Damanhur:":lang==="de"?"Kontaktiere das Welcome Center von Damanhur:":lang==="fr"?"Contacter le Welcome Center de Damanhur :":lang==="ru"?"Свяжитесь с Welcome Center Даманхура:":"Contact Damanhur's Welcome Center:"}</div>
+              <a href="tel:+393204824427" style={{fontFamily:FD,fontSize:"18px",color:C.goldD,textDecoration:"none",display:"block"}}>{t.eventsPhone}</a>
+              <a href="mailto:welcome@dhwelcome.org" style={{fontFamily:FB,fontSize:"14px",color:C.goldD,textDecoration:"none",display:"block",marginTop:"4px"}}>welcome@dhwelcome.org</a>
             </div>
-            <a href="https://damanhur.community/events/" target="_blank" rel="noopener noreferrer" style={{color:C.gold,fontFamily:FB,fontSize:"14",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</a>
+            <a href="https://damanhur.community/events/" target="_blank" rel="noopener noreferrer" style={{color:C.gold,fontFamily:FB,fontSize:"14px",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</a>
           </div>
         </Section>
       </div>
@@ -630,11 +630,11 @@ function ExperiencePage({t,lang,setPage}) {
   const [checked,setChecked] = useState({});
   return (
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill>{lang==="it"?"Esperienza":lang==="de"?"Erlebnis":lang==="fr"?"Expérience":lang==="ru"?"Опыт":"Experience"}</Pill>
-          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px",lineHeight:"1.1"}}>{t.expBtn.replace("\n"," ")}</div>
+          <div style={{fontFamily:FD,fontSize:"36px",fontWeight:"300",color:C.blue,marginTop:"10px",lineHeight:"1.1"}}>{t.expBtn.replace("\n"," ")}</div>
         </div>
       </div>
 
@@ -647,8 +647,8 @@ function ExperiencePage({t,lang,setPage}) {
         {/* SELFICA */}
         <WhiteCard style={{marginBottom:"24px",background:`linear-gradient(135deg,${C.goldPale},${C.white})`}}>
           <Pill color={C.goldD}>{lang==="it"?"La Selfica dei Sogni":lang==="de"?"Die Traum-Selfica":lang==="fr"?"La Selfica des Rêves":lang==="ru"?"Селфика Снов":"Dream Selfica"}</Pill>
-          <div style={{fontFamily:FD,fontSize:"24",color:C.blue,marginTop:"12px",marginBottom:"12px"}}>{lang==="it"?"La Tecnologia del Sogno":lang==="de"?"Die Technologie des Traums":lang==="fr"?"La Technologie du Rêve":lang==="ru"?"Технология сна":"The Technology of Dreams"}</div>
-          <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>
+          <div style={{fontFamily:FD,fontSize:"24px",color:C.blue,marginTop:"12px",marginBottom:"12px"}}>{lang==="it"?"La Tecnologia del Sogno":lang==="de"?"Die Technologie des Traums":lang==="fr"?"La Technologie du Rêve":lang==="ru"?"Технология сна":"The Technology of Dreams"}</div>
+          <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>
             {lang==="it"
               ?"La Selfica dei Sogni si trova sopra l'armadio, orientata verso il letto — da dove lavora in silenzio per tutta la notte. È uno strumento energetico forgiato a mano dagli artigiani di Damanhur: spirali metalliche che creano un campo semi-autonomo, progettato per:\n\n• Ampliare e rendere più vivido il sogno\n• Favorire il ricordo al risveglio\n• Creare un campo di protezione durante il sonno\n\nNon va toccata. Il modo di relazionarsi con lei è attraverso il pensiero o la parola: prima di dormire, guardala da dove sei, osservane le spirali. Rivolgile un'intenzione, una domanda, un saluto. Lei riceve."
               :lang==="de"
@@ -659,7 +659,7 @@ function ExperiencePage({t,lang,setPage}) {
               ?"Селфика Снов находится над шкафом, направленная к кровати — оттуда она тихо работает всю ночь. Это энергетический инструмент, выкованный вручную мастерами Даманхура: металлические спирали, создающие полуавтономное поле, предназначенное для того, чтобы:\n\n• расширять сон и делать его более ярким\n• способствовать запоминанию снов при пробуждении\n• создавать защитное поле во время сна\n\nЕё нельзя трогать. Способ взаимодействия с ней — через мысль или слово: перед сном посмотри на неё оттуда, где ты находишься, понаблюдай за спиралями. Обратись к ней с намерением, вопросом, приветствием. Она принимает."
               :"The Dream Selfica rests above the wardrobe, directed toward the bed — from where it works silently through the night. It is an energy tool hand-forged by Damanhur artisans: metal spirals creating a semi-autonomous field, designed to:\n\n• Expand and make the dream world more vivid\n• Facilitate dream recall upon waking\n• Create a protective field during sleep\n\nDo not touch it. Relate to it through thought or spoken word: before sleeping, look at it from where you are, observe its spirals. Bring it an intention, a question, a greeting. It receives."}
           </div>
-          <a href="https://shop.selfica.space/pages/what-is-selfica" target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14",letterSpacing:"0.08em",textDecoration:"none"}}>
+          <a href="https://shop.selfica.space/pages/what-is-selfica" target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14px",letterSpacing:"0.08em",textDecoration:"none"}}>
             {lang==="it"?"Scopri di più sulla Selfica, una tecnologia nata a Damanhur →":lang==="de"?"Mehr über Selfica erfahren, eine in Damanhur entwickelte Technologie →":lang==="fr"?"En savoir plus sur la Selfica, une technologie née à Damanhur →":lang==="ru"?"Узнать больше о Селфике, технологии, созданной в Даманхуре →":"Learn more about Selfica, a technology born in Damanhur →"}
           </a>
         </WhiteCard>
@@ -673,7 +673,7 @@ function ExperiencePage({t,lang,setPage}) {
                 <div style={{width:"24px",height:"24px",borderRadius:"50%",flexShrink:0,border:`1.5px solid ${checked[s.id]?C.gold:C.border}`,background:checked[s.id]?C.gold:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s"}}>
                   {checked[s.id]&&<svg viewBox="0 0 12 12" fill="none" stroke={C.white} strokeWidth="2.5" width="10" height="10"><polyline points="2,6 5,9 10,3"/></svg>}
                 </div>
-                <span style={{fontSize:"16",color:checked[s.id]?C.textM:C.blue,textDecoration:checked[s.id]?"line-through":"none",fontWeight:"300"}}>{s.text}</span>
+                <span style={{fontSize:"16px",color:checked[s.id]?C.textM:C.blue,textDecoration:checked[s.id]?"line-through":"none",fontWeight:"300"}}>{s.text}</span>
               </button>
             ))}
           </div>
@@ -788,20 +788,20 @@ function RoomExplorer({room,lang}) {
         <img src={current.src} alt={room.name} style={{width:"100%",display:"block"}}/>
         {spots.map((h,i)=>(
           <button key={i} onClick={()=>setActive(active===i?null:i)} style={{position:"absolute",left:`${h.x}%`,top:`${h.y}%`,transform:"translate(-50%,-50%)",width:"30px",height:"30px",borderRadius:"50%",background:active===i?C.gold:"rgba(255,255,255,0.88)",border:`2px solid ${C.gold}`,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 10px rgba(0,0,0,0.35)",cursor:"pointer",padding:0,animation:active===null?"abatonPulse 1.8s ease-in-out infinite alternate":"none"}}>
-            <span style={{color:active===i?C.white:C.goldD,fontSize:"13",fontWeight:"700",fontFamily:FB}}>{i+1}</span>
+            <span style={{color:active===i?C.white:C.goldD,fontSize:"13px",fontWeight:"700",fontFamily:FB}}>{i+1}</span>
           </button>
         ))}
       </div>
       {active!==null&&spots[active] ? (
         <div style={{marginTop:"14px",background:C.white,borderRadius:"16px",padding:"18px",boxShadow:C.shadow}}>
-          <div style={{fontFamily:FD,fontSize:"19",color:C.blue,marginBottom:"6px"}}>{LS(spots[active],"label",lang)}</div>
-          <div style={{fontSize:"14",color:C.textM,lineHeight:"1.7"}}>{LS(spots[active],"desc",lang)}</div>
+          <div style={{fontFamily:FD,fontSize:"19px",color:C.blue,marginBottom:"6px"}}>{LS(spots[active],"label",lang)}</div>
+          <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.7"}}>{LS(spots[active],"desc",lang)}</div>
           {spots[active].url&&(
             <a href={spots[active].url} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"8px",color:C.gold,fontFamily:FB,fontSize:"13px",textDecoration:"none"}}>{lang==="it"?"Scopri di più →":lang==="de"?"Mehr erfahren →":lang==="fr"?"En savoir plus →":lang==="ru"?"Узнать больше →":"Learn more →"}</a>
           )}
         </div>
       ) : (
-        <div style={{marginTop:"14px",fontSize:"13",color:C.textM,textAlign:"center",fontStyle:"italic"}}>
+        <div style={{marginTop:"14px",fontSize:"13px",color:C.textM,textAlign:"center",fontStyle:"italic"}}>
           {spots.length>0
             ? (lang==="it"?"Tocca i cerchi dorati per scoprire i dettagli":lang==="de"?"Tippe auf die goldenen Kreise, um mehr zu erfahren":lang==="fr"?"Touche les cercles dorés pour découvrir les détails":lang==="ru"?"Коснитесь золотых кружков, чтобы узнать подробности":"Tap the golden circles to discover the details")
             : (lang==="it"?"Scorri le foto qui sotto per esplorare la stanza":lang==="de"?"Scrolle durch die Fotos unten, um das Zimmer zu erkunden":lang==="fr"?"Fais défiler les photos ci-dessous pour explorer la chambre":lang==="ru"?"Пролистайте фото ниже, чтобы осмотреть комнату":"Scroll the photos below to explore the room")}
@@ -901,7 +901,7 @@ function AbatonPage({t,lang,setPage}) {
       ru:"Гостиная Абатона — это не зал ожидания, а пространство перехода между ночью и днём, между сном и бодрствованием.\n\nОна создана так, чтобы ничего не прерывать. Свет мягкий, материалы натуральные, атмосфера — атмосфера того, кто никуда не спешит. Это место, где сон не теряется, а сохраняется, где завтрак становится моментом, а не рассеянным жестом.\n\nЕё энергия отражает энергию Лабиринта Храмов — зала, посвящённого гармонии божественных сил, уважению к любой вере и созданию мирного будущего. Как и Лабиринт, Гостиная — это место перехода, открывающееся к чему-то большему.",
     },
     colazione:{
-      img:"https://images.unsplash.com/photo-1543362906-acfc16c67564?w=800&q=80&auto=format&fit=crop",
+      img:"/damanhur/colazione.jpg",
       it:"La colazione all'Abaton è pensata come prolungamento dello stato di presenza.\n\nAlimenti biologici e del territorio: cibo vivo, essenziale, che non sovraccarica ma sostiene. Sapori semplici che riportano il corpo a una sensazione di radicamento.\n\nSulle tovagliette trovi schemi di preparazione degli alimenti — un modo per portare attenzione anche al nutrimento come atto consapevole.\n\nLa colazione è servita dalle 8:00 alle 10:00.\n\nSe hai bisogno di lasciare la stanza prima di quest'orario, avvisaci in anticipo: possiamo concordare cosa farti trovare in frigo per la colazione.\n\nComunica eventuali intolleranze o preferenze alimentari quando scrivi.",
       en:"Breakfast at Abaton is designed as an extension of the state of presence.\n\nOrganic local foods: living, essential food that does not overwhelm but sustains. Simple flavors that bring the body back to a sense of groundedness.\n\nOn the placemats you find food preparation schemes — bringing awareness also to nourishment as a conscious act.\n\nBreakfast is served from 8:00 to 10:00.\n\nIf you need to leave the room before this time, please let us know in advance: we can arrange something in the fridge for you.\n\nPlease communicate any intolerances or dietary preferences when you write.",
       de:"Das Frühstück im Abaton ist als Verlängerung des Zustands der Präsenz gedacht.\n\nBiologische, lokale Lebensmittel: lebendiges, essentielles Essen, das nicht belastet, sondern nährt. Einfache Aromen, die den Körper zu einem Gefühl der Erdung zurückführen.\n\nAuf den Platzsets findest du Schemata zur Zubereitung der Speisen — eine Möglichkeit, auch der Ernährung als bewusstem Akt Aufmerksamkeit zu schenken.\n\nDas Frühstück wird von 8:00 bis 10:00 Uhr serviert.\n\nWenn du das Zimmer vor dieser Uhrzeit verlassen musst, informiere uns bitte im Voraus: Wir können vereinbaren, was wir dir für das Frühstück in den Kühlschrank legen.\n\nTeile uns eventuelle Unverträglichkeiten oder Ernährungspräferenzen bei deiner Nachricht mit.",
@@ -923,7 +923,7 @@ function AbatonPage({t,lang,setPage}) {
       gallery:[TEMPIO_EXT1,TEMPIO_EXT2,TEMPIO_EXT3,"/damanhur/tempio-2.jpg"],
     },
     campo:{
-      img:"https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80&auto=format&fit=crop",
+      img:"/damanhur/campo.jpg",
       it:"L'Abaton non è semplicemente un edificio. È un campo.\n\nCome un campo magnetico, l'Abaton ha una sua intelligenza: risponde alle presenze, si modifica con gli ospiti, lavora anche quando non è esplicitamente attivato.\n\nQuesta natura di campo intelligente è ciò che rende ogni soggiorno diverso. Non è la stanza a cambiare — è il dialogo tra il campo e la persona che lo abita.\n\nÈ per questo che suggeriamo un soggiorno minimo di tre notti: perché il campo ha bisogno di tempo per riconoscere l'ospite, e l'ospite ha bisogno di tempo per riconoscere il tempio e le sue funzioni.",
       en:"Abaton is not simply a building. It is a field.\n\nLike a magnetic field, Abaton has its own intelligence: it responds to presences, modifies itself with guests, works even when not explicitly activated.\n\nThis nature as an intelligent field is what makes each stay different. It is not the room that changes — it is the dialogue between the field and the person inhabiting it.\n\nThis is why we suggest a minimum stay of three nights: because the field needs time to recognize the guest, and the guest needs time to recognise the Temple and its functions.",
       de:"Das Abaton ist nicht einfach ein Gebäude. Es ist ein Feld.\n\nWie ein magnetisches Feld hat das Abaton seine eigene Intelligenz: Es reagiert auf Anwesenheit, verändert sich mit den Gästen, wirkt auch dann, wenn es nicht ausdrücklich aktiviert wird.\n\nDiese Natur als intelligentes Feld ist es, was jeden Aufenthalt anders macht. Nicht das Zimmer verändert sich — es ist der Dialog zwischen dem Feld und der Person, die es bewohnt.\n\nDeshalb empfehlen wir einen Aufenthalt von mindestens drei Nächten: Denn das Feld braucht Zeit, um den Gast zu erkennen, und der Gast braucht Zeit, um den Tempel und seine Funktionen zu erkennen.",
@@ -931,7 +931,7 @@ function AbatonPage({t,lang,setPage}) {
       ru:"Абатон — это не просто здание. Это поле.\n\nКак магнитное поле, Абатон обладает собственным разумом: он реагирует на присутствие, меняется вместе с гостями, действует даже тогда, когда не активирован явно.\n\nИменно эта природа разумного поля делает каждое пребывание особенным. Меняется не комната — меняется диалог между полем и человеком, который в нём находится.\n\nПоэтому мы рекомендуем пребывание минимум на три ночи: полю нужно время, чтобы узнать гостя, а гостю нужно время, чтобы узнать храм и его функции.",
     },
     sogno:{
-      img:"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80&auto=format&fit=crop",
+      img:"/damanhur/sogno.jpg",
       it:"Per l'Abaton il sogno non è un'evasione dalla realtà. È una porta verso di essa.\n\nIl sogno è inteso come un linguaggio — uno spazio di comunicazione tra la coscienza vigile e le dimensioni più sottili dell'essere. Un luogo dove le domande trovano risposta, le intuizioni emergono, le direzioni si chiariscono.\n\nTutto nell'Abaton è pensato per custodire questo spazio: il silenzio notturno, le la Selfica dei Sogni, il quaderno accanto al letto, il rituale serale.\n\nIl sogno qui non capita. Viene preparato.",
       en:"For Abaton, dreaming is not an escape from reality. It is a door towards it.\n\nDreaming is understood as a language — a communication space between waking consciousness and the subtler dimensions of being. A place where questions find answers, intuitions emerge, directions clarify.\n\nEverything in Abaton is designed to protect this space: nightly silence, fragrances, the Dream Selfica, the journal beside the bed, the evening ritual.\n\nHere, dreaming does not just happen. It is prepared.",
       de:"Für das Abaton ist der Traum keine Flucht vor der Realität. Er ist eine Tür zu ihr.\n\nDer Traum wird als Sprache verstanden — ein Kommunikationsraum zwischen dem wachen Bewusstsein und den feineren Dimensionen des Seins. Ein Ort, an dem Fragen Antworten finden, Intuitionen entstehen, Richtungen sich klären.\n\nAlles im Abaton ist darauf ausgerichtet, diesen Raum zu bewahren: die nächtliche Stille, die Traum-Selfica, das Notizbuch neben dem Bett, das abendliche Ritual.\n\nDer Traum geschieht hier nicht einfach. Er wird vorbereitet.",
@@ -942,27 +942,27 @@ function AbatonPage({t,lang,setPage}) {
   };
   if(sub==="camere"&&roomDetail) return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setRoomDetail(null)}/>
-        <div style={{marginTop:"16px"}}><div style={{fontFamily:FD,fontSize:"34",fontWeight:"300",color:roomDetail.acc}}>{roomDetail.name}</div></div>
+        <div style={{marginTop:"16px"}}><div style={{fontFamily:FD,fontSize:"34px",fontWeight:"300",color:roomDetail.acc}}>{roomDetail.name}</div></div>
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <RoomExplorer room={roomDetail} lang={lang}/>
         <WhiteCard style={{marginTop:"20px"}}>
-          <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>{LS(roomDetail,"desc",lang)}</div>
+          <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>{LS(roomDetail,"desc",lang)}</div>
         </WhiteCard>
       </div>
     </div>
   );
   if(sub==="camere") return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setSub(null)}/>
-        <div style={{marginTop:"16px"}}><div style={{fontFamily:FD,fontSize:"34",fontWeight:"300",color:C.blue}}>{lang==="it"?"Le Cinque Stanze":lang==="de"?"Die fünf Zimmer":lang==="fr"?"Les Cinq Chambres":lang==="ru"?"Пять комнат":"The Five Rooms"}</div></div>
+        <div style={{marginTop:"16px"}}><div style={{fontFamily:FD,fontSize:"34px",fontWeight:"300",color:C.blue}}>{lang==="it"?"Le Cinque Stanze":lang==="de"?"Die fünf Zimmer":lang==="fr"?"Les Cinq Chambres":lang==="ru"?"Пять комнат":"The Five Rooms"}</div></div>
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <WhiteCard style={{background:C.goldPale,marginBottom:"24px"}}>
-          <div style={{fontFamily:FD,fontSize:"18",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
+          <div style={{fontFamily:FD,fontSize:"18px",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
             {lang==="it"
               ?"Ogni stanza è connessa a una sala dei Templi dell'Umanità. I materiali, i dipinti, la Selfica — tutto parla la lingua di quello spazio sacro."
               :lang==="de"
@@ -980,20 +980,20 @@ function AbatonPage({t,lang,setPage}) {
               <div style={{height:"160px",overflow:"hidden",position:"relative"}}>
                 <img src={r.img} alt={r.name} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center"}} onError={e=>{e.target.style.display="none";}}/>
                 <div style={{position:"absolute",inset:0,background:`linear-gradient(to bottom, transparent 40%, ${r.acc}88 100%)`}}/>
-                <div style={{position:"absolute",bottom:"12px",left:"16px",fontFamily:FD,fontSize:"28",color:C.white,textShadow:"0 2px 8px rgba(0,0,0,0.4)"}}>{r.name}</div>
+                <div style={{position:"absolute",bottom:"12px",left:"16px",fontFamily:FD,fontSize:"28px",color:C.white,textShadow:"0 2px 8px rgba(0,0,0,0.4)"}}>{r.name}</div>
               </div>
             )}
             <div style={{padding:"18px"}}>
-              {!r.img&&<div style={{fontFamily:FD,fontSize:"24",color:r.acc,marginBottom:"10px"}}>{r.sym} {r.name}</div>}
-              <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>{LS(r,"desc",lang)}</div>
+              {!r.img&&<div style={{fontFamily:FD,fontSize:"24px",color:r.acc,marginBottom:"10px"}}>{r.sym} {r.name}</div>}
+              <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>{LS(r,"desc",lang)}</div>
               <div style={{display:"flex",gap:"10px",flexWrap:"wrap",marginTop:"14px"}}>
                 {ROOM_IMAGES[r.name]&&(
-                  <button onClick={()=>setRoomDetail(r)} style={{padding:"8px 16px",background:r.acc,border:"none",borderRadius:"20px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"13",letterSpacing:"0.05em"}}>
+                  <button onClick={()=>setRoomDetail(r)} style={{padding:"8px 16px",background:r.acc,border:"none",borderRadius:"20px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"13px",letterSpacing:"0.05em"}}>
                     {lang==="it"?"Esplora la stanza →":lang==="de"?"Zimmer erkunden →":lang==="fr"?"Explorer la chambre →":lang==="ru"?"Осмотреть комнату →":"Explore the room →"}
                   </button>
                 )}
                 {r.templeUrl&&(
-                  <a href={r.templeUrl} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"8px 16px",background:`${r.acc}18`,border:`1px solid ${r.acc}44`,borderRadius:"20px",color:r.acc,textDecoration:"none",fontFamily:FB,fontSize:"13",letterSpacing:"0.1em"}}>
+                  <a href={r.templeUrl} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"8px 16px",background:`${r.acc}18`,border:`1px solid ${r.acc}44`,borderRadius:"20px",color:r.acc,textDecoration:"none",fontFamily:FB,fontSize:"13px",letterSpacing:"0.1em"}}>
                     {lang==="it"?"Scopri la Sala →":lang==="de"?"Saal entdecken →":lang==="fr"?"Découvrir la salle →":lang==="ru"?"Узнать о зале →":"Discover the Hall →"}
                   </a>
                 )}
@@ -1009,11 +1009,11 @@ function AbatonPage({t,lang,setPage}) {
     const label = SUBS.find(s=>s.id===sub);
     return(
       <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-        <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+        <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
           <Back label={t.back} onClick={()=>setSub(null)}/>
           <div style={{marginTop:"16px"}}>
             <Pill color={label.color}>{LS(label,"label",lang)}</Pill>
-            <div style={{fontFamily:FD,fontSize:"34",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{LS(label,"label",lang)}</div>
+            <div style={{fontFamily:FD,fontSize:"34px",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{LS(label,"label",lang)}</div>
           </div>
         </div>
         <div style={{padding:"24px 22px 0"}}>
@@ -1025,7 +1025,7 @@ function AbatonPage({t,lang,setPage}) {
             </div>
           )}
           <WhiteCard>
-            <div style={{fontSize:"16",color:C.textS,lineHeight:"1.9",fontWeight:"300",whiteSpace:"pre-line"}}>{sc?(sc[lang]||sc.it):""}</div>
+            <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",fontWeight:"300",whiteSpace:"pre-line"}}>{sc?(sc[lang]||sc.it):""}</div>
           </WhiteCard>
           {sc&&sc.link&&(
             <a href={sc.link} target="_blank" rel="noopener noreferrer" style={{display:"block",marginTop:"12px",padding:"14px 20px",background:C.white,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"13px",boxShadow:C.shadow,textAlign:"center"}}>
@@ -1043,8 +1043,8 @@ function AbatonPage({t,lang,setPage}) {
           )}
           {sub==="sogno"&&sc&&sc.dreamReading&&(
             <div style={{background:C.goldPale,borderRadius:"20px",padding:"22px",border:`1px solid ${C.gold}33`}}>
-              <div style={{fontFamily:FD,fontSize:"22",color:C.goldD,marginBottom:"10px"}}>{lang==="it"?"Lettura dei Sogni":lang==="de"?"Traumdeutung":lang==="fr"?"Lecture des Rêves":lang==="ru"?"Толкование снов":"Dream Reading"}</div>
-              <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+              <div style={{fontFamily:FD,fontSize:"22px",color:C.goldD,marginBottom:"10px"}}>{lang==="it"?"Lettura dei Sogni":lang==="de"?"Traumdeutung":lang==="fr"?"Lecture des Rêves":lang==="ru"?"Толкование снов":"Dream Reading"}</div>
+              <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
                 {lang==="it"
                   ?"Vuoi approfondire il significato dei sogni che stai vivendo durante questo soggiorno?\n\nÈ possibile richiedere una sessione di lettura dei sogni con un esperto della comunità di Damanhur. I sogni hanno un linguaggio simbolico e personale — un sguardo esterno può aiutare a riconoscerne il messaggio."
                   :lang==="de"
@@ -1055,11 +1055,11 @@ function AbatonPage({t,lang,setPage}) {
                   ?"Хотите глубже понять смысл снов, которые видите во время этого пребывания?\n\nВы можете запросить сеанс толкования снов с экспертом сообщества Даманхур. Сны говорят на символическом, личном языке — взгляд со стороны может помочь распознать их послание."
                   :"Would you like to explore the meaning of the dreams you are experiencing during this stay?\n\nA dream reading session with a Damanhur community expert is available on request. Dreams have a symbolic, personal language — an outside perspective can help recognize their message."}
               </div>
-              <button onClick={()=>setPage("concierge")} style={{padding:"12px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14",letterSpacing:"0.1em",textTransform:"uppercase"}}>
+              <button onClick={()=>setPage("concierge")} style={{padding:"12px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px",letterSpacing:"0.1em",textTransform:"uppercase"}}>
                 {lang==="it"?"Richiedi una lettura →":lang==="de"?"Eine Deutung anfragen →":lang==="fr"?"Demander une lecture →":lang==="ru"?"Запросить толкование →":"Request a reading →"}
               </button>
               <div style={{background:C.card,borderRadius:"20px",padding:"22px",border:`1px solid ${C.border}`,marginTop:"12px"}}>
-                <div style={{fontFamily:FD,fontSize:"20",color:C.goldD,marginBottom:"10px"}}>{lang==="it"?"Lo Schema Teco":lang==="de"?"Das Teco-Schema":lang==="fr"?"Le Schéma Teco":lang==="ru"?"Схема Теко":"The Teco Schema"}</div>
+                <div style={{fontFamily:FD,fontSize:"20px",color:C.goldD,marginBottom:"10px"}}>{lang==="it"?"Lo Schema Teco":lang==="de"?"Das Teco-Schema":lang==="fr"?"Le Schéma Teco":lang==="ru"?"Схема Теко":"The Teco Schema"}</div>
                 <div style={{borderRadius:"16px",overflow:"hidden",marginBottom:"14px",boxShadow:C.shadow}}>
                   <img src="/rooms/schema-sogni.jpg" alt="Schema Teco" style={{width:"100%",display:"block"}}/>
                 </div>
@@ -1099,16 +1099,16 @@ function AbatonPage({t,lang,setPage}) {
                   const tk = TECO[lang]||TECO.en;
                   return (
                     <>
-                      <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8",marginBottom:"14px"}}>{tk.intro}</div>
+                      <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",marginBottom:"14px"}}>{tk.intro}</div>
                       <div style={{display:"flex",flexDirection:"column",gap:"10px",marginBottom:"14px"}}>
                         {tk.items.map((item,i)=>(
                           <div key={i} style={{background:C.goldPale,borderRadius:"14px",padding:"14px 16px"}}>
-                            <div style={{fontFamily:FB,fontSize:"12",fontWeight:"600",color:C.goldD,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:"5px"}}>{i+1}. {item.title}</div>
-                            <div style={{fontSize:"14",color:C.textS,lineHeight:"1.6"}}>{item.desc}</div>
+                            <div style={{fontFamily:FB,fontSize:"12px",fontWeight:"600",color:C.goldD,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:"5px"}}>{i+1}. {item.title}</div>
+                            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.6"}}>{item.desc}</div>
                           </div>
                         ))}
                       </div>
-                      <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8"}}>{tk.outro}</div>
+                      <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8"}}>{tk.outro}</div>
                     </>
                   );
                 })()}
@@ -1121,16 +1121,16 @@ function AbatonPage({t,lang,setPage}) {
   }
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill>Abaton Sacred Dreams</Pill>
-          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px",lineHeight:"1.1"}}>{lang==="it"?"Un campo intelligente":lang==="de"?"Ein intelligentes Feld":lang==="fr"?"Un champ intelligent":lang==="ru"?"Разумное поле":"An intelligent field"}</div>
+          <div style={{fontFamily:FD,fontSize:"36px",fontWeight:"300",color:C.blue,marginTop:"10px",lineHeight:"1.1"}}>{lang==="it"?"Un campo intelligente":lang==="de"?"Ein intelligentes Feld":lang==="fr"?"Un champ intelligent":lang==="ru"?"Разумное поле":"An intelligent field"}</div>
         </div>
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <WhiteCard style={{background:C.goldPale,marginBottom:"28px"}}>
-          <div style={{fontFamily:FD,fontSize:"18",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
+          <div style={{fontFamily:FD,fontSize:"18px",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
             {lang==="it"
               ?"L'Abaton non è stato concepito come una semplice struttura ricettiva, ma come un campo intelligente, un ambiente vivo capace di sostenere l'essere umano nel ricordare chi è."
               :lang==="de"
@@ -1145,8 +1145,8 @@ function AbatonPage({t,lang,setPage}) {
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"12px"}}>
           {SUBS.map(s=>(
             <button key={s.id} onClick={()=>setSub(s.id)} style={{padding:"22px 18px",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",textAlign:"left",boxShadow:C.shadow,fontFamily:FB}}>
-              <div style={{fontSize:"28",color:s.color,marginBottom:"10px"}}>{s.sym}</div>
-              <div style={{fontSize:"15",fontWeight:"500",color:C.blue,lineHeight:"1.3"}}>{LS(s,"label",lang)}</div>
+              <div style={{fontSize:"28px",color:s.color,marginBottom:"10px"}}>{s.sym}</div>
+              <div style={{fontSize:"15px",fontWeight:"500",color:C.blue,lineHeight:"1.3"}}>{LS(s,"label",lang)}</div>
             </button>
           ))}
         </div>
@@ -1165,28 +1165,28 @@ function DamanPage({t,lang,setPage}) {
       descDE:"Die historische und spirituelle Hauptstadt von Damanhur. Hier befinden sich der für Besucher geöffnete Tempel, begehbare Rundgänge, damanhurianische Werkstätten und Geschäfte, Versammlungen und gemeinschaftliches Leben. Hier befindet sich auch das Somachandra, die damanhurianische Kantine — ein Ort echter Begegnung und Austausch. Via Pramarzo 3, Baldissero Canavese.",
       descFR:"Capitale historique et spirituelle de Damanhur. On y trouve le Temple ouvert aux visiteurs, les circuits praticables, les ateliers et boutiques damanhuriens, les assemblées et la vie collective. Elle abrite aussi le Somachandra, la cantine damanhurienne — lieu de rencontre et d'échange authentique. Via Pramarzo 3, Baldissero Canavese.",
       descRU:"Историческая и духовная столица Даманхура. Здесь находится Храм, открытый для посетителей, проходимые тоннели, дамантурские мастерские и магазины, собрания и коллективная жизнь. Здесь же расположена Сомачандра — дамантурская столовая, место подлинных встреч и общения. Via Pramarzo 3, Baldissero Canavese.",
-      url:"https://damjl.org/chisiamo/",img:"https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=500&q=70&auto=format&fit=crop"},
+      url:"https://damjl.org/chisiamo/",img:"/damanhur/damjl.jpg"},
     {id:"etulte", sym:"🌲", color:"#4A7A4A", labelIT:"Etulte", labelEN:"Etulte", labelDE:"Etulte", labelFR:"Etulte", labelRU:"Этульте",
       descIT:"La comunità che custodisce l'area del Tempio, il bosco sacro e il territorio naturale che circonda Damanhur. Guardiani dell'ecosistema energetico: vivono in stretta relazione con la terra, gli alberi e gli animali selvatici, mantenendo vivo il campo naturale che sostiene l'intera Federazione.",
       descEN:"The community that cares for the Temple area, the sacred woods and the natural territory surrounding Damanhur. Guardians of the energetic ecosystem: they live in close relationship with the land, trees and wild animals, keeping alive the natural field that sustains the entire Federation.",
       descDE:"Die Gemeinschaft, die das Tempelgebiet, den heiligen Wald und das natürliche Gebiet rund um Damanhur hütet. Hüter des energetischen Ökosystems: Sie leben in enger Beziehung zu Erde, Bäumen und Wildtieren und halten das natürliche Feld lebendig, das die gesamte Föderation trägt.",
       descFR:"La communauté qui garde la zone du Temple, la forêt sacrée et le territoire naturel entourant Damanhur. Gardiens de l'écosystème énergétique : ils vivent en relation étroite avec la terre, les arbres et les animaux sauvages, maintenant vivant le champ naturel qui soutient toute la Fédération.",
       descRU:"Сообщество, хранящее территорию Храма, священный лес и природные земли вокруг Даманхура. Хранители энергетической экосистемы: они живут в тесной связи с землёй, деревьями и дикими животными, поддерживая живым природное поле, питающее всю Федерацию.",
-      url:"https://www.etulte.it/",img:"https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=70&auto=format&fit=crop"},
+      url:"https://www.etulte.it/",img:"/damanhur/etulte.jpg"},
     {id:"arca", sym:"〰", color:C.blueM, labelIT:"Arca Tentyris", labelEN:"Arca Tentyris", labelDE:"Arca Tentyris", labelFR:"Arca Tentyris", labelRU:"Арка Тентирис",
       descIT:"Pionieri di modelli sociali alternativi. La comunità è collegata all'elemento acqua, al principio femminile e all'innovazione. Un laboratorio vivente di nuove forme di vita collettiva, ricerca creativa e soluzioni per il futuro.",
       descEN:"Pioneers of alternative social models. The community is connected to the water element, the feminine principle and innovation. A living laboratory of new forms of collective life, creative research and solutions for the future.",
       descDE:"Pioniere alternativer Gesellschaftsmodelle. Die Gemeinschaft ist mit dem Element Wasser, dem weiblichen Prinzip und der Innovation verbunden. Ein lebendiges Labor für neue Formen kollektiven Lebens, kreativer Forschung und Zukunftslösungen.",
       descFR:"Pionniers de modèles sociaux alternatifs. La communauté est liée à l'élément eau, au principe féminin et à l'innovation. Un laboratoire vivant de nouvelles formes de vie collective, de recherche créative et de solutions pour l'avenir.",
       descRU:"Первопроходцы альтернативных социальных моделей. Сообщество связано со стихией воды, женским началом и инновациями. Живая лаборатория новых форм коллективной жизни, творческих исследований и решений для будущего.",
-      url:"https://www.arca.tentyris.it/",img:"https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=500&q=70&auto=format&fit=crop"},
+      url:"https://www.arca.tentyris.it/",img:"/damanhur/arca-tentyris.jpg"},
     {id:"oropan", sym:"🌾", color:"#7A6030", labelIT:"Oro Pan", labelEN:"Oro Pan", labelDE:"Oro Pan", labelFR:"Oro Pan", labelRU:"Оро Пан",
       descIT:"La comunità dell'allevamento e dell'agricoltura. Porta avanti la connessione profonda tra essere umano, terra e animali. Il cibo è un atto sacro: prodotto con rispetto, consumato con consapevolezza. Le Terre di Oro Pan accolgono pascoli, orti e animali vissuti come compagni di vita.",
       descEN:"The community of animal husbandry and agriculture. Carries forward the deep connection between human beings, land and animals. Food is a sacred act: produced with respect, consumed with awareness. The Oro Pan lands host pastures, gardens and animals lived with as companions.",
       descDE:"Die Gemeinschaft der Tierhaltung und Landwirtschaft. Sie pflegt die tiefe Verbindung zwischen Mensch, Erde und Tieren. Essen ist ein heiliger Akt: mit Respekt erzeugt, mit Bewusstsein verzehrt. Die Ländereien von Oro Pan beherbergen Weiden, Gärten und Tiere, die als Lebensgefährten betrachtet werden.",
       descFR:"La communauté de l'élevage et de l'agriculture. Elle porte la connexion profonde entre l'être humain, la terre et les animaux. La nourriture est un acte sacré : produite avec respect, consommée avec conscience. Les Terres d'Oro Pan accueillent pâturages, potagers et animaux vécus comme des compagnons de vie.",
       descRU:"Сообщество животноводства и земледелия. Оно поддерживает глубокую связь между человеком, землёй и животными. Еда — священный акт: производится с уважением, потребляется осознанно. Земли Оро Пан включают пастбища, огороды и животных, которых воспринимают как спутников жизни.",
-      url:"https://terredioropan.it/",img:"https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=500&q=70&auto=format&fit=crop"},
+      url:"https://terredioropan.it/",img:"/damanhur/oropan.jpg"},
   ];
   const DAMANSUBSECTIONS = [
     {id:"templi",  sym:"✦", color:C.gold,  labelIT:"I Templi dell'Umanità",  labelEN:"Temples of Humanity",  labelDE:"Die Tempel der Menschheit",  labelFR:"Les Temples de l'Humanité",  labelRU:"Храмы Человечества"},
@@ -1243,7 +1243,7 @@ function DamanPage({t,lang,setPage}) {
     },
     media:{it:"",en:"",de:"",fr:"",ru:""},
     valle:{
-      img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop",
+      img:"/damanhur/valchiusella.jpg",
       it:"La Val Chiusella, insieme alla Valle Sacra, è il territorio che ospita Damanhur. Queste valli piemontesi custodiscono non solo una natura straordinaria, ma anche il cuore pulsante di una delle comunità spirituali più originali del mondo.",
       en:"Val Chiusella, together with the Sacred Valley, is the territory that is home to Damanhur. These Piedmontese valleys shelter not only extraordinary nature, but the living heart of one of the world's most original spiritual communities.",
       de:"Das Val Chiusella bildet zusammen mit dem Heiligen Tal das Gebiet, in dem Damanhur beheimatet ist. Diese piemontesischen Täler bergen nicht nur eine außergewöhnliche Natur, sondern auch das pulsierende Herz einer der originellsten spirituellen Gemeinschaften der Welt.",
@@ -1283,20 +1283,17 @@ function DamanPage({t,lang,setPage}) {
       ]},
     ]},
     {n:{it:"Guide ed Escursioni",en:"Guided Tours & Excursions",de:"Geführte Touren & Ausflüge",fr:"Visites Guidées & Excursions",ru:"Экскурсии и прогулки"},d:{
-      it:"Visite guidate, escursioni di gruppo, trekking, camminate notturne e noleggio e-bike.",
-      en:"Guided tours, group hiking events, trekking, night walks and e-bike rental.",
-      de:"Geführte Besichtigungen, Gruppenwanderungen, Trekking, Nachtwanderungen und E-Bike-Verleih.",
-      fr:"Visites guidées, randonnées en groupe, trekking, marches nocturnes et location d'e-bikes.",
-      ru:"Экскурсии с гидом, групповые походы, треккинг, ночные прогулки и прокат электровелосипедов."
+      it:"Visite guidate, escursioni di gruppo, trekking e camminate notturne.",
+      en:"Guided tours, group hiking events, trekking and night walks.",
+      de:"Geführte Besichtigungen, Gruppenwanderungen, Trekking und Nachtwanderungen.",
+      fr:"Visites guidées, randonnées en groupe, trekking et marches nocturnes.",
+      ru:"Экскурсии с гидом, групповые походы, треккинг и ночные прогулки."
     },em:"🥾",
     expanded:true,
     list:[
       {cat:{it:"Visite guidate",en:"Guided tours",de:"Geführte Besichtigungen",fr:"Visites guidées",ru:"Экскурсии с гидом"},items:[
         {name:{it:"Con Muflone",en:"With Muflone",de:"Mit Muflone",fr:"Avec Muflone",ru:"С Муфлоне"},note:"+39 320 4780924"},
-        {name:{it:"Con Manuel",en:"With Manuel",de:"Mit Manuel",fr:"Avec Manuel",ru:"С Мануэлем"},note:"+39 338 9174651"},
-      ]},
-      {cat:"E-bike",items:[
-        {name:{it:"Noleggio ed escursioni con guida esperta",en:"Rental and excursions with expert guides",de:"Verleih und Ausflüge mit erfahrenem Guide",fr:"Location et excursions avec guide expérimenté",ru:"Прокат и экскурсии с опытным гидом"},note:"+39 338 9174651"},
+        {name:{it:"Con Manul",en:"With Manul",de:"Mit Manul",fr:"Avec Manul",ru:"С Манулом"},note:"+39 338 9174651"},
       ]},
     ]},
     {n:{it:"Laghi, Sentieri e Torrenti",en:"Lakes, Trails & Streams",de:"Seen, Wanderwege & Bäche",fr:"Lacs, Sentiers et Torrents",ru:"Озёра, тропы и ручьи"},d:{
@@ -1403,21 +1400,21 @@ function DamanPage({t,lang,setPage}) {
     const dsub = DAMANSUBSECTIONS.find(d=>d.id===sub);
     return(
       <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-        <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+        <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
           <Back label={t.back} onClick={()=>setSub(null)}/>
           <div style={{marginTop:"16px"}}>
             <Pill color={sec.color}>Damanhur</Pill>
-            <div style={{fontFamily:FD,fontSize:"32",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{label}</div>
+            <div style={{fontFamily:FD,fontSize:"32px",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{label}</div>
           </div>
         </div>
         <div style={{padding:"24px 22px 0"}}>
           {comm&&(
             <>
               <WhiteCard>
-                <div style={{fontSize:"16",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{LS(comm,"desc",lang)}</div>
+                <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{LS(comm,"desc",lang)}</div>
               </WhiteCard>
               {comm.url&&(
-                <a href={comm.url} target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"14px 20px",marginTop:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15",boxShadow:C.shadow,textAlign:"center"}}>
+                <a href={comm.url} target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"14px 20px",marginTop:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15px",boxShadow:C.shadow,textAlign:"center"}}>
                   {lang==="it"?"Visita il sito →":lang==="de"?"Website besuchen →":lang==="fr"?"Visiter le site →":lang==="ru"?"Посетить сайт →":"Visit website →"}
                 </a>
               )}
@@ -1426,7 +1423,7 @@ function DamanPage({t,lang,setPage}) {
           {sub==="blog"&&(
             <>
               {[{url:"https://damanhur.org/blog",label:lang==="it"?"Vai al Blog →":lang==="de"?"Zum Blog →":lang==="fr"?"Aller au Blog →":lang==="ru"?"Перейти в блог →":"Go to Blog →"},{url:"https://damanhur.community",label:lang==="it"?"Entra nella Community →":lang==="de"?"Der Community beitreten →":lang==="fr"?"Rejoindre la Communauté →":lang==="ru"?"Присоединиться к сообществу →":"Join the Community →"}].map((link,i)=>(
-                <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"16px 20px",marginBottom:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15",boxShadow:C.shadow}}>{link.label}</a>
+                <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"16px 20px",marginBottom:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15px",boxShadow:C.shadow}}>{link.label}</a>
               ))}
             </>
           )}
@@ -1438,43 +1435,43 @@ function DamanPage({t,lang,setPage}) {
                 </div>
               )}
               <WhiteCard>
-                <div style={{fontSize:"16",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT[sub][lang]||SUBCONTENT[sub].it}</div>
+                <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT[sub][lang]||SUBCONTENT[sub].it}</div>
                 {SUBCONTENT[sub].link&&(
-                  <a href={SUBCONTENT[sub].link} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14",letterSpacing:"0.08em",textDecoration:"none"}}>
+                  <a href={SUBCONTENT[sub].link} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14px",letterSpacing:"0.08em",textDecoration:"none"}}>
                     {LS(SUBCONTENT[sub],"linkLabel",lang)}
                   </a>
                 )}
               </WhiteCard>
-              {sub==="templi"&&<a href="https://thetemples.org/it/" target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"14px 20px",background:C.goldPale,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14",textAlign:"center"}}>{lang==="it"?"Sito ufficiale Templi →":lang==="de"?"Offizielle Tempel-Website →":lang==="fr"?"Site officiel des Temples →":lang==="ru"?"Официальный сайт Храмов →":"Official Temple website →"}</a>}
+              {sub==="templi"&&<a href="https://thetemples.org/it/" target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"14px 20px",background:C.goldPale,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14px",textAlign:"center"}}>{lang==="it"?"Sito ufficiale Templi →":lang==="de"?"Offizielle Tempel-Website →":lang==="fr"?"Site officiel des Temples →":lang==="ru"?"Официальный сайт Храмов →":"Official Temple website →"}</a>}
               {sub==="crea"&&SUBCONTENT.crea.links&&SUBCONTENT.crea.links.map((item,i)=>(
                 <WhiteCard key={i} style={{padding:"16px 20px",marginBottom:"10px"}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:"12px"}}>
                     <div style={{flex:1}}>
-                      <div style={{fontFamily:FD,fontSize:"17",color:C.blue,marginBottom:"4px"}}>{item.name}</div>
-                      <div style={{fontSize:"14",color:C.textM,lineHeight:"1.5"}}>{LS(item,"desc",lang)}</div>
+                      <div style={{fontFamily:FD,fontSize:"17px",color:C.blue,marginBottom:"4px"}}>{item.name}</div>
+                      <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.5"}}>{LS(item,"desc",lang)}</div>
                     </div>
-                    {item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",item.name,{lang})} style={{color:C.goldD,fontFamily:FB,fontSize:"13",textDecoration:"none",flexShrink:0,marginTop:"2px"}}>{"→"}</a>}
+                    {item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",item.name,{lang})} style={{color:C.goldD,fontFamily:FB,fontSize:"13px",textDecoration:"none",flexShrink:0,marginTop:"2px"}}>{"→"}</a>}
                   </div>
                 </WhiteCard>
               ))}
               {sub==="valle"&&VALPLACES.map((p,i)=>(
                 <WhiteCard key={i} style={{padding:"16px 20px",marginBottom:"10px"}}>
                   <div style={{display:"flex",gap:"12px",alignItems:"flex-start"}}>
-                    <span style={{fontSize:"24",marginTop:"2px"}}>{p.em}</span>
+                    <span style={{fontSize:"24px",marginTop:"2px"}}>{p.em}</span>
                     <div style={{flex:1}}>
-                      <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"3px"}}>
+                      <div style={{fontFamily:FD,fontSize:"18px",color:C.blue,marginBottom:"3px"}}>
                         {p.url ? <a href={p.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",LD(p.n,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(p.n,lang)}</a> : LD(p.n,lang)}
                       </div>
-                      <div style={{fontSize:"14",color:C.textM,marginBottom:p.list?"10px":"0"}}>{LD(p.d,lang)}</div>
+                      <div style={{fontSize:"14px",color:C.textM,marginBottom:p.list?"10px":"0"}}>{LD(p.d,lang)}</div>
                       {p.list&&p.list.map((cat,ci)=>(
                         <div key={ci} style={{marginBottom:"12px"}}>
-                          <div style={{fontFamily:FB,fontSize:"13",letterSpacing:"0.08em",color:C.gold,textTransform:"uppercase",marginBottom:"6px"}}>{LD(cat.cat,lang)}</div>
+                          <div style={{fontFamily:FB,fontSize:"13px",letterSpacing:"0.08em",color:C.gold,textTransform:"uppercase",marginBottom:"6px"}}>{LD(cat.cat,lang)}</div>
                           {cat.items.map((r,ri)=>(
                             <div key={ri} style={{paddingBottom:"6px",borderBottom:`1px solid ${C.border}`,marginBottom:"6px"}}>
-                              <div style={{fontFamily:FD,fontSize:"16",color:C.textD,fontWeight:"500"}}>
+                              <div style={{fontFamily:FD,fontSize:"16px",color:C.textD,fontWeight:"500"}}>
                                 {r.url ? <a href={r.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",LD(r.name,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(r.name,lang)}</a> : LD(r.name,lang)}
                               </div>
-                              <div style={{fontSize:"13",color:C.textM,lineHeight:"1.4"}}>{LD(r.note,lang)}</div>
+                              <div style={{fontSize:"13px",color:C.textM,lineHeight:"1.4"}}>{LD(r.note,lang)}</div>
                             </div>
                           ))}
                         </div>
@@ -1492,16 +1489,16 @@ function DamanPage({t,lang,setPage}) {
 
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill>{lang==="it"?"Damanhur · dal 1975":lang==="de"?"Damanhur · seit 1975":lang==="fr"?"Damanhur · depuis 1975":lang==="ru"?"Даманхур · с 1975":"Damanhur · since 1975"}</Pill>
-          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?"Un universo da scoprire":lang==="de"?"Ein Universum zu entdecken":lang==="fr"?"Un univers à découvrir":lang==="ru"?"Вселенная, которую предстоит открыть":"A universe to discover"}</div>
+          <div style={{fontFamily:FD,fontSize:"36px",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?"Un universo da scoprire":lang==="de"?"Ein Universum zu entdecken":lang==="fr"?"Un univers à découvrir":lang==="ru"?"Вселенная, которую предстоит открыть":"A universe to discover"}</div>
         </div>
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <WhiteCard style={{background:C.bluePale,marginBottom:"28px"}}>
-          <div style={{fontFamily:FD,fontSize:"17",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
+          <div style={{fontFamily:FD,fontSize:"17px",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
             {lang==="it"
               ?"Una federazione di comunità, un laboratorio spirituale, un'opera d'arte collettiva. Fondato nel 1975 da Falco Tarassaco, riconosciuto dall'ONU come modello di sostenibilità."
               :lang==="de"
@@ -1518,15 +1515,15 @@ function DamanPage({t,lang,setPage}) {
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"12px"}}>
             {DAMANSUBSECTIONS.map(s=>(
               <button key={s.id} onClick={()=>setSub(s.id)} style={{padding:"20px 16px",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",textAlign:"left",boxShadow:C.shadow}}>
-                <div style={{fontSize:"26",color:s.color,marginBottom:"8px"}}>{s.sym}</div>
-                <div style={{fontFamily:FB,fontSize:"15",fontWeight:"500",color:C.blue}}>{LS(s,"label",lang)}</div>
+                <div style={{fontSize:"26px",color:s.color,marginBottom:"8px"}}>{s.sym}</div>
+                <div style={{fontFamily:FB,fontSize:"15px",fontWeight:"500",color:C.blue}}>{LS(s,"label",lang)}</div>
               </button>
             ))}
           </div>
         </Section>
 
         <Section title={lang==="it"?"Le 4 Comunità":lang==="de"?"Die 4 Gemeinschaften":lang==="fr"?"Les 4 Communautés":lang==="ru"?"4 сообщества":"The 4 Communities"}>
-          <div style={{fontFamily:FS,fontSize:"15",color:C.textM,lineHeight:"1.6",padding:"4px 4px 16px",borderBottom:`1px solid ${C.border}`,marginBottom:"16px"}}>
+          <div style={{fontFamily:FS,fontSize:"15px",color:C.textM,lineHeight:"1.6",padding:"4px 4px 16px",borderBottom:`1px solid ${C.border}`,marginBottom:"16px"}}>
             {lang==="it"
               ? "Damanhur è organizzata in comunità distinte per preservare la qualità autentica delle relazioni. La ricerca sociale ha mostrato che ogni essere umano può mantenere al massimo circa 200 relazioni significative: oltre questo numero, i legami si indeboliscono. Suddividersi in comunità più piccole permette a ogni persona di essere davvero conosciuta e riconosciuta. Esistono inoltre comunità di Damanhur sparse nel mondo."
               : lang==="de"
@@ -1542,10 +1539,10 @@ function DamanPage({t,lang,setPage}) {
             <button key={i} onClick={()=>setSub(c.id)} style={{width:"100%",padding:"0",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",boxShadow:C.shadow,marginBottom:"10px",textAlign:"left",overflow:"hidden"}}>
               {c.img&&<img src={c.img} alt={LS(c,"label",lang)} style={{width:"100%",height:"90px",objectFit:"cover"}}/>}
               <div style={{display:"flex",alignItems:"center",gap:"14px",padding:"14px 18px"}}>
-              <div style={{width:"40px",height:"40px",borderRadius:"50%",background:`${c.color}18`,border:`2px solid ${c.color}33`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20",flexShrink:0}}>{c.sym}</div>
+              <div style={{width:"40px",height:"40px",borderRadius:"50%",background:`${c.color}18`,border:`2px solid ${c.color}33`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20px",flexShrink:0}}>{c.sym}</div>
               <div style={{flex:1}}>
-                <div style={{fontFamily:FD,fontSize:"20",color:c.color,marginBottom:"2px"}}>{LS(c,"label",lang)}</div>
-                <div style={{fontSize:"13",color:C.textM,fontFamily:FB}}>{LS(c,"desc",lang).substring(0,60)}…</div>
+                <div style={{fontFamily:FD,fontSize:"20px",color:c.color,marginBottom:"2px"}}>{LS(c,"label",lang)}</div>
+                <div style={{fontSize:"13px",color:C.textM,fontFamily:FB}}>{LS(c,"desc",lang).substring(0,60)}…</div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.textM} strokeWidth="1.5" width="16" height="16"><polyline points="9,18 15,12 9,6"/></svg>
               </div>
@@ -1602,11 +1599,11 @@ function WellnessPage({t,lang,setPage}) {
   ];
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill color={C.blueM}>{lang==="it"?"Benessere & Guarigione":lang==="de"?"Wellness & Heilung":lang==="fr"?"Bien-être & Guérison":lang==="ru"?"Велнес и исцеление":"Wellness & Healing"}</Pill>
-          <div style={{fontFamily:FD,fontSize:"36",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?"Prenditi cura di te":lang==="de"?"Sorge für dich selbst":lang==="fr"?"Prends soin de toi":lang==="ru"?"Позаботься о себе":"Take care of yourself"}</div>
+          <div style={{fontFamily:FD,fontSize:"36px",fontWeight:"300",color:C.blue,marginTop:"10px"}}>{lang==="it"?"Prenditi cura di te":lang==="de"?"Sorge für dich selbst":lang==="fr"?"Prends soin de toi":lang==="ru"?"Позаботься о себе":"Take care of yourself"}</div>
         </div>
       </div>
 
@@ -1615,7 +1612,7 @@ function WellnessPage({t,lang,setPage}) {
           <img src="/damanhur/benessere-1.jpg" alt="Trattamento Selfico" style={{width:"100%",height:"200px",objectFit:"cover",display:"block"}}/>
         </div>
         <WhiteCard style={{marginBottom:"24px"}}>
-          <div style={{fontSize:"15",color:C.textS,lineHeight:"1.8"}}>
+          <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8"}}>
             {lang==="it"
               ?"Una delle caratteristiche uniche dell'offerta olistica di Damanhur è l'integrazione della tecnologia Selfica, un'arte-scienza antica riscoperta e sviluppata qui da oltre 50 anni. Le Selfiche, collegate a forze cosmiche specifiche, utilizzano strutture basate su geometrie sacre, metalli e sostanze alchemiche per favorire l'evoluzione personale e collettiva, sostenendo la guarigione e l'espansione delle capacità umane."
               :lang==="de"
@@ -1631,42 +1628,42 @@ function WellnessPage({t,lang,setPage}) {
         {/* MEDITAZIONE NEI TEMPLI — offerta Abaton */}
         <WhiteCard style={{marginBottom:"16px",background:C.goldPale,border:`1px solid ${C.gold}33`}}>
           <div style={{display:"flex",alignItems:"center",gap:"12px",marginBottom:"10px"}}>
-            <span style={{fontSize:"22",color:C.gold}}>✦</span>
-            <div style={{fontFamily:FD,fontSize:"20",color:C.goldD}}>{lang==="it"?"Meditazione nei Templi":lang==="de"?"Meditation in den Tempeln":lang==="fr"?"Méditation dans les Temples":lang==="ru"?"Медитация в Храмах":"Temple Meditation"}</div>
+            <span style={{fontSize:"22px",color:C.gold}}>✦</span>
+            <div style={{fontFamily:FD,fontSize:"20px",color:C.goldD}}>{lang==="it"?"Meditazione nei Templi":lang==="de"?"Meditation in den Tempeln":lang==="fr"?"Méditation dans les Temples":lang==="ru"?"Медитация в Храмах":"Temple Meditation"}</div>
           </div>
-          <div style={{fontSize:"14",color:C.textS,lineHeight:"1.7",marginBottom:"14px"}}>
+          <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.7",marginBottom:"14px"}}>
             {lang==="it"?"Un momento di silenzio guidato negli spazi sacri dei Templi dell'Umanità.":lang==="de"?"Ein geführter Moment der Stille in den heiligen Räumen der Tempel der Menschheit.":lang==="fr"?"Un moment de silence guidé dans les espaces sacrés des Temples de l'Humanité.":lang==="ru"?"Момент управляемой тишины в священных пространствах Храмов Человечества.":"A guided moment of silence in the sacred spaces of the Temples of Humanity."}
           </div>
-          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei prenotare una Meditazione nei Templi dell'Umanità.":lang==="de"?"Guten Tag, ich möchte eine Meditation in den Tempeln der Menschheit buchen.":lang==="fr"?"Bonjour, je souhaiterais réserver une Méditation dans les Temples de l'Humanité.":lang==="ru"?"Здравствуйте, хотел(а) бы записаться на медитацию в Храмах Человечества.":"Hello, I would like to book a Temple Meditation.")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp book Temple Meditation",{lang})} style={{display:"inline-block",padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14",letterSpacing:"0.05em",textDecoration:"none"}}>{t.book}</a>
+          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei prenotare una Meditazione nei Templi dell'Umanità.":lang==="de"?"Guten Tag, ich möchte eine Meditation in den Tempeln der Menschheit buchen.":lang==="fr"?"Bonjour, je souhaiterais réserver une Méditation dans les Temples de l'Humanité.":lang==="ru"?"Здравствуйте, хотел(а) бы записаться на медитацию в Храмах Человечества.":"Hello, I would like to book a Temple Meditation.")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp book Temple Meditation",{lang})} style={{display:"inline-block",padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px",letterSpacing:"0.05em",textDecoration:"none"}}>{t.book}</a>
         </WhiteCard>
 
         {/* PROVIDERS: SelEt / Elasel / Kythera */}
         {PROVIDERS.map(p=>(
           <WhiteCard key={p.id} style={{marginBottom:"16px",background:p.bg,border:`1px solid ${p.color}33`}}>
-            <div style={{fontFamily:FB,fontSize:"13",fontWeight:"600",letterSpacing:"0.12em",textTransform:"uppercase",color:p.color,marginBottom:"14px"}}>{p.name}</div>
+            <div style={{fontFamily:FB,fontSize:"13px",fontWeight:"600",letterSpacing:"0.12em",textTransform:"uppercase",color:p.color,marginBottom:"14px"}}>{p.name}</div>
             <div style={{display:"flex",flexDirection:"column",gap:"14px",marginBottom:"16px"}}>
               {p.treatments.map((tr,i)=>(
                 <div key={i}>
-                  <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"3px"}}>{LS(tr,"name",lang)}</div>
-                  <div style={{fontSize:"14",color:C.textS,lineHeight:"1.6"}}>{LS(tr,"desc",lang)}</div>
+                  <div style={{fontFamily:FD,fontSize:"18px",color:C.blue,marginBottom:"3px"}}>{LS(tr,"name",lang)}</div>
+                  <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.6"}}>{LS(tr,"desc",lang)}</div>
                 </div>
               ))}
             </div>
-            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`)}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",`WhatsApp book ${p.name}`,{lang})} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
+            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`)}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",`WhatsApp book ${p.name}`,{lang})} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14px"}}>
               💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
             </a>
           </WhiteCard>
         ))}
 
-        <a href="https://shop.selfica.space/" target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"16px 20px",marginBottom:"24px",background:C.blue,borderRadius:"18px",color:C.white,textDecoration:"none",textAlign:"center",fontFamily:FB,fontSize:"14",letterSpacing:"0.05em"}}>
+        <a href="https://shop.selfica.space/" target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"16px 20px",marginBottom:"24px",background:C.blue,borderRadius:"18px",color:C.white,textDecoration:"none",textAlign:"center",fontFamily:FB,fontSize:"14px",letterSpacing:"0.05em"}}>
           {lang==="it"?"Scopri di più sulla Selfica →":lang==="de"?"Mehr über Selfica erfahren →":lang==="fr"?"En savoir plus sur la Selfica →":lang==="ru"?"Узнать больше о Селфике →":"Find out more on Selfica →"}
         </a>
 
         <div style={{padding:"18px 20px",background:C.white,borderRadius:"20px",boxShadow:C.shadow}}>
-          <div style={{fontSize:"14",color:C.textM,lineHeight:"1.7",marginBottom:"10px"}}>
+          <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.7",marginBottom:"10px"}}>
             {lang==="it"?"Per trattamenti esterni o info: contatta la direzione o il Welcome Center di Damanhur.":lang==="de"?"Für externe Behandlungen oder Infos: Kontaktiere die Leitung oder das Welcome Center von Damanhur.":lang==="fr"?"Pour des soins externes ou des informations : contacte la direction ou le Welcome Center de Damanhur.":lang==="ru"?"По вопросам внешних процедур или информации: свяжитесь с администрацией или Welcome Center Даманхура.":"For external treatments or info: contact management or Damanhur's Welcome Center."}
           </div>
-          <a href="tel:+393204824427" style={{color:C.gold,fontFamily:FB,fontSize:"15",textDecoration:"none"}}>📞 +39 320 482 4427</a>
+          <a href="tel:+393204824427" style={{color:C.gold,fontFamily:FB,fontSize:"15px",textDecoration:"none"}}>📞 +39 320 482 4427</a>
         </div>
       </div>
     </div>
@@ -1703,17 +1700,17 @@ function GuestsPage({t,lang,setPage}) {
   };
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"20px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"20px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
-        <div style={{fontFamily:FD,fontSize:"28",color:C.blue,marginTop:"16px"}}>{lang==="it"?"I tuoi privilegi":lang==="de"?"Deine Vorteile":lang==="fr"?"Vos privilèges":lang==="ru"?"Ваши привилегии":"Your privileges"}</div>
-        <div style={{fontFamily:FS,fontSize:"14",color:C.textM,fontStyle:"italic",marginTop:"4px"}}>{lang==="it"?"Ospiti Abaton · Sacred Dreams":lang==="de"?"Abaton Gäste · Sacred Dreams":lang==="fr"?"Hôtes Abaton · Sacred Dreams":lang==="ru"?"Гости Абатона · Sacred Dreams":"Abaton Guests · Sacred Dreams"}</div>
+        <div style={{fontFamily:FD,fontSize:"28px",color:C.blue,marginTop:"16px"}}>{lang==="it"?"I tuoi privilegi":lang==="de"?"Deine Vorteile":lang==="fr"?"Vos privilèges":lang==="ru"?"Ваши привилегии":"Your privileges"}</div>
+        <div style={{fontFamily:FS,fontSize:"14px",color:C.textM,fontStyle:"italic",marginTop:"4px"}}>{lang==="it"?"Ospiti Abaton · Sacred Dreams":lang==="de"?"Abaton Gäste · Sacred Dreams":lang==="fr"?"Hôtes Abaton · Sacred Dreams":lang==="ru"?"Гости Абатона · Sacred Dreams":"Abaton Guests · Sacred Dreams"}</div>
       </div>
       <div style={{padding:"0 22px"}}>
 
         {/* PORTA UN AMICO */}
         <Section title={lang==="it"?"Porta un amico":lang==="de"?"Bring einen Freund mit":lang==="fr"?"Parraine un ami":lang==="ru"?"Приведи друга":"Bring a friend"}>
           <div style={{background:C.goldPale,borderRadius:"20px",padding:"22px",border:`1px solid ${C.gold}44`}}>
-            <div style={{fontSize:"14",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
               {lang==="it"
                 ?"Conosci qualcuno che potrebbe beneficiare di questo luogo? Condividi la tua esperienza all'Abaton — per ogni amico che prenota grazie a te, riceverai uno sconto esclusivo sul tuo prossimo soggiorno."
                 :lang==="de"
@@ -1724,7 +1721,7 @@ function GuestsPage({t,lang,setPage}) {
                 ?"Знаете кого-то, кому это место могло бы пригодиться? Поделитесь своим опытом в Абатоне — за каждого друга, который забронирует благодаря вам, вы получите эксклюзивную скидку на следующее пребывание."
                 :"Do you know someone who could benefit from this place? Share your Abaton experience — for every friend who books thanks to you, you will receive an exclusive discount on your next stay."}
             </div>
-            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":lang==="de"?"Guten Tag, ich möchte einen Freund für einen Aufenthalt im Abaton empfehlen.":lang==="fr"?"Bonjour, je souhaiterais recommander un ami pour un séjour à l'Abaton.":lang==="ru"?"Здравствуйте, хотел(а) бы порекомендовать друга для пребывания в Абатоне.":"Hello, I would like to refer a friend for a stay at Abaton.")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp bring a friend",{lang})} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
+            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":lang==="de"?"Guten Tag, ich möchte einen Freund für einen Aufenthalt im Abaton empfehlen.":lang==="fr"?"Bonjour, je souhaiterais recommander un ami pour un séjour à l'Abaton.":lang==="ru"?"Здравствуйте, хотел(а) бы порекомендовать друга для пребывания в Абатоне.":"Hello, I would like to refer a friend for a stay at Abaton.")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp bring a friend",{lang})} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14px"}}>
               💬 {lang==="it"?"Scrivi al personale →":lang==="de"?"Dem Personal schreiben →":lang==="fr"?"Écrire au personnel →":lang==="ru"?"Написать персоналу →":"Message the staff →"}
             </a>
           </div>
@@ -1733,17 +1730,17 @@ function GuestsPage({t,lang,setPage}) {
         {/* FEEDBACK */}
         <Section title={lang==="it"?"Lascia un feedback":lang==="de"?"Hinterlasse ein Feedback":lang==="fr"?"Laisse un avis":lang==="ru"?"Оставить отзыв":"Leave feedback"}>
           <div style={{background:C.white,borderRadius:"20px",padding:"22px",boxShadow:C.shadow}}>
-            <div style={{fontSize:"14",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
               {lang==="it"?"Com'è andato il tuo soggiorno? Il tuo feedback ci aiuta a migliorare.":lang==="de"?"Wie war dein Aufenthalt? Dein Feedback hilft uns, besser zu werden.":lang==="fr"?"Comment s'est passé ton séjour ? Ton avis nous aide à nous améliorer.":lang==="ru"?"Как прошло ваше пребывание? Ваш отзыв поможет нам стать лучше.":"How was your stay? Your feedback helps us improve."}
             </div>
             {feedbackSent
-              ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontSize:"18"}}>
+              ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontSize:"18px"}}>
                   ✦ {lang==="it"?"Grazie per il tuo feedback!":lang==="de"?"Danke für dein Feedback!":lang==="fr"?"Merci pour ton avis !":lang==="ru"?"Спасибо за ваш отзыв!":"Thank you for your feedback!"}
                 </div>
               : <>
                   <div style={{display:"flex",gap:"6px",marginBottom:"14px",justifyContent:"center"}}>
                     {[1,2,3,4,5].map(n=>(
-                      <button key={n} onClick={()=>setRating(n)} style={{background:"none",border:"none",cursor:"pointer",fontSize:"32",color:n<=rating?C.gold:C.border,padding:0,lineHeight:1}}>★</button>
+                      <button key={n} onClick={()=>setRating(n)} style={{background:"none",border:"none",cursor:"pointer",fontSize:"32px",color:n<=rating?C.gold:C.border,padding:0,lineHeight:1}}>★</button>
                     ))}
                   </div>
                   <textarea
@@ -1751,9 +1748,9 @@ function GuestsPage({t,lang,setPage}) {
                     onChange={e=>setComment(e.target.value)}
                     placeholder={lang==="it"?"Raccontaci qualcosa (facoltativo)":lang==="de"?"Erzähl uns etwas (optional)":lang==="fr"?"Dis-nous quelque chose (facultatif)":lang==="ru"?"Расскажите что-нибудь (необязательно)":"Tell us something (optional)"}
                     rows={3}
-                    style={{width:"100%",padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14",background:C.bg,outline:"none",resize:"none",marginBottom:"14px"}}
+                    style={{width:"100%",padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",background:C.bg,outline:"none",resize:"none",marginBottom:"14px"}}
                   />
-                  <button onClick={handleFeedbackSubmit} disabled={!rating||feedbackSending} style={{width:"100%",padding:"13px",background:rating?C.gold:C.border,border:"none",borderRadius:"14px",color:C.white,cursor:rating?"pointer":"not-allowed",fontFamily:FB,fontSize:"14"}}>
+                  <button onClick={handleFeedbackSubmit} disabled={!rating||feedbackSending} style={{width:"100%",padding:"13px",background:rating?C.gold:C.border,border:"none",borderRadius:"14px",color:C.white,cursor:rating?"pointer":"not-allowed",fontFamily:FB,fontSize:"14px"}}>
                     {lang==="it"?"Invia feedback":lang==="de"?"Feedback senden":lang==="fr"?"Envoyer l'avis":lang==="ru"?"Отправить отзыв":"Send feedback"}
                   </button>
                 </>
@@ -1764,14 +1761,14 @@ function GuestsPage({t,lang,setPage}) {
         {/* RECENSIONE PUBBLICA */}
         <Section title={lang==="it"?"Lascia una recensione":lang==="de"?"Hinterlasse eine Bewertung":lang==="fr"?"Laisse un avis public":lang==="ru"?"Оставить публичный отзыв":"Leave a public review"}>
           <div style={{background:C.goldPale,borderRadius:"20px",padding:"22px",border:`1px solid ${C.gold}44`}}>
-            <div style={{fontSize:"14",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
               {lang==="it"?"Se hai amato il tuo soggiorno, una recensione pubblica ci aiuta moltissimo.":lang==="de"?"Wenn dir dein Aufenthalt gefallen hat, hilft uns eine öffentliche Bewertung enorm.":lang==="fr"?"Si tu as aimé ton séjour, un avis public nous aide énormément.":lang==="ru"?"Если вам понравилось пребывание, публичный отзыв очень нам поможет.":"If you loved your stay, a public review helps us enormously."}
             </div>
             <div style={{display:"flex",gap:"10px",flexWrap:"wrap"}}>
-              <a href="https://g.page/r/CX8uKstnGHC8EAE/review" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review Google",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14",boxShadow:C.shadow}}>
+              <a href="https://g.page/r/CX8uKstnGHC8EAE/review" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review Google",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14px",boxShadow:C.shadow}}>
                 Google →
               </a>
-              <a href="https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review TripAdvisor",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14",boxShadow:C.shadow}}>
+              <a href="https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review TripAdvisor",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14px",boxShadow:C.shadow}}>
                 TripAdvisor →
               </a>
             </div>
@@ -1781,7 +1778,7 @@ function GuestsPage({t,lang,setPage}) {
         {/* NEWSLETTER */}
         <Section title={lang==="it"?"Rimani connesso":lang==="de"?"Bleib verbunden":lang==="fr"?"Reste connecté":lang==="ru"?"Оставайтесь на связи":"Stay connected"}>
           <div style={{background:C.white,borderRadius:"20px",padding:"22px",boxShadow:C.shadow}}>
-            <div style={{fontSize:"14",color:C.textS,lineHeight:"1.8",marginBottom:"18px"}}>
+            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8",marginBottom:"18px"}}>
               {lang==="it"
                 ?"Iscriviti alla newsletter per ricevere aggiornamenti sugli eventi di Damanhur, offerte esclusive per ospiti e notizie dal campo dell'Abaton."
                 :lang==="de"
@@ -1793,7 +1790,7 @@ function GuestsPage({t,lang,setPage}) {
                 :"Subscribe to the newsletter to receive updates on Damanhur events, exclusive guest offers and news from the Abaton field."}
             </div>
             {emailSent
-              ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontSize:"18"}}>
+              ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontSize:"18px"}}>
                   ✦ {lang==="it"?"Grazie! Ti ricontatteremo presto.":lang==="de"?"Danke! Wir melden uns bald bei dir.":lang==="fr"?"Merci ! Nous te recontacterons bientôt.":lang==="ru"?"Спасибо! Мы скоро свяжемся с вами.":"Thank you! We will be in touch soon."}
                 </div>
               : <div style={{display:"flex",gap:"10px"}}>
@@ -1802,9 +1799,9 @@ function GuestsPage({t,lang,setPage}) {
                     onChange={e=>setEmail(e.target.value)}
                     onKeyDown={e=>e.key==="Enter"&&handleEmailSubmit()}
                     placeholder={lang==="it"?"La tua email":lang==="de"?"Deine E-Mail":lang==="fr"?"Ton e-mail":lang==="ru"?"Ваш email":"Your email"}
-                    style={{flex:1,padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14",background:C.bg,outline:"none"}}
+                    style={{flex:1,padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",background:C.bg,outline:"none"}}
                   />
-                  <button onClick={handleEmailSubmit} style={{padding:"13px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14",whiteSpace:"nowrap"}}>
+                  <button onClick={handleEmailSubmit} style={{padding:"13px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px",whiteSpace:"nowrap"}}>
                     {lang==="it"?"Iscriviti":lang==="de"?"Abonnieren":lang==="fr"?"S'inscrire":lang==="ru"?"Подписаться":"Subscribe"}
                   </button>
                 </div>
@@ -1841,18 +1838,18 @@ function ConciergePage({t,lang,setPage}) {
       <div style={{padding:"28px 24px 20px",background:C.white,borderRadius:"0 0 28px 28px",boxShadow:C.shadow,flexShrink:0}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"14px",display:"flex",alignItems:"center",gap:"14px"}}>
-          <div style={{width:"48px",height:"48px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20",color:C.white,flexShrink:0}}>✦</div>
+          <div style={{width:"48px",height:"48px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20px",color:C.white,flexShrink:0}}>✦</div>
           <div>
-            <div style={{fontFamily:FD,fontSize:"24",color:C.blue}}>{t.concTitle}</div>
-            <div style={{fontSize:"13",color:C.textM}}>{lang==="it"?"AI · sempre disponibile":lang==="de"?"KI · immer verfügbar":lang==="fr"?"IA · toujours disponible":lang==="ru"?"ИИ · всегда на связи":"AI · always available"}</div>
+            <div style={{fontFamily:FD,fontSize:"24px",color:C.blue}}>{t.concTitle}</div>
+            <div style={{fontSize:"13px",color:C.textM}}>{lang==="it"?"AI · sempre disponibile":lang==="de"?"KI · immer verfügbar":lang==="fr"?"IA · toujours disponible":lang==="ru"?"ИИ · всегда на связи":"AI · always available"}</div>
           </div>
         </div>
       </div>
       <div style={{flex:1,overflowY:"auto",padding:"20px 20px 16px",display:"flex",flexDirection:"column",gap:"14px"}}>
         {messages.map((m,i)=>(
           <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start",gap:"10px",alignItems:"flex-end"}}>
-            {m.role==="assistant"&&<div style={{width:"32px",height:"32px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"14",color:C.white,flexShrink:0}}>✦</div>}
-            <div style={{maxWidth:"76%",padding:"14px 18px",lineHeight:"1.7",borderRadius:m.role==="user"?"20px 20px 4px 20px":"20px 20px 20px 4px",background:m.role==="user"?`linear-gradient(135deg,${C.gold},${C.goldD})`:C.white,color:m.role==="user"?C.white:C.blue,fontSize:"16",fontWeight:"300",boxShadow:m.role==="user"?C.shadowG:C.shadow,whiteSpace:"pre-wrap"}}>{m.content}</div>
+            {m.role==="assistant"&&<div style={{width:"32px",height:"32px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"14px",color:C.white,flexShrink:0}}>✦</div>}
+            <div style={{maxWidth:"76%",padding:"14px 18px",lineHeight:"1.7",borderRadius:m.role==="user"?"20px 20px 4px 20px":"20px 20px 20px 4px",background:m.role==="user"?`linear-gradient(135deg,${C.gold},${C.goldD})`:C.white,color:m.role==="user"?C.white:C.blue,fontSize:"16px",fontWeight:"300",boxShadow:m.role==="user"?C.shadowG:C.shadow,whiteSpace:"pre-wrap"}}>{m.content}</div>
           </div>
         ))}
         {loading&&<div style={{display:"flex",gap:"5px",paddingLeft:"42px"}}>{[0,1,2].map(i=><div key={i} style={{width:"7px",height:"7px",borderRadius:"50%",background:C.gold,animation:`abatonPulse 1.2s ${i*0.22}s ease-in-out infinite alternate`}}/>)}</div>}
@@ -1860,12 +1857,12 @@ function ConciergePage({t,lang,setPage}) {
       </div>
       {messages.length<=2&&(
         <div style={{padding:"8px 16px 12px",display:"flex",gap:"8px",overflowX:"auto",flexShrink:0}}>
-          {t.suggestions.map((s,i)=><button key={i} onClick={()=>send(s)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"20px",padding:"8px 16px",color:C.textS,fontSize:"14",cursor:"pointer",whiteSpace:"nowrap",fontFamily:FB,flexShrink:0,boxShadow:C.shadow}}>{s}</button>)}
+          {t.suggestions.map((s,i)=><button key={i} onClick={()=>send(s)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"20px",padding:"8px 16px",color:C.textS,fontSize:"14px",cursor:"pointer",whiteSpace:"nowrap",fontFamily:FB,flexShrink:0,boxShadow:C.shadow}}>{s}</button>)}
         </div>
       )}
       <div style={{padding:"12px 16px 80px",background:C.white,borderTop:`1px solid ${C.border}`,display:"flex",gap:"10px",flexShrink:0}}>
-        <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder={t.concPlaceholder} style={{flex:1,background:C.bg,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"13px 18px",color:C.blue,fontFamily:FB,fontSize:"16",outline:"none"}}/>
-        <button onClick={()=>send()} disabled={loading||!input.trim()} style={{background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"16px",padding:"0 20px",cursor:"pointer",opacity:loading||!input.trim()?0.4:1,color:C.white,fontSize:"22",fontWeight:"300",boxShadow:C.shadowG}}>→</button>
+        <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder={t.concPlaceholder} style={{flex:1,background:C.bg,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"13px 18px",color:C.blue,fontFamily:FB,fontSize:"16px",outline:"none"}}/>
+        <button onClick={()=>send()} disabled={loading||!input.trim()} style={{background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"16px",padding:"0 20px",cursor:"pointer",opacity:loading||!input.trim()?0.4:1,color:C.white,fontSize:"22px",fontWeight:"300",boxShadow:C.shadowG}}>→</button>
       </div>
     </div>
   );
@@ -1905,9 +1902,9 @@ function DashboardPage({t,lang,setPage}) {
   if(!pinOk) return (
     <div style={{minHeight:"100vh",background:C.bg,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}}>
       <div style={{background:C.white,borderRadius:"20px",padding:"28px",width:"100%",maxWidth:"320px"}}>
-        <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"14px"}}>Dashboard — accesso</div>
-        <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&load(pin)} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"16",marginBottom:"12px",outline:"none"}}/>
-        {error&&<div style={{color:"#B04A4A",fontSize:"13",marginBottom:"10px"}}>{error}</div>}
+        <div style={{fontFamily:FD,fontSize:"18px",color:C.blue,marginBottom:"14px"}}>Dashboard — accesso</div>
+        <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&load(pin)} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"16px",marginBottom:"12px",outline:"none"}}/>
+        {error&&<div style={{color:"#B04A4A",fontSize:"13px",marginBottom:"10px"}}>{error}</div>}
         <div style={{display:"flex",gap:"10px"}}>
           <button onClick={()=>setPage("home")} style={{flex:1,padding:"12px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",cursor:"pointer",fontFamily:FB}}>Annulla</button>
           <button onClick={()=>load(pin)} disabled={loading} style={{flex:1,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB}}>{loading?"...":"Entra"}</button>
@@ -1922,7 +1919,7 @@ function DashboardPage({t,lang,setPage}) {
       <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
         {rows.map((r,i)=>(
           <div key={i}>
-            <div style={{display:"flex",justifyContent:"space-between",fontSize:"13",color:C.textS,marginBottom:"3px"}}>
+            <div style={{display:"flex",justifyContent:"space-between",fontSize:"13px",color:C.textS,marginBottom:"3px"}}>
               <span>{r[labelKey]}</span><span style={{color:C.textM}}>{r[countKey]}</span>
             </div>
             <div style={{height:"6px",background:C.bg,borderRadius:"4px",overflow:"hidden"}}>
@@ -1930,7 +1927,7 @@ function DashboardPage({t,lang,setPage}) {
             </div>
           </div>
         ))}
-        {rows.length===0&&<div style={{fontSize:"13",color:C.textM,fontStyle:"italic"}}>Nessun dato ancora.</div>}
+        {rows.length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessun dato ancora.</div>}
       </div>
     );
   };
@@ -1940,31 +1937,31 @@ function DashboardPage({t,lang,setPage}) {
 
   return (
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill>Dashboard</Pill>
-          <div style={{fontFamily:FD,fontSize:"32",fontWeight:"300",color:C.blue,marginTop:"10px"}}>Utilizzo dell'app</div>
+          <div style={{fontFamily:FD,fontSize:"32px",fontWeight:"300",color:C.blue,marginTop:"10px"}}>Utilizzo dell'app</div>
         </div>
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <div style={{display:"flex",gap:"10px",marginBottom:"18px"}}>
-          <button onClick={()=>load(pin)} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"13"}}>↻ Aggiorna</button>
-          <button onClick={async()=>{ if(!window.confirm("Cancellare tutte le statistiche di navigazione? Feedback e recensioni non vengono toccati.")) return; await fetch("/api/reset",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin})}); load(pin); }} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:"#B04A4A",cursor:"pointer",fontFamily:FB,fontSize:"13"}}>🗑 Azzera statistiche</button>
+          <button onClick={()=>load(pin)} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"13px"}}>↻ Aggiorna</button>
+          <button onClick={async()=>{ if(!window.confirm("Cancellare tutte le statistiche di navigazione? Feedback e recensioni non vengono toccati.")) return; await fetch("/api/reset",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin})}); load(pin); }} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:"#B04A4A",cursor:"pointer",fontFamily:FB,fontSize:"13px"}}>🗑 Azzera statistiche</button>
         </div>
 
         <div style={{display:"flex",gap:"10px",marginBottom:"24px"}}>
           <div style={{flex:1,background:C.white,borderRadius:"16px",padding:"16px",boxShadow:C.shadow,textAlign:"center"}}>
-            <div style={{fontFamily:FD,fontSize:"28",color:C.gold}}>{data.total}</div>
-            <div style={{fontSize:"12",color:C.textM}}>eventi totali</div>
+            <div style={{fontFamily:FD,fontSize:"28px",color:C.gold}}>{data.total}</div>
+            <div style={{fontSize:"12px",color:C.textM}}>eventi totali</div>
           </div>
           <div style={{flex:1,background:C.white,borderRadius:"16px",padding:"16px",boxShadow:C.shadow,textAlign:"center"}}>
-            <div style={{fontFamily:FD,fontSize:"28",color:C.gold}}>{data.recentQuestions.length}</div>
-            <div style={{fontSize:"12",color:C.textM}}>domande al concierge</div>
+            <div style={{fontFamily:FD,fontSize:"28px",color:C.gold}}>{data.recentQuestions.length}</div>
+            <div style={{fontSize:"12px",color:C.textM}}>domande al concierge</div>
           </div>
           <div style={{flex:1,background:C.white,borderRadius:"16px",padding:"16px",boxShadow:C.shadow,textAlign:"center"}}>
-            <div style={{fontFamily:FD,fontSize:"28",color:C.gold}}>{data.feedbackAvg?Number(data.feedbackAvg).toFixed(1):"—"}</div>
-            <div style={{fontSize:"12",color:C.textM}}>media feedback ({data.feedbackCount})</div>
+            <div style={{fontFamily:FD,fontSize:"28px",color:C.gold}}>{data.feedbackAvg?Number(data.feedbackAvg).toFixed(1):"—"}</div>
+            <div style={{fontSize:"12px",color:C.textM}}>media feedback ({data.feedbackCount})</div>
           </div>
         </div>
 
@@ -1985,11 +1982,11 @@ function DashboardPage({t,lang,setPage}) {
             <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
               {data.recentQuestions.map((q,i)=>(
                 <div key={i} style={{paddingBottom:"10px",borderBottom:i<data.recentQuestions.length-1?`1px solid ${C.border}`:"none"}}>
-                  <div style={{fontSize:"14",color:C.textD}}>{q.label}</div>
-                  <div style={{fontSize:"11",color:C.textM,marginTop:"2px"}}>{q.lang?.toUpperCase()} · {new Date(q.created_at).toLocaleString("it-IT")}</div>
+                  <div style={{fontSize:"14px",color:C.textD}}>{q.label}</div>
+                  <div style={{fontSize:"11px",color:C.textM,marginTop:"2px"}}>{q.lang?.toUpperCase()} · {new Date(q.created_at).toLocaleString("it-IT")}</div>
                 </div>
               ))}
-              {data.recentQuestions.length===0&&<div style={{fontSize:"13",color:C.textM,fontStyle:"italic"}}>Nessuna domanda ancora.</div>}
+              {data.recentQuestions.length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessuna domanda ancora.</div>}
             </div>
           </WhiteCard>
         </Section>
@@ -1999,12 +1996,12 @@ function DashboardPage({t,lang,setPage}) {
             <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
               {data.recentFeedback.map((f,i)=>(
                 <div key={i} style={{paddingBottom:"10px",borderBottom:i<data.recentFeedback.length-1?`1px solid ${C.border}`:"none"}}>
-                  <div style={{fontSize:"14",color:C.gold}}>{"★".repeat(f.rating)}{"☆".repeat(5-f.rating)}</div>
-                  {f.comment&&<div style={{fontSize:"14",color:C.textD,marginTop:"3px"}}>{f.comment}</div>}
-                  <div style={{fontSize:"11",color:C.textM,marginTop:"2px"}}>{f.room||""} {f.lang?.toUpperCase()} · {new Date(f.created_at).toLocaleString("it-IT")}</div>
+                  <div style={{fontSize:"14px",color:C.gold}}>{"★".repeat(f.rating)}{"☆".repeat(5-f.rating)}</div>
+                  {f.comment&&<div style={{fontSize:"14px",color:C.textD,marginTop:"3px"}}>{f.comment}</div>}
+                  <div style={{fontSize:"11px",color:C.textM,marginTop:"2px"}}>{f.room||""} {f.lang?.toUpperCase()} · {new Date(f.created_at).toLocaleString("it-IT")}</div>
                 </div>
               ))}
-              {data.recentFeedback.length===0&&<div style={{fontSize:"13",color:C.textM,fontStyle:"italic"}}>Nessun feedback ancora.</div>}
+              {data.recentFeedback.length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessun feedback ancora.</div>}
             </div>
           </WhiteCard>
         </Section>
@@ -2120,7 +2117,7 @@ export default function AbatonApp() {
           {NAV.map(({id,Icon})=>{
             const active = page===id||(page==="experience"&&id==="home");
             return(
-              <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 8px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9",fontWeight:active?"500":"300",letterSpacing:"0.1em",textTransform:"uppercase",transition:"color 0.2s"}}>
+              <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 8px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9px",fontWeight:active?"500":"300",letterSpacing:"0.1em",textTransform:"uppercase",transition:"color 0.2s"}}>
                 <Icon/>{t.nav[NAV.indexOf(NAV.find(n=>n.id===id))]}
               </button>
             );
@@ -2135,7 +2132,7 @@ export default function AbatonApp() {
               {NAV.map(({id,Icon})=>{
                 const active = page===id||(page==="experience"&&id==="home");
                 return(
-                  <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 14px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9",fontWeight:active?"500":"300",letterSpacing:"0.12em",textTransform:"uppercase",transition:"color 0.2s"}}>
+                  <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 14px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9px",fontWeight:active?"500":"300",letterSpacing:"0.12em",textTransform:"uppercase",transition:"color 0.2s"}}>
                     <Icon/>{t.nav[NAV.indexOf(NAV.find(n=>n.id===id))]}
                   </button>
                 );
