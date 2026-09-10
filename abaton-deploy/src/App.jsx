@@ -1717,7 +1717,7 @@ function ConciergePage({t,lang,setPage}) {
     const next=[...messages,{role:"user",content:msg}];
     setMessages(next); setInput(""); setLoading(true);
     try{
-      const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:SYS[lang]||SYS.en,messages:next})});
+      const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-5",max_tokens:1000,system:SYS[lang]||SYS.en,messages:next})});
       const data=await res.json();
       setMessages([...next,{role:"assistant",content:data.content?.[0]?.text||"…"}]);
     }catch{setMessages([...next,{role:"assistant",content:"…"}]);}
