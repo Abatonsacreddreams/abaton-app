@@ -58,12 +58,9 @@ const T = {
       {id:"r5",text:"Fai lo schema Teco — percorri con un dito il simbolo sul letto per almeno 3 minuti",special:"teco"},
       {id:"r6",text:"Apri il quaderno dei sogni e posizionalo sul comodino con una penna"},
       {id:"r7",text:"Scrivi una domanda o un'intenzione per la notte"},
-      {id:"r8",text:"Respirazione guidata · 11 minuti",audio:true},
     ],
     breathTitle:"Respirazione per il Sogno",
     breathDesc:"11 minuti di rumore bianco per preparare il corpo al sogno profondo.",
-    meditTitle:"Meditazioni Guidate",
-    meditDesc:"Video di meditazione selezionati per accompagnare la tua esperienza.",
     book:"Prenota",
     buyOnline:"Acquista online",
     pickUp:"Ritiro Abaton",
@@ -93,12 +90,9 @@ const T = {
       {id:"r5",text:"Do the Teco schema — trace the symbol on the bed with one finger for at least 3 minutes",special:"teco"},
       {id:"r6",text:"Open the dream journal and place it on the bedside table with a pen"},
       {id:"r7",text:"Write a question or intention for the night"},
-      {id:"r8",text:"Guided breathing · 11 minutes",audio:true},
     ],
     breathTitle:"Dream Breathing",
     breathDesc:"11 minutes of white noise to prepare body and mind for deep dreaming.",
-    meditTitle:"Guided Meditations",
-    meditDesc:"Selected meditation videos to accompany your experience.",
     book:"Book",
     buyOnline:"Buy online",
     pickUp:"Pick up at Abaton",
@@ -128,12 +122,9 @@ const T = {
       {id:"r5",text:"Teco-Schema: Symbol auf dem Bett mit dem Finger mindestens 3 Minuten nachfahren",special:"teco"},
       {id:"r6",text:"Traumtagebuch aufschlagen und mit Stift auf den Nachttisch legen"},
       {id:"r7",text:"Eine Frage oder Absicht für die Nacht aufschreiben"},
-      {id:"r8",text:"Geführte Atemübung · 11 Minuten",audio:true},
     ],
     breathTitle:"Traumatmung",
     breathDesc:"11 Minuten weißes Rauschen — Körper und Geist auf tiefen Schlaf vorbereiten.",
-    meditTitle:"Geführte Meditationen",
-    meditDesc:"Ausgewählte Meditationsvideos für Ihre Erfahrung.",
     book:"Buchen",
     buyOnline:"Online kaufen",
     pickUp:"Abholung in Abaton",
@@ -163,12 +154,9 @@ const T = {
       {id:"r5",text:"Schéma Teco — parcourir le symbole sur le lit avec un doigt, au moins 3 minutes",special:"teco"},
       {id:"r6",text:"Ouvrir le carnet de rêves et le poser sur la table de nuit avec un stylo"},
       {id:"r7",text:"Écrire une question ou une intention pour la nuit"},
-      {id:"r8",text:"Respiration guidée · 11 minutes",audio:true},
     ],
     breathTitle:"Respiration des rêves",
     breathDesc:"11 minutes de bruit blanc pour préparer le corps et l'esprit au rêve profond.",
-    meditTitle:"Méditations guidées",
-    meditDesc:"Vidéos de méditation pour accompagner votre expérience.",
     book:"Réserver",
     buyOnline:"Acheter en ligne",
     pickUp:"Retrait à Abaton",
@@ -198,12 +186,9 @@ const T = {
       {id:"r5",text:"Схема Теко — обводить символ на кровати пальцем не менее 3 минут",special:"teco"},
       {id:"r6",text:"Открыть дневник снов и положить с ручкой на прикроватный столик"},
       {id:"r7",text:"Записать вопрос или намерение на ночь"},
-      {id:"r8",text:"Дыхательная практика · 11 минут",audio:true},
     ],
     breathTitle:"Дыхание для снов",
     breathDesc:"11 минут белого шума для подготовки тела и разума к глубокому сну.",
-    meditTitle:"Направленные медитации",
-    meditDesc:"Видеомедитации для сопровождения вашего опыта.",
     book:"Забронировать",
     buyOnline:"Купить онлайн",
     pickUp:"Получить в Абатоне",
@@ -259,12 +244,6 @@ const EVENTS = [
     descEN:"An evocative ritual that reveals the deep bond uniting the people of Damanhur.",
     url:"https://damanhur.community/event/damanhur-get-ritual-3/2026-09-12/"
   },
-];
-
-const VIDEOS_MEDITATION = [
-  {id:"placeholder1",titleIT:"Meditazione del Mattino",titleEN:"Morning Meditation",titleDE:"Morgenmeditation",titleFR:"Méditation du Matin",titleRU:"Утренняя медитация",dur:"12 min",color:C.gold},
-  {id:"placeholder2",titleIT:"Respiro e Presenza",titleEN:"Breath & Presence",titleDE:"Atem und Präsenz",titleFR:"Souffle et Présence",titleRU:"Дыхание и присутствие",dur:"18 min",color:C.blueM},
-  {id:"placeholder3",titleIT:"Sogno Consapevole",titleEN:"Conscious Dreaming",titleDE:"Bewusstes Träumen",titleFR:"Rêve Conscient",titleRU:"Осознанное сновидение",dur:"24 min",color:"#7A9A6A"},
 ];
 
 const DAMANHUR_VIDEOS = [
@@ -631,7 +610,6 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
 // ── EXPERIENCE ────────────────────────────────────────────────────────────────
 function ExperiencePage({t,lang,setPage}) {
   const [checked,setChecked] = useState({});
-  const [showBreath,setShowBreath] = useState(false);
   return (
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
@@ -643,27 +621,10 @@ function ExperiencePage({t,lang,setPage}) {
       </div>
 
       <div style={{padding:"24px 22px 0"}}>
-        {/* MEDITATION CIRCLES */}
-        <Section title={t.meditTitle}>
-          <p style={{fontSize:"15",color:C.textM,marginBottom:"20px",lineHeight:"1.7"}}>{t.meditDesc}</p>
-          <div style={{display:"flex",gap:"16px",overflowX:"auto",paddingBottom:"8px"}}>
-            {VIDEOS_MEDITATION.map((v,i)=>(
-              <div key={i} style={{flexShrink:0,textAlign:"center"}}>
-                <div style={{width:"100px",height:"100px",borderRadius:"50%",background:`${v.color}18`,border:`2px solid ${v.color}44`,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",marginBottom:"8px",cursor:"pointer",position:"relative"}}>
-                  <svg viewBox="0 0 24 24" fill={v.color} width="28" height="28"><polygon points="6,3 20,12 6,21"/></svg>
-                </div>
-                <div style={{fontSize:"14",color:C.blue,fontWeight:"400",maxWidth:"100px",lineHeight:"1.3"}}>{LS(v,"title",lang)}</div>
-                <div style={{fontSize:"12",color:C.textM,marginTop:"2px"}}>{v.dur}</div>
-              </div>
-            ))}
-            <div style={{flexShrink:0,textAlign:"center",opacity:.5}}>
-              <div style={{width:"100px",height:"100px",borderRadius:"50%",background:C.cream,border:`2px dashed ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:"8px"}}>
-                <div style={{fontSize:"28",color:C.textM}}>+</div>
-              </div>
-              <div style={{fontSize:"13",color:C.textM}}>{lang==="it"?"prossimamente":lang==="de"?"demnächst":lang==="fr"?"bientôt":lang==="ru"?"скоро":"coming soon"}</div>
-            </div>
-          </div>
-        </Section>
+        {/* WHITE NOISE — primary element */}
+        <div style={{marginBottom:"24px"}}>
+          <BreathingPlayer t={t}/>
+        </div>
 
         {/* SELFICA */}
         <WhiteCard style={{marginBottom:"24px",background:`linear-gradient(135deg,${C.goldPale},${C.white})`}}>
@@ -689,19 +650,13 @@ function ExperiencePage({t,lang,setPage}) {
         <Section title={t.ritualTitle}>
           <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
             {t.ritualSteps.map(s=>(
-              <div key={s.id}>
-                {s.audio&&showBreath
-                  ? <BreathingPlayer t={t}/>
-                  : <button onClick={()=>s.audio?setShowBreath(!showBreath):setChecked(p=>({...p,[s.id]:!p[s.id]}))}
-                      style={{width:"100%",padding:"16px 20px",background:checked[s.id]?C.cream:C.white,borderRadius:"16px",cursor:"pointer",display:"flex",alignItems:"center",gap:"14px",textAlign:"left",fontFamily:FB,border:`1px solid ${checked[s.id]?C.gold+"44":C.border}`,boxShadow:checked[s.id]?"none":C.shadow}}>
-                      <div style={{width:"24px",height:"24px",borderRadius:"50%",flexShrink:0,border:`1.5px solid ${checked[s.id]?C.gold:C.border}`,background:checked[s.id]?C.gold:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s"}}>
-                        {checked[s.id]&&<svg viewBox="0 0 12 12" fill="none" stroke={C.white} strokeWidth="2.5" width="10" height="10"><polyline points="2,6 5,9 10,3"/></svg>}
-                      </div>
-                      <span style={{fontSize:"16",color:checked[s.id]?C.textM:C.blue,textDecoration:checked[s.id]?"line-through":"none",fontWeight:"300"}}>{s.text}</span>
-                      {s.audio&&<span style={{marginLeft:"auto",color:C.gold,fontSize:"15"}}>▶</span>}
-                    </button>
-                }
-              </div>
+              <button key={s.id} onClick={()=>setChecked(p=>({...p,[s.id]:!p[s.id]}))}
+                style={{width:"100%",padding:"16px 20px",background:checked[s.id]?C.cream:C.white,borderRadius:"16px",cursor:"pointer",display:"flex",alignItems:"center",gap:"14px",textAlign:"left",fontFamily:FB,border:`1px solid ${checked[s.id]?C.gold+"44":C.border}`,boxShadow:checked[s.id]?"none":C.shadow}}>
+                <div style={{width:"24px",height:"24px",borderRadius:"50%",flexShrink:0,border:`1.5px solid ${checked[s.id]?C.gold:C.border}`,background:checked[s.id]?C.gold:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s"}}>
+                  {checked[s.id]&&<svg viewBox="0 0 12 12" fill="none" stroke={C.white} strokeWidth="2.5" width="10" height="10"><polyline points="2,6 5,9 10,3"/></svg>}
+                </div>
+                <span style={{fontSize:"16",color:checked[s.id]?C.textM:C.blue,textDecoration:checked[s.id]?"line-through":"none",fontWeight:"300"}}>{s.text}</span>
+              </button>
             ))}
           </div>
         </Section>
@@ -1866,7 +1821,7 @@ export default function AbatonApp() {
         ?`WiFi «abaton», пароль abaton1950. ${t.checkOut}. Тишина с 22:00 до 8:00. Всё это вы также найдёте на главном экране.`
         :`WiFi "abaton", password abaton1950. ${t.checkOut}. Quiet hours from 22:00 to 8:00. You'll always find this on the Home screen.`,
     },
-    {key:"exp",   icon:"✦", title:lang==="it"?"Inizia da qui":lang==="de"?"Hier beginnen":lang==="fr"?"Commence ici":lang==="ru"?"Начни отсюда":"Start here",        desc:lang==="it"?"Scopri come vivere al meglio il tuo soggiorno ad Abaton":lang==="de"?"Entdecke, wie du deinen Aufenthalt im Abaton optimal gestaltest":lang==="fr"?"Découvre comment vivre au mieux ton séjour à l'Abaton":lang==="ru"?"Узнайте, как лучше всего провести время в Абатоне":"Discover how to make the most of your stay at Abaton"},
+    {key:"exp",   icon:"✦", title:lang==="it"?"Inizia da qui":lang==="de"?"Hier beginnen":lang==="fr"?"Commence ici":lang==="ru"?"Начни отсюда":"Start here",        desc:lang==="it"?"Questa app nasce dal desiderio di offrirti più informazioni per vivere al meglio il tuo soggiorno ad Abaton.":lang==="de"?"Diese App ist entstanden, um dir mehr Informationen für einen optimal gestalteten Aufenthalt im Abaton zu bieten.":lang==="fr"?"Cette application est née du désir de t'offrir plus d'informations pour vivre au mieux ton séjour à l'Abaton.":lang==="ru"?"Это приложение создано, чтобы дать вам больше информации для наилучшего пребывания в Абатоне.":"This app was created to offer you more information to make the most of your stay at Abaton."},
     {key:"abaton",icon:"◈", title:lang==="it"?"Le Cinque Stanze":lang==="de"?"Die fünf Zimmer":lang==="fr"?"Les Cinq Chambres":lang==="ru"?"Пять комнат":"The Five Rooms", desc:lang==="it"?"Esplora le stanze e il loro significato":lang==="de"?"Erkunde die Zimmer und ihre Bedeutung":lang==="fr"?"Explore les chambres et leur signification":lang==="ru"?"Изучите комнаты и их значение":"Explore the rooms and their meaning"},
     {key:"events",icon:"◎", title:lang==="it"?"Gli eventi":lang==="de"?"Die Veranstaltungen":lang==="fr"?"Les événements":lang==="ru"?"Мероприятия":"Events",               desc:lang==="it"?"Scopri cosa accade questa settimana a Damanhur":lang==="de"?"Entdecke, was diese Woche in Damanhur passiert":lang==="fr"?"Découvre ce qui se passe cette semaine à Damanhur":lang==="ru"?"Узнайте, что происходит на этой неделе в Даманхуре":"Discover what's happening this week at Damanhur"},
   ];
