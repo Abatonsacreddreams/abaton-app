@@ -480,9 +480,9 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           )}
         </div>
         <div style={{position:"relative",zIndex:1}}>
-          <img src="/logo-eye.png" alt="Abaton" style={{width:"200px",maxWidth:"62%",height:"auto",display:"block",margin:"0 auto 18px",filter:"drop-shadow(0 6px 22px rgba(0,0,0,0.4))"}}/>
+          <img src="/logo-eye.png" alt="Abaton" onClick={handleWordmarkTap} style={{width:"200px",maxWidth:"62%",height:"auto",display:"block",margin:"0 auto 18px",filter:"drop-shadow(0 6px 22px rgba(0,0,0,0.4))",cursor:"pointer"}}/>
           {/* ABATON wordmark */}
-          <div onClick={handleWordmarkTap} style={{fontFamily:FD,fontSize:"64",fontWeight:"300",letterSpacing:"0.18em",lineHeight:"1",color:C.white,marginBottom:"6px",textTransform:"uppercase",textShadow:"0 4px 24px rgba(0,0,0,0.45)"}}>ABATON</div>
+          <div style={{fontFamily:FD,fontSize:"64",fontWeight:"300",letterSpacing:"0.18em",lineHeight:"1",color:C.white,marginBottom:"6px",textTransform:"uppercase",textShadow:"0 4px 24px rgba(0,0,0,0.45)"}}>ABATON</div>
           {/* Soglia divider */}
           <div style={{display:"flex",justifyContent:"center",gap:"2px",marginBottom:"8px"}}>
             {[1,2,3].map(i=><div key={i} style={{height:"1px",width:`${i===2?48:24}px`,background:`${C.gold}${i===2?"cc":"66"}`}}/>)}
