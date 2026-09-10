@@ -378,7 +378,7 @@ function clearSession(){
   try{ localStorage.removeItem('abaton_session'); localStorage.removeItem('abaton_onboarded_id'); }catch(e){}
 }
 
-function StaffPanel({session,onSave,onClear,onClose}) {
+function StaffPanel({session,onSave,onClear,onClose,onDashboard}) {
   const [pinOk,setPinOk] = useState(false);
   const [pin,setPin] = useState("");
   const [name,setName] = useState(session?.name||"");
@@ -438,6 +438,7 @@ function StaffPanel({session,onSave,onClear,onClose}) {
 
         <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut,lang:guestLang}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"15"}}>Salva nuovo ospite</button>
         <button onClick={onClear} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15"}}>Pulisci dati ospite (check-out)</button>
+        {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15"}}>📊 Vedi statistiche →</button>}
         <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"13"}}>Chiudi</button>
       </div>
     </div>
@@ -557,7 +558,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <div style={{fontSize:"13",color:C.textM}}>AI Concierge · 24h</div>
             </div>
           </button>
-          <a href="https://wa.me/393510103842" target="_blank" rel="noopener noreferrer" style={{padding:"16px 14px",background:C.white,borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textDecoration:"none",boxShadow:C.shadow,flexShrink:0,gap:"4px"}}>
+          <a href="https://wa.me/393510103842" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp staff (home)",{lang})} style={{padding:"16px 14px",background:C.white,borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textDecoration:"none",boxShadow:C.shadow,flexShrink:0,gap:"4px"}}>
             <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path fill="#25D366" fillOpacity=".25" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/><path fill="#25D366" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.101-1.135l-.294-.175-3.048.906.906-3.048-.175-.294A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
             <div style={{fontSize:"9",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
           </a>
@@ -573,7 +574,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             <Pill color={C.goldD}>← {t.checkOut}</Pill>
             <Pill color={C.goldD}>◯ {lang==="it"?"Silenzio 22–8":lang==="de"?"Ruhezeit 22–8 Uhr":lang==="fr"?"Silence 22h–8h":lang==="ru"?"Тишина 22:00–8:00":"Quiet hours 10pm–8am"}</Pill>
           </div>
-          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"14px",textDecoration:"none"}}>💬 {t.lateOut} →</a>
+          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp late check-out",{lang})} style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"14px",textDecoration:"none"}}>💬 {t.lateOut} →</a>
         </WhiteCard>
 
         {/* EVENTS */}
@@ -671,6 +672,11 @@ const LANGSUF = {it:"IT",en:"EN",de:"DE",fr:"FR",ru:"RU"};
 const LS = (obj, base, lang) => (obj[base+(LANGSUF[lang]||"IT")] || obj[base+"IT"]);
 const LD = (v, lang) => (typeof v==="string" ? v : (v[lang]||v.it));
 const gmaps = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const track = (type, label, extra={}) => {
+  try {
+    fetch("/api/track", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({type, label, ...extra})}).catch(()=>{});
+  } catch(e) {}
+};
 const RI = {
   lampada: {labelIT:"Lampada",labelEN:"Lamp",labelDE:"Lampe",labelFR:"Lampe",labelRU:"Лампа",descIT:"Decorata a mano dai nostri artisti, in armonia con il tema della stanza.",descEN:"Hand-decorated by our artists, in harmony with the room's theme.",descDE:"Handdekoriert von unseren Künstlern, im Einklang mit dem Thema des Zimmers.",descFR:"Décorée à la main par nos artistes, en harmonie avec le thème de la chambre.",descRU:"Декорирована вручную нашими художниками, в гармонии с темой комнаты."},
   bottiglia: {labelIT:"Bottiglia Selfica",labelEN:"Selfic Bottle",labelDE:"Selfische Flasche",labelFR:"Bouteille Selfique",labelRU:"Селфическая бутылка",descIT:"Preparata da SelEt: attivata a Damanhur in strutture selfiche dedicate, dove circuiti energetici sintonizzano l'acqua come portatrice di coerenza e vitalità. Riempila con l'acqua filtrata della living room, attendi almeno 10 minuti e bevi con presenza.",descEN:"Prepared by SelEt: activated at Damanhur in dedicated selfic structures, where energy circuits tune the water as a carrier of coherence and vitality. Fill it with the filtered water from the living room, wait at least 10 minutes, and drink with presence.",descDE:"Hergestellt von SelEt: Jede Flasche wird in Damanhur in eigens dafür vorgesehenen selfischen Strukturen aktiviert, wo Energiekreisläufe das Wasser als Träger von Kohärenz und Vitalität abstimmen. Fülle sie mit dem gefilterten Wasser aus dem Wohnbereich, warte mindestens 10 Minuten und trinke bewusst.",descFR:"Préparée par SelEt : chaque bouteille est activée à Damanhur dans des structures selfiques dédiées, où des circuits énergétiques accordent l'eau comme porteuse de cohérence et de vitalité. Remplis-la avec l'eau filtrée du salon, attends au moins 10 minutes et bois en pleine conscience.",descRU:"Подготовлена SelEt: каждая бутылка активируется в Дамантуре в специальных селфических структурах, где энергетические контуры настраивают воду как носителя согласованности и жизненной силы. Наполни её отфильтрованной водой из гостиной, подожди минимум 10 минут и пей осознанно."},
@@ -1234,6 +1240,31 @@ function DamanPage({t,lang,setPage}) {
     {n:"Chiusella — Le Guje",url:gmaps("Le Guje, Traversella"),d:{it:"Pozze smeraldo tra i boschi. Fredda e rigenerante.",en:"Emerald pools amid woodland. Cold and regenerating.",de:"Smaragdgrüne Wasserbecken inmitten der Wälder. Kalt und erfrischend.",fr:"Bassins émeraude au cœur des bois. Froids et régénérants.",ru:"Изумрудные заводи среди лесов. Холодные и освежающие."},em:"〰"},
     {n:"Borgofranco d'Ivrea",url:gmaps("Borgofranco d'Ivrea"),d:{it:"Cittadina storica. Mercato, gastronomia, Anfiteatro Morenico.",en:"Historic town. Market, gastronomy, Glacial Amphitheater.",de:"Historisches Städtchen. Markt, Gastronomie, Moränenamphitheater.",fr:"Petite ville historique. Marché, gastronomie, Amphithéâtre morainique.",ru:"Исторический городок. Рынок, гастрономия, ледниковый амфитеатр."},em:"🏘"},
     {n:"Lago Sirio",url:gmaps("Lago Sirio, Ivrea"),d:{it:"Piccolo lago glaciale a Ivrea.",en:"Small glacial lake near Ivrea.",de:"Kleiner Gletschersee bei Ivrea.",fr:"Petit lac glaciaire près d'Ivrea.",ru:"Небольшое ледниковое озеро близ Ивреи."},em:"💧"},
+    {n:{it:"Punti Utili",en:"Useful Points",de:"Nützliche Anlaufstellen",fr:"Points Utiles",ru:"Полезные места"},d:{
+      it:"Servizi pratici nei dintorni, sempre a portata di mano.",
+      en:"Practical services nearby, always at hand.",
+      de:"Praktische Dienstleistungen in der Nähe, immer griffbereit.",
+      fr:"Services pratiques à proximité, toujours à portée de main.",
+      ru:"Практичные услуги поблизости, всегда под рукой."
+    },em:"📍",
+    expanded:true,
+    list:[
+      {cat:{it:"Farmacia",en:"Pharmacy",de:"Apotheke",fr:"Pharmacie",ru:"Аптека"},items:[
+        {name:{it:"Farmacia più vicina",en:"Nearest pharmacy",de:"Nächste Apotheke",fr:"Pharmacie la plus proche",ru:"Ближайшая аптека"},url:gmaps("farmacia vicino a Baldissero Canavese"),note:""},
+      ]},
+      {cat:{it:"Bancomat",en:"ATM",de:"Geldautomat",fr:"Distributeur",ru:"Банкомат"},items:[
+        {name:{it:"Bancomat più vicino",en:"Nearest ATM",de:"Nächster Geldautomat",fr:"Distributeur le plus proche",ru:"Ближайший банкомат"},url:gmaps("bancomat vicino a Baldissero Canavese"),note:""},
+      ]},
+      {cat:{it:"Taxi",en:"Taxi",de:"Taxi",fr:"Taxi",ru:"Такси"},items:[
+        {name:{it:"Taxi / NCC nella zona",en:"Taxi / private driver nearby",de:"Taxi / Fahrdienst in der Nähe",fr:"Taxi / VTC dans la zone",ru:"Такси поблизости"},url:gmaps("taxi vicino a Baldissero Canavese"),note:""},
+      ]},
+      {cat:{it:"Supermercato",en:"Supermarket",de:"Supermarkt",fr:"Supermarché",ru:"Супермаркет"},items:[
+        {name:{it:"Supermercato più vicino",en:"Nearest supermarket",de:"Nächster Supermarkt",fr:"Supermarché le plus proche",ru:"Ближайший супермаркет"},url:gmaps("supermercato vicino a Baldissero Canavese"),note:""},
+      ]},
+      {cat:{it:"Benzina",en:"Petrol station",de:"Tankstelle",fr:"Station-service",ru:"АЗС"},items:[
+        {name:{it:"Distributore più vicino",en:"Nearest petrol station",de:"Nächste Tankstelle",fr:"Station-service la plus proche",ru:"Ближайшая заправка"},url:gmaps("distributore di benzina vicino a Baldissero Canavese"),note:""},
+      ]},
+    ]},
     {n:{it:"Guide ed Escursioni",en:"Guided Tours & Excursions",de:"Geführte Touren & Ausflüge",fr:"Visites Guidées & Excursions",ru:"Экскурсии и прогулки"},d:{
       it:"Visite guidate, escursioni di gruppo, trekking, camminate notturne e noleggio e-bike.",
       en:"Guided tours, group hiking events, trekking, night walks and e-bike rental.",
@@ -1405,7 +1436,7 @@ function DamanPage({t,lang,setPage}) {
                       <div style={{fontFamily:FD,fontSize:"17",color:C.blue,marginBottom:"4px"}}>{item.name}</div>
                       <div style={{fontSize:"14",color:C.textM,lineHeight:"1.5"}}>{LS(item,"desc",lang)}</div>
                     </div>
-                    {item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" style={{color:C.goldD,fontFamily:FB,fontSize:"13",textDecoration:"none",flexShrink:0,marginTop:"2px"}}>{"→"}</a>}
+                    {item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",item.name,{lang})} style={{color:C.goldD,fontFamily:FB,fontSize:"13",textDecoration:"none",flexShrink:0,marginTop:"2px"}}>{"→"}</a>}
                   </div>
                 </WhiteCard>
               ))}
@@ -1415,7 +1446,7 @@ function DamanPage({t,lang,setPage}) {
                     <span style={{fontSize:"24",marginTop:"2px"}}>{p.em}</span>
                     <div style={{flex:1}}>
                       <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"3px"}}>
-                        {p.url ? <a href={p.url} target="_blank" rel="noopener noreferrer" style={{color:"inherit",textDecoration:"underline"}}>{LD(p.n,lang)}</a> : LD(p.n,lang)}
+                        {p.url ? <a href={p.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",LD(p.n,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(p.n,lang)}</a> : LD(p.n,lang)}
                       </div>
                       <div style={{fontSize:"14",color:C.textM,marginBottom:p.list?"10px":"0"}}>{LD(p.d,lang)}</div>
                       {p.list&&p.list.map((cat,ci)=>(
@@ -1424,7 +1455,7 @@ function DamanPage({t,lang,setPage}) {
                           {cat.items.map((r,ri)=>(
                             <div key={ri} style={{paddingBottom:"6px",borderBottom:`1px solid ${C.border}`,marginBottom:"6px"}}>
                               <div style={{fontFamily:FD,fontSize:"16",color:C.textD,fontWeight:"500"}}>
-                                {r.url ? <a href={r.url} target="_blank" rel="noopener noreferrer" style={{color:"inherit",textDecoration:"underline"}}>{LD(r.name,lang)}</a> : LD(r.name,lang)}
+                                {r.url ? <a href={r.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",LD(r.name,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(r.name,lang)}</a> : LD(r.name,lang)}
                               </div>
                               <div style={{fontSize:"13",color:C.textM,lineHeight:"1.4"}}>{LD(r.note,lang)}</div>
                             </div>
@@ -1586,7 +1617,7 @@ function WellnessPage({t,lang,setPage}) {
           <div style={{fontSize:"14",color:C.textS,lineHeight:"1.7",marginBottom:"14px"}}>
             {lang==="it"?"Un momento di silenzio guidato negli spazi sacri dei Templi dell'Umanità.":lang==="de"?"Ein geführter Moment der Stille in den heiligen Räumen der Tempel der Menschheit.":lang==="fr"?"Un moment de silence guidé dans les espaces sacrés des Temples de l'Humanité.":lang==="ru"?"Момент управляемой тишины в священных пространствах Храмов Человечества.":"A guided moment of silence in the sacred spaces of the Temples of Humanity."}
           </div>
-          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei prenotare una Meditazione nei Templi dell'Umanità.":lang==="de"?"Guten Tag, ich möchte eine Meditation in den Tempeln der Menschheit buchen.":lang==="fr"?"Bonjour, je souhaiterais réserver une Méditation dans les Temples de l'Humanité.":lang==="ru"?"Здравствуйте, хотел(а) бы записаться на медитацию в Храмах Человечества.":"Hello, I would like to book a Temple Meditation.")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14",letterSpacing:"0.05em",textDecoration:"none"}}>{t.book}</a>
+          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei prenotare una Meditazione nei Templi dell'Umanità.":lang==="de"?"Guten Tag, ich möchte eine Meditation in den Tempeln der Menschheit buchen.":lang==="fr"?"Bonjour, je souhaiterais réserver une Méditation dans les Temples de l'Humanité.":lang==="ru"?"Здравствуйте, хотел(а) бы записаться на медитацию в Храмах Человечества.":"Hello, I would like to book a Temple Meditation.")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp book Temple Meditation",{lang})} style={{display:"inline-block",padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14",letterSpacing:"0.05em",textDecoration:"none"}}>{t.book}</a>
         </WhiteCard>
 
         {/* PROVIDERS: SelEt / Elasel / Kythera */}
@@ -1601,7 +1632,7 @@ function WellnessPage({t,lang,setPage}) {
                 </div>
               ))}
             </div>
-            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`)}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
+            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`)}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",`WhatsApp book ${p.name}`,{lang})} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
               💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
             </a>
           </WhiteCard>
@@ -1637,6 +1668,19 @@ function GuestsPage({t,lang,setPage}) {
       setEmailSent(true);
     }
   };
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [feedbackSent, setFeedbackSent] = useState(false);
+  const [feedbackSending, setFeedbackSending] = useState(false);
+  const handleFeedbackSubmit = async () => {
+    if(!rating || feedbackSending) return;
+    setFeedbackSending(true);
+    try{
+      await fetch("/api/feedback",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({rating,comment,room:getRoom(),lang})});
+      setFeedbackSent(true);
+    }catch(e){}
+    setFeedbackSending(false);
+  };
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
       <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"20px"}}>
@@ -1660,9 +1704,57 @@ function GuestsPage({t,lang,setPage}) {
                 ?"Знаете кого-то, кому это место могло бы пригодиться? Поделитесь своим опытом в Абатоне — за каждого друга, который забронирует благодаря вам, вы получите эксклюзивную скидку на следующее пребывание."
                 :"Do you know someone who could benefit from this place? Share your Abaton experience — for every friend who books thanks to you, you will receive an exclusive discount on your next stay."}
             </div>
-            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":lang==="de"?"Guten Tag, ich möchte einen Freund für einen Aufenthalt im Abaton empfehlen.":lang==="fr"?"Bonjour, je souhaiterais recommander un ami pour un séjour à l'Abaton.":lang==="ru"?"Здравствуйте, хотел(а) бы порекомендовать друга для пребывания в Абатоне.":"Hello, I would like to refer a friend for a stay at Abaton.")}`} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
+            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":lang==="de"?"Guten Tag, ich möchte einen Freund für einen Aufenthalt im Abaton empfehlen.":lang==="fr"?"Bonjour, je souhaiterais recommander un ami pour un séjour à l'Abaton.":lang==="ru"?"Здравствуйте, хотел(а) бы порекомендовать друга для пребывания в Абатоне.":"Hello, I would like to refer a friend for a stay at Abaton.")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp bring a friend",{lang})} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14"}}>
               💬 {lang==="it"?"Scrivi al personale →":lang==="de"?"Dem Personal schreiben →":lang==="fr"?"Écrire au personnel →":lang==="ru"?"Написать персоналу →":"Message the staff →"}
             </a>
+          </div>
+        </Section>
+
+        {/* FEEDBACK */}
+        <Section title={lang==="it"?"Lascia un feedback":lang==="de"?"Hinterlasse ein Feedback":lang==="fr"?"Laisse un avis":lang==="ru"?"Оставить отзыв":"Leave feedback"}>
+          <div style={{background:C.white,borderRadius:"20px",padding:"22px",boxShadow:C.shadow}}>
+            <div style={{fontSize:"14",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+              {lang==="it"?"Com'è andato il tuo soggiorno? Il tuo feedback ci aiuta a migliorare.":lang==="de"?"Wie war dein Aufenthalt? Dein Feedback hilft uns, besser zu werden.":lang==="fr"?"Comment s'est passé ton séjour ? Ton avis nous aide à nous améliorer.":lang==="ru"?"Как прошло ваше пребывание? Ваш отзыв поможет нам стать лучше.":"How was your stay? Your feedback helps us improve."}
+            </div>
+            {feedbackSent
+              ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontSize:"18"}}>
+                  ✦ {lang==="it"?"Grazie per il tuo feedback!":lang==="de"?"Danke für dein Feedback!":lang==="fr"?"Merci pour ton avis !":lang==="ru"?"Спасибо за ваш отзыв!":"Thank you for your feedback!"}
+                </div>
+              : <>
+                  <div style={{display:"flex",gap:"6px",marginBottom:"14px",justifyContent:"center"}}>
+                    {[1,2,3,4,5].map(n=>(
+                      <button key={n} onClick={()=>setRating(n)} style={{background:"none",border:"none",cursor:"pointer",fontSize:"32",color:n<=rating?C.gold:C.border,padding:0,lineHeight:1}}>★</button>
+                    ))}
+                  </div>
+                  <textarea
+                    value={comment}
+                    onChange={e=>setComment(e.target.value)}
+                    placeholder={lang==="it"?"Raccontaci qualcosa (facoltativo)":lang==="de"?"Erzähl uns etwas (optional)":lang==="fr"?"Dis-nous quelque chose (facultatif)":lang==="ru"?"Расскажите что-нибудь (необязательно)":"Tell us something (optional)"}
+                    rows={3}
+                    style={{width:"100%",padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14",background:C.bg,outline:"none",resize:"none",marginBottom:"14px"}}
+                  />
+                  <button onClick={handleFeedbackSubmit} disabled={!rating||feedbackSending} style={{width:"100%",padding:"13px",background:rating?C.gold:C.border,border:"none",borderRadius:"14px",color:C.white,cursor:rating?"pointer":"not-allowed",fontFamily:FB,fontSize:"14"}}>
+                    {lang==="it"?"Invia feedback":lang==="de"?"Feedback senden":lang==="fr"?"Envoyer l'avis":lang==="ru"?"Отправить отзыв":"Send feedback"}
+                  </button>
+                </>
+            }
+          </div>
+        </Section>
+
+        {/* RECENSIONE PUBBLICA */}
+        <Section title={lang==="it"?"Lascia una recensione":lang==="de"?"Hinterlasse eine Bewertung":lang==="fr"?"Laisse un avis public":lang==="ru"?"Оставить публичный отзыв":"Leave a public review"}>
+          <div style={{background:C.goldPale,borderRadius:"20px",padding:"22px",border:`1px solid ${C.gold}44`}}>
+            <div style={{fontSize:"14",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+              {lang==="it"?"Se hai amato il tuo soggiorno, una recensione pubblica ci aiuta moltissimo.":lang==="de"?"Wenn dir dein Aufenthalt gefallen hat, hilft uns eine öffentliche Bewertung enorm.":lang==="fr"?"Si tu as aimé ton séjour, un avis public nous aide énormément.":lang==="ru"?"Если вам понравилось пребывание, публичный отзыв очень нам поможет.":"If you loved your stay, a public review helps us enormously."}
+            </div>
+            <div style={{display:"flex",gap:"10px",flexWrap:"wrap"}}>
+              <a href={gmaps("Abaton Sacred Dreams Baldissero Canavese")} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review Google",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14",boxShadow:C.shadow}}>
+                Google →
+              </a>
+              <a href="https://www.google.com/search?q=Abaton+Sacred+Dreams+TripAdvisor" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review TripAdvisor",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14",boxShadow:C.shadow}}>
+                TripAdvisor →
+              </a>
+            </div>
           </div>
         </Section>
 
@@ -1716,6 +1808,7 @@ function ConciergePage({t,lang,setPage}) {
     const msg=text||input; if(!msg.trim()||loading) return;
     const next=[...messages,{role:"user",content:msg}];
     setMessages(next); setInput(""); setLoading(true);
+    track("concierge", msg, {lang});
     try{
       const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-5",max_tokens:1000,system:SYS[lang]||SYS.en,messages:next})});
       const data=await res.json();
@@ -1769,11 +1862,141 @@ const NAV = [
   {id:"wellness",Icon:NavWell},{id:"concierge",Icon:NavChat},
 ];
 
+// ── DASHBOARD (staff-only usage stats) ─────────────────────────────────────────
+function DashboardPage({t,lang,setPage}) {
+  const [pin,setPin] = useState("");
+  const [pinOk,setPinOk] = useState(false);
+  const [error,setError] = useState("");
+  const [data,setData] = useState(null);
+  const [loading,setLoading] = useState(false);
+
+  const load = async(p) => {
+    setLoading(true); setError("");
+    try{
+      const res = await fetch(`/api/stats?pin=${encodeURIComponent(p)}`);
+      if(res.status===401){ setError("PIN errato"); setLoading(false); return; }
+      const json = await res.json();
+      if(!res.ok){ setError(json.error||"Errore"); setLoading(false); return; }
+      setData(json); setPinOk(true);
+    }catch(e){ setError("Errore di connessione"); }
+    setLoading(false);
+  };
+
+  if(!pinOk) return (
+    <div style={{minHeight:"100vh",background:C.bg,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}}>
+      <div style={{background:C.white,borderRadius:"20px",padding:"28px",width:"100%",maxWidth:"320px"}}>
+        <div style={{fontFamily:FD,fontSize:"18",color:C.blue,marginBottom:"14px"}}>Dashboard — accesso</div>
+        <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&load(pin)} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"16",marginBottom:"12px",outline:"none"}}/>
+        {error&&<div style={{color:"#B04A4A",fontSize:"13",marginBottom:"10px"}}>{error}</div>}
+        <div style={{display:"flex",gap:"10px"}}>
+          <button onClick={()=>setPage("home")} style={{flex:1,padding:"12px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",cursor:"pointer",fontFamily:FB}}>Annulla</button>
+          <button onClick={()=>load(pin)} disabled={loading} style={{flex:1,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB}}>{loading?"...":"Entra"}</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const Bar = ({rows,labelKey,countKey="count"}) => {
+    const max = Math.max(1,...rows.map(r=>r[countKey]));
+    return (
+      <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
+        {rows.map((r,i)=>(
+          <div key={i}>
+            <div style={{display:"flex",justifyContent:"space-between",fontSize:"13",color:C.textS,marginBottom:"3px"}}>
+              <span>{r[labelKey]}</span><span style={{color:C.textM}}>{r[countKey]}</span>
+            </div>
+            <div style={{height:"6px",background:C.bg,borderRadius:"4px",overflow:"hidden"}}>
+              <div style={{height:"100%",width:`${(r[countKey]/max)*100}%`,background:C.gold,borderRadius:"4px"}}/>
+            </div>
+          </div>
+        ))}
+        {rows.length===0&&<div style={{fontSize:"13",color:C.textM,fontStyle:"italic"}}>Nessun dato ancora.</div>}
+      </div>
+    );
+  };
+
+  const links = (data.topLabels||[]).filter(r=>r.type==="link");
+  const pages = (data.topLabels||[]).filter(r=>r.type==="page");
+
+  return (
+    <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
+      <div style={{padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+        <Back label={t.back} onClick={()=>setPage("home")}/>
+        <div style={{marginTop:"16px"}}>
+          <Pill>Dashboard</Pill>
+          <div style={{fontFamily:FD,fontSize:"32",fontWeight:"300",color:C.blue,marginTop:"10px"}}>Utilizzo dell'app</div>
+        </div>
+      </div>
+      <div style={{padding:"24px 22px 0"}}>
+        <button onClick={()=>load(pin)} style={{marginBottom:"18px",padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"13"}}>↻ Aggiorna</button>
+
+        <div style={{display:"flex",gap:"10px",marginBottom:"24px"}}>
+          <div style={{flex:1,background:C.white,borderRadius:"16px",padding:"16px",boxShadow:C.shadow,textAlign:"center"}}>
+            <div style={{fontFamily:FD,fontSize:"28",color:C.gold}}>{data.total}</div>
+            <div style={{fontSize:"12",color:C.textM}}>eventi totali</div>
+          </div>
+          <div style={{flex:1,background:C.white,borderRadius:"16px",padding:"16px",boxShadow:C.shadow,textAlign:"center"}}>
+            <div style={{fontFamily:FD,fontSize:"28",color:C.gold}}>{data.recentQuestions.length}</div>
+            <div style={{fontSize:"12",color:C.textM}}>domande al concierge</div>
+          </div>
+          <div style={{flex:1,background:C.white,borderRadius:"16px",padding:"16px",boxShadow:C.shadow,textAlign:"center"}}>
+            <div style={{fontFamily:FD,fontSize:"28",color:C.gold}}>{data.feedbackAvg?Number(data.feedbackAvg).toFixed(1):"—"}</div>
+            <div style={{fontSize:"12",color:C.textM}}>media feedback ({data.feedbackCount})</div>
+          </div>
+        </div>
+
+        <Section title="Link più cliccati">
+          <WhiteCard><Bar rows={links} labelKey="label"/></WhiteCard>
+        </Section>
+
+        <Section title="Pagine più visitate">
+          <WhiteCard><Bar rows={pages} labelKey="label"/></WhiteCard>
+        </Section>
+
+        <Section title="Lingue degli ospiti">
+          <WhiteCard><Bar rows={data.byLang} labelKey="lang"/></WhiteCard>
+        </Section>
+
+        <Section title="Ultime domande al concierge">
+          <WhiteCard>
+            <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
+              {data.recentQuestions.map((q,i)=>(
+                <div key={i} style={{paddingBottom:"10px",borderBottom:i<data.recentQuestions.length-1?`1px solid ${C.border}`:"none"}}>
+                  <div style={{fontSize:"14",color:C.textD}}>{q.label}</div>
+                  <div style={{fontSize:"11",color:C.textM,marginTop:"2px"}}>{q.lang?.toUpperCase()} · {new Date(q.created_at).toLocaleString("it-IT")}</div>
+                </div>
+              ))}
+              {data.recentQuestions.length===0&&<div style={{fontSize:"13",color:C.textM,fontStyle:"italic"}}>Nessuna domanda ancora.</div>}
+            </div>
+          </WhiteCard>
+        </Section>
+
+        <Section title="Ultimi feedback">
+          <WhiteCard>
+            <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
+              {data.recentFeedback.map((f,i)=>(
+                <div key={i} style={{paddingBottom:"10px",borderBottom:i<data.recentFeedback.length-1?`1px solid ${C.border}`:"none"}}>
+                  <div style={{fontSize:"14",color:C.gold}}>{"★".repeat(f.rating)}{"☆".repeat(5-f.rating)}</div>
+                  {f.comment&&<div style={{fontSize:"14",color:C.textD,marginTop:"3px"}}>{f.comment}</div>}
+                  <div style={{fontSize:"11",color:C.textM,marginTop:"2px"}}>{f.room||""} {f.lang?.toUpperCase()} · {new Date(f.created_at).toLocaleString("it-IT")}</div>
+                </div>
+              ))}
+              {data.recentFeedback.length===0&&<div style={{fontSize:"13",color:C.textM,fontStyle:"italic"}}>Nessun feedback ancora.</div>}
+            </div>
+          </WhiteCard>
+        </Section>
+      </div>
+    </div>
+  );
+}
+
 // ── APP ROOT ──────────────────────────────────────────────────────────────────
 export default function AbatonApp() {
   const [page,setPage] = useState("home");
   const [lang,setLang] = useState(()=>getSession()?.lang||"it");
   const t = T[lang]||T.it;
+  const goPage = (id) => { track("page", id, {lang}); setPage(id); };
+  const goLang = (l) => { track("lang", l); setLang(l); };
   useEffect(()=>{
     const link=document.createElement("link"); link.rel="stylesheet"; link.href=FONT_URL;
     document.head.appendChild(link);
@@ -1848,14 +2071,15 @@ export default function AbatonApp() {
 
   const render = () => {
     switch(page){
-      case "home":       return <HomePage       t={t} lang={lang} setLang={setLang} setPage={setPage} session={session} onOpenStaff={()=>setShowStaff(true)}/>;
-      case "experience": return <ExperiencePage t={t} lang={lang}                  setPage={setPage}/>;
-      case "abaton":     return <AbatonPage     t={t} lang={lang}                  setPage={setPage}/>;
-      case "damanhur":   return <DamanPage      t={t} lang={lang}                  setPage={setPage}/>;
-      case "wellness":   return <WellnessPage   t={t} lang={lang}                  setPage={setPage}/>;
-      case "shop":       return <GuestsPage     t={t} lang={lang}                  setPage={setPage}/>;
-      case "concierge":  return <ConciergePage  t={t} lang={lang}                  setPage={setPage}/>;
-      default:           return <HomePage       t={t} lang={lang} setLang={setLang} setPage={setPage} session={session} onOpenStaff={()=>setShowStaff(true)}/>;
+      case "home":       return <HomePage       t={t} lang={lang} setLang={goLang} setPage={goPage} session={session} onOpenStaff={()=>setShowStaff(true)}/>;
+      case "experience": return <ExperiencePage t={t} lang={lang}                  setPage={goPage}/>;
+      case "abaton":     return <AbatonPage     t={t} lang={lang}                  setPage={goPage}/>;
+      case "damanhur":   return <DamanPage      t={t} lang={lang}                  setPage={goPage}/>;
+      case "wellness":   return <WellnessPage   t={t} lang={lang}                  setPage={goPage}/>;
+      case "shop":       return <GuestsPage     t={t} lang={lang}                  setPage={goPage}/>;
+      case "concierge":  return <ConciergePage  t={t} lang={lang}                  setPage={goPage}/>;
+      case "dashboard":  return <DashboardPage  t={t} lang={lang}                  setPage={goPage}/>;
+      default:           return <HomePage       t={t} lang={lang} setLang={goLang} setPage={goPage} session={session} onOpenStaff={()=>setShowStaff(true)}/>;
     }
   };
   return(
@@ -1873,7 +2097,7 @@ export default function AbatonApp() {
           {NAV.map(({id,Icon})=>{
             const active = page===id||(page==="experience"&&id==="home");
             return(
-              <button key={id} onClick={()=>setPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 8px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9",fontWeight:active?"500":"300",letterSpacing:"0.1em",textTransform:"uppercase",transition:"color 0.2s"}}>
+              <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 8px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9",fontWeight:active?"500":"300",letterSpacing:"0.1em",textTransform:"uppercase",transition:"color 0.2s"}}>
                 <Icon/>{t.nav[NAV.indexOf(NAV.find(n=>n.id===id))]}
               </button>
             );
@@ -1888,7 +2112,7 @@ export default function AbatonApp() {
               {NAV.map(({id,Icon})=>{
                 const active = page===id||(page==="experience"&&id==="home");
                 return(
-                  <button key={id} onClick={()=>setPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 14px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9",fontWeight:active?"500":"300",letterSpacing:"0.12em",textTransform:"uppercase",transition:"color 0.2s"}}>
+                  <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 14px",color:active?C.gold:C.luna,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9",fontWeight:active?"500":"300",letterSpacing:"0.12em",textTransform:"uppercase",transition:"color 0.2s"}}>
                     <Icon/>{t.nav[NAV.indexOf(NAV.find(n=>n.id===id))]}
                   </button>
                 );
@@ -1926,7 +2150,7 @@ export default function AbatonApp() {
         </div>
       )}
       {showStaff&&(
-        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)}/>
+        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}}/>
       )}
         </div>
       </div>
