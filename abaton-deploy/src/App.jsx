@@ -1866,7 +1866,7 @@ function ConciergePage({t,lang,setPage}) {
     try{
       const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-5",max_tokens:1000,system:SYS[lang]||SYS.en,messages:next})});
       const data=await res.json();
-      const reply=data.content?.[0]?.text;
+      const reply=data.content?.find(b=>b.type==="text")?.text;
       if(reply){
         setMessages([...next,{role:"assistant",content:reply}]);
       }else{
