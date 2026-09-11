@@ -272,6 +272,14 @@ const EVENTS = [
     descEN:"An evocative ritual that reveals the deep bond uniting the people of Damanhur.",
     url:"https://damanhur.community/event/damanhur-get-ritual-3/2026-09-12/"
   },
+  {
+    date:"Dom 13 Set",dateEN:"Sun 13 Sep",
+    title:"La Triade",titleEN:"The Triad",
+    time:"16:30 – 18:00",loc:"Templi dell'Umanità, Via Baldissero 21",
+    desc:"Un incontro dedicato alla Triade: a Damanhur si crede che ogni forza divina nasca da tre fonti primarie — Energia, Volontà e Conoscenza.",
+    descEN:"An event dedicated to the Triad: at Damanhur, every divine force is believed to be made of three primary sources — Energy, Will and Knowledge.",
+    url:"https://damanhur.community/event/the-triad-2/2026-09-13/"
+  },
 ];
 
 const DAMANHUR_VIDEOS = [
@@ -1568,7 +1576,7 @@ function DamanPage({t,lang,setPage}) {
 // ── WELLNESS (experimental) ───────────────────────────────────────────────────
 function WellnessPage({t,lang,setPage}) {
   const PROVIDERS = [
-    {id:"selet", name:"SelEt", color:"#C07830", bg:"#FAF0E6", phone:"393513774461",
+    {id:"selet", name:"SelEt", color:"#C07830", bg:"#FAF0E6", phone:"393513774461", img:"/wellness/selet.jpg",
       treatments:[
         {nameIT:"Pranoself",nameEN:"Pranoself",nameDE:"Pranoself",nameFR:"Pranoself",nameRU:"Pranoself",
           descIT:"Trattamento con energia pranica, incanalata verso la persona attraverso una struttura energetica selfica che ne amplifica l'efficacia.",
@@ -1589,7 +1597,7 @@ function WellnessPage({t,lang,setPage}) {
           descFR:"Combinaison de technologies selfiques avancées pour favoriser la régénération cellulaire et rééquilibrer corps et esprit.",
           descRU:"Сочетание передовых селфических технологий для стимуляции клеточной регенерации и восстановления баланса тела и разума."},
       ]},
-    {id:"elasel", name:"Elasel", color:"#8A7AA8", bg:"#F4F0FA", phone:"393312946774",
+    {id:"elasel", name:"Elasel", color:"#8A7AA8", bg:"#F4F0FA", phone:"393312946774", img:"/wellness/elasel.jpg",
       treatments:[
         {nameIT:"Trattamento Selfico",nameEN:"Selfic Treatment",nameDE:"Selfische Behandlung",nameFR:"Traitement Selfique",nameRU:"Селфическая процедура",
           descIT:"Trattamento con selfiche specifiche per il benessere, posizionate su diverse zone del corpo. Ha un effetto rilassante e rigenerante.",
@@ -1598,7 +1606,7 @@ function WellnessPage({t,lang,setPage}) {
           descFR:"Traitement avec des selfiques spécifiques pour le bien-être, placées sur différentes zones du corps. Effet relaxant et régénérant.",
           descRU:"Лечение специфическими селфиками для благополучия, размещёнными на разных участках тела. Оказывает расслабляющее и восстанавливающее действие."},
       ]},
-    {id:"kythera", name:"Kythera", color:"#5A9AB8", bg:"#EDF5F8", phone:"393518526082",
+    {id:"kythera", name:"Kythera", color:"#5A9AB8", bg:"#EDF5F8", phone:"393518526082", img:"/wellness/kythera.jpg",
       treatments:[
         {nameIT:"Massaggio Selfico",nameEN:"Selfic Massage",nameDE:"Selfische Massage",nameFR:"Massage Selfique",nameRU:"Селфический массаж",
           descIT:"Trattamento che utilizza la selfica per il ringiovanimento e la pulizia della memoria cutanea, per favorire rigenerazione ed equilibrio fisico e spirituale.",
@@ -1650,7 +1658,9 @@ function WellnessPage({t,lang,setPage}) {
 
         {/* PROVIDERS: SelEt / Elasel / Kythera */}
         {PROVIDERS.map(p=>(
-          <WhiteCard key={p.id} style={{marginBottom:"16px",background:p.bg,border:`1px solid ${p.color}33`}}>
+          <WhiteCard key={p.id} style={{marginBottom:"16px",background:p.bg,border:`1px solid ${p.color}33`,overflow:"hidden",padding:0}}>
+            {p.img&&<img src={p.img} alt={p.name} style={{width:"100%",height:"160px",objectFit:"cover",display:"block"}}/>}
+            <div style={{padding:"20px"}}>
             <div style={{fontFamily:FB,fontSize:"13px",fontWeight:"600",letterSpacing:"0.12em",textTransform:"uppercase",color:p.color,marginBottom:"14px"}}>{p.name}</div>
             <div style={{display:"flex",flexDirection:"column",gap:"14px",marginBottom:"16px"}}>
               {p.treatments.map((tr,i)=>(
@@ -1663,6 +1673,7 @@ function WellnessPage({t,lang,setPage}) {
             <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`)}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",`WhatsApp book ${p.name}`,{lang})} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14px"}}>
               💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
             </a>
+            </div>
           </WhiteCard>
         ))}
 
