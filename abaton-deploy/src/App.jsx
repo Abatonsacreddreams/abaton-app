@@ -275,7 +275,7 @@ const EVENTS = [
   {
     date:"Dom 13 Set",dateEN:"Sun 13 Sep",
     title:"La Triade",titleEN:"The Triad",
-    time:"16:30 – 18:00",loc:"Templi dell'Umanità, Via Baldissero 21",
+    time:"16:30 – 18:00",loc:"Templi dell'Umanità, Via Baldissero 21",locEN:"Temples of Humanity, Via Baldissero 21",
     desc:"Un incontro dedicato alla Triade: a Damanhur si crede che ogni forza divina nasca da tre fonti primarie — Energia, Volontà e Conoscenza.",
     descEN:"An event dedicated to the Triad: at Damanhur, every divine force is believed to be made of three primary sources — Energy, Will and Knowledge.",
     url:"https://damanhur.community/event/the-triad-2/2026-09-13/"
@@ -620,7 +620,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               </div>
               <div style={{flex:1}}>
                 <div style={{fontSize:"16px",color:C.blue,marginBottom:"3px",fontWeight:"400"}}>{lang==="it"?ev.title:ev.titleEN||ev.title}</div>
-                <div style={{fontSize:"12px",color:C.gold,marginBottom:"3px"}}>{lang==="it"?ev.time:ev.timeEN||ev.time} · {ev.loc||ev.place||""}</div>
+                <div style={{fontSize:"12px",color:C.gold,marginBottom:"3px"}}>{lang==="it"?ev.time:ev.timeEN||ev.time} · {(lang==="it"?ev.loc:ev.locEN||ev.loc)||ev.place||""}</div>
                 <div style={{fontSize:"12px",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?ev.desc:ev.descEN}</div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.gold} strokeWidth="1.5" width="16" height="16"><polyline points="9,18 15,12 9,6"/></svg>
