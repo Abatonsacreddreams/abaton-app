@@ -371,7 +371,7 @@ const Back = ({label,onClick}) => (
   <button onClick={onClick} style={{background:"none",border:"none",color:C.blue,cursor:"pointer",fontFamily:FB,fontSize:"14px",fontWeight:"600",letterSpacing:"0.1em",display:"flex",alignItems:"center",gap:"4px",padding:0}}>{label}</button>
 );
 function Pill({children,color=C.gold}) {
-  return <span style={{display:"inline-block",padding:"4px 14px",background:`${color}15`,border:`1px solid ${color}44`,borderRadius:"20px",fontSize:"9px",fontFamily:FB,letterSpacing:"0.18em",textTransform:"uppercase",color}}>{children}</span>;
+  return <span style={{display:"inline-block",padding:"4px 14px",background:`${color}15`,border:`1px solid ${color}44`,borderRadius:"20px",fontSize:"11px",fontFamily:FB,letterSpacing:"0.18em",textTransform:"uppercase",color}}>{children}</span>;
 }
 const Circle = ({children,size=160,bg=C.gold,onClick,shadow=true}) => (
   <button onClick={onClick} style={{width:`${size}px`,height:`${size}px`,borderRadius:"50%",background:bg,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:onClick?"pointer":"default",border:"none",flexShrink:0,boxShadow:shadow?C.shadowG:"none",transition:"transform 0.2s"}}>
@@ -541,7 +541,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <Circle size={200} bg={`linear-gradient(135deg,${C.gold},${C.goldD})`} onClick={()=>setPage("experience")} style={{border:`3px solid ${C.gold}`,boxShadow:`0 0 0 4px ${C.gold}44, 0 8px 32px rgba(154,124,69,0.45)`}}>
                 <div style={{textAlign:"center",padding:"14px"}}>
                   <div style={{fontSize:"20px",color:C.white,marginBottom:"4px"}}>✦</div>
-                  <div style={{fontFamily:FD,fontSize:"31px",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
+                  <div style={{fontFamily:FD,fontSize:"26px",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
                     {t.expBtn}
                   </div>
                 </div>
@@ -593,7 +593,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           </button>
           <a href="https://wa.me/393510103842" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp staff (home)",{lang})} style={{padding:"16px 14px",background:C.white,borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textDecoration:"none",boxShadow:C.shadow,flexShrink:0,gap:"4px"}}>
             <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path fill="#25D366" fillOpacity=".25" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/><path fill="#25D366" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.101-1.135l-.294-.175-3.048.906.906-3.048-.175-.294A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-            <div style={{fontSize:"9px",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
+            <div style={{fontSize:"11px",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
           </a>
         </div>
 
@@ -601,13 +601,13 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
         <WhiteCard style={{marginBottom:"32px"}}>
           <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",gap:"10px",marginBottom:"10px"}}>
             <Pill>⟡ {t.wifiName}</Pill>
-            <div style={{fontSize:"13px",color:C.textM,fontFamily:FB,letterSpacing:"0.05em",paddingLeft:"4px"}}>Password: <span style={{color:C.textD,fontWeight:"600"}}>abaton1950</span></div>
+            <div style={{fontSize:"15px",color:C.textM,fontFamily:FB,letterSpacing:"0.05em",paddingLeft:"4px"}}>Password: <span style={{color:C.textD,fontWeight:"600"}}>abaton1950</span></div>
           </div>
           <div style={{display:"flex",flexWrap:"wrap",gap:"10px",marginBottom:"14px"}}>
             <Pill color={C.goldD}>← {t.checkOut}</Pill>
             <Pill color={C.goldD}>◯ {lang==="it"?"Silenzio 22–8":lang==="de"?"Ruhezeit 22–8 Uhr":lang==="fr"?"Silence 22h–8h":lang==="ru"?"Тишина 22:00–8:00":"Quiet hours 10pm–8am"}</Pill>
           </div>
-          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp late check-out",{lang})} style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"14px",textDecoration:"none"}}>💬 {t.lateOut} →</a>
+          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp late check-out",{lang})} style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"16px",textDecoration:"none"}}>💬 {t.lateOut} →</a>
         </WhiteCard>
 
         {/* EVENTS */}
@@ -615,25 +615,25 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           {EVENTS.map((ev,i)=>(
             <a key={i} href={ev.url} target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",gap:"16px",padding:"16px 0",borderBottom:i<EVENTS.length-1?`1px solid ${C.border}`:"none",textDecoration:"none"}}>
               <div style={{textAlign:"center",minWidth:"52px"}}>
-                <div style={{fontSize:"13px",color:C.textM,fontFamily:FB,textTransform:"uppercase",letterSpacing:"0.08em"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ")[0]}</div>
-                <div style={{fontFamily:FD,fontSize:"24px",color:C.gold,lineHeight:"1"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ").slice(1).join(" ")||ev.date||""}</div>
+                <div style={{fontSize:"15px",color:C.textM,fontFamily:FB,textTransform:"uppercase",letterSpacing:"0.08em"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ")[0]}</div>
+                <div style={{fontFamily:FD,fontSize:"26px",color:C.gold,lineHeight:"1"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ").slice(1).join(" ")||ev.date||""}</div>
               </div>
               <div style={{flex:1}}>
-                <div style={{fontSize:"16px",color:C.blue,marginBottom:"3px",fontWeight:"400"}}>{lang==="it"?ev.title:ev.titleEN||ev.title}</div>
-                <div style={{fontSize:"12px",color:C.gold,marginBottom:"3px"}}>{lang==="it"?ev.time:ev.timeEN||ev.time} · {(lang==="it"?ev.loc:ev.locEN||ev.loc)||ev.place||""}</div>
-                <div style={{fontSize:"12px",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?ev.desc:ev.descEN}</div>
+                <div style={{fontSize:"18px",color:C.blue,marginBottom:"3px",fontWeight:"400"}}>{lang==="it"?ev.title:ev.titleEN||ev.title}</div>
+                <div style={{fontSize:"14px",color:C.gold,marginBottom:"3px"}}>{lang==="it"?ev.time:ev.timeEN||ev.time} · {(lang==="it"?ev.loc:ev.locEN||ev.loc)||ev.place||""}</div>
+                <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?ev.desc:ev.descEN}</div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.gold} strokeWidth="1.5" width="16" height="16"><polyline points="9,18 15,12 9,6"/></svg>
             </a>
           ))}
           <div style={{paddingTop:"16px",display:"flex",flexDirection:"column",gap:"12px"}}>
             <div style={{padding:"14px 16px",background:C.goldPale,borderRadius:"14px"}}>
-              <div style={{fontSize:"13px",color:C.goldD,fontFamily:FB,fontWeight:"500",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:"6px"}}>{lang==="it"?"Per prenotarsi agli eventi":lang==="de"?"Für die Anmeldung zu Veranstaltungen":lang==="fr"?"Pour réserver aux événements":lang==="ru"?"Для записи на мероприятия":"To book events"}</div>
-              <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.6",marginBottom:"8px"}}>{lang==="it"?"Contattare il Welcome Center di Damanhur:":lang==="de"?"Kontaktiere das Welcome Center von Damanhur:":lang==="fr"?"Contacter le Welcome Center de Damanhur :":lang==="ru"?"Свяжитесь с Welcome Center Даманхура:":"Contact Damanhur's Welcome Center:"}</div>
-              <a href="tel:+393204824427" style={{fontFamily:FD,fontSize:"18px",color:C.goldD,textDecoration:"none",display:"block"}}>{t.eventsPhone}</a>
-              <a href="mailto:welcome@dhwelcome.org" style={{fontFamily:FB,fontSize:"14px",color:C.goldD,textDecoration:"none",display:"block",marginTop:"4px"}}>welcome@dhwelcome.org</a>
+              <div style={{fontSize:"15px",color:C.goldD,fontFamily:FB,fontWeight:"500",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:"6px"}}>{lang==="it"?"Per prenotarsi agli eventi":lang==="de"?"Für die Anmeldung zu Veranstaltungen":lang==="fr"?"Pour réserver aux événements":lang==="ru"?"Для записи на мероприятия":"To book events"}</div>
+              <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.6",marginBottom:"8px"}}>{lang==="it"?"Contattare il Welcome Center di Damanhur:":lang==="de"?"Kontaktiere das Welcome Center von Damanhur:":lang==="fr"?"Contacter le Welcome Center de Damanhur :":lang==="ru"?"Свяжитесь с Welcome Center Даманхура:":"Contact Damanhur's Welcome Center:"}</div>
+              <a href="tel:+393204824427" style={{fontFamily:FD,fontSize:"20px",color:C.goldD,textDecoration:"none",display:"block"}}>{t.eventsPhone}</a>
+              <a href="mailto:welcome@dhwelcome.org" style={{fontFamily:FB,fontSize:"16px",color:C.goldD,textDecoration:"none",display:"block",marginTop:"4px"}}>welcome@dhwelcome.org</a>
             </div>
-            <a href="https://damanhur.community/events/" target="_blank" rel="noopener noreferrer" style={{color:C.gold,fontFamily:FB,fontSize:"14px",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</a>
+            <a href="https://damanhur.community/events/" target="_blank" rel="noopener noreferrer" style={{color:C.gold,fontFamily:FB,fontSize:"16px",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</a>
           </div>
         </Section>
       </div>
