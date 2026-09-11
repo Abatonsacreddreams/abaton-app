@@ -413,12 +413,12 @@ function ContactButton({phone,text,lang,trackLabel,renderTrigger}) {
               ))}
             </div>
             {qr?<img src={qr} alt="QR code" style={{width:"200px",height:"200px",margin:"0 auto 16px",display:"block",borderRadius:"12px"}}/>:<div style={{width:"200px",height:"200px",margin:"0 auto 16px"}}/>}
-            <div style={{fontSize:"14px",color:C.textM,marginBottom:"18px",lineHeight:"1.5"}}>
-              {lang==="it"?"Inquadra il codice con la fotocamera del tuo telefono per aprire la chat":lang==="de"?"Scanne den Code mit der Kamera deines Telefons, um den Chat zu öffnen":lang==="fr"?"Scannez le code avec l'appareil photo de votre téléphone pour ouvrir la discussion":lang==="ru"?"Наведите камеру телефона на код, чтобы открыть чат":"Scan the code with your phone's camera to open the chat"}
+            <div style={{fontSize:"15px",color:C.blue,fontFamily:FB,fontWeight:"700",marginBottom:"6px",lineHeight:"1.4"}}>
+              {lang==="it"?"Inquadra il codice con il tuo telefono":lang==="de"?"Scanne den Code mit deinem Telefon":lang==="fr"?"Scannez le code avec votre téléphone":lang==="ru"?"Наведите телефон на код":"Scan the code with your phone"}
             </div>
-            <a href={channel==="wa"?waLink:tgLink} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",`${trackLabel} (direct)`,{lang})} style={{display:"block",padding:"12px",background:C.gold,color:C.white,borderRadius:"14px",textDecoration:"none",fontFamily:FB,fontSize:"14px",fontWeight:"600",marginBottom:"12px"}}>
-              {lang==="it"?`Apri ${channel==="wa"?"WhatsApp":"Telegram"} su questo dispositivo →`:lang==="de"?`${channel==="wa"?"WhatsApp":"Telegram"} auf diesem Gerät öffnen →`:lang==="fr"?`Ouvrir ${channel==="wa"?"WhatsApp":"Telegram"} sur cet appareil →`:lang==="ru"?`Открыть ${channel==="wa"?"WhatsApp":"Telegram"} на этом устройстве →`:`Open ${channel==="wa"?"WhatsApp":"Telegram"} on this device →`}
-            </a>
+            <div style={{fontSize:"13px",color:C.textM,marginBottom:"18px",lineHeight:"1.5"}}>
+              {lang==="it"?`La chat ${channel==="wa"?"WhatsApp":"Telegram"} si apre solo sul tuo dispositivo personale, non su questo tablet.`:lang==="de"?`Der ${channel==="wa"?"WhatsApp":"Telegram"}-Chat öffnet sich nur auf deinem eigenen Gerät, nicht auf diesem Tablet.`:lang==="fr"?`La discussion ${channel==="wa"?"WhatsApp":"Telegram"} ne s'ouvre que sur votre appareil personnel, pas sur cette tablette.`:lang==="ru"?`Чат ${channel==="wa"?"WhatsApp":"Telegram"} откроется только на вашем личном устройстве, а не на этом планшете.`:`The ${channel==="wa"?"WhatsApp":"Telegram"} chat only opens on your own device, not on this tablet.`}
+            </div>
             <button onClick={()=>setOpen(false)} style={{background:"none",border:"none",color:C.textM,fontSize:"13px",cursor:"pointer",fontFamily:FB}}>
               {lang==="it"?"Chiudi":lang==="de"?"Schließen":lang==="fr"?"Fermer":lang==="ru"?"Закрыть":"Close"}
             </button>
