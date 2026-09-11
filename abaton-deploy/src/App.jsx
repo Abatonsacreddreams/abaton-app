@@ -636,6 +636,14 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             <a href="https://damanhur.community/events/" target="_blank" rel="noopener noreferrer" style={{color:C.gold,fontFamily:FB,fontSize:"16px",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</a>
           </div>
         </Section>
+
+        <div style={{borderRadius:"24px",overflow:"hidden",boxShadow:C.shadow,position:"relative",marginBottom:"24px"}}>
+          <img src="/damanhur/il-popolo.jpg" alt="Il Popolo di Damanhur" style={{width:"100%",height:"220px",objectFit:"cover",display:"block"}}/>
+          <div style={{position:"absolute",inset:0,background:"linear-gradient(to top, rgba(20,34,61,0.78), transparent 55%)"}}/>
+          <div style={{position:"absolute",bottom:"18px",left:"20px",right:"20px",color:C.white,fontFamily:FD,fontSize:"21px",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
+            {lang==="it"?"Il Popolo di Damanhur":lang==="de"?"Das Volk von Damanhur":lang==="fr"?"Le Peuple de Damanhur":lang==="ru"?"Народ Даманхура":"The People of Damanhur"}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -1254,11 +1262,12 @@ function DamanPage({t,lang,setPage}) {
       link:"https://members.damanhur.academy/",linkLabelIT:"Sito Damanhur Academy →",linkLabelEN:"Damanhur Academy website →",linkLabelDE:"Damanhur Academy Website →",linkLabelFR:"Site de la Damanhur Academy →",linkLabelRU:"Сайт Damanhur Academy →",
     },
     blog:{
-      it:"La comunità di Damanhur è attiva a livello mondiale attraverso la piattaforma Damanhur Community — articoli, podcast, gruppi e iniziative globali.",
-      en:"The Damanhur community is globally active through the Damanhur Community platform — articles, podcasts, groups and global initiatives.",
-      de:"Die Damanhur-Gemeinschaft ist weltweit über die Plattform Damanhur Community aktiv — Artikel, Podcasts, Gruppen und globale Initiativen.",
-      fr:"La communauté de Damanhur est active dans le monde entier via la plateforme Damanhur Community — articles, podcasts, groupes et initiatives mondiales.",
-      ru:"Сообщество Даманхур активно по всему миру через платформу Damanhur Community — статьи, подкасты, группы и глобальные инициативы.",
+      img:"/damanhur/bosco-sacro.jpg",
+      it:"Damanhur Community è la piattaforma online del Popolo di Damanhur, aperta a chiunque voglia restare in contatto anche da lontano.\n\nVi si trovano articoli di approfondimento, podcast, il calendario completo degli eventi (anche online), gruppi tematici e le iniziative delle comunità Damanhur nel mondo — un modo semplice per continuare il viaggio iniziato qui anche dopo il soggiorno.",
+      en:"Damanhur Community is the People of Damanhur's online platform, open to anyone who wants to stay connected even from afar.\n\nYou'll find in-depth articles, podcasts, the full events calendar (including online events), thematic groups and the initiatives of Damanhur communities around the world — an easy way to continue the journey you started here, even after your stay.",
+      de:"Damanhur Community ist die Online-Plattform des Volkes von Damanhur, offen für alle, die auch aus der Ferne in Verbindung bleiben möchten.\n\nHier findest du vertiefende Artikel, Podcasts, den vollständigen Veranstaltungskalender (auch online), thematische Gruppen und die Initiativen der Damanhur-Gemeinschaften weltweit — eine einfache Möglichkeit, die hier begonnene Reise auch nach deinem Aufenthalt fortzusetzen.",
+      fr:"Damanhur Community est la plateforme en ligne du Peuple de Damanhur, ouverte à tous ceux qui souhaitent rester en contact même à distance.\n\nVous y trouverez des articles approfondis, des podcasts, le calendrier complet des événements (y compris en ligne), des groupes thématiques et les initiatives des communautés Damanhur dans le monde — une façon simple de poursuivre le voyage commencé ici, même après votre séjour.",
+      ru:"Damanhur Community — это онлайн-платформа Народа Даманхура, открытая для всех, кто хочет оставаться на связи даже на расстоянии.\n\nЗдесь вы найдёте подробные статьи, подкасты, полный календарь событий (в том числе онлайн), тематические группы и инициативы сообществ Даманхура по всему миру — простой способ продолжить путешествие, начатое здесь, даже после отъезда.",
     },
     media:{it:"",en:"",de:"",fr:"",ru:""},
     valle:{
@@ -1441,6 +1450,12 @@ function DamanPage({t,lang,setPage}) {
           )}
           {sub==="blog"&&(
             <>
+              <div style={{borderRadius:"20px",overflow:"hidden",marginBottom:"16px",boxShadow:C.shadow}}>
+                <img src={SUBCONTENT.blog.img} alt={label} style={{width:"100%",height:"200px",objectFit:"cover"}}/>
+              </div>
+              <WhiteCard>
+                <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT.blog[lang]||SUBCONTENT.blog.it}</div>
+              </WhiteCard>
               {[{url:"https://damanhur.org/blog",label:lang==="it"?"Vai al Blog →":lang==="de"?"Zum Blog →":lang==="fr"?"Aller au Blog →":lang==="ru"?"Перейти в блог →":"Go to Blog →"},{url:"https://damanhur.community",label:lang==="it"?"Entra nella Community →":lang==="de"?"Der Community beitreten →":lang==="fr"?"Rejoindre la Communauté →":lang==="ru"?"Присоединиться к сообществу →":"Join the Community →"}].map((link,i)=>(
                 <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"16px 20px",marginBottom:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15px",boxShadow:C.shadow}}>{link.label}</a>
               ))}
