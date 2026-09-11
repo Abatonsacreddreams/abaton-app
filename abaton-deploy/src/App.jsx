@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import QRCode from "qrcode";
 
 const FONT_URL = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap";
 
@@ -388,6 +389,46 @@ const Section = ({title,children,style={}}) => (
   </div>
 );
 
+// ── CONTACT (WhatsApp/Telegram QR — works on the guest's own phone even from a locked kiosk tablet) ──
+function ContactButton({phone,text,lang,trackLabel,renderTrigger}) {
+  const [open,setOpen] = useState(false);
+  const [channel,setChannel] = useState("wa");
+  const [qr,setQr] = useState("");
+  const waLink = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+  const tgLink = `https://t.me/+${phone}`;
+  useEffect(()=>{
+    if(!open) return;
+    QRCode.toDataURL(channel==="wa"?waLink:tgLink,{width:220,margin:1,color:{dark:C.blue,light:"#ffffff"}}).then(setQr).catch(()=>setQr(""));
+  },[open,channel]);
+  const openModal = () => { track("link",trackLabel,{lang}); setOpen(true); };
+  return (
+    <>
+      {renderTrigger(openModal)}
+      {open&&(
+        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={()=>setOpen(false)}>
+          <div style={{background:C.white,borderRadius:"24px",padding:"28px 24px",maxWidth:"340px",width:"100%",textAlign:"center"}} onClick={e=>e.stopPropagation()}>
+            <div style={{display:"flex",gap:"8px",justifyContent:"center",marginBottom:"18px"}}>
+              {[{id:"wa",label:"WhatsApp"},{id:"tg",label:"Telegram"}].map(c=>(
+                <button key={c.id} onClick={()=>setChannel(c.id)} style={{padding:"8px 18px",borderRadius:"20px",border:`1px solid ${channel===c.id?C.gold:C.border}`,background:channel===c.id?C.gold:"none",color:channel===c.id?C.white:C.textM,fontFamily:FB,fontSize:"13px",fontWeight:"600",cursor:"pointer"}}>{c.label}</button>
+              ))}
+            </div>
+            {qr?<img src={qr} alt="QR code" style={{width:"200px",height:"200px",margin:"0 auto 16px",display:"block",borderRadius:"12px"}}/>:<div style={{width:"200px",height:"200px",margin:"0 auto 16px"}}/>}
+            <div style={{fontSize:"14px",color:C.textM,marginBottom:"18px",lineHeight:"1.5"}}>
+              {lang==="it"?"Inquadra il codice con la fotocamera del tuo telefono per aprire la chat":lang==="de"?"Scanne den Code mit der Kamera deines Telefons, um den Chat zu öffnen":lang==="fr"?"Scannez le code avec l'appareil photo de votre téléphone pour ouvrir la discussion":lang==="ru"?"Наведите камеру телефона на код, чтобы открыть чат":"Scan the code with your phone's camera to open the chat"}
+            </div>
+            <a href={channel==="wa"?waLink:tgLink} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",`${trackLabel} (direct)`,{lang})} style={{display:"block",padding:"12px",background:C.gold,color:C.white,borderRadius:"14px",textDecoration:"none",fontFamily:FB,fontSize:"14px",fontWeight:"600",marginBottom:"12px"}}>
+              {lang==="it"?`Apri ${channel==="wa"?"WhatsApp":"Telegram"} su questo dispositivo →`:lang==="de"?`${channel==="wa"?"WhatsApp":"Telegram"} auf diesem Gerät öffnen →`:lang==="fr"?`Ouvrir ${channel==="wa"?"WhatsApp":"Telegram"} sur cet appareil →`:lang==="ru"?`Открыть ${channel==="wa"?"WhatsApp":"Telegram"} на этом устройстве →`:`Open ${channel==="wa"?"WhatsApp":"Telegram"} on this device →`}
+            </a>
+            <button onClick={()=>setOpen(false)} style={{background:"none",border:"none",color:C.textM,fontSize:"13px",cursor:"pointer",fontFamily:FB}}>
+              {lang==="it"?"Chiudi":lang==="de"?"Schließen":lang==="fr"?"Fermer":lang==="ru"?"Закрыть":"Close"}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 // ── TABLET / STAFF: stanza fissa del device + sessione ospite corrente ────────
 const STAFF_PIN = "1950";
 const ROOMS_LIST = [
@@ -591,10 +632,12 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <div style={{fontSize:"13px",color:C.textM}}>AI Concierge · 24h</div>
             </div>
           </button>
-          <a href="https://wa.me/393510103842" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp staff (home)",{lang})} style={{padding:"16px 14px",background:C.white,borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textDecoration:"none",boxShadow:C.shadow,flexShrink:0,gap:"4px"}}>
-            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path fill="#25D366" fillOpacity=".25" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/><path fill="#25D366" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.101-1.135l-.294-.175-3.048.906.906-3.048-.175-.294A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-            <div style={{fontSize:"11px",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
-          </a>
+          <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp staff (home)" text={lang==="it"?"Buongiorno, vi scrivo dall'app Abaton.":lang==="de"?"Guten Tag, ich schreibe Ihnen aus der Abaton-App.":lang==="fr"?"Bonjour, je vous écris depuis l'application Abaton.":lang==="ru"?"Здравствуйте, пишу вам из приложения Abaton.":"Hello, I'm messaging you from the Abaton app."} renderTrigger={openModal=>(
+            <button onClick={openModal} style={{padding:"16px 14px",background:C.white,borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",boxShadow:C.shadow,flexShrink:0,gap:"4px"}}>
+              <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path fill="#25D366" fillOpacity=".25" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/><path fill="#25D366" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.101-1.135l-.294-.175-3.048.906.906-3.048-.175-.294A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+              <div style={{fontSize:"11px",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
+            </button>
+          )}/>
         </div>
 
         {/* PRACTICAL INFO PILLS */}
@@ -607,7 +650,9 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             <Pill color={C.goldD}>← {t.checkOut}</Pill>
             <Pill color={C.goldD}>◯ {lang==="it"?"Silenzio 22–8":lang==="de"?"Ruhezeit 22–8 Uhr":lang==="fr"?"Silence 22h–8h":lang==="ru"?"Тишина 22:00–8:00":"Quiet hours 10pm–8am"}</Pill>
           </div>
-          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp late check-out",{lang})} style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"16px",textDecoration:"none"}}>💬 {t.lateOut} →</a>
+          <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp late check-out" text={lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you"} renderTrigger={openModal=>(
+            <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"16px",background:"none",border:"none",cursor:"pointer",padding:0}}>💬 {t.lateOut} →</button>
+          )}/>
         </WhiteCard>
 
         {/* EVENTS */}
@@ -1668,7 +1713,9 @@ function WellnessPage({t,lang,setPage}) {
           <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.7",marginBottom:"14px"}}>
             {lang==="it"?"Un momento di silenzio guidato negli spazi sacri dei Templi dell'Umanità.":lang==="de"?"Ein geführter Moment der Stille in den heiligen Räumen der Tempel der Menschheit.":lang==="fr"?"Un moment de silence guidé dans les espaces sacrés des Temples de l'Humanité.":lang==="ru"?"Момент управляемой тишины в священных пространствах Храмов Человечества.":"A guided moment of silence in the sacred spaces of the Temples of Humanity."}
           </div>
-          <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei prenotare una Meditazione nei Templi dell'Umanità.":lang==="de"?"Guten Tag, ich möchte eine Meditation in den Tempeln der Menschheit buchen.":lang==="fr"?"Bonjour, je souhaiterais réserver une Méditation dans les Temples de l'Humanité.":lang==="ru"?"Здравствуйте, хотел(а) бы записаться на медитацию в Храмах Человечества.":"Hello, I would like to book a Temple Meditation.")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp book Temple Meditation",{lang})} style={{display:"inline-block",padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px",letterSpacing:"0.05em",textDecoration:"none"}}>{t.book}</a>
+          <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp book Temple Meditation" text={lang==="it"?"Buongiorno, vorrei prenotare una Meditazione nei Templi dell'Umanità.":lang==="de"?"Guten Tag, ich möchte eine Meditation in den Tempeln der Menschheit buchen.":lang==="fr"?"Bonjour, je souhaiterais réserver une Méditation dans les Temples de l'Humanité.":lang==="ru"?"Здравствуйте, хотел(а) бы записаться на медитацию в Храмах Человечества.":"Hello, I would like to book a Temple Meditation."} renderTrigger={openModal=>(
+            <button onClick={openModal} style={{display:"inline-block",padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px",letterSpacing:"0.05em"}}>{t.book}</button>
+          )}/>
         </WhiteCard>
 
         {/* PROVIDERS: SelEt / Elasel / Kythera */}
@@ -1685,9 +1732,11 @@ function WellnessPage({t,lang,setPage}) {
                 </div>
               ))}
             </div>
-            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`)}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",`WhatsApp book ${p.name}`,{lang})} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14px"}}>
-              💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
-            </a>
+            <ContactButton phone="393510103842" lang={lang} trackLabel={`WhatsApp book ${p.name}`} text={lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`} renderTrigger={openModal=>(
+              <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px"}}>
+                💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
+              </button>
+            )}/>
             </div>
           </WhiteCard>
         ))}
@@ -1758,9 +1807,11 @@ function GuestsPage({t,lang,setPage}) {
                 ?"Знаете кого-то, кому это место могло бы пригодиться? Поделитесь своим опытом в Абатоне — за каждого друга, который забронирует благодаря вам, вы получите эксклюзивную скидку на следующее пребывание."
                 :"Do you know someone who could benefit from this place? Share your Abaton experience — for every friend who books thanks to you, you will receive an exclusive discount on your next stay."}
             </div>
-            <a href={`https://wa.me/393510103842?text=${encodeURIComponent(lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":lang==="de"?"Guten Tag, ich möchte einen Freund für einen Aufenthalt im Abaton empfehlen.":lang==="fr"?"Bonjour, je souhaiterais recommander un ami pour un séjour à l'Abaton.":lang==="ru"?"Здравствуйте, хотел(а) бы порекомендовать друга для пребывания в Абатоне.":"Hello, I would like to refer a friend for a stay at Abaton.")}`} target="_blank" rel="noopener noreferrer" onClick={()=>track("link","WhatsApp bring a friend",{lang})} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"14px"}}>
-              💬 {lang==="it"?"Scrivi al personale →":lang==="de"?"Dem Personal schreiben →":lang==="fr"?"Écrire au personnel →":lang==="ru"?"Написать персоналу →":"Message the staff →"}
-            </a>
+            <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp bring a friend" text={lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":lang==="de"?"Guten Tag, ich möchte einen Freund für einen Aufenthalt im Abaton empfehlen.":lang==="fr"?"Bonjour, je souhaiterais recommander un ami pour un séjour à l'Abaton.":lang==="ru"?"Здравствуйте, хотел(а) бы порекомендовать друга для пребывания в Абатоне.":"Hello, I would like to refer a friend for a stay at Abaton."} renderTrigger={openModal=>(
+              <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px"}}>
+                💬 {lang==="it"?"Scrivi al personale →":lang==="de"?"Dem Personal schreiben →":lang==="fr"?"Écrire au personnel →":lang==="ru"?"Написать персоналу →":"Message the staff →"}
+              </button>
+            )}/>
           </div>
         </Section>
 
