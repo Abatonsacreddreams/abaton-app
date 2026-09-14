@@ -234,52 +234,44 @@ const SYS = {
 
 const EVENTS = [
   {
-    date:"07–12 Set",dateEN:"07–12 Sep",
-    title:"Formazione dei Formatori",titleEN:"Training of Trainers",
-    time:"Tutta la settimana",timeEN:"All week",loc:"Arca Tentyris, Via Baldissero 21",
-    desc:"Un percorso intensivo per chi desidera approfondire l'arte di insegnare e facilitare, coltivando la collaborazione tra le comunità.",
-    descEN:"An intensive path for those who wish to deepen the art of teaching and facilitating, nurturing collaboration within communities.",
-    url:"https://damanhur.community/event/training-of-trainers/"
-  },
-  {
-    date:"Mer 09 Set",dateEN:"Wed 09 Sep",
+    date:"Mer 16 Set",dateEN:"Wed 16 Sep",
     title:"Serata con i Teorici",titleEN:"Meeting with Theoreticians",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Una serata di ricerca e riflessione con i Teorici di Damanhur — incontri settimanali aperti a visitatori e ospiti.",
     descEN:"A weekly evening of research and reflection with Damanhur's Theoreticians, open to visitors and guests.",
-    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-09-09/"
+    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-09-16/"
   },
   {
-    date:"Gio 10 Set",dateEN:"Thu 10 Sep",
+    date:"Gio 17 Set",dateEN:"Thu 17 Sep",
     title:"Assemblea Sociale Generale",titleEN:"Social General Meeting",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Una serata pubblica dedicata ai temi sociali e politici della comunità, aperta a tutti.",
-    descEN:"A public evening dedicated to the community's social and political themes, open to everyone.",
-    url:"https://damanhur.community/event/social-general-meeting/2026-09-10/"
+    desc:"L'incontro settimanale in cui la comunità di Damanhur si riunisce per condividere e decidere insieme il proprio cammino.",
+    descEN:"The weekly gathering where Damanhur's community comes together to share and shape its collective path.",
+    url:"https://damanhur.community/event/social-general-meeting/2026-09-17/"
   },
   {
-    date:"Ven 11 Set",dateEN:"Fri 11 Sep",
+    date:"Ven 18 Set",dateEN:"Fri 18 Sep",
     title:"Venerdì con Falco",titleEN:"Fridays with Falco",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Serate dedicate all'insegnamento e alla visione di Falco Tarassaco, fondatore di Damanhur, attraverso i suoi video.",
     descEN:"Evenings devoted to the teaching and vision of Falco Tarassaco, Damanhur's founder, shared through his videos.",
-    url:"https://damanhur.community/event/fridays-with-falco/2026-09-11/"
+    url:"https://damanhur.community/event/fridays-with-falco/2026-09-18/"
   },
   {
-    date:"Sab 12 Set",dateEN:"Sat 12 Sep",
-    title:"Rito GET",titleEN:"Damanhur GET ritual",
-    time:"19:45 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Un rito suggestivo per comprendere a fondo il legame profondo che unisce il Popolo di Damanhur.",
-    descEN:"An evocative ritual that reveals the deep bond uniting the people of Damanhur.",
-    url:"https://damanhur.community/event/damanhur-get-ritual-3/2026-09-12/"
+    date:"Dom 20 Set",dateEN:"Sun 20 Sep",
+    title:"Equinozio d'Autunno",titleEN:"Autumn Equinox",
+    time:"Giornata speciale",timeEN:"Special day",loc:"Damjl, Via Pramarzo 3",
+    desc:"Una celebrazione dedicata all'equilibrio tra luce e ombra, nel ritmo antico delle stagioni di Damanhur.",
+    descEN:"A celebration of balance between light and shadow, in tune with Damanhur's ancient rhythm of the seasons.",
+    url:"https://damanhur.community/event/autumn-equinox-4/"
   },
   {
-    date:"Dom 13 Set",dateEN:"Sun 13 Sep",
-    title:"La Triade",titleEN:"The Triad",
-    time:"16:30 – 18:00",loc:"Templi dell'Umanità, Via Baldissero 21",locEN:"Temples of Humanity, Via Baldissero 21",
-    desc:"Un incontro dedicato alla Triade: a Damanhur si crede che ogni forza divina nasca da tre fonti primarie — Energia, Volontà e Conoscenza.",
-    descEN:"An event dedicated to the Triad: at Damanhur, every divine force is believed to be made of three primary sources — Energy, Will and Knowledge.",
-    url:"https://damanhur.community/event/the-triad-2/2026-09-13/"
+    date:"Dom 20 Set",dateEN:"Sun 20 Sep",
+    title:"Giornata Aperta della Scuola di Alchimia",titleEN:"Alchemy School Open Day",
+    time:"19:00 – 21:30 (online)",timeEN:"19:00 – 21:30 (online)",loc:"Evento online",locEN:"Online event",
+    desc:"Una serata online per scoprire il percorso della Scuola di Alchimia di Damanhur, tra studio interiore e trasformazione.",
+    descEN:"An online evening to discover Damanhur's Alchemy School path, blending inner study and transformation.",
+    url:"https://damanhur.community/event/alchemy-school-open-day/"
   },
 ];
 
