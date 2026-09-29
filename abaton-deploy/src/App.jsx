@@ -421,6 +421,42 @@ function ContactButton({phone,text,lang,trackLabel,renderTrigger}) {
   );
 }
 
+// ── EXTERNAL LINK POPUP (never feels like leaving the app — Maps gets a real small map) ──
+function buildMapEmbed(href) {
+  try {
+    const u = new URL(href);
+    if ((u.hostname==="www.google.com"||u.hostname==="google.com") && u.pathname==="/maps/search/") {
+      const q = u.searchParams.get("query");
+      if (q) return `https://maps.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
+    }
+  } catch(e) {}
+  return null;
+}
+function ExtLink({href,style,onClick,children,lang}) {
+  const [open,setOpen] = useState(false);
+  if(!href) return null;
+  const mapEmbed = buildMapEmbed(href);
+  const handleClick = e => { e.preventDefault(); onClick&&onClick(); setOpen(true); };
+  return (
+    <>
+      <a href={href} onClick={handleClick} style={style}>{children}</a>
+      {open&&(
+        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:210,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}} onClick={()=>setOpen(false)}>
+          <div style={{background:C.white,borderRadius:"20px",overflow:"hidden",maxWidth:"460px",width:"100%",maxHeight:"78vh",display:"flex",flexDirection:"column",boxShadow:"0 20px 60px rgba(0,0,0,0.35)"}} onClick={e=>e.stopPropagation()}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",padding:"10px 10px 0"}}>
+              <button onClick={()=>setOpen(false)} aria-label="Chiudi" style={{background:C.bg,border:"none",borderRadius:"50%",width:"30px",height:"30px",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:"15px",color:C.textM}}>✕</button>
+            </div>
+            <iframe src={mapEmbed||href} title="external content" style={{flex:1,border:"none",width:"100%",minHeight:"340px"}}/>
+            <a href={href} target="_blank" rel="noopener noreferrer" style={{padding:"12px",textAlign:"center",color:C.gold,fontFamily:FB,fontSize:"13px",textDecoration:"none",borderTop:`1px solid ${C.border}`,flexShrink:0}}>
+              {lang==="it"?"Apri a schermo intero ↗":lang==="de"?"Vollbild öffnen ↗":lang==="fr"?"Ouvrir en plein écran ↗":lang==="ru"?"Открыть на весь экран ↗":"Open fullscreen ↗"}
+            </a>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 // ── TEMPIO DEI POPOLI — prenotazione esperienza privata ───────────────────────
 const POPOLI_INTERESTS = [
   {id:"meditazione",it:"Meditazione silenziosa",en:"Silent meditation",de:"Stille Meditation",fr:"Méditation silencieuse",ru:"Тихая медитация"},
@@ -731,7 +767,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
         {/* EVENTS */}
         <Section title={t.eventsTitle}>
           {EVENTS.map((ev,i)=>(
-            <a key={i} href={ev.url} target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",gap:"16px",padding:"16px 0",borderBottom:i<EVENTS.length-1?`1px solid ${C.border}`:"none",textDecoration:"none"}}>
+            <ExtLink key={i} href={ev.url} lang={lang} style={{display:"flex",alignItems:"center",gap:"16px",padding:"16px 0",borderBottom:i<EVENTS.length-1?`1px solid ${C.border}`:"none",textDecoration:"none"}}>
               <div style={{textAlign:"center",minWidth:"52px"}}>
                 <div style={{fontSize:"15px",color:C.textM,fontFamily:FB,textTransform:"uppercase",letterSpacing:"0.08em"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ")[0]}</div>
                 <div style={{fontFamily:FD,fontSize:"26px",color:C.gold,lineHeight:"1"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ").slice(1).join(" ")||ev.date||""}</div>
@@ -742,7 +778,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
                 <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?ev.desc:ev.descEN}</div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.gold} strokeWidth="1.5" width="16" height="16"><polyline points="9,18 15,12 9,6"/></svg>
-            </a>
+            </ExtLink>
           ))}
           <div style={{paddingTop:"16px",display:"flex",flexDirection:"column",gap:"12px"}}>
             <div style={{padding:"14px 16px",background:C.goldPale,borderRadius:"14px"}}>
@@ -751,7 +787,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <a href="tel:+393204824427" style={{fontFamily:FD,fontSize:"20px",color:C.goldD,textDecoration:"none",display:"block"}}>{t.eventsPhone}</a>
               <a href="mailto:welcome@dhwelcome.org" style={{fontFamily:FB,fontSize:"16px",color:C.goldD,textDecoration:"none",display:"block",marginTop:"4px"}}>welcome@dhwelcome.org</a>
             </div>
-            <a href="https://damanhur.community/events/" target="_blank" rel="noopener noreferrer" style={{color:C.gold,fontFamily:FB,fontSize:"16px",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</a>
+            <ExtLink href="https://damanhur.community/events/" lang={lang} style={{color:C.gold,fontFamily:FB,fontSize:"16px",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</ExtLink>
           </div>
         </Section>
 
@@ -801,9 +837,9 @@ function ExperiencePage({t,lang,setPage}) {
               ?"Селфика Снов находится над шкафом, направленная к кровати — оттуда она тихо работает всю ночь. Это энергетический инструмент, выкованный вручную мастерами Даманхура: металлические спирали, создающие полуавтономное поле, предназначенное для того, чтобы:\n\n• расширять сон и делать его более ярким\n• способствовать запоминанию снов при пробуждении\n• создавать защитное поле во время сна\n\nЕё нельзя трогать. Способ взаимодействия с ней — через мысль или слово: перед сном посмотри на неё оттуда, где ты находишься, понаблюдай за спиралями. Обратись к ней с намерением, вопросом, приветствием. Она принимает."
               :"The Dream Selfica rests above the wardrobe, directed toward the bed — from where it works silently through the night. It is an energy tool hand-forged by Damanhur artisans: metal spirals creating a semi-autonomous field, designed to:\n\n• Expand and make the dream world more vivid\n• Facilitate dream recall upon waking\n• Create a protective field during sleep\n\nDo not touch it. Relate to it through thought or spoken word: before sleeping, look at it from where you are, observe its spirals. Bring it an intention, a question, a greeting. It receives."}
           </div>
-          <a href="https://shop.selfica.space/pages/what-is-selfica" target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14px",letterSpacing:"0.08em",textDecoration:"none"}}>
+          <ExtLink href="https://shop.selfica.space/pages/what-is-selfica" lang={lang} style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14px",letterSpacing:"0.08em",textDecoration:"none"}}>
             {lang==="it"?"Scopri di più sulla Selfica, una tecnologia nata a Damanhur →":lang==="de"?"Mehr über Selfica erfahren, eine in Damanhur entwickelte Technologie →":lang==="fr"?"En savoir plus sur la Selfica, une technologie née à Damanhur →":lang==="ru"?"Узнать больше о Селфике, технологии, созданной в Даманхуре →":"Learn more about Selfica, a technology born in Damanhur →"}
-          </a>
+          </ExtLink>
         </WhiteCard>
 
         {/* NIGHT RITUAL CHECKLIST */}
@@ -941,7 +977,7 @@ function RoomExplorer({room,lang}) {
           <div style={{fontFamily:FD,fontSize:"19px",color:C.blue,marginBottom:"6px"}}>{LS(spots[active],"label",lang)}</div>
           <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.7"}}>{LS(spots[active],"desc",lang)}</div>
           {spots[active].url&&(
-            <a href={spots[active].url} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"8px",color:C.gold,fontFamily:FB,fontSize:"13px",textDecoration:"none"}}>{lang==="it"?"Scopri di più →":lang==="de"?"Mehr erfahren →":lang==="fr"?"En savoir plus →":lang==="ru"?"Узнать больше →":"Learn more →"}</a>
+            <ExtLink href={spots[active].url} lang={lang} style={{display:"inline-block",marginTop:"8px",color:C.gold,fontFamily:FB,fontSize:"13px",textDecoration:"none"}}>{lang==="it"?"Scopri di più →":lang==="de"?"Mehr erfahren →":lang==="fr"?"En savoir plus →":lang==="ru"?"Узнать больше →":"Learn more →"}</ExtLink>
           )}
         </div>
       ) : (
@@ -1138,9 +1174,9 @@ function AbatonPage({t,lang,setPage}) {
                   </button>
                 )}
                 {r.templeUrl&&(
-                  <a href={r.templeUrl} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"8px 16px",background:`${r.acc}18`,border:`1px solid ${r.acc}44`,borderRadius:"20px",color:r.acc,textDecoration:"none",fontFamily:FB,fontSize:"13px",letterSpacing:"0.1em"}}>
+                  <ExtLink href={r.templeUrl} lang={lang} style={{display:"inline-block",padding:"8px 16px",background:`${r.acc}18`,border:`1px solid ${r.acc}44`,borderRadius:"20px",color:r.acc,textDecoration:"none",fontFamily:FB,fontSize:"13px",letterSpacing:"0.1em"}}>
                     {lang==="it"?"Scopri la Sala →":lang==="de"?"Saal entdecken →":lang==="fr"?"Découvrir la salle →":lang==="ru"?"Узнать о зале →":"Discover the Hall →"}
-                  </a>
+                  </ExtLink>
                 )}
               </div>
             </div>
@@ -1173,9 +1209,9 @@ function AbatonPage({t,lang,setPage}) {
             <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",fontWeight:"300",whiteSpace:"pre-line"}}>{sc?(sc[lang]||sc.it):""}</div>
           </WhiteCard>
           {sc&&sc.link&&(
-            <a href={sc.link} target="_blank" rel="noopener noreferrer" style={{display:"block",marginTop:"12px",padding:"14px 20px",background:C.white,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"13px",boxShadow:C.shadow,textAlign:"center"}}>
+            <ExtLink href={sc.link} lang={lang} style={{display:"block",marginTop:"12px",padding:"14px 20px",background:C.white,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"13px",boxShadow:C.shadow,textAlign:"center"}}>
               {LS(sc,"linkLabel",lang)}
-            </a>
+            </ExtLink>
           )}
           {sc&&sc.gallery&&(
             <div style={{display:"flex",gap:"10px",marginTop:"12px",overflowX:"auto",paddingBottom:"4px"}}>
@@ -1561,9 +1597,9 @@ function DamanPage({t,lang,setPage}) {
                 <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{LS(comm,"desc",lang)}</div>
               </WhiteCard>
               {comm.url&&(
-                <a href={comm.url} target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"14px 20px",marginTop:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15px",boxShadow:C.shadow,textAlign:"center"}}>
+                <ExtLink href={comm.url} lang={lang} style={{display:"block",padding:"14px 20px",marginTop:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15px",boxShadow:C.shadow,textAlign:"center"}}>
                   {lang==="it"?"Visita il sito →":lang==="de"?"Website besuchen →":lang==="fr"?"Visiter le site →":lang==="ru"?"Посетить сайт →":"Visit website →"}
-                </a>
+                </ExtLink>
               )}
             </>
           )}
@@ -1576,7 +1612,7 @@ function DamanPage({t,lang,setPage}) {
                 <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT.blog[lang]||SUBCONTENT.blog.it}</div>
               </WhiteCard>
               {[{url:"https://damanhur.org/blog",label:lang==="it"?"Vai al Blog →":lang==="de"?"Zum Blog →":lang==="fr"?"Aller au Blog →":lang==="ru"?"Перейти в блог →":"Go to Blog →"},{url:"https://damanhur.community",label:lang==="it"?"Entra nella Community →":lang==="de"?"Der Community beitreten →":lang==="fr"?"Rejoindre la Communauté →":lang==="ru"?"Присоединиться к сообществу →":"Join the Community →"}].map((link,i)=>(
-                <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"16px 20px",marginBottom:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15px",boxShadow:C.shadow}}>{link.label}</a>
+                <ExtLink key={i} href={link.url} lang={lang} style={{display:"block",padding:"16px 20px",marginBottom:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15px",boxShadow:C.shadow}}>{link.label}</ExtLink>
               ))}
             </>
           )}
@@ -1590,12 +1626,12 @@ function DamanPage({t,lang,setPage}) {
               <WhiteCard>
                 <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT[sub][lang]||SUBCONTENT[sub].it}</div>
                 {SUBCONTENT[sub].link&&(
-                  <a href={SUBCONTENT[sub].link} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14px",letterSpacing:"0.08em",textDecoration:"none"}}>
+                  <ExtLink href={SUBCONTENT[sub].link} lang={lang} style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14px",letterSpacing:"0.08em",textDecoration:"none"}}>
                     {LS(SUBCONTENT[sub],"linkLabel",lang)}
-                  </a>
+                  </ExtLink>
                 )}
               </WhiteCard>
-              {sub==="templi"&&<a href="https://thetemples.org/it/" target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"14px 20px",background:C.goldPale,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14px",textAlign:"center"}}>{lang==="it"?"Sito ufficiale Templi →":lang==="de"?"Offizielle Tempel-Website →":lang==="fr"?"Site officiel des Temples →":lang==="ru"?"Официальный сайт Храмов →":"Official Temple website →"}</a>}
+              {sub==="templi"&&<ExtLink href="https://thetemples.org/it/" lang={lang} style={{display:"block",padding:"14px 20px",background:C.goldPale,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14px",textAlign:"center"}}>{lang==="it"?"Sito ufficiale Templi →":lang==="de"?"Offizielle Tempel-Website →":lang==="fr"?"Site officiel des Temples →":lang==="ru"?"Официальный сайт Храмов →":"Official Temple website →"}</ExtLink>}
               {sub==="crea"&&SUBCONTENT.crea.links&&SUBCONTENT.crea.links.map((item,i)=>(
                 <WhiteCard key={i} style={{padding:"16px 20px",marginBottom:"10px"}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:"12px"}}>
@@ -1603,7 +1639,7 @@ function DamanPage({t,lang,setPage}) {
                       <div style={{fontFamily:FD,fontSize:"17px",color:C.blue,marginBottom:"4px"}}>{item.name}</div>
                       <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.5"}}>{LS(item,"desc",lang)}</div>
                     </div>
-                    {item.url&&<a href={item.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",item.name,{lang})} style={{color:C.goldD,fontFamily:FB,fontSize:"13px",textDecoration:"none",flexShrink:0,marginTop:"2px"}}>{"→"}</a>}
+                    {item.url&&<ExtLink href={item.url} lang={lang} onClick={()=>track("link",item.name,{lang})} style={{color:C.goldD,fontFamily:FB,fontSize:"13px",textDecoration:"none",flexShrink:0,marginTop:"2px"}}>{"→"}</ExtLink>}
                   </div>
                 </WhiteCard>
               ))}
@@ -1613,7 +1649,7 @@ function DamanPage({t,lang,setPage}) {
                     <span style={{fontSize:"24px",marginTop:"2px"}}>{p.em}</span>
                     <div style={{flex:1}}>
                       <div style={{fontFamily:FD,fontSize:"18px",color:C.blue,marginBottom:"3px"}}>
-                        {p.url ? <a href={p.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",LD(p.n,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(p.n,lang)}</a> : LD(p.n,lang)}
+                        {p.url ? <ExtLink href={p.url} lang={lang} onClick={()=>track("link",LD(p.n,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(p.n,lang)}</ExtLink> : LD(p.n,lang)}
                       </div>
                       <div style={{fontSize:"14px",color:C.textM,marginBottom:p.list?"10px":"0"}}>{LD(p.d,lang)}</div>
                       {p.list&&p.list.map((cat,ci)=>(
@@ -1622,7 +1658,7 @@ function DamanPage({t,lang,setPage}) {
                           {cat.items.map((r,ri)=>(
                             <div key={ri} style={{paddingBottom:"6px",borderBottom:`1px solid ${C.border}`,marginBottom:"6px"}}>
                               <div style={{fontFamily:FD,fontSize:"16px",color:C.textD,fontWeight:"500"}}>
-                                {r.url ? <a href={r.url} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",LD(r.name,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(r.name,lang)}</a> : LD(r.name,lang)}
+                                {r.url ? <ExtLink href={r.url} lang={lang} onClick={()=>track("link",LD(r.name,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(r.name,lang)}</ExtLink> : LD(r.name,lang)}
                               </div>
                               <div style={{fontSize:"13px",color:C.textM,lineHeight:"1.4"}}>{LD(r.note,lang)}</div>
                             </div>
@@ -1815,9 +1851,9 @@ function WellnessPage({t,lang,setPage}) {
           </WhiteCard>
         ))}
 
-        <a href="https://shop.selfica.space/" target="_blank" rel="noopener noreferrer" style={{display:"block",padding:"16px 20px",marginBottom:"24px",background:C.blue,borderRadius:"18px",color:C.white,textDecoration:"none",textAlign:"center",fontFamily:FB,fontSize:"14px",letterSpacing:"0.05em"}}>
+        <ExtLink href="https://shop.selfica.space/" lang={lang} style={{display:"block",padding:"16px 20px",marginBottom:"24px",background:C.blue,borderRadius:"18px",color:C.white,textDecoration:"none",textAlign:"center",fontFamily:FB,fontSize:"14px",letterSpacing:"0.05em"}}>
           {lang==="it"?"Scopri di più sulla Selfica →":lang==="de"?"Mehr über Selfica erfahren →":lang==="fr"?"En savoir plus sur la Selfica →":lang==="ru"?"Узнать больше о Селфике →":"Find out more on Selfica →"}
-        </a>
+        </ExtLink>
 
         <div style={{padding:"18px 20px",background:C.white,borderRadius:"20px",boxShadow:C.shadow}}>
           <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.7",marginBottom:"10px"}}>
@@ -1927,12 +1963,12 @@ function GuestsPage({t,lang,setPage}) {
               {lang==="it"?"Se hai amato il tuo soggiorno, una recensione pubblica ci aiuta moltissimo.":lang==="de"?"Wenn dir dein Aufenthalt gefallen hat, hilft uns eine öffentliche Bewertung enorm.":lang==="fr"?"Si tu as aimé ton séjour, un avis public nous aide énormément.":lang==="ru"?"Если вам понравилось пребывание, публичный отзыв очень нам поможет.":"If you loved your stay, a public review helps us enormously."}
             </div>
             <div style={{display:"flex",gap:"10px",flexWrap:"wrap"}}>
-              <a href="https://g.page/r/CX8uKstnGHC8EAE/review" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review Google",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14px",boxShadow:C.shadow}}>
+              <ExtLink href="https://g.page/r/CX8uKstnGHC8EAE/review" lang={lang} onClick={()=>track("link","Review Google",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14px",boxShadow:C.shadow}}>
                 Google →
-              </a>
-              <a href="https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html" target="_blank" rel="noopener noreferrer" onClick={()=>track("link","Review TripAdvisor",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14px",boxShadow:C.shadow}}>
+              </ExtLink>
+              <ExtLink href="https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html" lang={lang} onClick={()=>track("link","Review TripAdvisor",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14px",boxShadow:C.shadow}}>
                 TripAdvisor →
-              </a>
+              </ExtLink>
             </div>
           </div>
         </Section>
