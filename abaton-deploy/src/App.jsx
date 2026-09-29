@@ -234,44 +234,44 @@ const SYS = {
 
 const EVENTS = [
   {
-    date:"Mer 16 Set",dateEN:"Wed 16 Sep",
+    date:"14 Set – 12 Ott",dateEN:"14 Sep – 12 Oct",
+    title:"Benvenuti alla Nuova Vita 2.0",titleEN:"Welcome to New Life 2.0",
+    time:"Programma esteso",timeEN:"Extended program",loc:"Comunità di Damanhur, Valchiusella (TO)",
+    desc:"Un percorso di alcune settimane per chi desidera conoscere Damanhur, la sua storia e il suo cammino di ricerca interiore.",
+    descEN:"A multi-week journey to discover Damanhur, its history, and its path of inner research.",
+    url:"https://damanhur.community/event/welcome-to-new-life-2-0-12-3/"
+  },
+  {
+    date:"Mer 30 Set",dateEN:"Wed 30 Sep",
     title:"Serata con i Teorici",titleEN:"Meeting with Theoreticians",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Una serata di ricerca e riflessione con i Teorici di Damanhur — incontri settimanali aperti a visitatori e ospiti.",
     descEN:"A weekly evening of research and reflection with Damanhur's Theoreticians, open to visitors and guests.",
-    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-09-16/"
+    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-09-30/"
   },
   {
-    date:"Gio 17 Set",dateEN:"Thu 17 Sep",
-    title:"Assemblea Sociale Generale",titleEN:"Social General Meeting",
-    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"L'incontro settimanale in cui la comunità di Damanhur si riunisce per condividere e decidere insieme il proprio cammino.",
-    descEN:"The weekly gathering where Damanhur's community comes together to share and shape its collective path.",
-    url:"https://damanhur.community/event/social-general-meeting/2026-09-17/"
-  },
-  {
-    date:"Ven 18 Set",dateEN:"Fri 18 Sep",
+    date:"Ven 2 Ott",dateEN:"Fri 2 Oct",
     title:"Venerdì con Falco",titleEN:"Fridays with Falco",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Serate dedicate all'insegnamento e alla visione di Falco Tarassaco, fondatore di Damanhur, attraverso i suoi video.",
-    descEN:"Evenings devoted to the teaching and vision of Falco Tarassaco, Damanhur's founder, shared through his videos.",
-    url:"https://damanhur.community/event/fridays-with-falco/2026-09-18/"
+    desc:"Un incontro settimanale di parole e silenzi condivisi, ispirato al pensiero del fondatore di Damanhur.",
+    descEN:"A weekly gathering of shared words and silence, inspired by the thought of Damanhur's founder.",
+    url:"https://damanhur.community/event/fridays-with-falco/2026-10-02/"
   },
   {
-    date:"Dom 20 Set",dateEN:"Sun 20 Sep",
-    title:"Equinozio d'Autunno",titleEN:"Autumn Equinox",
-    time:"Giornata speciale",timeEN:"Special day",loc:"Damjl, Via Pramarzo 3",
-    desc:"Una celebrazione dedicata all'equilibrio tra luce e ombra, nel ritmo antico delle stagioni di Damanhur.",
-    descEN:"A celebration of balance between light and shadow, in tune with Damanhur's ancient rhythm of the seasons.",
-    url:"https://damanhur.community/event/autumn-equinox-4/"
+    date:"Dom 4 Ott",dateEN:"Sun 4 Oct",
+    title:"Rituale GET Settimanale",titleEN:"Damanhur GET Weekly Ritual",
+    time:"11:30 – 13:30",loc:"Templi dell'Umanità, Via Baldissero 21, Vidracco (TO)",
+    desc:"Un rituale condiviso nei Templi dell'Umanità, tra energia, arte e spiritualità sotterranea.",
+    descEN:"A shared ritual inside the Temples of Humankind, amid energy, art, and underground spirituality.",
+    url:"https://damanhur.community/event/damanhur-get-weekly/2026-10-04/"
   },
   {
-    date:"Dom 20 Set",dateEN:"Sun 20 Sep",
-    title:"Giornata Aperta della Scuola di Alchimia",titleEN:"Alchemy School Open Day",
-    time:"19:00 – 21:30 (online)",timeEN:"19:00 – 21:30 (online)",loc:"Evento online",locEN:"Online event",
-    desc:"Una serata online per scoprire il percorso della Scuola di Alchimia di Damanhur, tra studio interiore e trasformazione.",
-    descEN:"An online evening to discover Damanhur's Alchemy School path, blending inner study and transformation.",
-    url:"https://damanhur.community/event/alchemy-school-open-day/"
+    date:"Sab 10 Ott",dateEN:"Sat 10 Oct",
+    title:"Rituale GET di Damanhur",titleEN:"Damanhur GET Ritual",
+    time:"19:45 – 21:00",loc:"Damjl, Via Pramarzo 3",
+    desc:"Una serata rituale che riunisce la comunità in un momento di connessione ed energia condivisa.",
+    descEN:"An evening ritual gathering the community in a moment of shared connection and energy.",
+    url:"https://damanhur.community/event/damanhur-get-ritual-3/2026-10-10/"
   },
 ];
 
@@ -421,6 +421,74 @@ function ContactButton({phone,text,lang,trackLabel,renderTrigger}) {
   );
 }
 
+// ── TEMPIO DEI POPOLI — prenotazione esperienza privata ───────────────────────
+const POPOLI_INTERESTS = [
+  {id:"meditazione",it:"Meditazione silenziosa",en:"Silent meditation",de:"Stille Meditation",fr:"Méditation silencieuse",ru:"Тихая медитация"},
+  {id:"energia",it:"Connessione energetica",en:"Energetic connection",de:"Energetische Verbindung",fr:"Connexion énergétique",ru:"Энергетическая связь"},
+  {id:"storia",it:"Racconto e storia del luogo",en:"Stories and history of the place",de:"Erzählungen und Geschichte des Ortes",fr:"Récits et histoire du lieu",ru:"Рассказы и история места"},
+  {id:"foto",it:"Fotografia",en:"Photography",de:"Fotografie",fr:"Photographie",ru:"Фотография"},
+];
+function PopoliExperienceButton({t,lang,style}) {
+  const [open,setOpen] = useState(false);
+  const [picked,setPicked] = useState([]);
+  const [note,setNote] = useState("");
+  const toggle = id => setPicked(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
+  const session = getSession();
+  const room = ROOMS_LIST.find(r=>r.id===getRoom());
+  const interestNames = POPOLI_INTERESTS.filter(i=>picked.includes(i.id)).map(i=>i.it).join(", ");
+  const message = [
+    "Buongiorno, vorrei prenotare un'esperienza nel Tempio dei Popoli.",
+    room?`Stanza: ${room.name}`:null,
+    session?.name?`Ospite: ${session.name}`:null,
+    interestNames?`Interessi: ${interestNames}`:null,
+    note?`Note: ${note}`:null,
+  ].filter(Boolean).join("\n");
+  return (
+    <>
+      <button onClick={()=>setOpen(true)} style={{width:"100%",padding:"22px 24px",background:`linear-gradient(135deg,${C.blue},#0D1626)`,border:"none",borderRadius:"22px",color:C.white,cursor:"pointer",textAlign:"left",boxShadow:"0 10px 32px rgba(20,34,61,0.35)",display:"flex",alignItems:"center",gap:"16px",...style}}>
+        <div style={{width:"46px",height:"46px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:"20px"}}>◎</div>
+        <div>
+          <div style={{fontFamily:FD,fontSize:"20px",fontWeight:"600",marginBottom:"3px"}}>
+            {lang==="it"?"Il Tempio dei Popoli":lang==="de"?"Der Tempel der Völker":lang==="fr"?"Le Temple des Peuples":lang==="ru"?"Храм Народов":"The Temple of the Peoples"}
+          </div>
+          <div style={{fontSize:"13px",color:"#C9D3E5",lineHeight:"1.4"}}>
+            {lang==="it"?"Prenota una tua esperienza privata →":lang==="de"?"Buche dein privates Erlebnis →":lang==="fr"?"Réservez votre expérience privée →":lang==="ru"?"Забронируйте личный опыт →":"Book your private experience →"}
+          </div>
+        </div>
+      </button>
+      {open&&(
+        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:200,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setOpen(false)}>
+          <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
+            <div style={{fontFamily:FD,fontSize:"24px",color:C.blue,marginBottom:"8px"}}>
+              {lang==="it"?"Il Tempio dei Popoli":lang==="de"?"Der Tempel der Völker":lang==="fr"?"Le Temple des Peuples":lang==="ru"?"Храм Народов":"The Temple of the Peoples"}
+            </div>
+            <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.6",marginBottom:"20px"}}>
+              {lang==="it"?"Una sala speciale dei Templi dell'Umanità, non aperta alle normali visite guidate. Raccontaci cosa desideri vivere: lo staff organizzerà l'esperienza su misura per te.":lang==="de"?"Ein besonderer Saal der Tempel der Menschheit, nicht Teil der normalen Führungen. Erzähl uns, was du erleben möchtest: das Team organisiert ein maßgeschneidertes Erlebnis für dich.":lang==="fr"?"Une salle spéciale des Temples de l'Humanité, non ouverte aux visites guidées normales. Dites-nous ce que vous souhaitez vivre : l'équipe organisera une expérience sur mesure.":lang==="ru"?"Особый зал Храмов Человечества, недоступный при обычных экскурсиях. Расскажите, что вы хотели бы испытать — персонал организует индивидуальный опыт.":"A special hall of the Temples of Humanity, not open during normal guided visits. Tell us what you'd like to experience — our staff will arrange it for you."}
+            </div>
+            <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>
+              {lang==="it"?"Cosa ti interessa?":lang==="de"?"Was interessiert dich?":lang==="fr"?"Qu'est-ce qui vous intéresse ?":lang==="ru"?"Что вас интересует?":"What interests you?"}
+            </div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"18px"}}>
+              {POPOLI_INTERESTS.map(i=>(
+                <button key={i.id} onClick={()=>toggle(i.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${picked.includes(i.id)?C.gold:C.border}`,background:picked.includes(i.id)?C.gold:"none",color:picked.includes(i.id)?C.white:C.textM,fontFamily:FB,fontSize:"13px",cursor:"pointer"}}>{i[lang]||i.it}</button>
+              ))}
+            </div>
+            <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={lang==="it"?"Altre note (facoltativo)":lang==="de"?"Weitere Hinweise (optional)":lang==="fr"?"Autres notes (facultatif)":lang==="ru"?"Дополнительно (необязательно)":"Anything else (optional)"} style={{width:"100%",minHeight:"70px",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",resize:"vertical",marginBottom:"20px",boxSizing:"border-box"}}/>
+            <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp book Popoli Temple experience" text={message} renderTrigger={openContact=>(
+              <button onClick={openContact} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"600",marginBottom:"10px"}}>
+                {lang==="it"?"Richiedi l'esperienza →":lang==="de"?"Erlebnis anfragen →":lang==="fr"?"Demander l'expérience →":lang==="ru"?"Запросить опыт →":"Request the experience →"}
+              </button>
+            )}/>
+            <button onClick={()=>setOpen(false)} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"13px",cursor:"pointer",fontFamily:FB}}>
+              {lang==="it"?"Chiudi":lang==="de"?"Schließen":lang==="fr"?"Fermer":lang==="ru"?"Закрыть":"Close"}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 // ── TABLET / STAFF: stanza fissa del device + sessione ospite corrente ────────
 const STAFF_PIN = "1950";
 const ROOMS_LIST = [
@@ -517,6 +585,7 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard}) {
 // ── HOME ──────────────────────────────────────────────────────────────────────
 function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
   const [showLang,setShowLang] = useState(false);
+  const [showWifi,setShowWifi] = useState(false);
   const LOCALEMAP = {it:"it-IT",en:"en-GB",de:"de-DE",fr:"fr-FR",ru:"ru-RU"};
   const date = new Date().toLocaleDateString(LOCALEMAP[lang]||"en-GB",{weekday:"long",day:"numeric",month:"long"});
   const tapRef = useRef({count:0,timer:null});
@@ -545,6 +614,17 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               {[["it","🇮🇹 Italiano"],["en","🇬🇧 English"],["de","🇩🇪 Deutsch"],["fr","🇫🇷 Français"],["ru","🇷🇺 Русский"]].map(([l,lb])=>(
                 <button key={l} onClick={()=>{setLang(l);setShowLang(false);}} style={{display:"block",width:"100%",textAlign:"left",padding:"9px 13px",background:lang===l?C.goldPale:"transparent",color:lang===l?C.goldD:C.textS,border:"none",borderRadius:"8px",cursor:"pointer",fontFamily:FB,fontSize:"15px"}}>{lb}</button>
               ))}
+            </div>
+          )}
+        </div>
+        <div style={{position:"absolute",top:"20px",left:"20px",zIndex:150}}>
+          <button onClick={()=>setShowWifi(!showWifi)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label="WiFi">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12.5a11 11 0 0114 0"/><path d="M8.2 16a6.5 6.5 0 017.6 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+          </button>
+          {showWifi&&(
+            <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"16px 18px",minWidth:"190px",zIndex:200,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
+              <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>{t.wifiName}</div>
+              <div style={{fontSize:"15px",color:C.textD,fontFamily:FB}}>Password: <span style={{fontWeight:"700"}}>abaton1950</span></div>
             </div>
           )}
         </div>
@@ -598,6 +678,11 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
       </div>
 
       <div style={{padding:"0 22px"}}>
+        {/* CENTRAL: TEMPLE OF THE PEOPLES EXPERIENCE */}
+        <div style={{marginBottom:"28px"}}>
+          <PopoliExperienceButton t={t} lang={lang}/>
+        </div>
+
         {/* BUBBLE NAVIGATION */}
         <div style={{display:"flex",gap:"10px",justifyContent:"center",flexWrap:"wrap",marginBottom:"36px"}}>
           {[
@@ -634,10 +719,6 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
 
         {/* PRACTICAL INFO PILLS */}
         <WhiteCard style={{marginBottom:"32px"}}>
-          <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",gap:"10px",marginBottom:"10px"}}>
-            <Pill>⟡ {t.wifiName}</Pill>
-            <div style={{fontSize:"15px",color:C.textM,fontFamily:FB,letterSpacing:"0.05em",paddingLeft:"4px"}}>Password: <span style={{color:C.textD,fontWeight:"600"}}>abaton1950</span></div>
-          </div>
           <div style={{display:"flex",flexWrap:"wrap",gap:"10px",marginBottom:"14px"}}>
             <Pill color={C.goldD}>← {t.checkOut}</Pill>
             <Pill color={C.goldD}>◯ {lang==="it"?"Silenzio 22–8":lang==="de"?"Ruhezeit 22–8 Uhr":lang==="fr"?"Silence 22h–8h":lang==="ru"?"Тишина 22:00–8:00":"Quiet hours 10pm–8am"}</Pill>
