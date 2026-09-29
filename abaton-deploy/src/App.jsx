@@ -834,7 +834,8 @@ const gmaps = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeUR
 const scrollTop0 = () => { const el=document.getElementById("scrollRoot"); if(el) el.scrollTop=0; };
 const track = (type, label, extra={}) => {
   try {
-    fetch("/api/track", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({type, label, ...extra})}).catch(()=>{});
+    const room = getRoom();
+    fetch("/api/track", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({type, label, room: room||undefined, ...extra})}).catch(()=>{});
   } catch(e) {}
 };
 const RI = {
@@ -2206,6 +2207,7 @@ export default function AbatonApp() {
     document.head.appendChild(link);
     return()=>{try{document.head.removeChild(link);}catch(e){}};
   },[]);
+  useEffect(()=>{ track("app_open","App aperta"); },[]);
   // ── LANDSCAPE (TABLET) LAYOUT ─────────────────────────────────────────────
   const [isLandscape,setIsLandscape] = useState(()=>window.innerWidth>window.innerHeight&&window.innerWidth>=900);
   useEffect(()=>{
