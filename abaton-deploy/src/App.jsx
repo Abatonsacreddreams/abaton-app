@@ -421,7 +421,7 @@ function ContactButton({phone,text,lang,trackLabel,renderTrigger}) {
   );
 }
 
-// ── EXTERNAL LINK POPUP (never feels like leaving the app — Maps gets a real small map) ──
+// ── EXTERNAL LINK POPUP (a full internal page, never a dead end — Maps gets a real map) ──
 function buildMapEmbed(href) {
   try {
     const u = new URL(href);
@@ -432,24 +432,39 @@ function buildMapEmbed(href) {
   } catch(e) {}
   return null;
 }
+function hostnameOf(href) {
+  try { return new URL(href).hostname.replace(/^www\./,""); } catch(e) { return href; }
+}
 function ExtLink({href,style,onClick,children,lang}) {
   const [open,setOpen] = useState(false);
   if(!href) return null;
   const mapEmbed = buildMapEmbed(href);
+  const host = hostnameOf(href);
   const handleClick = e => { e.preventDefault(); onClick&&onClick(); setOpen(true); };
+  const closeLabel = lang==="it"?"← Torna in Abaton":lang==="de"?"← Zurück zu Abaton":lang==="fr"?"← Retour à Abaton":lang==="ru"?"← Вернуться в Abaton":"← Back to Abaton";
   return (
     <>
       <a href={href} onClick={handleClick} style={style}>{children}</a>
       {open&&(
-        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:210,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}} onClick={()=>setOpen(false)}>
-          <div style={{background:C.white,borderRadius:"20px",overflow:"hidden",maxWidth:"460px",width:"100%",maxHeight:"78vh",display:"flex",flexDirection:"column",boxShadow:"0 20px 60px rgba(0,0,0,0.35)"}} onClick={e=>e.stopPropagation()}>
-            <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",padding:"10px 10px 0"}}>
-              <button onClick={()=>setOpen(false)} aria-label="Chiudi" style={{background:C.bg,border:"none",borderRadius:"50%",width:"30px",height:"30px",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:"15px",color:C.textM}}>✕</button>
-            </div>
-            <iframe src={mapEmbed||href} title="external content" style={{flex:1,border:"none",width:"100%",minHeight:"340px"}}/>
-            <a href={href} target="_blank" rel="noopener noreferrer" style={{padding:"12px",textAlign:"center",color:C.gold,fontFamily:FB,fontSize:"13px",textDecoration:"none",borderTop:`1px solid ${C.border}`,flexShrink:0}}>
-              {lang==="it"?"Apri a schermo intero ↗":lang==="de"?"Vollbild öffnen ↗":lang==="fr"?"Ouvrir en plein écran ↗":lang==="ru"?"Открыть на весь экран ↗":"Open fullscreen ↗"}
-            </a>
+        <div style={{position:"fixed",inset:0,background:C.bg,zIndex:210,display:"flex",flexDirection:"column"}}>
+          <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>
+            {closeLabel}
+          </button>
+          <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+            {mapEmbed ? (
+              <iframe src={mapEmbed} title="map" style={{flex:1,border:"none",width:"100%"}}/>
+            ) : (
+              <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"32px",textAlign:"center"}}>
+                <div style={{width:"64px",height:"64px",borderRadius:"50%",background:C.goldPale,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:"18px",fontSize:"26px"}}>🔗</div>
+                <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"8px"}}>{host}</div>
+                <div style={{fontSize:"14px",color:C.textM,marginBottom:"24px",maxWidth:"280px",lineHeight:"1.5"}}>
+                  {lang==="it"?"Questo sito si apre in una nuova scheda. Abaton resta qui, pronta per quando torni.":lang==="de"?"Diese Website öffnet sich in einem neuen Tab. Abaton bleibt hier, bereit für deine Rückkehr.":lang==="fr"?"Ce site s'ouvre dans un nouvel onglet. Abaton reste ici, prêt pour votre retour.":lang==="ru"?"Этот сайт откроется в новой вкладке. Abaton останется здесь и будет ждать вашего возвращения.":"This site opens in a new tab. Abaton stays right here, ready for when you're back."}
+                </div>
+                <a href={href} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",`${host} (new tab)`,{lang})} style={{display:"inline-block",padding:"14px 28px",background:C.gold,color:C.white,borderRadius:"14px",textDecoration:"none",fontFamily:FB,fontSize:"15px",fontWeight:"600"}}>
+                  {lang==="it"?`Apri ${host} →`:lang==="de"?`${host} öffnen →`:lang==="fr"?`Ouvrir ${host} →`:lang==="ru"?`Открыть ${host} →`:`Open ${host} →`}
+                </a>
+              </div>
+            )}
           </div>
         </div>
       )}
