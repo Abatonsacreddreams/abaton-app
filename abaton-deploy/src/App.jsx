@@ -488,7 +488,7 @@ function PopoliExperienceButton({t,lang,style}) {
   const room = ROOMS_LIST.find(r=>r.id===getRoom());
   const interestNames = POPOLI_INTERESTS.filter(i=>picked.includes(i.id)).map(i=>i.it).join(", ");
   const message = [
-    "Buongiorno, vorrei prenotare un'esperienza nel Tempio dei Popoli.",
+    "Buongiorno, vorrei prenotare un'esperienza nel Tempo dei Popoli.",
     room?`Stanza: ${room.name}`:null,
     session?.name?`Ospite: ${session.name}`:null,
     interestNames?`Interessi: ${interestNames}`:null,
@@ -500,7 +500,7 @@ function PopoliExperienceButton({t,lang,style}) {
         <div style={{width:"46px",height:"46px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:"20px"}}>◎</div>
         <div>
           <div style={{fontFamily:FD,fontSize:"20px",fontWeight:"600",marginBottom:"3px"}}>
-            {lang==="it"?"Il Tempio dei Popoli":lang==="de"?"Der Tempel der Völker":lang==="fr"?"Le Temple des Peuples":lang==="ru"?"Храм Народов":"The Temple of the Peoples"}
+            {lang==="it"?"Il Tempo dei Popoli":lang==="de"?"Die Zeit der Völker":lang==="fr"?"Le Temps des Peuples":lang==="ru"?"Время Народов":"The Time of the Peoples"}
           </div>
           <div style={{fontSize:"13px",color:"#C9D3E5",lineHeight:"1.4"}}>
             {lang==="it"?"Prenota una tua esperienza privata →":lang==="de"?"Buche dein privates Erlebnis →":lang==="fr"?"Réservez votre expérience privée →":lang==="ru"?"Забронируйте личный опыт →":"Book your private experience →"}
@@ -511,7 +511,7 @@ function PopoliExperienceButton({t,lang,style}) {
         <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:200,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setOpen(false)}>
           <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
             <div style={{fontFamily:FD,fontSize:"24px",color:C.blue,marginBottom:"8px"}}>
-              {lang==="it"?"Il Tempio dei Popoli":lang==="de"?"Der Tempel der Völker":lang==="fr"?"Le Temple des Peuples":lang==="ru"?"Храм Народов":"The Temple of the Peoples"}
+              {lang==="it"?"Il Tempo dei Popoli":lang==="de"?"Die Zeit der Völker":lang==="fr"?"Le Temps des Peuples":lang==="ru"?"Время Народов":"The Time of the Peoples"}
             </div>
             <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.6",marginBottom:"20px"}}>
               {lang==="it"?"Una sala speciale dei Templi dell'Umanità, non aperta alle normali visite guidate. Raccontaci cosa desideri vivere: lo staff organizzerà l'esperienza su misura per te.":lang==="de"?"Ein besonderer Saal der Tempel der Menschheit, nicht Teil der normalen Führungen. Erzähl uns, was du erleben möchtest: das Team organisiert ein maßgeschneidertes Erlebnis für dich.":lang==="fr"?"Une salle spéciale des Temples de l'Humanité, non ouverte aux visites guidées normales. Dites-nous ce que vous souhaitez vivre : l'équipe organisera une expérience sur mesure.":lang==="ru"?"Особый зал Храмов Человечества, недоступный при обычных экскурсиях. Расскажите, что вы хотели бы испытать — персонал организует индивидуальный опыт.":"A special hall of the Temples of Humanity, not open during normal guided visits. Tell us what you'd like to experience — our staff will arrange it for you."}
@@ -525,7 +525,7 @@ function PopoliExperienceButton({t,lang,style}) {
               ))}
             </div>
             <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={lang==="it"?"Altre note (facoltativo)":lang==="de"?"Weitere Hinweise (optional)":lang==="fr"?"Autres notes (facultatif)":lang==="ru"?"Дополнительно (необязательно)":"Anything else (optional)"} style={{width:"100%",minHeight:"70px",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",resize:"vertical",marginBottom:"20px",boxSizing:"border-box"}}/>
-            <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp book Popoli Temple experience" text={message} renderTrigger={openContact=>(
+            <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp book Popoli Time experience" text={message} renderTrigger={openContact=>(
               <button onClick={openContact} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"600",marginBottom:"10px"}}>
                 {lang==="it"?"Richiedi l'esperienza →":lang==="de"?"Erlebnis anfragen →":lang==="fr"?"Demander l'expérience →":lang==="ru"?"Запросить опыт →":"Request the experience →"}
               </button>
