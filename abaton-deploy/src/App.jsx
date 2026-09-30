@@ -745,6 +745,8 @@ const PHASE_MSG = {
 function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
   const [showLang,setShowLang] = useState(false);
   const [showWifi,setShowWifi] = useState(false);
+  const [showLateOut,setShowLateOut] = useState(false);
+  const [showRules,setShowRules] = useState(false);
   const phase = stayPhase(session);
   const LOCALEMAP = {it:"it-IT",en:"en-GB",de:"de-DE",fr:"fr-FR",ru:"ru-RU"};
   const date = new Date().toLocaleDateString(LOCALEMAP[lang]||"en-GB",{weekday:"long",day:"numeric",month:"long"});
@@ -785,6 +787,49 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"16px 18px",minWidth:"190px",zIndex:200,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
               <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>{t.wifiName}</div>
               <div style={{fontSize:"15px",color:C.textD,fontFamily:FB}}>Password: <span style={{fontWeight:"700"}}>abaton1950</span></div>
+            </div>
+          )}
+        </div>
+        <div style={{position:"absolute",top:"20px",left:"64px",zIndex:150}}>
+          <button onClick={()=>setShowLateOut(!showLateOut)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label="Late check-out">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          </button>
+          {showLateOut&&(
+            <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"18px 20px",minWidth:"240px",zIndex:200,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
+              <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>
+                {lang==="it"?"Late check-out":lang==="de"?"Später Check-out":lang==="fr"?"Départ tardif":lang==="ru"?"Поздний выезд":"Late check-out"}
+              </div>
+              <div style={{fontSize:"14px",color:C.textD,fontFamily:FB,lineHeight:"1.6",marginBottom:"14px"}}>
+                {lang==="it"?"Gratuito fino alle 13:00, se disponibile. A pagamento (60€) fino alle 18:00.":lang==="de"?"Kostenlos bis 13:00 Uhr, sofern verfügbar. Gegen Gebühr (60€) bis 18:00 Uhr.":lang==="fr"?"Gratuit jusqu'à 13h00, sous réserve de disponibilité. Payant (60€) jusqu'à 18h00.":lang==="ru"?"Бесплатно до 13:00, при наличии свободных номеров. Платно (60€) до 18:00.":"Free until 1:00pm, if available. For a fee (€60) until 6:00pm."}
+              </div>
+              <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp late check-out" text={lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you"} renderTrigger={openModal=>(
+                <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"6px",color:C.gold,fontFamily:FB,fontSize:"14px",fontWeight:"600",background:"none",border:"none",cursor:"pointer",padding:0}}>💬 {t.lateOut} →</button>
+              )}/>
+            </div>
+          )}
+        </div>
+        <div style={{position:"absolute",top:"20px",left:"108px",zIndex:150}}>
+          <button onClick={()=>setShowRules(!showRules)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label="Regole della struttura">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12h6M9 16h6M9 8h6"/><rect x="5" y="4" width="14" height="16" rx="2"/></svg>
+          </button>
+          {showRules&&(
+            <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"18px 20px",minWidth:"250px",zIndex:200,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
+              <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>
+                {lang==="it"?"Regole della struttura":lang==="de"?"Hausregeln":lang==="fr"?"Règles de la maison":lang==="ru"?"Правила проживания":"House rules"}
+              </div>
+              <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
+                {[
+                  {it:"Check-out entro le 10:30",en:"Check-out by 10:30am",de:"Check-out bis 10:30 Uhr",fr:"Départ avant 10h30",ru:"Выезд до 10:30"},
+                  {it:"Silenzio dalle 22:00 alle 8:00",en:"Quiet hours 10pm–8am",de:"Ruhezeit von 22:00 bis 8:00 Uhr",fr:"Silence de 22h00 à 8h00",ru:"Тишина с 22:00 до 8:00"},
+                  {it:"Vietato fumare in tutta la struttura, dentro e fuori (comprese sigarette elettroniche) — solo oltre il cancello",en:"No smoking anywhere on the property, inside or outside (e-cigarettes included) — only past the gate",de:"Rauchen im gesamten Gebäude, drinnen wie draußen, verboten (auch E-Zigaretten) — nur außerhalb des Tors erlaubt",fr:"Interdiction de fumer partout sur la propriété, à l'intérieur comme à l'extérieur (cigarettes électroniques incluses) — uniquement au-delà du portail",ru:"Курение запрещено на всей территории, в помещении и на улице (включая электронные сигареты) — только за воротами"},
+                  {it:"Parcheggio gratuito davanti alla struttura",en:"Free parking in front of the property",de:"Kostenloses Parken vor dem Gebäude",fr:"Parking gratuit devant l'établissement",ru:"Бесплатная парковка перед зданием"},
+                ].map((r,i)=>(
+                  <div key={i} style={{display:"flex",gap:"8px",alignItems:"flex-start"}}>
+                    <span style={{color:C.gold,fontSize:"13px",marginTop:"2px"}}>◦</span>
+                    <span style={{fontSize:"13px",color:C.textD,fontFamily:FB,lineHeight:"1.5"}}>{r[lang]||r.it}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -890,13 +935,10 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
 
         {/* PRACTICAL INFO PILLS */}
         <WhiteCard style={{marginBottom:"32px"}}>
-          <div style={{display:"flex",flexWrap:"wrap",gap:"10px",marginBottom:"14px"}}>
+          <div style={{display:"flex",flexWrap:"wrap",gap:"10px"}}>
             <Pill color={C.goldD}>← {t.checkOut}</Pill>
             <Pill color={C.goldD}>◯ {lang==="it"?"Silenzio 22–8":lang==="de"?"Ruhezeit 22–8 Uhr":lang==="fr"?"Silence 22h–8h":lang==="ru"?"Тишина 22:00–8:00":"Quiet hours 10pm–8am"}</Pill>
           </div>
-          <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp late check-out" text={lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you"} renderTrigger={openModal=>(
-            <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"6px",marginTop:"10px",color:C.gold,fontFamily:FB,fontSize:"16px",background:"none",border:"none",cursor:"pointer",padding:0}}>💬 {t.lateOut} →</button>
-          )}/>
         </WhiteCard>
 
         {/* EVENTS */}
