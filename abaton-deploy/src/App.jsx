@@ -316,9 +316,9 @@ function BreathingPlayer({t}) {
 
   if(st==="idle") return(
     <button onClick={startPlay} style={{width:"100%",padding:"20px 24px",background:C.goldPale,border:`2px solid ${C.gold}55`,borderRadius:"20px",cursor:"pointer",display:"flex",alignItems:"center",gap:"16px"}}>
-      <div style={{width:"52px",height:"52px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,boxShadow:C.shadowG}}>
+      <SphereIcon size={52}>
         <svg viewBox="0 0 24 24" fill={C.white} width="20" height="20"><polygon points="6,3 20,12 6,21"/></svg>
-      </div>
+      </SphereIcon>
       <div style={{textAlign:"left"}}>
         <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"3px"}}>{t.breathTitle}</div>
         <div style={{fontSize:"14px",color:C.textM,fontWeight:"300"}}>{t.breathDesc}</div>
@@ -370,6 +370,15 @@ const Circle = ({children,size=160,bg=C.gold,onClick,shadow=true,style={}}) => (
   <button onClick={onClick} style={{width:`${size}px`,height:`${size}px`,borderRadius:"50%",background:bg,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:onClick?"pointer":"default",border:"none",flexShrink:0,boxShadow:shadow?C.shadowG:"none",transition:"transform 0.2s",position:"relative",...style}}>
     {children}
   </button>
+);
+// ── Sfera dorata 3D — usata per la CTA centrale e le icone circolari nell'app ──
+const SPHERE_BG = `radial-gradient(circle at 32% 26%, #E8CB88, ${C.gold} 42%, ${C.goldD} 78%, #6B4E1F 100%)`;
+const SPHERE_SHADOW = `inset 0 5px 9px rgba(255,255,255,0.4), inset 0 -8px 12px rgba(0,0,0,0.3), 0 4px 10px rgba(80,58,20,0.4)`;
+const SPHERE_TEXT_SHADOW = "-1px -1px 0 rgba(255,255,255,0.4), 1px 2px 2px rgba(60,40,10,0.5), 0 6px 14px rgba(0,0,0,0.35)";
+const SphereIcon = ({size=44,fontSize=18,children,style={}}) => (
+  <div style={{width:`${size}px`,height:`${size}px`,borderRadius:"50%",background:SPHERE_BG,boxShadow:SPHERE_SHADOW,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:`${fontSize}px`,color:C.white,textShadow:SPHERE_TEXT_SHADOW,...style}}>
+    {children}
+  </div>
 );
 function WhiteCard({children,style={}}) {
   return <div style={{background:C.card,borderRadius:"20px",padding:"22px",marginBottom:"14px",boxShadow:C.shadow,border:`1px solid ${C.border}`,...style}}>{children}</div>;
@@ -497,7 +506,7 @@ function PopoliExperienceButton({t,lang,style}) {
   return (
     <>
       <button onClick={()=>setOpen(true)} style={{width:"100%",padding:"22px 24px",background:`linear-gradient(135deg,${C.blue},#0D1626)`,border:"none",borderRadius:"22px",color:C.white,cursor:"pointer",textAlign:"left",boxShadow:"0 10px 32px rgba(20,34,61,0.35)",display:"flex",alignItems:"center",gap:"16px",...style}}>
-        <div style={{width:"46px",height:"46px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:"20px"}}>◎</div>
+        <SphereIcon size={46} fontSize={20}>◎</SphereIcon>
         <div>
           <div style={{fontFamily:FD,fontSize:"20px",fontWeight:"600",marginBottom:"3px"}}>
             {lang==="it"?"Il Tempo dei Popoli":lang==="de"?"Die Zeit der Völker":lang==="fr"?"Le Temps des Peuples":lang==="ru"?"Время Народов":"The Time of the Peoples"}
@@ -783,11 +792,11 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           {/* Outer ring decoration */}
           <div style={{width:"260px",height:"260px",borderRadius:"50%",border:`1px dashed ${C.gold}55`,display:"flex",alignItems:"center",justifyContent:"center"}}>
             <div style={{width:"230px",height:"230px",borderRadius:"50%",border:`1px solid ${C.gold}33`,display:"flex",alignItems:"center",justifyContent:"center"}}>
-              <Circle size={200} bg={`radial-gradient(circle at 32% 26%, #E8CB88, ${C.gold} 42%, ${C.goldD} 78%, #6B4E1F 100%)`} onClick={()=>setPage("experience")} style={{border:`3px solid ${C.gold}`,boxShadow:`0 0 0 4px ${C.gold}44, inset 0 14px 22px rgba(255,255,255,0.35), inset 0 -22px 30px rgba(0,0,0,0.3), 0 22px 36px rgba(80,58,20,0.55), 0 8px 14px rgba(80,58,20,0.35)`,overflow:"hidden"}}>
+              <Circle size={200} bg={SPHERE_BG} onClick={()=>setPage("experience")} style={{border:`3px solid ${C.gold}`,boxShadow:`0 0 0 4px ${C.gold}44, inset 0 14px 22px rgba(255,255,255,0.35), inset 0 -22px 30px rgba(0,0,0,0.3), 0 22px 36px rgba(80,58,20,0.55), 0 8px 14px rgba(80,58,20,0.35)`,overflow:"hidden"}}>
                 <div style={{position:"absolute",top:"10%",left:"18%",width:"46%",height:"30%",borderRadius:"50%",background:"radial-gradient(ellipse, rgba(255,255,255,0.55), rgba(255,255,255,0) 70%)",pointerEvents:"none"}}/>
                 <div style={{textAlign:"center",padding:"14px",position:"relative"}}>
-                  <div style={{fontSize:"20px",color:C.white,marginBottom:"4px"}}>✦</div>
-                  <div style={{fontFamily:FD,fontSize:"26px",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
+                  <div style={{fontSize:"20px",color:C.white,marginBottom:"4px",textShadow:SPHERE_TEXT_SHADOW}}>✦</div>
+                  <div style={{fontFamily:FD,fontSize:"26px",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:SPHERE_TEXT_SHADOW}}>
                     {t.expBtn}
                   </div>
                 </div>
@@ -843,9 +852,9 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
         {/* CONCIERGE + WHATSAPP */}
         <div style={{display:"flex",gap:"12px",marginBottom:"40px"}}>
           <button onClick={()=>setPage("concierge")} style={{flex:1,padding:"16px 20px",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:"12px",boxShadow:C.shadow,textAlign:"left"}}>
-            <div style={{width:"40px",height:"40px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+            <SphereIcon size={40}>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.white} strokeWidth="2" width="18" height="18"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-            </div>
+            </SphereIcon>
             <div>
               <div style={{fontFamily:FD,fontSize:"26px",fontWeight:"600",color:C.blue,marginBottom:"2px",lineHeight:"1.2"}}>{lang==="it"?"Hai domande sul soggiorno?":lang==="de"?"Fragen zu deinem Aufenthalt?":lang==="fr"?"Des questions sur votre séjour ?":lang==="ru"?"Есть вопросы о пребывании?":"Questions about your stay?"}</div>
               <div style={{fontSize:"13px",color:C.textM}}>AI Concierge · 24h</div>
@@ -2266,7 +2275,7 @@ function ConciergePage({t,lang,setPage}) {
       <div style={{padding:"28px 24px 20px",background:C.white,borderRadius:"0 0 28px 28px",boxShadow:C.shadow,flexShrink:0}}>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"14px",display:"flex",alignItems:"center",gap:"14px"}}>
-          <div style={{width:"48px",height:"48px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20px",color:C.white,flexShrink:0}}>✦</div>
+          <SphereIcon size={48} fontSize={20}>✦</SphereIcon>
           <div>
             <div style={{fontFamily:FD,fontSize:"24px",color:C.blue}}>{t.concTitle}</div>
             <div style={{fontSize:"13px",color:C.textM}}>{lang==="it"?"AI · sempre disponibile":lang==="de"?"KI · immer verfügbar":lang==="fr"?"IA · toujours disponible":lang==="ru"?"ИИ · всегда на связи":"AI · always available"}</div>
@@ -2276,7 +2285,7 @@ function ConciergePage({t,lang,setPage}) {
       <div style={{flex:1,overflowY:"auto",padding:"20px 20px 16px",display:"flex",flexDirection:"column",gap:"14px"}}>
         {messages.map((m,i)=>(
           <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start",gap:"10px",alignItems:"flex-end"}}>
-            {m.role==="assistant"&&<div style={{width:"32px",height:"32px",borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"14px",color:C.white,flexShrink:0}}>✦</div>}
+            {m.role==="assistant"&&<SphereIcon size={32} fontSize={14}>✦</SphereIcon>}
             <div style={{maxWidth:"76%",padding:"14px 18px",lineHeight:"1.7",borderRadius:m.role==="user"?"20px 20px 4px 20px":"20px 20px 20px 4px",background:m.role==="user"?`linear-gradient(135deg,${C.gold},${C.goldD})`:C.white,color:m.role==="user"?C.white:C.blue,fontSize:"16px",fontWeight:"300",boxShadow:m.role==="user"?C.shadowG:C.shadow,whiteSpace:"pre-wrap"}}>{m.content}</div>
           </div>
         ))}
