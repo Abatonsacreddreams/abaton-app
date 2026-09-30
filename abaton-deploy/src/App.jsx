@@ -366,8 +366,8 @@ const Back = ({label,onClick}) => (
 function Pill({children,color=C.gold}) {
   return <span style={{display:"inline-block",padding:"4px 14px",background:`${color}15`,border:`1px solid ${color}44`,borderRadius:"20px",fontSize:"11px",fontFamily:FB,letterSpacing:"0.18em",textTransform:"uppercase",color}}>{children}</span>;
 }
-const Circle = ({children,size=160,bg=C.gold,onClick,shadow=true}) => (
-  <button onClick={onClick} style={{width:`${size}px`,height:`${size}px`,borderRadius:"50%",background:bg,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:onClick?"pointer":"default",border:"none",flexShrink:0,boxShadow:shadow?C.shadowG:"none",transition:"transform 0.2s"}}>
+const Circle = ({children,size=160,bg=C.gold,onClick,shadow=true,style={}}) => (
+  <button onClick={onClick} style={{width:`${size}px`,height:`${size}px`,borderRadius:"50%",background:bg,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:onClick?"pointer":"default",border:"none",flexShrink:0,boxShadow:shadow?C.shadowG:"none",transition:"transform 0.2s",position:"relative",...style}}>
     {children}
   </button>
 );
@@ -783,8 +783,9 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           {/* Outer ring decoration */}
           <div style={{width:"260px",height:"260px",borderRadius:"50%",border:`1px dashed ${C.gold}55`,display:"flex",alignItems:"center",justifyContent:"center"}}>
             <div style={{width:"230px",height:"230px",borderRadius:"50%",border:`1px solid ${C.gold}33`,display:"flex",alignItems:"center",justifyContent:"center"}}>
-              <Circle size={200} bg={`linear-gradient(135deg,${C.gold},${C.goldD})`} onClick={()=>setPage("experience")} style={{border:`3px solid ${C.gold}`,boxShadow:`0 0 0 4px ${C.gold}44, 0 8px 32px rgba(154,124,69,0.45)`}}>
-                <div style={{textAlign:"center",padding:"14px"}}>
+              <Circle size={200} bg={`radial-gradient(circle at 32% 26%, #E8CB88, ${C.gold} 42%, ${C.goldD} 78%, #6B4E1F 100%)`} onClick={()=>setPage("experience")} style={{border:`3px solid ${C.gold}`,boxShadow:`0 0 0 4px ${C.gold}44, inset 0 14px 22px rgba(255,255,255,0.35), inset 0 -22px 30px rgba(0,0,0,0.3), 0 22px 36px rgba(80,58,20,0.55), 0 8px 14px rgba(80,58,20,0.35)`,overflow:"hidden"}}>
+                <div style={{position:"absolute",top:"10%",left:"18%",width:"46%",height:"30%",borderRadius:"50%",background:"radial-gradient(ellipse, rgba(255,255,255,0.55), rgba(255,255,255,0) 70%)",pointerEvents:"none"}}/>
+                <div style={{textAlign:"center",padding:"14px",position:"relative"}}>
                   <div style={{fontSize:"20px",color:C.white,marginBottom:"4px"}}>✦</div>
                   <div style={{fontFamily:FD,fontSize:"26px",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
                     {t.expBtn}
