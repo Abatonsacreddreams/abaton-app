@@ -467,9 +467,9 @@ function ExtLink({href,style,onClick,children,lang}) {
                 <div style={{width:"64px",height:"64px",borderRadius:"50%",background:C.goldPale,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:"18px",fontSize:"26px"}}>🔗</div>
                 <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"8px"}}>{host}</div>
                 <div style={{fontSize:"14px",color:C.textM,marginBottom:"24px",maxWidth:"280px",lineHeight:"1.5"}}>
-                  {lang==="it"?"Questo sito si apre in una nuova scheda. Abaton resta qui, pronta per quando torni.":lang==="de"?"Diese Website öffnet sich in einem neuen Tab. Abaton bleibt hier, bereit für deine Rückkehr.":lang==="fr"?"Ce site s'ouvre dans un nouvel onglet. Abaton reste ici, prêt pour votre retour.":lang==="ru"?"Этот сайт откроется в новой вкладке. Abaton останется здесь и будет ждать вашего возвращения.":"This site opens in a new tab. Abaton stays right here, ready for when you're back."}
+                  {lang==="it"?"Per tornare qui dopo, usa la freccia indietro del dispositivo.":lang==="de"?"Um später hierher zurückzukehren, benutze die Zurück-Taste deines Geräts.":lang==="fr"?"Pour revenir ici ensuite, utilisez la flèche retour de votre appareil.":lang==="ru"?"Чтобы вернуться сюда позже, используйте кнопку «назад» на устройстве.":"To come back here afterwards, use your device's back button."}
                 </div>
-                <a href={href} target="_blank" rel="noopener noreferrer" onClick={()=>track("link",`${host} (new tab)`,{lang})} style={{display:"inline-block",padding:"14px 28px",background:C.gold,color:C.white,borderRadius:"14px",textDecoration:"none",fontFamily:FB,fontSize:"15px",fontWeight:"600"}}>
+                <a href={href} onClick={()=>track("link",`${host} (same tab)`,{lang})} style={{display:"inline-block",padding:"14px 28px",background:C.gold,color:C.white,borderRadius:"14px",textDecoration:"none",fontFamily:FB,fontSize:"15px",fontWeight:"600"}}>
                   {lang==="it"?`Apri ${host} →`:lang==="de"?`${host} öffnen →`:lang==="fr"?`Ouvrir ${host} →`:lang==="ru"?`Открыть ${host} →`:`Open ${host} →`}
                 </a>
               </div>
