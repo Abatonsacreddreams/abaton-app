@@ -540,6 +540,81 @@ function PopoliExperienceButton({t,lang,style}) {
   );
 }
 
+// ── QUICK ASK — richiesta diretta allo staff via Telegram, senza numero dell'ospite ──
+function QuickAsk({item,lang,style,children,trackLabel}) {
+  const [open,setOpen] = useState(false);
+  const [name,setName] = useState(()=>getSession()?.name||"");
+  const [time,setTime] = useState(null);
+  const [note,setNote] = useState("");
+  const [sent,setSent] = useState(false);
+  const [sending,setSending] = useState(false);
+  const room = getRoom();
+  const opts = [
+    {id:"mattina",it:"Mattina",en:"Morning",de:"Morgens",fr:"Matin",ru:"Утром"},
+    {id:"pomeriggio",it:"Pomeriggio",en:"Afternoon",de:"Nachmittags",fr:"Après-midi",ru:"Днём"},
+    {id:"sera",it:"Sera",en:"Evening",de:"Abends",fr:"Soir",ru:"Вечером"},
+  ];
+  const send = async () => {
+    setSending(true);
+    const timeLabel = opts.find(o=>o.id===time);
+    track(trackLabel||"quick_request", item, {lang});
+    try{
+      await fetch("/api/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,room,item,timePref:timeLabel?(timeLabel[lang]||timeLabel.it):null,note,lang})});
+    }catch(e){}
+    setSending(false);
+    setSent(true);
+  };
+  const closeAll = () => { setOpen(false); setTimeout(()=>{setSent(false);setTime(null);setNote("");},300); };
+  return (
+    <>
+      <button onClick={()=>setOpen(true)} style={style}>{children}</button>
+      {open&&(
+        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:210,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={closeAll}>
+          <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
+            {sent ? (
+              <div style={{textAlign:"center",padding:"20px 0"}}>
+                <div style={{fontSize:"38px",marginBottom:"14px"}}>✓</div>
+                <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"8px"}}>
+                  {lang==="it"?"Richiesta inviata":lang==="de"?"Anfrage gesendet":lang==="fr"?"Demande envoyée":lang==="ru"?"Запрос отправлен":"Request sent"}
+                </div>
+                <div style={{fontSize:"14px",color:C.textM,marginBottom:"22px",lineHeight:"1.5"}}>
+                  {lang==="it"?"Lo staff ti risponderà a breve.":lang==="de"?"Das Team meldet sich bald bei dir.":lang==="fr"?"L'équipe reviendra vers vous bientôt.":lang==="ru"?"Персонал скоро свяжется с вами.":"Our staff will get back to you shortly."}
+                </div>
+                <button onClick={closeAll} style={{padding:"12px 24px",background:C.gold,color:C.white,border:"none",borderRadius:"14px",fontFamily:FB,fontSize:"14px",cursor:"pointer"}}>
+                  {lang==="it"?"Chiudi":lang==="de"?"Schließen":lang==="fr"?"Fermer":lang==="ru"?"Закрыть":"Close"}
+                </button>
+              </div>
+            ) : (
+              <>
+                <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"4px"}}>{item}</div>
+                <div style={{fontSize:"13px",color:C.textM,marginBottom:"20px"}}>
+                  {lang==="it"?"Arriva direttamente allo staff, senza bisogno del tuo numero.":lang==="de"?"Geht direkt ans Team, deine Nummer wird nicht benötigt.":lang==="fr"?"Envoyé directement au personnel, sans besoin de votre numéro.":lang==="ru"?"Отправляется напрямую персоналу, ваш номер не нужен.":"Goes straight to our staff — no phone number needed."}
+                </div>
+                <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>
+                  {lang==="it"?"Quando preferisci?":lang==="de"?"Wann passt es dir?":lang==="fr"?"Quand préférez-vous ?":lang==="ru"?"Когда вам удобно?":"When works for you?"}
+                </div>
+                <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"18px"}}>
+                  {opts.map(o=>(
+                    <button key={o.id} onClick={()=>setTime(o.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${time===o.id?C.gold:C.border}`,background:time===o.id?C.gold:"none",color:time===o.id?C.white:C.textM,fontFamily:FB,fontSize:"13px",cursor:"pointer"}}>{o[lang]||o.it}</button>
+                  ))}
+                </div>
+                <input value={name} onChange={e=>setName(e.target.value)} placeholder={lang==="it"?"Il tuo nome":lang==="de"?"Dein Name":lang==="fr"?"Votre nom":lang==="ru"?"Ваше имя":"Your name"} style={{width:"100%",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",marginBottom:"12px",boxSizing:"border-box"}}/>
+                <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={lang==="it"?"Altre note (facoltativo)":lang==="de"?"Weitere Hinweise (optional)":lang==="fr"?"Autres notes (facultatif)":lang==="ru"?"Дополнительно (необязательно)":"Anything else (optional)"} style={{width:"100%",minHeight:"60px",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",resize:"vertical",marginBottom:"20px",boxSizing:"border-box"}}/>
+                <button onClick={send} disabled={sending||!name} style={{width:"100%",padding:"14px",background:sending||!name?C.border:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:sending||!name?"default":"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"600",marginBottom:"10px"}}>
+                  {sending?(lang==="it"?"Invio...":lang==="de"?"Senden...":lang==="fr"?"Envoi...":lang==="ru"?"Отправка...":"Sending..."):(lang==="it"?"Invia richiesta →":lang==="de"?"Anfrage senden →":lang==="fr"?"Envoyer la demande →":lang==="ru"?"Отправить запрос →":"Send request →")}
+                </button>
+                <button onClick={closeAll} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"13px",cursor:"pointer",fontFamily:FB}}>
+                  {lang==="it"?"Annulla":lang==="de"?"Abbrechen":lang==="fr"?"Annuler":lang==="ru"?"Отмена":"Cancel"}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 // ── TABLET / STAFF: stanza fissa del device + sessione ospite corrente ────────
 const STAFF_PIN = "1950";
 const ROOMS_LIST = [
@@ -634,9 +709,15 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard}) {
 }
 
 // ── HOME ──────────────────────────────────────────────────────────────────────
+const PHASE_MSG = {
+  arrival: {it:"Benvenuto ad Abaton. Prenditi il tempo per orientarti — qui trovi tutto ciò che ti serve per iniziare.",en:"Welcome to Abaton. Take your time to settle in — everything you need to get started is here.",de:"Willkommen im Abaton. Nimm dir Zeit anzukommen — hier findest du alles, was du zum Start brauchst.",fr:"Bienvenue à l'Abaton. Prenez le temps de vous installer — tout ce qu'il vous faut pour commencer est ici.",ru:"Добро пожаловать в Abaton. Не торопитесь освоиться — здесь есть всё, что нужно для начала."},
+  middle: {it:"Come sta andando il tuo soggiorno? Questo è il momento ideale per provare qualcosa di nuovo.",en:"How is your stay going? This is the perfect moment to try something new.",de:"Wie läuft dein Aufenthalt? Jetzt ist der perfekte Moment, um etwas Neues auszuprobieren.",fr:"Comment se passe votre séjour ? C'est le moment idéal pour essayer quelque chose de nouveau.",ru:"Как проходит ваше пребывание? Сейчас идеальный момент попробовать что-то новое."},
+  departure: {it:"Il tuo soggiorno volge al termine. Grazie per aver condiviso questo tempo con noi.",en:"Your stay is coming to an end. Thank you for sharing this time with us.",de:"Dein Aufenthalt geht zu Ende. Danke, dass du diese Zeit mit uns geteilt hast.",fr:"Votre séjour touche à sa fin. Merci d'avoir partagé ce temps avec nous.",ru:"Ваше пребывание подходит к концу. Спасибо, что провели это время с нами."},
+};
 function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
   const [showLang,setShowLang] = useState(false);
   const [showWifi,setShowWifi] = useState(false);
+  const phase = stayPhase(session);
   const LOCALEMAP = {it:"it-IT",en:"en-GB",de:"de-DE",fr:"fr-FR",ru:"ru-RU"};
   const date = new Date().toLocaleDateString(LOCALEMAP[lang]||"en-GB",{weekday:"long",day:"numeric",month:"long"});
   const tapRef = useRef({count:0,timer:null});
@@ -729,6 +810,15 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
       </div>
 
       <div style={{padding:"0 22px"}}>
+        {phase&&(
+          <div style={{padding:"14px 18px",background:C.goldPale,borderRadius:"16px",marginBottom:"20px",fontSize:"14px",color:C.textD,lineHeight:"1.5"}}>
+            {PHASE_MSG[phase][lang]||PHASE_MSG[phase].it}
+          </div>
+        )}
+
+        <DailyQuote lang={lang}/>
+        <MoodSuggest lang={lang}/>
+
         {/* CENTRAL: TEMPLE OF THE PEOPLES EXPERIENCE */}
         <div style={{marginBottom:"28px"}}>
           <PopoliExperienceButton t={t} lang={lang}/>
@@ -889,6 +979,121 @@ const track = (type, label, extra={}) => {
     fetch("/api/track", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({type, label, room: room||undefined, ...extra})}).catch(()=>{});
   } catch(e) {}
 };
+// ── DAY OF STAY ────────────────────────────────────────────────────────────────
+function stayPhase(session) {
+  if(!session?.checkIn||!session?.checkOut) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const ci = new Date(session.checkIn); ci.setHours(0,0,0,0);
+  const co = new Date(session.checkOut); co.setHours(0,0,0,0);
+  if(isNaN(ci)||isNaN(co)) return null;
+  if(today<=ci) return "arrival";
+  if(today>=co) return "departure";
+  return "middle";
+}
+
+// ── DAILY QUOTE — citazioni verificate; il team può ampliare l'elenco ─────────
+const QUOTES = [
+  {author:"Falco Tarassaco",it:"La vita è una bella avventura.",en:"Life is a beautiful adventure.",de:"Das Leben ist ein wunderschönes Abenteuer.",fr:"La vie est une belle aventure.",ru:"Жизнь — это прекрасное приключение."},
+  {author:"Rumi",it:"Non sei una goccia nell'oceano, sei l'intero oceano in una goccia.",en:"You are not a drop in the ocean, you are the entire ocean in a drop.",de:"Du bist kein Tropfen im Ozean, du bist der ganze Ozean in einem Tropfen.",fr:"Tu n'es pas une goutte dans l'océan, tu es l'océan entier dans une goutte.",ru:"Ты не капля в океане, ты — весь океан в капле."},
+  {author:"Thich Nhat Hanh",it:"Il momento presente è l'unico momento a nostra disposizione: è la porta verso tutti gli altri momenti.",en:"The present moment is the only moment available to us, and it is the door to all moments.",de:"Der gegenwärtige Moment ist der einzige, der uns zur Verfügung steht, und er ist die Tür zu allen Momenten.",fr:"Le moment présent est le seul dont nous disposions, et c'est la porte vers tous les moments.",ru:"Настоящий момент — единственный доступный нам момент, и это дверь ко всем моментам."},
+  {author:"Hermann Hesse",it:"Dentro di te c'è una quiete e un rifugio in cui puoi ritirarti in ogni momento ed essere te stesso.",en:"Within you there is a stillness and sanctuary to which you can retreat at any time and be yourself.",de:"In dir ist eine Stille und ein Zufluchtsort, zu dem du dich jederzeit zurückziehen und du selbst sein kannst.",fr:"En toi se trouve un calme et un sanctuaire où tu peux te retirer à tout moment pour être toi-même.",ru:"Внутри тебя есть тишина и убежище, куда ты можешь удалиться в любой момент, чтобы быть собой."},
+];
+// Frasi autentiche da "Il Sincronico" di O. Airaudi (Falco Tarassaco), pubblicate su damanhurblog.com
+const SYNC_PHRASES = [
+  {it:"Sei aiutato. Più di quanto vedi, più di quanto credi.",en:"You are helped. More than you see, more than you believe.",de:"Dir wird geholfen. Mehr, als du siehst, mehr, als du glaubst.",fr:"Tu es aidé. Plus que tu ne le vois, plus que tu ne le crois.",ru:"Тебе помогают. Больше, чем ты видишь, больше, чем ты веришь."},
+  {it:"Armonia. Lasciarsi vivere. Fortuna.",en:"Harmony. Letting yourself live. Fortune.",de:"Harmonie. Sich leben lassen. Glück.",fr:"Harmonie. Se laisser vivre. Fortune.",ru:"Гармония. Позволить себе жить. Удача."},
+  {it:"Nuovi incontri si fanno anche tra vecchie conoscenze. Basta considerare la persona da un nuovo stato di coscienza.",en:"New encounters can happen even among old acquaintances. It's enough to see the person from a new state of consciousness.",de:"Neue Begegnungen entstehen auch unter alten Bekannten. Es genügt, die Person aus einem neuen Bewusstseinszustand zu betrachten.",fr:"De nouvelles rencontres se font aussi entre vieilles connaissances. Il suffit de considérer la personne depuis un nouvel état de conscience.",ru:"Новые встречи случаются даже со старыми знакомыми. Достаточно увидеть человека из нового состояния сознания."},
+  {it:"Cambiamento. Per mutare occorre volere. Alchimia.",en:"Change. To transform, one must will it. Alchemy.",de:"Wandel. Um sich zu verändern, braucht es Willen. Alchemie.",fr:"Changement. Pour changer, il faut le vouloir. Alchimie.",ru:"Перемена. Чтобы измениться, нужна воля. Алхимия."},
+  {it:"L'acqua, oggi, è in sintonia con te.",en:"Water, today, is in tune with you.",de:"Das Wasser ist heute im Einklang mit dir.",fr:"L'eau, aujourd'hui, est en harmonie avec toi.",ru:"Вода сегодня созвучна тебе."},
+  {it:"Quanto il tempo ti concede, sprechi: adesso respira e cambia.",en:"What time grants you, you waste: now breathe and change.",de:"Was dir die Zeit gewährt, vergeudest du: atme jetzt und verändere dich.",fr:"Ce que le temps t'accorde, tu le gaspilles : maintenant respire et change.",ru:"То, что дарит тебе время, ты растрачиваешь: сейчас вдохни и измени себя."},
+  {it:"Ogni gesto è un rito importante.",en:"Every gesture is an important ritual.",de:"Jede Geste ist ein wichtiges Ritual.",fr:"Chaque geste est un rituel important.",ru:"Каждый жест — важный ритуал."},
+  {it:"Fatti portare dalle onde della tua vita in un porto sicuro.",en:"Let the waves of your life carry you to a safe harbor.",de:"Lass dich von den Wellen deines Lebens in einen sicheren Hafen tragen.",fr:"Laisse-toi porter par les vagues de ta vie vers un port sûr.",ru:"Позволь волнам своей жизни принести тебя в надёжную гавань."},
+];
+function DailyQuote({lang}) {
+  const dayNum = Math.floor(Date.now()/86400000);
+  const q = QUOTES[dayNum % QUOTES.length];
+  const sync = SYNC_PHRASES[dayNum % SYNC_PHRASES.length];
+  return (
+    <WhiteCard style={{marginBottom:"24px",background:C.blue,border:"none"}}>
+      <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"12px"}}>
+        {lang==="it"?"Un pensiero per oggi":lang==="de"?"Ein Gedanke für heute":lang==="fr"?"Une pensée pour aujourd'hui":lang==="ru"?"Мысль на сегодня":"A thought for today"}
+      </div>
+      <div style={{fontFamily:FD,fontSize:"19px",fontStyle:"italic",color:C.white,lineHeight:"1.5",marginBottom:"8px"}}>
+        "{q[lang]||q.it}"
+      </div>
+      <div style={{fontSize:"13px",color:"#C9D3E5"}}>— {q.author}</div>
+      <div style={{marginTop:"18px",paddingTop:"18px",borderTop:"1px solid rgba(255,255,255,0.15)"}}>
+        <div style={{fontSize:"11px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>
+          {lang==="it"?"Frase sincronica":lang==="de"?"Synchronischer Satz":lang==="fr"?"Phrase synchronique":lang==="ru"?"Синхронная фраза":"Synchronic phrase"}
+        </div>
+        <div style={{fontSize:"14px",color:C.white,lineHeight:"1.5",marginBottom:"6px"}}>{sync[lang]||sync.it}</div>
+        <div style={{fontSize:"11px",color:"#C9D3E5"}}>— "Il Sincronico", O. Airaudi (Falco Tarassaco)</div>
+      </div>
+    </WhiteCard>
+  );
+}
+
+// ── MOOD SUGGEST — "di cosa hai voglia oggi?" ──────────────────────────────────
+const MOOD_OPTIONS = [
+  {id:"natura",sym:"🌿",it:"Energia e Natura",en:"Energy & Nature",de:"Energie & Natur",fr:"Énergie et Nature",ru:"Энергия и природа"},
+  {id:"quiete",sym:"🧘",it:"Quiete e Silenzio",en:"Stillness & Silence",de:"Stille",fr:"Calme et Silence",ru:"Тишина и покой"},
+  {id:"connessione",sym:"✦",it:"Connessione",en:"Connection",de:"Verbindung",fr:"Connexion",ru:"Связь"},
+  {id:"creativita",sym:"◈",it:"Creatività",en:"Creativity",de:"Kreativität",fr:"Créativité",ru:"Творчество"},
+  {id:"gusto",sym:"☀",it:"Sapori",en:"Flavors",de:"Genuss",fr:"Saveurs",ru:"Вкусы"},
+];
+const MOOD_SUGGESTIONS = {
+  natura: [
+    {it:"Passeggiata ai Monti Pelati",en:"Walk to Monti Pelati",de:"Spaziergang zu den Monti Pelati",fr:"Balade aux Monti Pelati",ru:"Прогулка к Monti Pelati",descIT:"Riserva naturale con rocce di magnesite, splendida al tramonto.",descEN:"Nature reserve with magnesite rocks, beautiful at sunset.",descDE:"Naturreservat mit Magnesitfelsen, wunderschön bei Sonnenuntergang.",descFR:"Réserve naturelle aux roches de magnésite, superbe au coucher du soleil.",descRU:"Природный заповедник с магнезитовыми скалами, прекрасен на закате."},
+    {it:"Escursione guidata con Muflone o Manul",en:"Guided hike with Muflone or Manul",de:"Geführte Wanderung mit Muflone oder Manul",fr:"Randonnée guidée avec Muflone ou Manul",ru:"Экскурсия с Muflone или Manul",descIT:"Le guide del territorio ti accompagnano nei sentieri della Val Chiusella.",descEN:"Local guides take you along the trails of Val Chiusella.",descDE:"Lokale Guides begleiten dich auf den Wegen des Val Chiusella.",descFR:"Des guides locaux vous accompagnent sur les sentiers de la Val Chiusella.",descRU:"Местные гиды проведут вас по тропам долины Валь-Кьюзелла."},
+  ],
+  quiete: [
+    {it:"Meditazione nei Templi",en:"Temple Meditation",de:"Meditation in den Tempeln",fr:"Méditation dans les Temples",ru:"Медитация в Храмах",descIT:"Un momento di silenzio guidato negli spazi sacri.",descEN:"A guided moment of silence in the sacred spaces.",descDE:"Ein geführter Moment der Stille in den heiligen Räumen.",descFR:"Un moment de silence guidé dans les espaces sacrés.",descRU:"Момент управляемой тишины в священных пространствах."},
+    {it:"Rumore bianco e respirazione guidata",en:"White noise & guided breathing",de:"Weißes Rauschen & geführte Atmung",fr:"Bruit blanc et respiration guidée",ru:"Белый шум и управляемое дыхание",descIT:"Direttamente dal tablet in camera, quando vuoi.",descEN:"Right from the tablet in your room, whenever you like.",descDE:"Direkt vom Tablet in deinem Zimmer, wann immer du möchtest.",descFR:"Directement depuis la tablette de votre chambre, quand vous le souhaitez.",descRU:"Прямо с планшета в номере, когда захотите."},
+  ],
+  connessione: [
+    {it:"Un'esperienza nel Tempo dei Popoli",en:"An experience in the Time of the Peoples",de:"Ein Erlebnis in der Zeit der Völker",fr:"Une expérience dans le Temps des Peuples",ru:"Опыт во Времени Народов",descIT:"Una sala speciale dei Templi, su richiesta.",descEN:"A special hall of the Temples, on request.",descDE:"Ein besonderer Saal der Tempel, auf Anfrage.",descFR:"Une salle spéciale des Temples, sur demande.",descRU:"Особый зал Храмов, по запросу."},
+    {it:"Un trattamento Selfico con SelEt, Elasel o Kythera",en:"A Selfic treatment with SelEt, Elasel or Kythera",de:"Eine selfische Behandlung mit SelEt, Elasel oder Kythera",fr:"Un soin Selfique avec SelEt, Elasel ou Kythera",ru:"Селфическая процедура у SelEt, Elasel или Kythera",descIT:"Tre modi diversi di lavorare con l'energia Selfica.",descEN:"Three different ways of working with Selfic energy.",descDE:"Drei verschiedene Wege, mit selfischer Energie zu arbeiten.",descFR:"Trois façons différentes de travailler avec l'énergie Selfique.",descRU:"Три разных способа работы с селфической энергией."},
+  ],
+  creativita: [
+    {it:"Gli atelier di DamanhurCrea",en:"The DamanhurCrea ateliers",de:"Die Ateliers von DamanhurCrea",fr:"Les ateliers de DamanhurCrea",ru:"Мастерские DamanhurCrea",descIT:"Pietre levigate, gioielli selfici, la musica delle piante.",descEN:"Polished stones, Selfic jewellery, the music of plants.",descDE:"Polierte Steine, selfischer Schmuck, die Musik der Pflanzen.",descFR:"Pierres polies, bijoux selfiques, la musique des plantes.",descRU:"Отшлифованные камни, селфические украшения, музыка растений."},
+    {it:"La Galleria dei Quadri Selfici",en:"The Selfic Paintings Gallery",de:"Die Galerie der selfischen Gemälde",fr:"La Galerie des Tableaux Selfiques",ru:"Галерея селфических картин",descIT:"Opere d'arte che sono anche strumenti energetici.",descEN:"Artworks that are also energetic tools.",descDE:"Kunstwerke, die zugleich energetische Instrumente sind.",descFR:"Œuvres d'art qui sont aussi des instruments énergétiques.",descRU:"Произведения искусства, являющиеся также энергетическими инструментами."},
+  ],
+  gusto: [
+    {it:"Cena in uno dei ristoranti della Val Chiusella",en:"Dinner at one of the Val Chiusella restaurants",de:"Abendessen in einem Restaurant im Val Chiusella",fr:"Dîner dans l'un des restaurants de la Val Chiusella",ru:"Ужин в одном из ресторанов Валь-Кьюзеллы",descIT:"Trovi l'elenco completo nella sezione Damanhur.",descEN:"Find the full list in the Damanhur section.",descDE:"Die vollständige Liste findest du im Bereich Damanhur.",descFR:"Retrouvez la liste complète dans la section Damanhur.",descRU:"Полный список — в разделе Damanhur."},
+    {it:"Un pranzo al Somachandra o all'Arielvo",en:"Lunch at Somachandra or Arielvo",de:"Mittagessen im Somachandra oder Arielvo",fr:"Déjeuner au Somachandra ou à l'Arielvo",ru:"Обед в Somachandra или Arielvo",descIT:"Le tavole calde damanhuriane, cucina semplice e autentica.",descEN:"Damanhur's own canteens, simple and authentic food.",descDE:"Die damanhurianischen Kantinen, einfache und authentische Küche.",descFR:"Les cantines damanhuriennes, cuisine simple et authentique.",descRU:"Дамантурские столовые, простая и настоящая кухня."},
+  ],
+};
+function MoodSuggest({lang}) {
+  const [mood,setMood] = useState(null);
+  return (
+    <WhiteCard style={{marginBottom:"28px"}}>
+      <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"12px"}}>
+        {lang==="it"?"Di cosa hai voglia oggi?":lang==="de"?"Worauf hast du heute Lust?":lang==="fr"?"De quoi avez-vous envie aujourd'hui ?":lang==="ru"?"Чего вам хочется сегодня?":"What are you in the mood for today?"}
+      </div>
+      <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:mood?"18px":0}}>
+        {MOOD_OPTIONS.map(m=>(
+          <button key={m.id} onClick={()=>setMood(mood===m.id?null:m.id)} style={{padding:"9px 14px",borderRadius:"20px",border:`1px solid ${mood===m.id?C.gold:C.border}`,background:mood===m.id?C.gold:"none",color:mood===m.id?C.white:C.textM,fontFamily:FB,fontSize:"13px",cursor:"pointer",display:"flex",alignItems:"center",gap:"6px"}}>
+            <span>{m.sym}</span>{m[lang]||m.it}
+          </button>
+        ))}
+      </div>
+      {mood&&(
+        <div style={{display:"flex",flexDirection:"column",gap:"12px"}}>
+          {MOOD_SUGGESTIONS[mood].map((s,i)=>(
+            <div key={i} style={{padding:"14px 16px",background:C.bg,borderRadius:"16px"}}>
+              <div style={{fontFamily:FD,fontSize:"16px",color:C.blue,marginBottom:"3px"}}>{s[lang]||s.it}</div>
+              <div style={{fontSize:"13px",color:C.textM,marginBottom:"10px",lineHeight:"1.4"}}>{s["desc"+lang.toUpperCase()]||s.descIT}</div>
+              <QuickAsk item={s[lang]||s.it} lang={lang} trackLabel="Mood suggestion request" style={{padding:"8px 16px",background:C.white,border:`1px solid ${C.gold}66`,borderRadius:"20px",color:C.goldD,fontFamily:FB,fontSize:"13px",cursor:"pointer"}}>
+                {lang==="it"?"Mi interessa →":lang==="de"?"Interessiert mich →":lang==="fr"?"Ça m'intéresse →":lang==="ru"?"Интересно →":"I'm interested →"}
+              </QuickAsk>
+            </div>
+          ))}
+        </div>
+      )}
+    </WhiteCard>
+  );
+}
+
 const RI = {
   lampada: {labelIT:"Lampada",labelEN:"Lamp",labelDE:"Lampe",labelFR:"Lampe",labelRU:"Лампа",descIT:"Decorata a mano dai nostri artisti, in armonia con il tema della stanza.",descEN:"Hand-decorated by our artists, in harmony with the room's theme.",descDE:"Handdekoriert von unseren Künstlern, im Einklang mit dem Thema des Zimmers.",descFR:"Décorée à la main par nos artistes, en harmonie avec le thème de la chambre.",descRU:"Декорирована вручную нашими художниками, в гармонии с темой комнаты."},
   bottiglia: {labelIT:"Bottiglia Selfica",labelEN:"Selfic Bottle",labelDE:"Selfische Flasche",labelFR:"Bouteille Selfique",labelRU:"Селфическая бутылка",descIT:"Preparata da SelEt: attivata a Damanhur in strutture selfiche dedicate, dove circuiti energetici sintonizzano l'acqua come portatrice di coerenza e vitalità. Riempila con l'acqua filtrata della living room, attendi almeno 10 minuti e bevi con presenza.",descEN:"Prepared by SelEt: activated at Damanhur in dedicated selfic structures, where energy circuits tune the water as a carrier of coherence and vitality. Fill it with the filtered water from the living room, wait at least 10 minutes, and drink with presence.",descDE:"Hergestellt von SelEt: Jede Flasche wird in Damanhur in eigens dafür vorgesehenen selfischen Strukturen aktiviert, wo Energiekreisläufe das Wasser als Träger von Kohärenz und Vitalität abstimmen. Fülle sie mit dem gefilterten Wasser aus dem Wohnbereich, warte mindestens 10 Minuten und trinke bewusst.",descFR:"Préparée par SelEt : chaque bouteille est activée à Damanhur dans des structures selfiques dédiées, où des circuits énergétiques accordent l'eau comme porteuse de cohérence et de vitalité. Remplis-la avec l'eau filtrée du salon, attends au moins 10 minutes et bois en pleine conscience.",descRU:"Подготовлена SelEt: каждая бутылка активируется в Дамантуре в специальных селфических структурах, где энергетические контуры настраивают воду как носителя согласованности и жизненной силы. Наполни её отфильтрованной водой из гостиной, подожди минимум 10 минут и пей осознанно."},
