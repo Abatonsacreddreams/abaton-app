@@ -375,6 +375,8 @@ const Circle = ({children,size=160,bg=C.gold,onClick,shadow=true,style={}}) => (
 const SPHERE_BG = `radial-gradient(circle at 32% 26%, #E8CB88, ${C.gold} 42%, ${C.goldD} 78%, #6B4E1F 100%)`;
 const SPHERE_SHADOW = `inset 0 5px 9px rgba(255,255,255,0.4), inset 0 -8px 12px rgba(0,0,0,0.3), 0 4px 10px rgba(80,58,20,0.4)`;
 const SPHERE_TEXT_SHADOW = "-1px -1px 0 rgba(255,255,255,0.4), 1px 2px 2px rgba(60,40,10,0.5), 0 6px 14px rgba(0,0,0,0.35)";
+const SPHERE_BG_NAVY = `radial-gradient(circle at 32% 26%, #4A5C86, ${C.blue} 42%, #0D1626 78%, #05070D 100%)`;
+const SPHERE_SHADOW_NAVY = `inset 0 10px 16px rgba(255,255,255,0.22), inset 0 -16px 22px rgba(0,0,0,0.45), 0 16px 28px rgba(10,16,30,0.55), 0 6px 12px rgba(10,16,30,0.4)`;
 const SphereIcon = ({size=44,fontSize=18,children,style={}}) => (
   <div style={{width:`${size}px`,height:`${size}px`,borderRadius:"50%",background:SPHERE_BG,boxShadow:SPHERE_SHADOW,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:`${fontSize}px`,color:C.white,textShadow:SPHERE_TEXT_SHADOW,...style}}>
     {children}
@@ -505,17 +507,34 @@ function PopoliExperienceButton({t,lang,style}) {
   ].filter(Boolean).join("\n");
   return (
     <>
-      <button onClick={()=>setOpen(true)} style={{width:"100%",padding:"22px 24px",background:`linear-gradient(135deg,${C.blue},#0D1626)`,border:"none",borderRadius:"22px",color:C.white,cursor:"pointer",textAlign:"left",boxShadow:"0 10px 32px rgba(20,34,61,0.35)",display:"flex",alignItems:"center",gap:"16px",...style}}>
-        <SphereIcon size={46} fontSize={20}>◎</SphereIcon>
-        <div>
-          <div style={{fontFamily:FD,fontSize:"20px",fontWeight:"600",marginBottom:"3px"}}>
-            {lang==="it"?"Il Tempo dei Popoli":lang==="de"?"Die Zeit der Völker":lang==="fr"?"Le Temps des Peuples":lang==="ru"?"Время Народов":"The Time of the Peoples"}
+      <div style={{display:"flex",flexDirection:"column",alignItems:"center",padding:"8px 0",...style}}>
+        <div style={{position:"relative",marginBottom:"12px"}}>
+          <div style={{width:"196px",height:"196px",borderRadius:"50%",border:`1px dashed ${C.blue}55`,display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <div style={{width:"174px",height:"174px",borderRadius:"50%",border:`1px solid ${C.blue}33`,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <Circle size={156} bg={SPHERE_BG_NAVY} onClick={()=>setOpen(true)} style={{border:`3px solid ${C.blue}`,boxShadow:`0 0 0 4px ${C.blue}33, ${SPHERE_SHADOW_NAVY}`,overflow:"hidden"}}>
+                <div style={{position:"absolute",top:"10%",left:"18%",width:"46%",height:"30%",borderRadius:"50%",background:"radial-gradient(ellipse, rgba(255,255,255,0.4), rgba(255,255,255,0) 70%)",pointerEvents:"none"}}/>
+                <div style={{textAlign:"center",padding:"10px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+                  <div style={{fontSize:"14px",color:C.gold,marginBottom:"5px",textShadow:SPHERE_TEXT_SHADOW}}>✦</div>
+                  <div style={{fontFamily:FD,fontSize:"18px",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:SPHERE_TEXT_SHADOW}}>
+                    {lang==="it"?"Il Tempo\ndei Popoli":lang==="de"?"Die Zeit\nder Völker":lang==="fr"?"Le Temps\ndes Peuples":lang==="ru"?"Время\nНародов":"The Time\nof the Peoples"}
+                  </div>
+                  <div style={{fontSize:"14px",color:C.gold,marginTop:"5px",textShadow:SPHERE_TEXT_SHADOW}}>✦</div>
+                </div>
+              </Circle>
+            </div>
           </div>
-          <div style={{fontSize:"13px",color:"#C9D3E5",lineHeight:"1.4"}}>
-            {lang==="it"?"Prenota una tua esperienza privata →":lang==="de"?"Buche dein privates Erlebnis →":lang==="fr"?"Réservez votre expérience privée →":lang==="ru"?"Забронируйте личный опыт →":"Book your private experience →"}
-          </div>
+          {[0,1,2,3,4,5].map(i => {
+            const angle = (i*60-90) * Math.PI/180;
+            const r = 100;
+            const x = 98 + r*Math.cos(angle);
+            const y = 98 + r*Math.sin(angle);
+            return <div key={i} style={{position:"absolute",left:`${x-3}px`,top:`${y-3}px`,width:"6px",height:"6px",borderRadius:"50%",background:i%2===0?C.blue:`${C.blue}44`}}/>;
+          })}
         </div>
-      </button>
+        <div style={{fontSize:"14px",color:C.goldD,fontFamily:FB,textAlign:"center",cursor:"pointer"}} onClick={()=>setOpen(true)}>
+          {lang==="it"?"Prenota una tua esperienza privata →":lang==="de"?"Buche dein privates Erlebnis →":lang==="fr"?"Réservez votre expérience privée →":lang==="ru"?"Забронируйте личный опыт →":"Book your private experience →"}
+        </div>
+      </div>
       {open&&(
         <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:200,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setOpen(false)}>
           <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
