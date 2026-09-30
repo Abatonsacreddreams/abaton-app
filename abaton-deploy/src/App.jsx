@@ -477,7 +477,7 @@ const POPOLI_INTERESTS = [
   {id:"meditazione",it:"Meditazione silenziosa",en:"Silent meditation",de:"Stille Meditation",fr:"Méditation silencieuse",ru:"Тихая медитация"},
   {id:"energia",it:"Connessione energetica",en:"Energetic connection",de:"Energetische Verbindung",fr:"Connexion énergétique",ru:"Энергетическая связь"},
   {id:"storia",it:"Racconto e storia del luogo",en:"Stories and history of the place",de:"Erzählungen und Geschichte des Ortes",fr:"Récits et histoire du lieu",ru:"Рассказы и история места"},
-  {id:"foto",it:"Fotografia",en:"Photography",de:"Fotografie",fr:"Photographie",ru:"Фотография"},
+  {id:"meditazione",it:"Meditazione guidata",en:"Guided meditation",de:"Geführte Meditation",fr:"Méditation guidée",ru:"Медитация с гидом"},
 ];
 function PopoliExperienceButton({t,lang,style}) {
   const [open,setOpen] = useState(false);
