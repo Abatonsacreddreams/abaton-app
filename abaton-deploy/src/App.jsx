@@ -206,7 +206,10 @@ const CONC_ERR = {
 
 const SYS_FACTS = `
 INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiesta sopra — traduci il contenuto se necessario, ma non i fatti):
-- Check-out: 10:30. Late check-out gratuito fino alle 13:00 se disponibile (chiedere su WhatsApp/Telegram); a pagamento 60€ fino alle 18:00. Bagagli lasciabili in reception previo accordo.
+- Check-in: dalle 15:00 alle 18:00 (orari diversi solo previo accordo). Late check-in dopo le 22:00: extra di 30€.
+- Check-out: 10:30. Late check-out gratuito fino alle 13:00 se disponibile (chiedere su WhatsApp/Telegram); dopo le 13:00, costo pari al 50% del totale della stanza. Bagagli lasciabili in reception previo accordo.
+- Reception: aperta dalle 9:00 alle 16:00.
+- Animali: non ammessi in struttura.
 - WiFi: rete "abaton", password abaton1950.
 - Asciugamani/lenzuola: cambiati nel refresh quotidiano se sporchi, o su richiesta.
 - Lavanderia: lavatrice e asciugatrice disponibili, 12€ in totale. Stiro su richiesta, costo secondo numero di capi.
@@ -219,7 +222,10 @@ INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiest
 - Selfica: tecnologia vivente sviluppata a Damanhur per interagire con il tessuto energetico e cosciente dell'universo; crea un ponte tra l'intenzione umana, la forza vitale della natura e le intelligenze cosmiche. Per approfondire, rimanda l'ospite alla sezione Benessere/Esperienza dell'app.
 - Colazione: servita dalle 8:00 alle 10:00. Include tè, caffè, succhi di frutta, bevande vegetali, yogurt, cereali, biscotti, creme spalmabili, miele, burro, marmellate, pane, uova, verdura e frutta. Opzioni vegane/senza glutine/per allergie disponibili se comunicate in anticipo.
 - Ristoranti aperti la sera nei dintorni: elenco disponibile nell'app, sezione Damanhur > Val Chiusella.
-- Schema Teco: simbolo "luce" in lingua sacra damanhuriana presente sul letto; va percorso con un dito per almeno 3 minuti prima di dormire, pensando a un tema o una domanda.
+- Schema Teco (preparazione al sogno): simbolo "luce" in lingua sacra damanhuriana presente sul letto. Due modi di prepararsi, entrambi validi: percorrerlo con un dito per almeno 3 minuti prima di dormire pensando a un tema o una domanda, oppure tracciarlo in aria con un dito e poi, chiudendo gli occhi, immaginarlo di colore giallo luminoso. È importante scrivere i messaggi dei sogni appena svegli. Su richiesta in reception è possibile acquistare una versione personalizzata dello schema, anche da regalare.
+- La Spirale: un percorso a spirale presente sul territorio per connettersi maggiormente alle energie dei Templi; per le istruzioni rivolgersi alla reception.
+- Libreria: una selezione di libri è disponibile in soggiorno per la consultazione; acquistabili a DamanhurCrea o al Welcome Office.
+- Cucina: a disposizione degli ospiti in soggiorno, condivisa nel rispetto reciproco (lavare e riporre le stoviglie, lasciarla pulita e in ordine).
 - Trattamenti SelEt, Elasel, Kythera: prenotabili su richiesta indicando la propria disponibilità; lo staff organizza l'appuntamento.
 - Rumore bianco / respirazione guidata: funzionano tramite il tablet collegato al WiFi della struttura.
 - Come arrivare: si consiglia di noleggiare un'auto, perché Damanhur è un territorio ampio nella Val Chiusella; disponibile anche uno shuttle su richiesta per facilitare gli spostamenti.
@@ -408,7 +414,7 @@ function ContactButton({phone,text,lang,trackLabel,renderTrigger}) {
     <>
       {renderTrigger(openModal)}
       {open&&(
-        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={()=>setOpen(false)}>
+        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={()=>setOpen(false)}>
           <div style={{background:C.white,borderRadius:"24px",padding:"28px 24px",maxWidth:"340px",width:"100%",textAlign:"center"}} onClick={e=>e.stopPropagation()}>
             <div style={{display:"flex",gap:"8px",justifyContent:"center",marginBottom:"18px"}}>
               {[{id:"wa",label:"WhatsApp"},{id:"tg",label:"Telegram"}].map(c=>(
@@ -457,7 +463,7 @@ function ExtLink({href,style,onClick,children,lang}) {
     <>
       <a href={href} onClick={handleClick} style={style}>{children}</a>
       {open&&(
-        <div style={{position:"fixed",inset:0,background:C.bg,zIndex:210,display:"flex",flexDirection:"column"}}>
+        <div style={{position:"fixed",inset:0,background:C.bg,zIndex:9999,display:"flex",flexDirection:"column"}}>
           <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>
             {closeLabel}
           </button>
@@ -483,12 +489,106 @@ function ExtLink({href,style,onClick,children,lang}) {
   );
 }
 
+// ── REGOLE DELLA STRUTTURA — pagina interna a schermo intero ──────────────────
+const HOUSE_RULES = [
+  {titleIT:"Benvenuti",titleEN:"Welcome",titleDE:"Willkommen",titleFR:"Bienvenue",titleRU:"Добро пожаловать",
+   bodyIT:"Il nostro B&B si trova all'interno di Damanhur, più nello specifico all'interno dell'aura dei Templi dell'Umanità: luogo di raccoglimento, ricerca interiore e guarigione. Per questa ragione chiediamo ai nostri ospiti di rispettarne lo spirito, mantenendo un comportamento consapevole e rispettoso degli spazi e delle persone.",
+   bodyEN:"Our B&B sits within Damanhur, more specifically within the aura of the Temples of Humanity — a place of reflection, inner research and healing. For this reason we ask our guests to respect its spirit, keeping a mindful and respectful attitude toward the spaces and the people around them.",
+   bodyDE:"Unser B&B befindet sich innerhalb von Damanhur, genauer gesagt innerhalb der Aura der Tempel der Menschheit — ein Ort der Sammlung, der inneren Suche und der Heilung. Aus diesem Grund bitten wir unsere Gäste, diesen Geist zu respektieren und sich bewusst und respektvoll gegenüber den Räumen und den Menschen zu verhalten.",
+   bodyFR:"Notre B&B se trouve au sein de Damanhur, plus précisément dans l'aura des Temples de l'Humanité : un lieu de recueillement, de recherche intérieure et de guérison. Pour cette raison, nous demandons à nos hôtes d'en respecter l'esprit, en adoptant un comportement conscient et respectueux des espaces et des personnes.",
+   bodyRU:"Наш Б&Б расположен на территории Даманхура, а точнее — в ауре Храмов Человечества: месте сосредоточения, внутреннего поиска и исцеления. Поэтому мы просим наших гостей уважать этот дух, сохраняя осознанное и уважительное отношение к пространствам и людям."},
+  {titleIT:"Orari",titleEN:"Hours",titleDE:"Zeiten",titleFR:"Horaires",titleRU:"Время",
+   bodyIT:"Check-in: dalle 15:00 alle 18:00 (orari diversi solo previo accordo). Check-out: entro le 10:30. Per il late check-in, cioè dopo le 22:00, verrà applicato un extra di 30€ alla prenotazione.",
+   bodyEN:"Check-in: from 3:00pm to 6:00pm (different times only by prior arrangement). Check-out: by 10:30am. For late check-in, i.e. after 10:00pm, a €30 surcharge applies to the booking.",
+   bodyDE:"Check-in: von 15:00 bis 18:00 Uhr (abweichende Zeiten nur nach vorheriger Absprache). Check-out: bis 10:30 Uhr. Für einen späten Check-in nach 22:00 Uhr wird der Buchung ein Aufpreis von 30€ berechnet.",
+   bodyFR:"Arrivée : de 15h00 à 18h00 (horaires différents uniquement sur accord préalable). Départ : avant 10h30. Pour une arrivée tardive, c'est-à-dire après 22h00, un supplément de 30€ sera appliqué à la réservation.",
+   bodyRU:"Заезд: с 15:00 до 18:00 (другое время только по предварительной договорённости). Выезд: до 10:30. За поздний заезд после 22:00 к бронированию будет применена доплата в размере 30€."},
+  {titleIT:"Silenzio e atmosfera",titleEN:"Silence and atmosphere",titleDE:"Ruhe und Atmosphäre",titleFR:"Silence et atmosphère",titleRU:"Тишина и атмосфера",
+   bodyIT:"Per preservare la quiete del luogo: dalle 22:00 alle 8:00 è richiesto un comportamento silenzioso; non sono consentiti musica ad alto volume o comportamenti disturbanti.",
+   bodyEN:"To preserve the quiet of the place: silent behaviour is required from 10:00pm to 8:00am; loud music or disruptive behaviour is not allowed.",
+   bodyDE:"Um die Ruhe des Ortes zu bewahren: Von 22:00 bis 8:00 Uhr wird leises Verhalten erwartet; laute Musik oder störendes Verhalten sind nicht gestattet.",
+   bodyFR:"Pour préserver le calme du lieu : de 22h00 à 8h00, un comportement silencieux est requis ; la musique forte ou les comportements perturbateurs ne sont pas autorisés.",
+   bodyRU:"Чтобы сохранить тишину этого места: с 22:00 до 8:00 просим соблюдать тишину; громкая музыка и шумное поведение не допускаются."},
+  {titleIT:"Cucina condivisa",titleEN:"Shared kitchen",titleDE:"Gemeinschaftsküche",titleFR:"Cuisine partagée",titleRU:"Общая кухня",
+   bodyIT:"La cucina è a disposizione degli ospiti nel rispetto reciproco. Chiediamo cortesemente di lavare e riporre piatti, stoviglie e utensili dopo l'utilizzo, lasciare sempre la cucina pulita e in ordine, e utilizzare solo gli spazi assegnati per la conservazione degli alimenti.",
+   bodyEN:"The kitchen is available to guests in a spirit of mutual respect. We kindly ask you to wash and put away dishes, cutlery and utensils after use, always leave the kitchen clean and tidy, and use only the assigned spaces to store food.",
+   bodyDE:"Die Küche steht den Gästen im gegenseitigen Respekt zur Verfügung. Wir bitten höflich darum, Geschirr, Besteck und Utensilien nach Gebrauch zu spülen und wegzuräumen, die Küche stets sauber und ordentlich zu hinterlassen und nur die zugewiesenen Bereiche zur Aufbewahrung von Lebensmitteln zu nutzen.",
+   bodyFR:"La cuisine est à la disposition des hôtes dans le respect mutuel. Nous vous demandons aimablement de laver et ranger vaisselle, couverts et ustensiles après utilisation, de toujours laisser la cuisine propre et rangée, et d'utiliser uniquement les espaces attribués pour la conservation des aliments.",
+   bodyRU:"Кухня доступна гостям при взаимном уважении. Просим вас мыть и убирать посуду, столовые приборы и утварь после использования, всегда оставлять кухню чистой и убранной, а также использовать только отведённые места для хранения продуктов."},
+  {titleIT:"Living / Spazi comuni",titleEN:"Living room / Common areas",titleDE:"Wohnbereich / Gemeinschaftsräume",titleFR:"Salon / Espaces communs",titleRU:"Гостиная / Общие зоны",
+   bodyIT:"Il living è uno spazio dedicato al riposo, alla lettura e alla condivisione gentile. Vi invitiamo a utilizzarlo nel rispetto dell'atmosfera di calma e raccoglimento del luogo.",
+   bodyEN:"The living room is a space dedicated to rest, reading and gentle sharing. We invite you to use it in keeping with the calm, reflective atmosphere of the place.",
+   bodyDE:"Der Wohnbereich ist ein Raum für Ruhe, Lektüre und sanften Austausch. Wir laden Sie ein, ihn im Einklang mit der ruhigen, besinnlichen Atmosphäre des Ortes zu nutzen.",
+   bodyFR:"Le salon est un espace dédié au repos, à la lecture et au partage bienveillant. Nous vous invitons à l'utiliser dans le respect de l'atmosphère calme et recueillie du lieu.",
+   bodyRU:"Гостиная — это пространство для отдыха, чтения и тёплого общения. Приглашаем вас пользоваться им в соответствии со спокойной, созерцательной атмосферой этого места."},
+  {titleIT:"Fumo",titleEN:"Smoking",titleDE:"Rauchen",titleFR:"Tabac",titleRU:"Курение",
+   bodyIT:"All'interno di Damanhur è vietato fumare, sia negli spazi interni che esterni della struttura. Il divieto riguarda sigarette tradizionali ed elettroniche. Saremo lieti di indicarvi dove potete recarvi se desiderate fumare durante la vostra permanenza.",
+   bodyEN:"Smoking is not allowed anywhere within Damanhur, neither indoors nor in the property's outdoor spaces. The ban covers both traditional and electronic cigarettes. We'll be happy to point you to where you can go if you wish to smoke during your stay.",
+   bodyDE:"Innerhalb von Damanhur ist das Rauchen verboten, sowohl in den Innen- als auch in den Außenbereichen der Struktur. Das Verbot betrifft sowohl herkömmliche als auch elektronische Zigaretten. Gerne zeigen wir Ihnen, wohin Sie gehen können, wenn Sie während Ihres Aufenthalts rauchen möchten.",
+   bodyFR:"Il est interdit de fumer partout à Damanhur, aussi bien à l'intérieur qu'à l'extérieur de la structure. L'interdiction concerne les cigarettes traditionnelles et électroniques. Nous serons heureux de vous indiquer où vous pouvez vous rendre si vous souhaitez fumer pendant votre séjour.",
+   bodyRU:"На территории Даманхура курение запрещено как в помещениях, так и на улице. Запрет распространяется на обычные и электронные сигареты. Мы с радостью подскажем, куда можно пойти, если вы захотите покурить во время пребывания."},
+  {titleIT:"Animali",titleEN:"Animals",titleDE:"Tiere",titleFR:"Animaux",titleRU:"Животные",
+   bodyIT:"Per scelta della struttura e nel rispetto del luogo, non sono ammessi animali.",
+   bodyEN:"By the property's own choice, and out of respect for the place, animals are not allowed.",
+   bodyDE:"Aus eigener Entscheidung der Unterkunft und aus Respekt vor dem Ort sind Tiere nicht gestattet.",
+   bodyFR:"Par choix de l'établissement et par respect du lieu, les animaux ne sont pas admis.",
+   bodyRU:"По решению структуры и из уважения к этому месту животные не допускаются."},
+  {titleIT:"Ospiti esterni",titleEN:"Outside guests",titleDE:"Externe Besucher",titleFR:"Visiteurs extérieurs",titleRU:"Посторонние гости",
+   bodyIT:"Per motivi di sicurezza e rispetto: non è consentito l'accesso a persone non registrate; eventuali visite devono essere concordate preventivamente con la Direzione.",
+   bodyEN:"For safety and respect: access is not permitted to non-registered persons; any visits must be arranged in advance with Management.",
+   bodyDE:"Aus Sicherheits- und Respektgründen: Nicht registrierten Personen ist der Zutritt nicht gestattet; etwaige Besuche müssen vorab mit der Leitung vereinbart werden.",
+   bodyFR:"Pour des raisons de sécurité et de respect : l'accès n'est pas autorisé aux personnes non enregistrées ; toute visite doit être convenue au préalable avec la Direction.",
+   bodyRU:"В целях безопасности и уважения: доступ незарегистрированным лицам не разрешён; любые визиты должны быть заранее согласованы с руководством."},
+  {titleIT:"Danni e responsabilità",titleEN:"Damages and liability",titleDE:"Schäden und Haftung",titleFR:"Dommages et responsabilité",titleRU:"Ущерб и ответственность",
+   bodyIT:"Eventuali danni a locali, arredi o dotazioni saranno addebitati. La Direzione non è responsabile per oggetti personali lasciati incustoditi. Chiediamo di guidare lentamente salendo la collina per raggiungere l'Abaton: ci troviamo in un luogo con tanti animali selvatici che ci teniamo a salvaguardare.",
+   bodyEN:"Any damage to the premises, furnishings or equipment will be charged. Management is not responsible for personal belongings left unattended. Please drive slowly on the way up the hill to Abaton: we're in a place with a lot of wildlife that we care about protecting.",
+   bodyDE:"Etwaige Schäden an Räumen, Einrichtung oder Ausstattung werden in Rechnung gestellt. Die Leitung haftet nicht für unbeaufsichtigt gelassene persönliche Gegenstände. Bitte fahren Sie beim Hinauffahren zum Abaton langsam: Wir befinden uns an einem Ort mit vielen Wildtieren, die uns am Herzen liegen.",
+   bodyFR:"Tout dommage aux locaux, au mobilier ou aux équipements sera facturé. La Direction n'est pas responsable des objets personnels laissés sans surveillance. Nous vous demandons de conduire lentement en montant la colline pour rejoindre l'Abaton : nous nous trouvons dans un lieu avec de nombreux animaux sauvages que nous tenons à préserver.",
+   bodyRU:"Любой ущерб помещениям, мебели или оборудованию будет оплачиваться гостем. Руководство не несёт ответственности за личные вещи, оставленные без присмотра. Просим ехать медленно, поднимаясь на холм к Abaton: здесь обитает много диких животных, которых мы бережём."},
+  {titleIT:"Partenza anticipata",titleEN:"Early departure",titleDE:"Vorzeitige Abreise",titleFR:"Départ anticipé",titleRU:"Досрочный отъезд",
+   bodyIT:"In caso di partenza anticipata o mancato arrivo si applica la politica di cancellazione accettata al momento della prenotazione.",
+   bodyEN:"In case of early departure or no-show, the cancellation policy accepted at the time of booking applies.",
+   bodyDE:"Im Falle einer vorzeitigen Abreise oder eines Nichterscheinens gilt die bei der Buchung akzeptierte Stornierungsbedingung.",
+   bodyFR:"En cas de départ anticipé ou de non-présentation, la politique d'annulation acceptée au moment de la réservation s'applique.",
+   bodyRU:"В случае досрочного отъезда или неявки применяется политика отмены, принятая при бронировании."},
+];
+function HouseRulesPanel({lang,renderTrigger}) {
+  const [open,setOpen] = useState(false);
+  const closeLabel = lang==="it"?"← Torna in Abaton":lang==="de"?"← Zurück zu Abaton":lang==="fr"?"← Retour à Abaton":lang==="ru"?"← Вернуться в Abaton":"← Back to Abaton";
+  return (
+    <>
+      {renderTrigger(()=>setOpen(true))}
+      {open&&(
+        <div style={{position:"fixed",inset:0,background:C.bg,zIndex:9999,display:"flex",flexDirection:"column"}}>
+          <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>
+            {closeLabel}
+          </button>
+          <div style={{flex:1,overflowY:"auto",padding:"24px 22px 60px"}}>
+            <div style={{fontFamily:FD,fontSize:"28px",color:C.blue,marginBottom:"20px"}}>
+              {lang==="it"?"Regole della struttura":lang==="de"?"Hausregeln":lang==="fr"?"Règles de la maison":lang==="ru"?"Правила проживания":"House rules"}
+            </div>
+            {HOUSE_RULES.map((r,i)=>(
+              <div key={i} style={{marginBottom:"22px"}}>
+                <div style={{fontFamily:FD,fontSize:"17px",color:C.goldD,marginBottom:"6px"}}>{r["title"+lang.toUpperCase()]||r.titleIT}</div>
+                <div style={{fontSize:"14.5px",color:C.textD,lineHeight:"1.7"}}>{r["body"+lang.toUpperCase()]||r.bodyIT}</div>
+              </div>
+            ))}
+            <div style={{fontSize:"13px",color:C.textM,fontStyle:"italic",lineHeight:"1.6",marginTop:"28px",paddingTop:"18px",borderTop:`1px solid ${C.border}`}}>
+              {lang==="it"?"Il rispetto di queste semplici regole contribuisce a mantenere un ambiente armonioso e accogliente per tutti. Siamo sempre disponibili per qualsiasi necessità o chiarimento.":lang==="de"?"Die Einhaltung dieser einfachen Regeln trägt dazu bei, eine harmonische und einladende Umgebung für alle zu erhalten. Wir stehen jederzeit für Fragen oder Anliegen zur Verfügung.":lang==="fr"?"Le respect de ces règles simples contribue à maintenir un environnement harmonieux et accueillant pour tous. Nous restons toujours disponibles pour toute nécessité ou clarification.":lang==="ru"?"Соблюдение этих простых правил помогает поддерживать гармоничную и гостеприимную атмосферу для всех. Мы всегда готовы помочь или что-то прояснить.":"Respecting these simple rules helps keep a harmonious, welcoming environment for everyone. We're always available for any need or clarification."}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 // ── TEMPIO DEI POPOLI — prenotazione esperienza privata ───────────────────────
 const POPOLI_INTERESTS = [
   {id:"meditazione",it:"Meditazione silenziosa",en:"Silent meditation",de:"Stille Meditation",fr:"Méditation silencieuse",ru:"Тихая медитация"},
   {id:"energia",it:"Connessione energetica",en:"Energetic connection",de:"Energetische Verbindung",fr:"Connexion énergétique",ru:"Энергетическая связь"},
   {id:"storia",it:"Racconto e storia del luogo",en:"Stories and history of the place",de:"Erzählungen und Geschichte des Ortes",fr:"Récits et histoire du lieu",ru:"Рассказы и история места"},
-  {id:"meditazione",it:"Meditazione guidata",en:"Guided meditation",de:"Geführte Meditation",fr:"Méditation guidée",ru:"Медитация с гидом"},
+  {id:"medguidata",it:"Meditazione guidata",en:"Guided meditation",de:"Geführte Meditation",fr:"Méditation guidée",ru:"Медитация с гидом"},
 ];
 function PopoliExperienceButton({t,lang,style}) {
   const [open,setOpen] = useState(false);
@@ -536,7 +636,7 @@ function PopoliExperienceButton({t,lang,style}) {
         </div>
       </div>
       {open&&(
-        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:200,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setOpen(false)}>
+        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:9999,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setOpen(false)}>
           <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
             <div style={{fontFamily:FD,fontSize:"24px",color:C.blue,marginBottom:"8px"}}>
               {lang==="it"?"Il Tempo dei Popoli":lang==="de"?"Die Zeit der Völker":lang==="fr"?"Le Temps des Peuples":lang==="ru"?"Время Народов":"The Time of the Peoples"}
@@ -597,7 +697,7 @@ function QuickAsk({item,lang,style,children,trackLabel}) {
     <>
       <button onClick={()=>setOpen(true)} style={style}>{children}</button>
       {open&&(
-        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:210,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={closeAll}>
+        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:9999,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={closeAll}>
           <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
             {sent ? (
               <div style={{textAlign:"center",padding:"20px 0"}}>
@@ -746,7 +846,6 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
   const [showLang,setShowLang] = useState(false);
   const [showWifi,setShowWifi] = useState(false);
   const [showLateOut,setShowLateOut] = useState(false);
-  const [showRules,setShowRules] = useState(false);
   const phase = stayPhase(session);
   const LOCALEMAP = {it:"it-IT",en:"en-GB",de:"de-DE",fr:"fr-FR",ru:"ru-RU"};
   const date = new Date().toLocaleDateString(LOCALEMAP[lang]||"en-GB",{weekday:"long",day:"numeric",month:"long"});
@@ -772,35 +871,36 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             {lang.toUpperCase()}
           </button>
           {showLang&&(
-            <div style={{position:"absolute",top:"40px",right:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"8px",minWidth:"148px",zIndex:200,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
+            <div style={{position:"absolute",top:"40px",right:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"8px",minWidth:"148px",zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
               {[["it","🇮🇹 Italiano"],["en","🇬🇧 English"],["de","🇩🇪 Deutsch"],["fr","🇫🇷 Français"],["ru","🇷🇺 Русский"]].map(([l,lb])=>(
                 <button key={l} onClick={()=>{setLang(l);setShowLang(false);}} style={{display:"block",width:"100%",textAlign:"left",padding:"9px 13px",background:lang===l?C.goldPale:"transparent",color:lang===l?C.goldD:C.textS,border:"none",borderRadius:"8px",cursor:"pointer",fontFamily:FB,fontSize:"15px"}}>{lb}</button>
               ))}
             </div>
           )}
         </div>
-        <div style={{position:"absolute",top:"20px",left:"20px",zIndex:150}}>
+        <div style={{position:"absolute",top:"20px",left:"20px",zIndex:9999}}>
           <button onClick={()=>setShowWifi(!showWifi)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label="WiFi">
             <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12.5a11 11 0 0114 0"/><path d="M8.2 16a6.5 6.5 0 017.6 0"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor" stroke="none"/></svg>
           </button>
           {showWifi&&(
-            <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"16px 18px",minWidth:"190px",zIndex:200,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
+            <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"16px 18px",minWidth:"190px",zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
               <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>{t.wifiName}</div>
               <div style={{fontSize:"15px",color:C.textD,fontFamily:FB}}>Password: <span style={{fontWeight:"700"}}>abaton1950</span></div>
             </div>
           )}
         </div>
-        <div style={{position:"absolute",top:"20px",left:"64px",zIndex:150}}>
+        <div style={{position:"absolute",top:"20px",left:"64px",zIndex:9999}}>
           <button onClick={()=>setShowLateOut(!showLateOut)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label="Late check-out">
             <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
           </button>
           {showLateOut&&(
-            <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"18px 20px",minWidth:"240px",zIndex:200,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
+            <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"18px 20px",minWidth:"240px",zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
               <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>
-                {lang==="it"?"Late check-out":lang==="de"?"Später Check-out":lang==="fr"?"Départ tardif":lang==="ru"?"Поздний выезд":"Late check-out"}
+                {lang==="it"?"Check-out":lang==="de"?"Check-out":lang==="fr"?"Départ":lang==="ru"?"Выезд":"Check-out"}
               </div>
+              <div style={{fontFamily:FD,fontSize:"22px",color:C.blue,marginBottom:"10px"}}>10:30</div>
               <div style={{fontSize:"14px",color:C.textD,fontFamily:FB,lineHeight:"1.6",marginBottom:"14px"}}>
-                {lang==="it"?"Gratuito fino alle 13:00, se disponibile. A pagamento (60€) fino alle 18:00.":lang==="de"?"Kostenlos bis 13:00 Uhr, sofern verfügbar. Gegen Gebühr (60€) bis 18:00 Uhr.":lang==="fr"?"Gratuit jusqu'à 13h00, sous réserve de disponibilité. Payant (60€) jusqu'à 18h00.":lang==="ru"?"Бесплатно до 13:00, при наличии свободных номеров. Платно (60€) до 18:00.":"Free until 1:00pm, if available. For a fee (€60) until 6:00pm."}
+                {lang==="it"?"Se desideri fermarti oltre quest'orario, va accordato con lo staff in anticipo.":lang==="de"?"Möchtest du länger bleiben, muss dies vorab mit dem Team vereinbart werden.":lang==="fr"?"Si vous souhaitez rester au-delà de cet horaire, cela doit être convenu à l'avance avec le personnel.":lang==="ru"?"Если вы хотите остаться дольше, это нужно заранее согласовать с персоналом.":"If you'd like to stay past this time, it needs to be arranged with staff in advance."}
               </div>
               <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp late check-out" text={lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you"} renderTrigger={openModal=>(
                 <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"6px",color:C.gold,fontFamily:FB,fontSize:"14px",fontWeight:"600",background:"none",border:"none",cursor:"pointer",padding:0}}>💬 {t.lateOut} →</button>
@@ -808,30 +908,12 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             </div>
           )}
         </div>
-        <div style={{position:"absolute",top:"20px",left:"108px",zIndex:150}}>
-          <button onClick={()=>setShowRules(!showRules)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label="Regole della struttura">
-            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12h6M9 16h6M9 8h6"/><rect x="5" y="4" width="14" height="16" rx="2"/></svg>
-          </button>
-          {showRules&&(
-            <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"18px 20px",minWidth:"250px",zIndex:200,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
-              <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>
-                {lang==="it"?"Regole della struttura":lang==="de"?"Hausregeln":lang==="fr"?"Règles de la maison":lang==="ru"?"Правила проживания":"House rules"}
-              </div>
-              <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-                {[
-                  {it:"Check-out entro le 10:30",en:"Check-out by 10:30am",de:"Check-out bis 10:30 Uhr",fr:"Départ avant 10h30",ru:"Выезд до 10:30"},
-                  {it:"Silenzio dalle 22:00 alle 8:00",en:"Quiet hours 10pm–8am",de:"Ruhezeit von 22:00 bis 8:00 Uhr",fr:"Silence de 22h00 à 8h00",ru:"Тишина с 22:00 до 8:00"},
-                  {it:"Vietato fumare in tutta la struttura, dentro e fuori (comprese sigarette elettroniche) — solo oltre il cancello",en:"No smoking anywhere on the property, inside or outside (e-cigarettes included) — only past the gate",de:"Rauchen im gesamten Gebäude, drinnen wie draußen, verboten (auch E-Zigaretten) — nur außerhalb des Tors erlaubt",fr:"Interdiction de fumer partout sur la propriété, à l'intérieur comme à l'extérieur (cigarettes électroniques incluses) — uniquement au-delà du portail",ru:"Курение запрещено на всей территории, в помещении и на улице (включая электронные сигареты) — только за воротами"},
-                  {it:"Parcheggio gratuito davanti alla struttura",en:"Free parking in front of the property",de:"Kostenloses Parken vor dem Gebäude",fr:"Parking gratuit devant l'établissement",ru:"Бесплатная парковка перед зданием"},
-                ].map((r,i)=>(
-                  <div key={i} style={{display:"flex",gap:"8px",alignItems:"flex-start"}}>
-                    <span style={{color:C.gold,fontSize:"13px",marginTop:"2px"}}>◦</span>
-                    <span style={{fontSize:"13px",color:C.textD,fontFamily:FB,lineHeight:"1.5"}}>{r[lang]||r.it}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+        <div style={{position:"absolute",top:"20px",left:"108px",zIndex:9999}}>
+          <HouseRulesPanel lang={lang} renderTrigger={openPanel=>(
+            <button onClick={openPanel} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label="Regole della struttura">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12h6M9 16h6M9 8h6"/><rect x="5" y="4" width="14" height="16" rx="2"/></svg>
+            </button>
+          )}/>
         </div>
         <div style={{position:"relative",zIndex:1}}>
           <img src="/logo-full.png" alt="Abaton Sacred Dreams" onClick={handleWordmarkTap} style={{width:"280px",maxWidth:"78%",height:"auto",display:"block",margin:"0 auto 14px",filter:"drop-shadow(0 6px 22px rgba(0,0,0,0.4))",cursor:"pointer"}}/>
@@ -932,14 +1014,6 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             </button>
           )}/>
         </div>
-
-        {/* PRACTICAL INFO PILLS */}
-        <WhiteCard style={{marginBottom:"32px"}}>
-          <div style={{display:"flex",flexWrap:"wrap",gap:"10px"}}>
-            <Pill color={C.goldD}>← {t.checkOut}</Pill>
-            <Pill color={C.goldD}>◯ {lang==="it"?"Silenzio 22–8":lang==="de"?"Ruhezeit 22–8 Uhr":lang==="fr"?"Silence 22h–8h":lang==="ru"?"Тишина 22:00–8:00":"Quiet hours 10pm–8am"}</Pill>
-          </div>
-        </WhiteCard>
 
         {/* EVENTS */}
         <Section title={t.eventsTitle}>
