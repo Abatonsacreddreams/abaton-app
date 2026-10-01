@@ -1204,7 +1204,7 @@ const MOOD_SUGGESTIONS = {
     {it:"I circuiti in pietra di Damjl",en:"The stone circuits of Damjl",de:"Die Steinkreise von Damjl",fr:"Les circuits en pierre de Damjl",ru:"Каменные контуры Дамжл",descIT:"Percorsi energetici a cielo aperto, liberamente percorribili nel cuore di Damjl.",descEN:"Open-air energy paths, freely walkable in the heart of Damjl.",descDE:"Energiepfade unter freiem Himmel, frei begehbar im Herzen von Damjl.",descFR:"Parcours énergétiques en plein air, librement praticables au cœur de Damjl.",descRU:"Энергетические маршруты под открытым небом, свободно доступные в центре Дамжл."},
   ],
   quiete: [
-    {it:"Meditazione nei Templi",en:"Temple Meditation",de:"Meditation in den Tempeln",fr:"Méditation dans les Temples",ru:"Медитация в Храмах",descIT:"Un momento di silenzio guidato negli spazi sacri.",descEN:"A guided moment of silence in the sacred spaces.",descDE:"Ein geführter Moment der Stille in den heiligen Räumen.",descFR:"Un moment de silence guidé dans les espaces sacrés.",descRU:"Момент управляемой тишины в священных пространствах."},
+    {it:"Meditazione nel Tempo dei Popoli",en:"Meditation in the Time of the Peoples",de:"Meditation in der Zeit der Völker",fr:"Méditation dans le Temps des Peuples",ru:"Медитация во Времени Народов",descIT:"Un momento di silenzio guidato in una delle sale più riservate dei Templi.",descEN:"A guided moment of silence in one of the Temples' most private halls.",descDE:"Ein geführter Moment der Stille in einem der privatesten Säle der Tempel.",descFR:"Un moment de silence guidé dans l'une des salles les plus privées des Temples.",descRU:"Момент управляемой тишины в одном из самых уединённых залов Храмов."},
     {it:"Rumore bianco e respirazione guidata",en:"White noise & guided breathing",de:"Weißes Rauschen & geführte Atmung",fr:"Bruit blanc et respiration guidée",ru:"Белый шум и управляемое дыхание",descIT:"Direttamente dal tablet in camera, quando vuoi.",descEN:"Right from the tablet in your room, whenever you like.",descDE:"Direkt vom Tablet in deinem Zimmer, wann immer du möchtest.",descFR:"Directement depuis la tablette de votre chambre, quand vous le souhaitez.",descRU:"Прямо с планшета в номере, когда захотите."},
   ],
   connessione: [
@@ -2194,6 +2194,25 @@ function WellnessPage({t,lang,setPage}) {
       </div>
 
       <div style={{padding:"24px 22px 0"}}>
+        {/* MEDITAZIONE NEL TEMPO DEI POPOLI — la nostra esperienza di punta, massima visibilità */}
+        <div style={{marginBottom:"8px",textAlign:"center"}}>
+          <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.12em",textTransform:"uppercase",color:C.gold,marginBottom:"4px"}}>
+            {lang==="it"?"L'esperienza più amata":lang==="de"?"Das beliebteste Erlebnis":lang==="fr"?"L'expérience la plus appréciée":lang==="ru"?"Самый любимый опыт":"Our most loved experience"}
+          </div>
+          <div style={{fontFamily:FD,fontSize:"24px",color:C.blue}}>
+            {lang==="it"?"Meditazione nel Tempo dei Popoli":lang==="de"?"Meditation in der Zeit der Völker":lang==="fr"?"Méditation dans le Temps des Peuples":lang==="ru"?"Медитация во Времени Народов":"Meditation in the Time of the Peoples"}
+          </div>
+        </div>
+        <div style={{position:"relative",marginBottom:"8px",borderRadius:"28px",overflow:"hidden"}}>
+          <div style={{position:"absolute",inset:0,backgroundImage:"url(/temple/popoli.jpg)",backgroundSize:"cover",backgroundPosition:"center 40%",opacity:0.5}}/>
+          <div style={{position:"absolute",inset:0,background:`radial-gradient(ellipse at center, transparent 0%, transparent 18%, ${C.bg} 70%)`}}/>
+          <PopoliExperienceButton t={t} lang={lang} style={{position:"relative",padding:"24px 0 8px"}}/>
+        </div>
+        <WhiteCard style={{marginBottom:"24px",background:C.goldPale,border:`1px solid ${C.gold}33`}}>
+          <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8"}}>
+            {lang==="it"?"La Sala del Tempo dei Popoli è uno degli spazi più silenziosi e riservati dei Templi dell'Umanità — normalmente chiusa alle visite guidate, aperta solo su richiesta. È qui che proponiamo la nostra meditazione guidata: un momento di silenzio autentico e su misura, in uno dei luoghi più potenti di Damanhur.":lang==="de"?"Die Halle der Zeit der Völker ist einer der stillsten und privatesten Räume der Tempel der Menschheit — normalerweise nicht Teil der geführten Besichtigungen, nur auf Anfrage geöffnet. Hier bieten wir unsere geführte Meditation an: einen authentischen, maßgeschneiderten Moment der Stille an einem der kraftvollsten Orte Damanhurs.":lang==="fr"?"La Salle du Temps des Peuples est l'un des espaces les plus silencieux et les plus privés des Temples de l'Humanité — habituellement fermée aux visites guidées, ouverte seulement sur demande. C'est ici que nous proposons notre méditation guidée : un moment de silence authentique et sur mesure, dans l'un des lieux les plus puissants de Damanhur.":lang==="ru"?"Зал Времени Народов — одно из самых тихих и уединённых пространств Храмов Человечества, обычно закрытое для экскурсий и открывающееся только по запросу. Именно здесь мы предлагаем нашу медитацию под руководством — подлинный, персональный момент тишины в одном из самых сильных мест Даманхура.":"The Hall of Time of the Peoples is one of the quietest, most private spaces within the Temples of Humanity — usually closed to guided visits, opened only on request. This is where we offer our guided meditation: an authentic, tailored moment of silence in one of Damanhur's most powerful places."}
+          </div>
+        </WhiteCard>
         <div style={{borderRadius:"20px",overflow:"hidden",marginBottom:"16px",boxShadow:C.shadow}}>
           <img src="/damanhur/benessere-1.jpg" alt="Trattamento Selfico" style={{width:"100%",height:"200px",objectFit:"cover",display:"block"}}/>
         </div>
@@ -2209,20 +2228,6 @@ function WellnessPage({t,lang,setPage}) {
               ?"Одна из уникальных особенностей целостного подхода Даманхура — интеграция технологии Селфика, древнего искусства-науки, заново открытого и развиваемого здесь уже более 50 лет. Селфики, связанные с определёнными космическими силами, используют структуры на основе священных геометрий, металлов и алхимических веществ для содействия личной и коллективной эволюции, поддерживая исцеление и расширение человеческих возможностей."
               :"One of the unique features of the holistic wellness offerings at Damanhur is the integration of Selfica technology, an ancient art-science rediscovered and developed right here for over 50 years. The Selfica, connected to specific cosmic forces, use structures based on sacred geometries, metals and alchemical substances to promote personal and collective evolution, supporting healing and the expansion of human capabilities."}
           </div>
-        </WhiteCard>
-
-        {/* MEDITAZIONE NEI TEMPLI — offerta Abaton */}
-        <WhiteCard style={{marginBottom:"16px",background:C.goldPale,border:`1px solid ${C.gold}33`}}>
-          <div style={{display:"flex",alignItems:"center",gap:"12px",marginBottom:"10px"}}>
-            <span style={{fontSize:"22px",color:C.gold}}>✦</span>
-            <div style={{fontFamily:FD,fontSize:"20px",color:C.goldD}}>{lang==="it"?"Meditazione nei Templi":lang==="de"?"Meditation in den Tempeln":lang==="fr"?"Méditation dans les Temples":lang==="ru"?"Медитация в Храмах":"Temple Meditation"}</div>
-          </div>
-          <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.7",marginBottom:"14px"}}>
-            {lang==="it"?"Un momento di silenzio guidato negli spazi sacri dei Templi dell'Umanità.":lang==="de"?"Ein geführter Moment der Stille in den heiligen Räumen der Tempel der Menschheit.":lang==="fr"?"Un moment de silence guidé dans les espaces sacrés des Temples de l'Humanité.":lang==="ru"?"Момент управляемой тишины в священных пространствах Храмов Человечества.":"A guided moment of silence in the sacred spaces of the Temples of Humanity."}
-          </div>
-          <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp book Temple Meditation" text={lang==="it"?"Buongiorno, vorrei prenotare una Meditazione nei Templi dell'Umanità.":lang==="de"?"Guten Tag, ich möchte eine Meditation in den Tempeln der Menschheit buchen.":lang==="fr"?"Bonjour, je souhaiterais réserver une Méditation dans les Temples de l'Humanité.":lang==="ru"?"Здравствуйте, хотел(а) бы записаться на медитацию в Храмах Человечества.":"Hello, I would like to book a Temple Meditation."} renderTrigger={openModal=>(
-            <button onClick={openModal} style={{display:"inline-block",padding:"12px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px",letterSpacing:"0.05em"}}>{t.book}</button>
-          )}/>
         </WhiteCard>
 
         {/* PROVIDERS: SelEt / Elasel / Kythera */}
