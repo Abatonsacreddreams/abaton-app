@@ -208,7 +208,7 @@ const SYS_FACTS = `
 INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiesta sopra — traduci il contenuto se necessario, ma non i fatti):
 - Check-in: dalle 15:00 alle 18:00 (orari diversi solo previo accordo). Late check-in dopo le 22:00: extra di 30€.
 - Check-out: 10:30. Late check-out gratuito fino alle 13:00 se disponibile (chiedere su WhatsApp/Telegram); dopo le 13:00, costo pari al 50% del totale della stanza. Bagagli lasciabili in reception previo accordo.
-- Reception: aperta dalle 9:00 alle 16:00.
+- Reception: aperta dalle 8:00 alle 18:00.
 - Animali: non ammessi in struttura.
 - WiFi: rete "abaton", password abaton1950.
 - Asciugamani/lenzuola: cambiati nel refresh quotidiano se sporchi, o su richiesta.
