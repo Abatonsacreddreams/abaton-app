@@ -455,8 +455,13 @@ function hostnameOf(href) {
 }
 function ExtLink({href,style,onClick,children,lang}) {
   const [open,setOpen] = useState(false);
+  const [qr,setQr] = useState("");
+  const mapEmbed = href?buildMapEmbed(href):null;
+  useEffect(()=>{
+    if(!open||!href||mapEmbed) return;
+    QRCode.toDataURL(href,{width:200,margin:1,color:{dark:C.blue,light:"#ffffff"}}).then(setQr).catch(()=>setQr(""));
+  },[open,href,mapEmbed]);
   if(!href) return null;
-  const mapEmbed = buildMapEmbed(href);
   const host = hostnameOf(href);
   const handleClick = e => { e.preventDefault(); onClick&&onClick(); setOpen(true); };
   const closeLabel = lang==="it"?"← Torna in Abaton":lang==="de"?"← Zurück zu Abaton":lang==="fr"?"← Retour à Abaton":lang==="ru"?"← Вернуться в Abaton":"← Back to Abaton";
@@ -472,14 +477,17 @@ function ExtLink({href,style,onClick,children,lang}) {
             {mapEmbed ? (
               <iframe src={mapEmbed} title="map" style={{flex:1,border:"none",width:"100%"}}/>
             ) : (
-              <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"32px",textAlign:"center"}}>
-                <div style={{width:"64px",height:"64px",borderRadius:"50%",background:C.goldPale,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:"18px",fontSize:"26px"}}>🔗</div>
-                <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"8px"}}>{host}</div>
-                <div style={{fontSize:"14px",color:C.textM,marginBottom:"24px",maxWidth:"280px",lineHeight:"1.5"}}>
-                  {lang==="it"?"Per tornare qui dopo, usa la freccia indietro del dispositivo.":lang==="de"?"Um später hierher zurückzukehren, benutze die Zurück-Taste deines Geräts.":lang==="fr"?"Pour revenir ici ensuite, utilisez la flèche retour de votre appareil.":lang==="ru"?"Чтобы вернуться сюда позже, используйте кнопку «назад» на устройстве.":"To come back here afterwards, use your device's back button."}
+              <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"32px",textAlign:"center",overflowY:"auto"}}>
+                <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"18px"}}>{host}</div>
+                {qr?<img src={qr} alt="QR code" style={{width:"180px",height:"180px",marginBottom:"18px",display:"block",borderRadius:"12px",boxShadow:C.shadow}}/>:<div style={{width:"180px",height:"180px",marginBottom:"18px"}}/>}
+                <div style={{fontSize:"15px",color:C.blue,fontFamily:FB,fontWeight:"700",marginBottom:"8px",lineHeight:"1.4",maxWidth:"280px"}}>
+                  {lang==="it"?"Inquadra il codice con il tuo telefono":lang==="de"?"Scanne den Code mit deinem Telefon":lang==="fr"?"Scannez le code avec votre téléphone":lang==="ru"?"Наведите телефон на код":"Scan the code with your phone"}
                 </div>
-                <a href={href} onClick={()=>track("link",`${host} (same tab)`,{lang})} style={{display:"inline-block",padding:"14px 28px",background:C.gold,color:C.white,borderRadius:"14px",textDecoration:"none",fontFamily:FB,fontSize:"15px",fontWeight:"600"}}>
-                  {lang==="it"?`Apri ${host} →`:lang==="de"?`${host} öffnen →`:lang==="fr"?`Ouvrir ${host} →`:lang==="ru"?`Открыть ${host} →`:`Open ${host} →`}
+                <div style={{fontSize:"13px",color:C.textM,marginBottom:"26px",maxWidth:"280px",lineHeight:"1.5"}}>
+                  {lang==="it"?"Il sito si apre sul tuo telefono, senza uscire da Abaton su questo tablet.":lang==="de"?"Die Seite öffnet sich auf deinem Telefon, ohne Abaton auf diesem Tablet zu verlassen.":lang==="fr"?"Le site s'ouvre sur votre téléphone, sans quitter Abaton sur cette tablette.":lang==="ru"?"Сайт откроется на вашем телефоне, не закрывая Abaton на этом планшете.":"The site opens on your phone, without leaving Abaton on this tablet."}
+                </div>
+                <a href={href} onClick={()=>track("link",`${host} (same tab)`,{lang})} style={{color:C.textM,textDecoration:"underline",fontFamily:FB,fontSize:"13px"}}>
+                  {lang==="it"?"Apri comunque su questo dispositivo →":lang==="de"?"Trotzdem auf diesem Gerät öffnen →":lang==="fr"?"Ouvrir quand même sur cet appareil →":lang==="ru"?"Всё равно открыть на этом устройстве →":"Open on this device anyway →"}
                 </a>
               </div>
             )}
