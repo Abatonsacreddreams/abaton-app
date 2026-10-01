@@ -925,7 +925,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           )}/>
         </div>
         <div style={{position:"relative",zIndex:1}}>
-          <img src="/logo-full.png" alt="Abaton Sacred Dreams" onClick={handleWordmarkTap} style={{width:"280px",maxWidth:"78%",height:"auto",display:"block",margin:"0 auto 14px",filter:"drop-shadow(0 6px 22px rgba(0,0,0,0.4))",cursor:"pointer"}}/>
+          <img src="/logo-full.png" alt="Abaton Sacred Dreams" onClick={handleWordmarkTap} style={{width:"280px",maxWidth:"78%",height:"auto",display:"block",margin:"0 auto 14px",filter:"drop-shadow(-1px -1.5px 0 rgba(255,255,255,0.45)) drop-shadow(1.5px 3px 1px rgba(60,40,10,0.55)) drop-shadow(0 8px 24px rgba(0,0,0,0.45))",cursor:"pointer"}}/>
           {/* Soglia divider */}
           <div style={{display:"flex",justifyContent:"center",gap:"2px",marginBottom:"8px"}}>
             {[1,2,3].map(i=><div key={i} style={{height:"1px",width:`${i===2?48:24}px`,background:`${C.gold}${i===2?"cc":"66"}`}}/>)}
