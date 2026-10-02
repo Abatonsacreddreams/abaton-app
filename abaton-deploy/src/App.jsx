@@ -229,6 +229,7 @@ INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiest
 - Libreria: una selezione di libri è disponibile in soggiorno per la consultazione; acquistabili a DamanhurCrea o al Welcome Office.
 - Cucina: a disposizione degli ospiti in soggiorno, condivisa nel rispetto reciproco (lavare e riporre le stoviglie, lasciarla pulita e in ordine).
 - Trattamenti SelEt, Elasel, Kythera: prenotabili su richiesta indicando la propria disponibilità; lo staff organizza l'appuntamento.
+- Trattamenti Selfica (centro Selfica / DamanhurCrea, Vidracco): Prano-Selfica (Pranoself) 15 minuti, preparazione inclusa, €50 da pagare sul posto, concentra il prana nell'aura vitale tramite una struttura Selfica per amplificare la forza vitale e armonizzare l'aura (portare una bottiglia d'acqua da energizzare, respirare lentamente e con consapevolezza). Cabina Selfica per il Riallineamento Bioenergetico (Cabina di Allineamento) 30 minuti, €150: ripristina i ritmi naturali del corpo, armonizza cuore, polmoni, fegato e reni e sincronizza i tre "cervelli" (testa, cuore, intestino). Cabina Selfica per il Rinnovamento Vitale (Cabina di Ringiovanimento) 60 minuti, €990, creata da Falco Tarassaco: rigenerazione cellulare ed equilibrio ormonale, agisce anche sul piano emotivo e mentale e aiuta a sciogliere le convinzioni limitanti su invecchiamento e vitalità. Per prenotare, l'ospite compila la richiesta nell'app (giorno e momento indicativi, telefono): lo staff prenota per lui e gli dà le informazioni. Per Elasel e Kythera non indicare prezzi.
 - Rumore bianco / respirazione guidata: funzionano tramite il tablet collegato al WiFi della struttura.
 - Come arrivare: si consiglia di noleggiare un'auto, perché Damanhur è un territorio ampio nella Val Chiusella; disponibile anche uno shuttle su richiesta per facilitare gli spostamenti.
 - Cosa fare/vedere nei dintorni: sezione dedicata nell'app, Damanhur > Val Chiusella, con luoghi, ristoranti e servizi utili nella zona.
@@ -454,6 +455,8 @@ function ZoomImg({src,group,style,alt=""}) {
 }
 
 let KEEP_AWAKE = 0;
+const bundleSrc = () => { const el=document.querySelector('script[src*="/assets/index-"]'); return el?el.getAttribute("src"):""; };
+const appVersion = () => { const m=bundleSrc().match(/index-([^.]+)\.js/); return m?m[1]:"dev"; };
 
 // ── CONFIG MODIFICABILE DALLO STAFF (salvata su /api/config) ──────────────────
 const CFG_DEFAULT = {
@@ -1041,6 +1044,12 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
                   <button key={c.id} onClick={()=>toggle(c.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${picked.includes(c.id)?C.gold:C.border}`,background:picked.includes(c.id)?C.gold:"none",color:picked.includes(c.id)?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer",textAlign:"left"}}>{c[lang]||c.it}</button>
                 ))}
               </div>
+              {chips.filter(c=>picked.includes(c.id)&&c.info).map(c=>(
+                <div key={"i"+c.id} style={{background:C.goldPale,border:`1px solid ${C.gold}44`,borderRadius:"14px",padding:"12px 14px",marginTop:"-6px",marginBottom:"14px"}}>
+                  <div style={{fontFamily:FD,fontWeight:"600",fontSize:"17px",color:C.blue,marginBottom:"4px"}}>{c[lang]||c.it}</div>
+                  <div style={{fontSize:"14.5px",color:C.textS,lineHeight:"1.6"}}>{c.info[lang]||c.info.en||c.info.it}</div>
+                </div>
+              ))}
             </>}
             {showWhen&&<>
               <div style={lbl}>{T_(RQ.day)}</div>
@@ -1174,6 +1183,7 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo}) {
         {onEditInfo&&<button onClick={()=>onEditInfo(pin)} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>✏️ Modifica le info dell'app →</button>}
         {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>📊 Vedi statistiche →</button>}
         <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>Chiudi</button>
+        <div style={{textAlign:"center",fontSize:"12.5px",color:C.textM,marginTop:"6px"}}>Versione app: {appVersion()}</div>
       </div>
     </div>
   );
@@ -2500,19 +2510,22 @@ function WellnessPage({t,lang,setPage}) {
           descEN:"Treatment with prana energy that is channeled towards the individual through a selfica energetic structure, which amplifies its effectiveness.",
           descDE:"Behandlung mit Prana-Energie, die über eine selfische Energiestruktur zur Person geleitet wird, welche ihre Wirksamkeit verstärkt.",
           descFR:"Traitement à l'énergie pranique, canalisée vers la personne à travers une structure énergétique selfique qui en amplifie l'efficacité.",
-          descRU:"Лечение пранической энергией, направляемой к человеку через селфическую энергетическую структуру, усиливающую её эффективность."},
+          descRU:"Лечение пранической энергией, направляемой к человеку через селфическую энергетическую структуру, усиливающую её эффективность.",
+          mins:15,price:50,info:{"it":"15 minuti (preparazione inclusa) · €50, da pagare sul posto. Il prana viene concentrato e indirizzato nella tua aura vitale attraverso una complessa struttura Selfica, per amplificare la forza vitale e armonizzare l'aura. Porta una bottiglia d'acqua da far energizzare durante la sessione e respira lentamente, con consapevolezza. Al Centro Olistico Selfica, DamanhurCrea (Vidracco).","en":"15 minutes (preparation included) · €50, payable on site. Prana is concentrated and directed into your vital aura through a complex Selfica structure, amplifying life force and harmonising the aura. Bring a water bottle to be energised during the session and breathe slowly and consciously. At the Selfica Holistic Centre, DamanhurCrea (Vidracco).","de":"15 Minuten (inkl. Vorbereitung) · 50 €, vor Ort zu zahlen. Das Prana wird über eine komplexe Selfica-Struktur in deine Vitalaura gebündelt und geleitet, um die Lebenskraft zu verstärken und die Aura zu harmonisieren. Bring eine Wasserflasche mit, die während der Sitzung energetisiert wird, und atme langsam und bewusst. Im Selfica-Ganzheitszentrum, DamanhurCrea (Vidracco).","fr":"15 minutes (préparation incluse) · 50 €, à régler sur place. Le prana est concentré et dirigé dans votre aura vitale grâce à une structure Selfique complexe, pour amplifier la force vitale et harmoniser l'aura. Apportez une bouteille d'eau à énergiser pendant la séance et respirez lentement, en conscience. Au Centre Holistique Selfica, DamanhurCrea (Vidracco).","ru":"15 минут (включая подготовку) · 50 €, оплата на месте. Прана концентрируется и направляется в вашу жизненную ауру через сложную структуру Селфики, усиливая жизненную силу и гармонизируя ауру. Возьмите бутылку воды — её зарядят во время сеанса — и дышите медленно и осознанно. В Холистическом центре Selfica, DamanhurCrea (Видракко)."}},
         {nameIT:"Cabina di Allineamento",nameEN:"Alignment Cabin",nameDE:"Ausrichtungskabine",nameFR:"Cabine d'Alignement",nameRU:"Кабина выравнивания",
           descIT:"Cabine che creano linee temporali alternative, permettendo al corpo di fondersi con una versione più sana di sé stesso.",
           descEN:"Cabins are structures that create alternate timelines that allow the body to merge with a healthier version of itself.",
           descDE:"Kabinen, die alternative Zeitlinien erzeugen und es dem Körper ermöglichen, mit einer gesünderen Version seiner selbst zu verschmelzen.",
           descFR:"Cabines créant des lignes temporelles alternatives, permettant au corps de fusionner avec une version plus saine de lui-même.",
-          descRU:"Кабины, создающие альтернативные временные линии, позволяющие телу слиться с более здоровой версией самого себя."},
+          descRU:"Кабины, создающие альтернативные временные линии, позволяющие телу слиться с более здоровой версией самого себя.",
+          mins:30,price:150,info:{"it":"30 minuti (preparazione inclusa) · €150. Ristabilisce i ritmi naturali del corpo alterati da luce artificiale, schermi e orari irregolari: armonizza cuore, polmoni, fegato e reni e sincronizza i tre “cervelli” (testa, cuore, intestino), per più coerenza, vitalità e stabilità emotiva. Al Centro Olistico Selfica, DamanhurCrea (Vidracco).","en":"30 minutes (preparation included) · €150. Restores the body's natural rhythms disrupted by artificial light, screens and irregular schedules: it harmonises heart, lungs, liver and kidneys and synchronises the three “brains” (head, heart, gut), for greater coherence, vitality and emotional stability. At the Selfica Holistic Centre, DamanhurCrea (Vidracco).","de":"30 Minuten (inkl. Vorbereitung) · 150 €. Stellt die natürlichen Körperrhythmen wieder her, die durch Kunstlicht, Bildschirme und unregelmäßige Zeiten gestört sind: harmonisiert Herz, Lunge, Leber und Nieren und synchronisiert die drei „Gehirne“ (Kopf, Herz, Bauch) – für mehr Kohärenz, Vitalität und emotionale Stabilität. Im Selfica-Ganzheitszentrum, DamanhurCrea (Vidracco).","fr":"30 minutes (préparation incluse) · 150 €. Rétablit les rythmes naturels du corps perturbés par la lumière artificielle, les écrans et les horaires irréguliers : harmonise cœur, poumons, foie et reins et synchronise les trois « cerveaux » (tête, cœur, intestin), pour plus de cohérence, de vitalité et de stabilité émotionnelle. Au Centre Holistique Selfica, DamanhurCrea (Vidracco).","ru":"30 минут (включая подготовку) · 150 €. Восстанавливает естественные ритмы тела, нарушенные искусственным светом, экранами и нерегулярным графиком: гармонизирует сердце, лёгкие, печень и почки и синхронизирует три «мозга» (голова, сердце, кишечник) — для большей согласованности, жизненной силы и эмоциональной устойчивости. В Холистическом центре Selfica, DamanhurCrea (Видракко)."}},
         {nameIT:"Cabina di Ringiovanimento",nameEN:"Rejuvenation Cabin",nameDE:"Verjüngungskabine",nameFR:"Cabine de Rajeunissement",nameRU:"Кабина омоложения",
           descIT:"Combinazione di tecnologie selfiche avanzate per favorire la rigenerazione cellulare e riequilibrare corpo e mente.",
           descEN:"Combination of advanced selfica technologies to promote cell regeneration and rebalance body and mind.",
           descDE:"Kombination fortschrittlicher selfischer Technologien zur Förderung der Zellregeneration und zum Wiederausgleich von Körper und Geist.",
           descFR:"Combinaison de technologies selfiques avancées pour favoriser la régénération cellulaire et rééquilibrer corps et esprit.",
-          descRU:"Сочетание передовых селфических технологий для стимуляции клеточной регенерации и восстановления баланса тела и разума."},
+          descRU:"Сочетание передовых селфических технологий для стимуляции клеточной регенерации и восстановления баланса тела и разума.",
+          mins:60,price:990,info:{"it":"60 minuti (preparazione inclusa) · €990. Creata da Falco Tarassaco dopo decenni di ricerca, promuove la rigenerazione cellulare e l'equilibrio ormonale, agendo anche a livello emotivo e mentale, per estendere il tempo della vita in cui ci si sente sani, vitali e allineati alla missione della propria anima; aiuta a sciogliere le convinzioni limitanti su invecchiamento e vitalità. Al Centro Benessere Selfica, DamanhurCrea (Vidracco).","en":"60 minutes (preparation included) · €990. Created by Falco Tarassaco after decades of research, it promotes cellular regeneration and hormonal balance, working on the emotional and mental levels too, to extend the time of life in which you feel healthy, vital and aligned with your soul's mission; it helps dissolve limiting beliefs about ageing and vitality. At the Selfica Wellness Centre, DamanhurCrea (Vidracco).","de":"60 Minuten (inkl. Vorbereitung) · 990 €. Von Falco Tarassaco nach jahrzehntelanger Forschung geschaffen, fördert sie Zellregeneration und hormonelles Gleichgewicht und wirkt auch auf emotionaler und mentaler Ebene, um die Lebenszeit zu verlängern, in der du dich gesund, vital und mit der Mission deiner Seele im Einklang fühlst; sie hilft, einschränkende Überzeugungen über Altern und Vitalität aufzulösen. Im Selfica-Wellnesszentrum, DamanhurCrea (Vidracco).","fr":"60 minutes (préparation incluse) · 990 €. Créée par Falco Tarassaco après des décennies de recherche, elle favorise la régénération cellulaire et l'équilibre hormonal, en agissant aussi sur le plan émotionnel et mental, pour prolonger le temps de vie où l'on se sent sain, vital et aligné avec la mission de son âme ; elle aide à dissoudre les croyances limitantes sur le vieillissement et la vitalité. Au Centre de Bien-être Selfica, DamanhurCrea (Vidracco).","ru":"60 минут (включая подготовку) · 990 €. Создана Фальком Тарассако после десятилетий исследований: способствует клеточной регенерации и гормональному балансу, воздействуя также на эмоциональном и ментальном уровне, чтобы продлить период жизни, когда вы чувствуете себя здоровым, полным сил и в согласии с миссией своей души; помогает растворить ограничивающие убеждения о старении и жизненной силе. В Центре благополучия Selfica, DamanhurCrea (Видракко)."}},
       ]},
     {id:"elasel", name:"Elasel", color:"#8A7AA8", bg:"#F4F0FA", phone:"393312946774", img:"/wellness/elasel.jpg",
       treatments:[
@@ -2591,13 +2604,14 @@ function WellnessPage({t,lang,setPage}) {
                 <div key={i}>
                   <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18px",color:C.blue,marginBottom:"3px"}}>{LS(tr,"name",lang)}</div>
                   <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.6"}}>{LS(tr,"desc",lang)}</div>
+                  {tr.mins&&<div style={{fontSize:"14.5px",color:C.goldD,fontWeight:"600",marginTop:"5px"}}>⏱ {tr.mins} {lang==="ru"?"мин":"min"} · {lang==="de"||lang==="fr"||lang==="ru"?`${tr.price} €`:`€${tr.price}`}</div>}
                 </div>
               ))}
             </div>
             <QuickAsk item={`Trattamento ${p.name}`} lang={lang} trackLabel={`Request ${p.name}`}
               title={lang==="it"?`Prenota con ${p.name}`:lang==="de"?`Bei ${p.name} buchen`:lang==="fr"?`Réserver avec ${p.name}`:lang==="ru"?`Записаться к ${p.name}`:`Book with ${p.name}`}
               chipsLabel={lang==="it"?"Quale trattamento?":lang==="de"?"Welche Behandlung?":lang==="fr"?"Quel soin ?":lang==="ru"?"Какая процедура?":"Which treatment?"}
-              chipsNoteLabel="Trattamenti" chips={p.treatments.map((tr,i)=>({id:String(i),it:tr.nameIT,en:tr.nameEN,de:tr.nameDE,fr:tr.nameFR,ru:tr.nameRU}))}
+              chipsNoteLabel="Trattamenti" chips={p.treatments.map((tr,i)=>({id:String(i),it:tr.nameIT,en:tr.nameEN,de:tr.nameDE,fr:tr.nameFR,ru:tr.nameRU,info:tr.info}))}
               style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px"}}>
               💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
             </QuickAsk>
@@ -3069,20 +3083,34 @@ export default function AbatonApp() {
   const asleepRef = useRef(false);
   const lastAct = useRef(Date.now());
   const inUse = useRef(false);
+  const updateReady = useRef(false);
   const markUse = () => { if(!inUse.current){ inUse.current=true; track("app_open","App aperta"); } };
   useEffect(()=>{
     const onAct = () => { if(asleepRef.current) return; lastAct.current=Date.now(); markUse(); };
     const evs = ["pointerdown","keydown","touchstart","wheel","scroll"];
     evs.forEach(e=>window.addEventListener(e,onAct,{passive:true,capture:true}));
     const tick = setInterval(()=>{
+      if(updateReady.current && KEEP_AWAKE===0 && (asleepRef.current || Date.now()-lastAct.current>45000)){ window.location.reload(); return; }
       if(asleepRef.current) return;
       const limit = KEEP_AWAKE>0 ? 10*60*1000 : 90*1000;
       if(Date.now()-lastAct.current>limit){ asleepRef.current=true; inUse.current=false; setAsleep(true); }
     },5000);
     const pre = setTimeout(()=>{ SS_IMGS.forEach(src=>{ const im=new Image(); im.src=src; }); },5000);
-    return ()=>{ evs.forEach(e=>window.removeEventListener(e,onAct,{capture:true})); clearInterval(tick); clearTimeout(pre); };
+    // Tablet sempre acceso: controlla se è uscita una versione nuova e ricarica quando nessuno sta usando l'app
+    const cur = bundleSrc();
+    const checkVersion = async () => {
+      if(!cur) return;
+      try{
+        const r = await fetch("/?v="+Date.now(),{cache:"no-store"});
+        const m = (await r.text()).match(/\/assets\/index-[A-Za-z0-9_-]+\.js/);
+        if(m && m[0]!==cur) updateReady.current = true;
+      }catch(e){}
+    };
+    const v1 = setTimeout(checkVersion, 20000);
+    const v2 = setInterval(checkVersion, 5*60*1000);
+    return ()=>{ evs.forEach(e=>window.removeEventListener(e,onAct,{capture:true})); clearInterval(tick); clearTimeout(pre); clearTimeout(v1); clearInterval(v2); };
   },[]);
-  const wake = () => { asleepRef.current=false; setAsleep(false); lastAct.current=Date.now(); markUse(); };
+  const wake = () => { if(updateReady.current){ window.location.reload(); return; } asleepRef.current=false; setAsleep(false); lastAct.current=Date.now(); markUse(); };
   // ── LANDSCAPE (TABLET) LAYOUT ─────────────────────────────────────────────
   const [isLandscape,setIsLandscape] = useState(()=>window.innerWidth>window.innerHeight&&window.innerWidth>=900);
   useEffect(()=>{
