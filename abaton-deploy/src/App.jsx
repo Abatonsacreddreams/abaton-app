@@ -400,6 +400,13 @@ const Section = ({title,children,style={}}) => (
 );
 
 // ── CONTACT (WhatsApp/Telegram QR — works on the guest's own phone even from a locked kiosk tablet) ──
+const Rosone = ({src,size,spin=0,style={}}) => (
+  <img src={src} alt="" aria-hidden="true" style={{width:`${size}px`,height:`${size}px`,borderRadius:"50%",objectFit:"cover",pointerEvents:"none",animation:spin?`abatonSpin ${spin}s linear infinite`:"none",...style}}/>
+);
+const HeaderRosone = () => (
+  <Rosone src="/temple/rosone-acqua.jpg" size={190} spin={240} style={{position:"absolute",top:"-62px",right:"-56px",opacity:0.2,zIndex:-1}}/>
+);
+
 function ContactButton({phone,text,lang,trackLabel,renderTrigger}) {
   const [open,setOpen] = useState(false);
   const [channel,setChannel] = useState("wa");
@@ -573,6 +580,7 @@ function HouseRulesPanel({lang,renderTrigger}) {
             {closeLabel}
           </button>
           <div style={{flex:1,overflowY:"auto",padding:"24px 22px 60px"}}>
+            <img src="/temple/fregio.jpg" alt="" style={{width:"100%",height:"52px",objectFit:"cover",borderRadius:"14px",marginBottom:"18px",display:"block"}}/>
             <div style={{fontFamily:FD,fontSize:"28px",color:C.blue,marginBottom:"20px"}}>
               {lang==="it"?"Regole della struttura":lang==="de"?"Hausregeln":lang==="fr"?"Règles de la maison":lang==="ru"?"Правила проживания":"House rules"}
             </div>
@@ -618,6 +626,7 @@ function PopoliExperienceButton({t,lang,style}) {
     <>
       <div style={{display:"flex",flexDirection:"column",alignItems:"center",padding:"8px 0",...style}}>
         <div style={{position:"relative",marginBottom:"12px"}}>
+          <Rosone src="/temple/rosone-vittoria.jpg" size={196} spin={140} style={{position:"absolute",top:0,left:0,opacity:0.95,boxShadow:`0 0 0 2px ${C.gold}88`}}/>
           <div style={{width:"196px",height:"196px",borderRadius:"50%",border:`1px dashed ${C.blue}55`,display:"flex",alignItems:"center",justifyContent:"center"}}>
             <div style={{width:"174px",height:"174px",borderRadius:"50%",border:`1px solid ${C.blue}33`,display:"flex",alignItems:"center",justifyContent:"center"}}>
               <Circle size={156} bg={SPHERE_BG_NAVY} onClick={()=>setOpen(true)} style={{border:`3px solid ${C.blue}`,boxShadow:`0 0 0 4px ${C.blue}33, ${SPHERE_SHADOW_NAVY}`,overflow:"hidden"}}>
@@ -970,8 +979,10 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
         </div>
         <div style={{fontFamily:FD,fontSize:"30px",fontStyle:"italic",fontWeight:"600",color:C.goldD,textAlign:"center",lineHeight:"1.4",marginBottom:"6px",letterSpacing:"0.05em",textShadow:"0 1px 2px rgba(0,0,0,0.12)"}}>{t.tagline}</div>
         {/* Soglia divider */}
-        <div style={{display:"flex",justifyContent:"center",gap:"2px",margin:"10px 0 6px"}}>
-          {[24,48,24].map((w,i)=><div key={i} style={{height:"1px",width:`${w}px`,background:`${C.gold}${i===1?"aa":"44"}`}}/>)}
+        <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"10px",margin:"10px 0 6px"}}>
+          <div style={{height:"1px",width:"44px",background:`${C.gold}77`}}/>
+          <Rosone src="/temple/rosone-acqua.jpg" size={30} spin={90} style={{boxShadow:`0 0 0 1.5px ${C.gold}`}}/>
+          <div style={{height:"1px",width:"44px",background:`${C.gold}77`}}/>
         </div>
       </div>
 
@@ -1070,7 +1081,7 @@ function ExperiencePage({t,lang,setPage}) {
   const [checked,setChecked] = useState({});
   return (
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px",overflow:"hidden"}}><HeaderRosone/>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill>{lang==="it"?"Esperienza":lang==="de"?"Erlebnis":lang==="fr"?"Expérience":lang==="ru"?"Опыт":"Experience"}</Pill>
@@ -1393,6 +1404,7 @@ function AbatonPage({t,lang,setPage}) {
       name:"Terra", sym:"🌿", acc:"#7A9A4A",
       img:"/rooms/terra-1.jpg",
       templeImg:"/temple/terra.jpg",
+      templeImgs:["/temple/terra.jpg","/temple/terra-2.jpg"],
       templeUrl:"https://thetemples.org/it/sala-della-terra/",
       descIT:"Celebra il nostro pianeta, la natura, il principio maschile, attivo e fecondante. Permette l'accesso a memorie ancestrali della nostra specie, il contatto con il fuoco, le forze della terra e l'intelligenza del Pianeta.\n\nLa stanza dell'Abaton rispecchia questa frequenza: radicamento, abbondanza, crescita silenziosa. I materiali naturali e le forme organiche dei mobili parlano il linguaggio della Terra.",
       descEN:"It celebrates our planet, nature, and the masculine principle, active and fertilizing. It allows access to the ancestral memories of our species, contact with fire, the forces of the earth and the intelligence of the Planet.\n\nThe Abaton room mirrors this frequency: groundedness, abundance, silent growth. Natural materials and organic furniture forms speak the language of Earth.",
@@ -1404,6 +1416,7 @@ function AbatonPage({t,lang,setPage}) {
       name:"Metalli", sym:"⚗", acc:"#C07830",
       img:"/rooms/metalli-1.jpg",
       templeImg:"/temple/metalli.jpg",
+      templeImgs:["/temple/metalli.jpg","/temple/metalli-2.jpg","/temple/metalli-3.jpg"],
       templeUrl:"https://thetemples.org/it/sala-dei-metalli/",
       descIT:"Dedicata ai metalli e al tempo, rappresenta l'importanza della scelta, della conoscenza e della volontà di trasformare in positivo gli elementi negativi, superando la presunta necessità del conflitto. Favorisce il contatto con la parte profonda di sé in diversi momenti del tempo e prepara alle scelte ispirate.\n\nLa stanza dei Metalli ospita questa alchimia: la tecnologia selfica amplifica l'intenzione personale durante il sonno.",
       descEN:"Dedicated to metals and time, it represents the importance of choice, knowledge and the will to transform negative elements into positive ones, overcoming the presumed necessity of conflict. It favors contact with the deep part of oneself across different moments in time and prepares us for inspired choices.\n\nThe Metals room hosts this alchemy: selfica technology amplifies personal intention during sleep.",
@@ -1415,6 +1428,7 @@ function AbatonPage({t,lang,setPage}) {
       name:"Acqua", sym:"〰", acc:C.blueM,
       img:"/rooms/acqua-1.jpg",
       templeImg:"/temple/acqua.jpg",
+      templeImgs:["/temple/acqua.jpg","/temple/acqua-2.jpg","/temple/rosone-acqua.jpg"],
       templeUrl:"https://thetemples.org/it/sala-dellacqua/",
       descIT:"Dedicata al principio e alle forze divine femminili; predispone al risveglio delle memorie profonde, aprendo il cuore al contatto con la propria parte femminile, contenitore prezioso di empatia e accoglienza. L'acqua è il mezzo primordiale della vita.\n\nLa stanza dell'Acqua prepara al risveglio delle memorie più profonde.",
       descEN:"Dedicated to the feminine divine principle and forces, it predisposes the awakening of deep memories, opening the heart to contact with one's own feminine part — a precious vessel of empathy and welcome. Water is the primordial medium of life.\n\nThe Water room prepares for awakening the deepest memories.",
@@ -1426,6 +1440,7 @@ function AbatonPage({t,lang,setPage}) {
       name:"Specchi", sym:"◇", acc:C.goldD,
       img:"/rooms/specchi-1.jpg",
       templeImg:"/temple/specchi.jpg",
+      templeImgs:["/temple/specchi.jpg","/temple/specchi-2.jpg","/temple/specchi-3.jpg"],
       templeUrl:"https://thetemples.org/it/sala-degli-specchi/",
       descIT:"Dedicata alla luce, all'aria, al cielo, al sole e alla spiritualità; favorisce un contatto speciale con la dimensione più profonda del sogno, celebra e prepara il risveglio dell'Essere Umano completo. È un possibile portale di apertura alla percezione della Forza Graal.\n\nLa stanza degli Specchi facilita il contatto con le dimensioni più profonde del sogno. Dormire qui è dormire nell'infinito.",
       descEN:"Dedicated to light, air, the sky, the sun and spirituality; it favors a special contact with the deepest dimension of dreaming, celebrating and preparing the awakening of the complete Human Being. It is a possible portal opening to the perception of the Grail Force.\n\nThe Mirrors room facilitates contact with the deepest dream dimensions. Sleeping here is sleeping in infinity.",
@@ -1455,7 +1470,7 @@ function AbatonPage({t,lang,setPage}) {
       linkLabelDE:"Entdecke den Labyrinth-Saal →",
       linkLabelFR:"Découvre la Salle du Labyrinthe →",
       linkLabelRU:"Узнать больше о Зале Лабиринта →",
-      gallery:["/temple/labirinto.jpg"],
+      gallery:["/temple/labirinto.jpg","/temple/labirinto-3.jpg","/temple/labirinto-4.jpg"],
       en:"Abaton's Living is not a waiting room — it is a transition space between night and day, between dreaming and waking.\n\nDesigned not to interrupt. The light is soft, materials natural, the atmosphere unhurried. It is where dreams are not lost but preserved, where breakfast becomes a moment and not a distracted gesture.\n\nIts energy mirrors the Labyrinth of the Temples — hall dedicated to the union and harmony of the Planet's divine forces. The Labyrinth forms a path through the whole of human history, distilling the part connected to the divine principle, to the eternal essence that lies beyond cultural representations: it predisposes contact with one's deepest parts, through meditation on one's own spiritual path. Like the Labyrinth, the Living is a passage that opens to something greater.",
       de:"Der Living-Bereich des Abaton ist kein Wartezimmer — er ist ein Übergangsraum zwischen Nacht und Tag, zwischen Traum und Wachsein.\n\nEr ist so gestaltet, dass er nicht unterbricht. Das Licht ist sanft, die Materialien natürlich, die Atmosphäre die eines Ortes ohne Eile. Es ist der Ort, an dem der Traum nicht verloren geht, sondern bewahrt wird, an dem das Frühstück zu einem Moment wird und nicht zu einer flüchtigen Geste.\n\nSeine Energie spiegelt die des Labyrinths der Tempel wider — ein Saal, der der Einheit und Harmonie der göttlichen Kräfte des Planeten gewidmet ist. Das Labyrinth bildet einen Weg durch die gesamte Menschheitsgeschichte und destilliert daraus den mit dem göttlichen Prinzip verbundenen Teil, die ewige Essenz jenseits kultureller Darstellungen: Es bereitet auf den Kontakt mit den eigenen tiefsten Anteilen vor, meditierend über den eigenen spirituellen Weg. Wie das Labyrinth ist der Living-Bereich ein Ort des Übergangs, der sich zu etwas Größerem öffnet.",
       fr:"Le Living de l'Abaton n'est pas une salle d'attente — c'est un espace de transition entre la nuit et le jour, entre le rêve et l'éveil.\n\nIl est conçu pour ne pas interrompre. La lumière est douce, les matériaux naturels, l'atmosphère celle de qui n'est pas pressé. C'est le lieu où le rêve ne se perd pas mais se préserve, où le petit-déjeuner devient un moment et non un geste distrait.\n\nSon énergie reflète celle du Labyrinthe des Temples — salle dédiée à l'union et à l'harmonie des forces divines de la Planète. Le Labyrinthe forme un parcours à travers toute l'histoire humaine, distillant la part reliée au principe divin, à l'essence éternelle qui se trouve au-delà des représentations culturelles : il prédispose au contact avec ses parts les plus profondes, en méditant sur son propre chemin spirituel. Comme le Labyrinthe, le Living est un lieu de passage qui s'ouvre à quelque chose de plus grand.",
@@ -1481,7 +1496,7 @@ function AbatonPage({t,lang,setPage}) {
       de:"Das Abaton ist in der direkten Aura der Tempel der Menschheit erbaut. Das ist kein geografischer Zufall — es ist eine energetische und funktionale Entscheidung.\n\nDie Tempel repräsentieren das Werk, die Vision, das kollektive Gedächtnis des menschlichen Potenzials. Das Abaton ist ihr stiller Verstärker: der Ort, an dem der Körper und das Traumfeld des Gastes diese Frequenz empfangen, integrieren und verarbeiten können.\n\nDie Wandmalereien greifen die Motive der Säle auf. Auch das Licht ist in Resonanz mit den unterirdischen Räumen gestaltet.",
       fr:"L'Abaton est construit dans l'aura directe des Temples de l'Humanité. Ce n'est pas une coïncidence géographique — c'est un choix énergétique et fonctionnel.\n\nLes Temples représentent l'œuvre, la vision, la mémoire collective du potentiel humain. L'Abaton en est l'amplificateur silencieux : le lieu où le corps et le champ onirique de l'hôte peuvent recevoir, intégrer et métaboliser cette fréquence.\n\nLes peintures murales reprennent les motifs des salles. Même la lumière est pensée en résonance avec les espaces souterrains.",
       ru:"Абатон построен в прямой ауре Храмов Человечества. Это не географическое совпадение — это энергетический и функциональный выбор.\n\nХрамы представляют собой труд, видение, коллективную память человеческого потенциала. Абатон — их тихий усилитель: место, где тело и сновидческое поле гостя могут принимать, интегрировать и усваивать эту частоту.\n\nНастенные росписи повторяют мотивы залов. Даже освещение продумано в резонансе с подземными пространствами.",
-      gallery:["/temple/umanita.jpg","/temple/sfere.jpg","/temple/vittoria.jpg","/temple/popoli.jpg"],
+      gallery:["/temple/umanita.jpg","/temple/vittoria.jpg","/temple/vittoria-2.jpg","/temple/tempietto.jpg","/temple/sfere.jpg","/temple/labirinto-2.jpg"],
     },
     campo:{
       img:"/damanhur/campo.jpg",
@@ -1503,7 +1518,7 @@ function AbatonPage({t,lang,setPage}) {
   };
   if(sub==="camere"&&roomDetail) return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px",overflow:"hidden"}}><HeaderRosone/>
         <Back label={t.back} onClick={()=>setRoomDetail(null)}/>
         <div style={{marginTop:"16px"}}><div style={{fontFamily:FD,fontSize:"34px",fontWeight:"300",color:roomDetail.acc}}>{roomDetail.name}</div></div>
       </div>
@@ -1514,8 +1529,10 @@ function AbatonPage({t,lang,setPage}) {
         </WhiteCard>
         {roomDetail.templeImg&&(
           <WhiteCard style={{marginTop:"16px",padding:"0",overflow:"hidden"}}>
-            <div style={{height:"200px",overflow:"hidden"}}>
-              <img src={roomDetail.templeImg} alt={`Sala ${roomDetail.name}`} style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+            <div style={{display:"flex",overflowX:"auto",scrollSnapType:"x mandatory"}}>
+              {(roomDetail.templeImgs||[roomDetail.templeImg]).map((im,i)=>(
+                <img key={i} src={im} alt={`Sala ${roomDetail.name}`} style={{flex:"0 0 100%",width:"100%",height:"200px",objectFit:"cover",scrollSnapAlign:"start"}}/>
+              ))}
             </div>
             <div style={{padding:"14px 18px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:"10px"}}>
               <div style={{fontSize:"13px",color:C.textM,fontFamily:FB,fontStyle:"italic"}}>
@@ -1534,7 +1551,7 @@ function AbatonPage({t,lang,setPage}) {
   );
   if(sub==="camere") return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px",overflow:"hidden"}}><HeaderRosone/>
         <Back label={t.back} onClick={()=>setSub(null)}/>
         <div style={{marginTop:"16px"}}><div style={{fontFamily:FD,fontSize:"34px",fontWeight:"300",color:C.blue}}>{lang==="it"?"Le Cinque Stanze":lang==="de"?"Die fünf Zimmer":lang==="fr"?"Les Cinq Chambres":lang==="ru"?"Пять комнат":"The Five Rooms"}</div></div>
       </div>
@@ -1587,7 +1604,7 @@ function AbatonPage({t,lang,setPage}) {
     const label = SUBS.find(s=>s.id===sub);
     return(
       <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-        <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+        <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px",overflow:"hidden"}}><HeaderRosone/>
           <Back label={t.back} onClick={()=>setSub(null)}/>
           <div style={{marginTop:"16px"}}>
             <Pill color={label.color}>{LS(label,"label",lang)}</Pill>
@@ -1602,6 +1619,7 @@ function AbatonPage({t,lang,setPage}) {
               <img src={sc.img} alt={LS(label,"label",lang)} style={{width:"100%",height:"200px",objectFit:"cover"}} onError={e=>{e.target.parentElement.style.display="none";}}/>
             </div>
           )}
+          {sub==="tempio"&&<img src="/temple/fregio.jpg" alt="" style={{width:"100%",height:"56px",objectFit:"cover",borderRadius:"14px",marginBottom:"14px",boxShadow:C.shadow,display:"block"}}/>}
           <WhiteCard>
             <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",fontWeight:"300",whiteSpace:"pre-line"}}>{sc?(sc[lang]||sc.it):""}</div>
           </WhiteCard>
@@ -1613,7 +1631,7 @@ function AbatonPage({t,lang,setPage}) {
           {sc&&sc.gallery&&(
             <div style={{display:"flex",gap:"10px",marginTop:"12px",overflowX:"auto",paddingBottom:"4px"}}>
               {sc.gallery.map((img,i)=>(
-                <div key={i} style={{flexShrink:0,borderRadius:"16px",overflow:"hidden",width:"200px",height:"140px",boxShadow:C.shadow}}>
+                <div key={i} style={{flexShrink:0,borderRadius:"16px",overflow:"hidden",width:"260px",height:"170px",boxShadow:C.shadow,border:`1.5px solid ${C.gold}66`}}>
                   <img src={img} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
                 </div>
               ))}
@@ -1699,7 +1717,7 @@ function AbatonPage({t,lang,setPage}) {
   }
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px",overflow:"hidden"}}><HeaderRosone/>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill>Abaton Sacred Dreams</Pill>
@@ -1980,7 +1998,7 @@ function DamanPage({t,lang,setPage}) {
     const dsub = DAMANSUBSECTIONS.find(d=>d.id===sub);
     return(
       <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-        <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+        <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px",overflow:"hidden"}}><HeaderRosone/>
           <Back label={t.back} onClick={()=>setSub(null)}/>
           <div style={{marginTop:"16px"}}>
             <Pill color={sec.color}>Damanhur</Pill>
@@ -2075,7 +2093,7 @@ function DamanPage({t,lang,setPage}) {
 
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px",overflow:"hidden"}}><HeaderRosone/>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill>{lang==="it"?"Damanhur · dal 1975":lang==="de"?"Damanhur · seit 1975":lang==="fr"?"Damanhur · depuis 1975":lang==="ru"?"Даманхур · с 1975":"Damanhur · since 1975"}</Pill>
@@ -2185,7 +2203,7 @@ function WellnessPage({t,lang,setPage}) {
   ];
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px",overflow:"hidden"}}><HeaderRosone/>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill color={C.blueM}>{lang==="it"?"Benessere & Guarigione":lang==="de"?"Wellness & Heilung":lang==="fr"?"Bien-être & Guérison":lang==="ru"?"Велнес и исцеление":"Wellness & Healing"}</Pill>
@@ -2298,7 +2316,7 @@ function GuestsPage({t,lang,setPage}) {
   };
   return(
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"20px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"20px",overflow:"hidden"}}><HeaderRosone/>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{fontFamily:FD,fontSize:"28px",color:C.blue,marginTop:"16px"}}>{lang==="it"?"I tuoi privilegi":lang==="de"?"Deine Vorteile":lang==="fr"?"Vos privilèges":lang==="ru"?"Ваши привилегии":"Your privileges"}</div>
         <div style={{fontFamily:FS,fontSize:"14px",color:C.textM,fontStyle:"italic",marginTop:"4px"}}>{lang==="it"?"Ospiti Abaton · Sacred Dreams":lang==="de"?"Abaton Gäste · Sacred Dreams":lang==="fr"?"Hôtes Abaton · Sacred Dreams":lang==="ru"?"Гости Абатона · Sacred Dreams":"Abaton Guests · Sacred Dreams"}</div>
@@ -2546,7 +2564,7 @@ function DashboardPage({t,lang,setPage}) {
 
   return (
     <div style={{paddingBottom:"100px",background:C.bg,minHeight:"100vh"}}>
-      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px"}}>
+      <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"8px",overflow:"hidden"}}><HeaderRosone/>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{marginTop:"16px"}}>
           <Pill>Dashboard</Pill>
@@ -2734,6 +2752,7 @@ export default function AbatonApp() {
         ::-webkit-scrollbar{width:0}
         input::placeholder{color:${C.textM}}
         button{-webkit-tap-highlight-color:transparent}
+        @keyframes abatonSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         @keyframes abatonPulse{from{opacity:.15;transform:scale(.6)}to{opacity:1;transform:scale(1.3)}}
       `}</style>
       {isLandscape&&!noNav.includes(page)&&(
