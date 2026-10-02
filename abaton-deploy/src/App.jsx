@@ -230,7 +230,21 @@ INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiest
 - Trattamenti SelEt, Elasel, Kythera: prenotabili su richiesta indicando la propria disponibilità; lo staff organizza l'appuntamento.
 - Rumore bianco / respirazione guidata: funzionano tramite il tablet collegato al WiFi della struttura.
 - Come arrivare: si consiglia di noleggiare un'auto, perché Damanhur è un territorio ampio nella Val Chiusella; disponibile anche uno shuttle su richiesta per facilitare gli spostamenti.
-- Cosa fare/vedere nei dintorni: sezione dedicata nell'app, Damanhur > Val Chiusella, con luoghi, ristoranti e servizi utili nella zona.`;
+- Cosa fare/vedere nei dintorni: sezione dedicata nell'app, Damanhur > Val Chiusella, con luoghi, ristoranti e servizi utili nella zona.
+- Contatti staff: WhatsApp/Telegram +39 351 0103842; email abaton@damanhur.org. Dall'app, il pulsante "Contatta il personale" mostra un QR da inquadrare col proprio telefono (la chat si apre sul telefono dell'ospite, non sul tablet); le richieste rapide ("Mi interessa", prenotazione esperienze) arrivano direttamente allo staff, che organizza e risponde.
+- Che cos'è l'Abaton: nell'antica Grecia era il luogo sacro del Tempio, accessibile a pochi; qui è un frammento di quella sacralità condiviso con gli ospiti. Ogni stanza è collegata a una Sala dei Templi dell'Umanità ed è un portale per raffinare le energie spirituali. Qui l'aura energetica dei Templi ispira i sogni e aiuta a ripristinare il benessere, tra energia e arte.
+- Sala TERRA: celebra il pianeta, la natura, il principio maschile attivo e fecondante; permette l'accesso a memorie ancestrali della specie, al contatto con il fuoco, alle forze della terra e all'intelligenza del Pianeta.
+- Sala METALLI: dedicata ai metalli e al tempo; rappresenta l'importanza della scelta, della conoscenza e della volontà di trasformare in positivo gli elementi negativi, superando la presunta necessità del conflitto. Favorisce il contatto con la parte profonda di sé in diversi momenti del tempo e prepara alle scelte ispirate.
+- Sala ACQUA: dedicata al principio e alle forze divine femminili; predispone al risveglio delle memorie profonde, aprendo il cuore al contatto con la propria parte femminile, contenitore prezioso di empatia e accoglienza.
+- Sala SPECCHI: dedicata alla luce, all'aria, al cielo, al sole e alla spiritualità; favorisce un contatto speciale con la dimensione più profonda del sogno, celebra e prepara il risveglio dell'Essere Umano completo. È un possibile portale di apertura alla percezione della Forza Graal.
+- Sala POPOLI: apre alla trasformazione di coscienza collettiva e stabile, indispensabile per cambiare le sorti dell'umanità e portare il mondo verso sostenibilità e pace; dimostra il cambiamento, la volontà e le capacità umane alle Forze della Terra. È una sala speciale dei Templi, non visitabile nelle normali visite guidate.
+- LABIRINTO (il soggiorno/living): dedicato all'unione e all'armonia delle forze divine del Pianeta; è un percorso attraverso tutta la storia umana che distilla la parte legata al principio divino, all'essenza eterna oltre le rappresentazioni culturali. Predispone al contatto con le proprie parti più profonde, meditando sul proprio percorso spirituale e sulla direzione della propria vita.
+- Esperienza nella Sala del Tempo dei Popoli (meditazione): sala riservata dei Templi, normalmente chiusa alle visite guidate e aperta solo su richiesta a chi desidera fermarsi davvero; chi vi entra racconta di percepire il tempo in modo diverso, più lento e più proprio. Non ci sono orari o posti fissi da scegliere: ogni esperienza è organizzata su misura dallo staff in base ai desideri e alla disponibilità dell'ospite. Si richiede dall'app (la sfera "Il Tempo dei Popoli" in Home o nella sezione Benessere "Prenditi cura di te"), indicando gli interessi: meditazione silenziosa, meditazione guidata, connessione energetica, racconto e storia del luogo. Non indicare prezzi se non li conosci: invita a inviare la richiesta, lo staff risponderà con i dettagli.
+- Quaderno: a disposizione degli ospiti per annotare i sogni e condividere pensieri ed emozioni; si può anche scrivere ad abaton@damanhur.org, per lo staff è prezioso per le proprie ricerche. Le stanze e il Tempio sono spazi vivi da sperimentare.
+- Attenzione al corpo: il corpo è il laboratorio alchemico per eccellenza; in questi giorni è consigliato curare la qualità dell'alimentazione e delle attività.
+- Regole in breve: silenzio dalle 22:00 alle 8:00 (niente musica alta); cucina condivisa da lasciare pulita e in ordine; vietato fumare in tutta Damanhur (anche sigarette elettroniche), si indica dove andare; animali non ammessi; persone non registrate non possono accedere e le visite vanno concordate prima con la Direzione; eventuali danni sono addebitati; si chiede di guidare piano salendo la collina per rispetto degli animali selvatici; in caso di partenza anticipata o mancato arrivo vale la politica di cancellazione accettata alla prenotazione. Il testo completo è nel pulsante "Regole della struttura" (icona documento) in alto nella Home.
+- Pulsanti in alto nella Home: WiFi, orologio (orario di check-out e come chiedere di fermarsi oltre), documento (regole della struttura).
+- Suggerimenti per la giornata: nella Home, "Di cosa hai voglia oggi?" propone idee in base all'umore (natura, quiete, benessere personale, creatività, sapori).`;
 const SYS = {
   it:`Sei il Concierge dell'Abaton Sacred Dreams — B&B sopra i Templi dell'Umanità di Damanhur, Piemonte, Italia. TONO: calmo, poetico, umano. Mai commerciale. RISPOSTE: 3-4 frasi max. WiFi "abaton" (email + password), 5 stanze (Terra, Metalli, Acqua, Specchi, Popoli), check-out 10:30, silenzio 22-8, eventi: +39 320 482 4427. IMPORTANTE: rispondi SEMPRE e SOLO in italiano, indipendentemente dalla lingua usata dall'ospite. Non usare mai altre lingue o alfabeti (es. cirillico).${SYS_FACTS}`,
   en:`You are the Concierge of Abaton Sacred Dreams — experiential B&B above the Temples of Humanity, Damanhur, Italy. TONE: calm, poetic, human. Max 3-4 sentences. WiFi "abaton", 5 rooms, check-out 10:30, silence 10pm-8am. IMPORTANT: always reply ONLY in English, regardless of the language the guest writes in. Never use any other language or script (e.g. Cyrillic). The reference facts below are in Italian — translate them into English in your answer, but keep the facts (numbers, prices, names) accurate.${SYS_FACTS}`,
@@ -406,6 +420,249 @@ const Rosone = ({src,size,spin=0,style={}}) => (
 const HeaderRosone = () => (
   <Rosone src="/temple/rosone-acqua.jpg" size={190} spin={240} style={{position:"absolute",top:"-62px",right:"-56px",opacity:0.2,zIndex:-1}}/>
 );
+
+function ZoomImg({src,group,style,alt=""}) {
+  const list = group&&group.length?group:[src];
+  const [idx,setIdx] = useState(-1);
+  const open = idx>=0;
+  useEffect(()=>{
+    if(!open) return;
+    const onKey = e => { if(e.key==="Escape") setIdx(-1); if(e.key==="ArrowRight") setIdx(i=>(i+1)%list.length); if(e.key==="ArrowLeft") setIdx(i=>(i-1+list.length)%list.length); };
+    window.addEventListener("keydown",onKey);
+    return ()=>window.removeEventListener("keydown",onKey);
+  },[open,list.length]);
+  const arrow = {position:"absolute",top:"50%",transform:"translateY(-50%)",width:"46px",height:"46px",borderRadius:"50%",border:`1px solid ${C.gold}88`,background:"rgba(20,34,61,0.6)",color:C.white,fontSize:"22px",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"};
+  return (
+    <>
+      <img src={src} alt={alt} onClick={()=>setIdx(Math.max(0,list.indexOf(src)))} style={{cursor:"zoom-in",...style}}/>
+      {open&&(
+        <div style={{position:"fixed",inset:0,background:"rgba(10,16,30,0.95)",zIndex:10000,display:"flex",alignItems:"center",justifyContent:"center"}} onClick={()=>setIdx(-1)}>
+          <img src={list[idx]} alt={alt} onClick={e=>e.stopPropagation()} style={{maxWidth:"96vw",maxHeight:"84vh",objectFit:"contain",borderRadius:"10px",border:`1.5px solid ${C.gold}88`,boxShadow:"0 10px 50px rgba(0,0,0,0.6)"}}/>
+          <button onClick={()=>setIdx(-1)} aria-label="Close" style={{position:"absolute",top:"16px",right:"16px",width:"44px",height:"44px",borderRadius:"50%",border:`1px solid ${C.gold}88`,background:"rgba(20,34,61,0.7)",color:C.white,fontSize:"20px",cursor:"pointer"}}>✕</button>
+          {list.length>1&&<>
+            <button onClick={e=>{e.stopPropagation();setIdx((idx-1+list.length)%list.length);}} aria-label="Previous" style={{...arrow,left:"12px"}}>‹</button>
+            <button onClick={e=>{e.stopPropagation();setIdx((idx+1)%list.length);}} aria-label="Next" style={{...arrow,right:"12px"}}>›</button>
+            <div style={{position:"absolute",bottom:"18px",left:0,right:0,textAlign:"center",color:"rgba(255,255,255,0.7)",fontFamily:FB,fontSize:"13px"}}>{idx+1} / {list.length}</div>
+          </>}
+        </div>
+      )}
+    </>
+  );
+}
+
+// ── CONFIG MODIFICABILE DALLO STAFF (salvata su /api/config) ──────────────────
+const CFG_DEFAULT = {
+  checkOut:"10:30", breakfastFrom:"8:00", breakfastTo:"10:00", receptionFrom:"8:00", receptionTo:"18:00",
+  wifiName:"abaton", wifiPass:"abaton1950", reviewUrl:"", noticeIT:"", noticeEN:"", conciergeNotes:"",
+};
+let CFG = {...CFG_DEFAULT};
+const setCfg = v => { CFG = {...CFG_DEFAULT, ...(v||{})}; };
+const hmFmt = (v,sep) => sep==="h" ? v.replace(":","h") : v;
+const to12h = v => { const [h,m] = v.split(":").map(Number); return `${h%12||12}:${String(m).padStart(2,"0")}${h>=12?"pm":"am"}`; };
+const cx = str => {
+  if(typeof str!=="string") return str;
+  const d = CFG_DEFAULT, c = CFG;
+  let o = str;
+  if(c.checkOut!==d.checkOut){
+    o = o.replace(/10:30\s?am/g, to12h(c.checkOut));
+    o = o.replace(/10([:h])30/g,(m,sep)=>hmFmt(c.checkOut,sep));
+  }
+  if(c.wifiPass!==d.wifiPass) o = o.split(d.wifiPass).join(c.wifiPass);
+  if(c.wifiName!==d.wifiName) o = o.replace(/(["«]|·\s+)abaton(?=["»]|\s|$|\.|,)/g,(m,p)=>p+c.wifiName);
+  if(c.breakfastFrom!==d.breakfastFrom||c.breakfastTo!==d.breakfastTo)
+    o = o.replace(/8([:h])00(\s*(?:alle|to|bis|à|до|–|-)\s*)10[:h]00/g,(m,sep,mid)=>hmFmt(c.breakfastFrom,sep)+mid+hmFmt(c.breakfastTo,sep));
+  if(c.receptionFrom!==d.receptionFrom||c.receptionTo!==d.receptionTo)
+    o = o.replace(/8([:h])00(\s*(?:alle|to|bis|à|до)\s*)18[:h]00/g,(m,sep,mid)=>hmFmt(c.receptionFrom,sep)+mid+hmFmt(c.receptionTo,sep));
+  return o;
+};
+const cxDeep = x => typeof x==="string" ? cx(x) : Array.isArray(x) ? x.map(cxDeep) : (x&&typeof x==="object") ? Object.fromEntries(Object.entries(x).map(([k,v])=>[k,cxDeep(v)])) : x;
+const conciergeExtra = () => CFG.conciergeNotes ? `\nINFORMAZIONI AGGIUNTIVE DALLO STAFF (aggiornate di recente, hanno la priorità sul resto): ${CFG.conciergeNotes}` : "";
+const noticeFor = lang => lang==="it" ? (CFG.noticeIT||CFG.noticeEN) : (CFG.noticeEN||CFG.noticeIT);
+
+const EDIT_FIELDS = [
+  {sec:"Orari", items:[
+    {k:"checkOut",label:"Check-out",ph:"10:30",time:true},
+    {k:"breakfastFrom",label:"Colazione dalle",ph:"8:00",time:true},
+    {k:"breakfastTo",label:"Colazione fino alle",ph:"10:00",time:true},
+    {k:"receptionFrom",label:"Reception dalle",ph:"8:00",time:true},
+    {k:"receptionTo",label:"Reception fino alle",ph:"18:00",time:true},
+  ]},
+  {sec:"WiFi", items:[
+    {k:"wifiName",label:"Nome della rete",ph:"abaton"},
+    {k:"wifiPass",label:"Password",ph:"abaton1950"},
+  ]},
+  {sec:"Recensione", items:[
+    {k:"reviewUrl",label:"Link per la recensione (Google, Booking, Tripadvisor…)",ph:"https://…",hint:"Appare nella lettera di congedo come QR da inquadrare col telefono. Se vuoto, l'ospite viene portato al modulo di feedback interno."},
+  ]},
+  {sec:"Avviso in evidenza nella Home", items:[
+    {k:"noticeIT",label:"Testo in italiano",area:true,hint:"Compare in un riquadro dorato nella Home. Lascia vuoto per non mostrare nulla."},
+    {k:"noticeEN",label:"Testo in inglese (usato anche per tedesco, francese, russo)",area:true},
+  ]},
+  {sec:"Concierge", items:[
+    {k:"conciergeNotes",label:"Informazioni extra per le risposte del Concierge",area:true,hint:"Scrivi liberamente fatti, novità, eccezioni (es. \"Domenica la cucina è chiusa\"). Il Concierge le userà con priorità e le tradurrà nella lingua dell'ospite."},
+  ]},
+];
+
+function InfoEditor({pin,onClose,onSaved}) {
+  const [vals,setVals] = useState(()=>({...CFG}));
+  const [state,setState] = useState("idle");
+  const [msg,setMsg] = useState("");
+  const set = (k,v) => { setVals(o=>({...o,[k]:v})); setState("idle"); };
+  const save = async () => {
+    const out = {...vals};
+    for(const sec of EDIT_FIELDS) for(const f of sec.items){
+      if(f.time){
+        const m = String(out[f.k]||"").trim().replace(/[.,h]/,":").match(/^(\d{1,2}):(\d{2})$/);
+        if(!m||+m[1]>23||+m[2]>59){ setState("error"); setMsg(`Orario non valido in "${f.label}" (scrivi per esempio 10:30)`); return; }
+        out[f.k] = `${+m[1]}:${m[2]}`;
+      }
+    }
+    if(!out.wifiName.trim()||!out.wifiPass.trim()){ setState("error"); setMsg("Nome e password del WiFi non possono essere vuoti."); return; }
+    if(out.reviewUrl&&!/^https?:\/\//i.test(out.reviewUrl.trim())){ setState("error"); setMsg("Il link della recensione deve iniziare con https://"); return; }
+    setState("saving"); setMsg("");
+    try{
+      const res = await fetch("/api/config",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin,values:out})});
+      if(res.status===401){ setState("error"); setMsg("Il PIN non è stato riconosciuto dal server."); return; }
+      const j = await res.json();
+      if(!res.ok) throw new Error("save");
+      setCfg(j.values); setVals({...CFG}); onSaved&&onSaved();
+      setState("saved"); setMsg("Salvato. Le camere si aggiornano da sole entro pochi minuti (o alla prossima apertura dell'app).");
+    }catch(e){ setState("error"); setMsg("Non sono riuscito a salvare. Controlla la connessione e riprova."); }
+  };
+  const inp = {width:"100%",padding:"11px 12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15px",outline:"none",background:C.white,color:C.textD};
+  return (
+    <div style={{position:"fixed",inset:0,background:C.bg,zIndex:9999,display:"flex",flexDirection:"column"}}>
+      <button onClick={onClose} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>← Chiudi</button>
+      <div style={{flex:1,overflowY:"auto",padding:"22px 22px 120px",maxWidth:"640px",width:"100%",margin:"0 auto"}}>
+        <div style={{fontFamily:FD,fontSize:"28px",color:C.blue,marginBottom:"6px"}}>Modifica le info</div>
+        <div style={{fontSize:"13px",color:C.textM,lineHeight:"1.6",marginBottom:"22px"}}>Quello che scrivi qui cambia l'app in tutte le camere, in tutte le lingue: orari, WiFi, regole, colazione e risposte del Concierge.</div>
+        {EDIT_FIELDS.map(sec=>(
+          <div key={sec.sec} style={{marginBottom:"26px"}}>
+            <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.12em",textTransform:"uppercase",color:C.gold,marginBottom:"12px"}}>{sec.sec}</div>
+            {sec.items.map(f=>(
+              <div key={f.k} style={{marginBottom:"14px"}}>
+                <label style={{fontSize:"13px",color:C.textS,display:"block",marginBottom:"6px"}}>{f.label}</label>
+                {f.area
+                  ? <textarea value={vals[f.k]||""} onChange={e=>set(f.k,e.target.value)} rows={4} placeholder={f.ph} style={{...inp,resize:"vertical",lineHeight:"1.5"}}/>
+                  : <input value={vals[f.k]||""} onChange={e=>set(f.k,e.target.value)} placeholder={f.ph} inputMode={f.time?"numeric":undefined} style={inp}/>}
+                {f.hint&&<div style={{fontSize:"12px",color:C.textM,marginTop:"5px",lineHeight:"1.5"}}>{f.hint}</div>}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div style={{position:"absolute",left:0,right:0,bottom:0,padding:"14px 22px 22px",background:`linear-gradient(to top, ${C.bg} 70%, transparent)`}}>
+        <div style={{maxWidth:"640px",margin:"0 auto"}}>
+          {msg&&<div style={{fontSize:"13px",marginBottom:"8px",color:state==="error"?"#B04A4A":C.goldD}}>{msg}</div>}
+          <button onClick={save} disabled={state==="saving"} style={{width:"100%",padding:"14px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"16px",fontWeight:"600"}}>{state==="saving"?"Salvo…":"Salva le modifiche"}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── LETTERA DI BENVENUTO / CONGEDO — busta chiusa con sigillo di ceralacca ───
+const LETTER_TXT = {
+  arrival:{
+    title:{it:"Ti diamo il benvenuto, {n}",en:"Welcome, {n}",de:"Willkommen, {n}",fr:"Bienvenue, {n}",ru:"Добро пожаловать, {n}"},
+    body:{
+      it:"Siamo felici di averti qui.\n\nL'Abaton è fatto per essere vissuto con lentezza: lascia che il silenzio, i Templi e i sogni facciano il loro lavoro. Questa app è il tuo compagno di viaggio — esplorala con calma, scrivici per ogni desiderio e, se senti il richiamo, concediti un'esperienza nel Tempo dei Popoli.\n\nTi auguriamo un soggiorno ricco di sogni, incontri e meraviglia.",
+      en:"We are so glad you are here.\n\nAbaton is made to be lived slowly: let the silence, the Temples and your dreams do their work. This app is your travelling companion — explore it at your own pace, write to us for anything you wish, and if you feel the call, treat yourself to an experience in the Time of the Peoples.\n\nWe wish you a stay full of dreams, encounters and wonder.",
+      de:"Wir freuen uns sehr, dich hier zu haben.\n\nDas Abaton ist dazu gemacht, langsam erlebt zu werden: Lass die Stille, die Tempel und deine Träume ihre Arbeit tun. Diese App ist dein Reisebegleiter – entdecke sie in Ruhe, schreib uns bei jedem Wunsch und, wenn du den Ruf spürst, schenke dir ein Erlebnis in der Zeit der Völker.\n\nWir wünschen dir einen Aufenthalt voller Träume, Begegnungen und Staunen.",
+      fr:"Nous sommes heureux de vous accueillir.\n\nL'Abaton est fait pour être vécu lentement : laissez le silence, les Temples et vos rêves faire leur travail. Cette application est votre compagnon de voyage — explorez-la à votre rythme, écrivez-nous pour toute envie et, si vous sentez l'appel, offrez-vous une expérience dans le Temps des Peuples.\n\nNous vous souhaitons un séjour riche de rêves, de rencontres et d'émerveillement.",
+      ru:"Мы очень рады видеть вас здесь.\n\nАбатон создан для того, чтобы жить в нём не торопясь: пусть тишина, Храмы и ваши сны делают свою работу. Это приложение — ваш спутник в пути: изучайте его без спешки, пишите нам с любым пожеланием, а если почувствуете зов — подарите себе опыт во Времени Народов.\n\nЖелаем вам пребывания, полного снов, встреч и удивления.",
+    },
+    cta:{it:"Entra nell'Abaton →",en:"Enter Abaton →",de:"Das Abaton betreten →",fr:"Entrer dans l'Abaton →",ru:"Войти в Абатон →"},
+  },
+  departure:{
+    title:{it:"Grazie, {n}",en:"Thank you, {n}",de:"Danke, {n}",fr:"Merci, {n}",ru:"Спасибо, {n}"},
+    body:{
+      it:"È stato un onore ospitarti.\n\nSperiamo che i sogni e il silenzio di questi giorni ti accompagnino a lungo nel tuo cammino. Se ti va, lasciaci una recensione: aiuta altri viaggiatori a trovare l'Abaton e per noi ha un valore immenso.\n\nTi auguriamo buon viaggio e un presto ritorno — qui la porta resta sempre aperta.",
+      en:"It has been an honour to host you.\n\nWe hope the dreams and the silence of these days will stay with you on your path for a long time. If you wish, leave us a review: it helps other travellers find Abaton and means the world to us.\n\nWe wish you a safe journey and a swift return — the door here always remains open.",
+      de:"Es war uns eine Ehre, dich zu beherbergen.\n\nWir hoffen, dass die Träume und die Stille dieser Tage dich lange auf deinem Weg begleiten. Wenn du magst, hinterlasse uns eine Bewertung: Sie hilft anderen Reisenden, das Abaton zu finden, und bedeutet uns unendlich viel.\n\nWir wünschen dir eine gute Reise und eine baldige Rückkehr – die Tür steht hier immer offen.",
+      fr:"Ce fut un honneur de vous accueillir.\n\nNous espérons que les rêves et le silence de ces jours vous accompagneront longtemps sur votre chemin. Si vous le souhaitez, laissez-nous un avis : il aide d'autres voyageurs à trouver l'Abaton et compte énormément pour nous.\n\nNous vous souhaitons un bon voyage et un prompt retour — ici, la porte reste toujours ouverte.",
+      ru:"Для нас было честью принимать вас.\n\nНадеемся, что сны и тишина этих дней ещё долго будут сопровождать вас в пути. Если захотите, оставьте нам отзыв: он помогает другим путешественникам найти Абатон и бесконечно много значит для нас.\n\nСчастливого пути и до скорой встречи — здесь дверь всегда открыта.",
+    },
+    cta:{it:"Lascia una recensione →",en:"Leave a review →",de:"Bewertung hinterlassen →",fr:"Laisser un avis →",ru:"Оставить отзыв →"},
+  },
+};
+const LETTER_HINT = {it:"Tocca il sigillo per aprire la lettera",en:"Touch the seal to open the letter",de:"Berühre das Siegel, um den Brief zu öffnen",fr:"Touchez le sceau pour ouvrir la lettre",ru:"Коснитесь печати, чтобы открыть письмо"};
+const LETTER_FOR = {it:"Per",en:"For",de:"Für",fr:"Pour",ru:"Для"};
+const LETTER_CLOSE = {it:"Chiudi",en:"Close",de:"Schließen",fr:"Fermer",ru:"Закрыть"};
+const LETTER_LATER = {it:"Più tardi",en:"Later",de:"Später",fr:"Plus tard",ru:"Позже"};
+
+function pendingLetterFor(session) {
+  const phase = stayPhase(session);
+  if(!session?.name||!session?.id||(phase!=="arrival"&&phase!=="departure")) return null;
+  try{ if(localStorage.getItem(`abaton_letter_${session.id}_${phase}`)) return null; }catch(e){}
+  return phase;
+}
+
+function WaxSeal({size=84,onClick}) {
+  const blob = (x,y,s) => <div style={{position:"absolute",left:x,top:y,width:s,height:s,borderRadius:"50%",background:"radial-gradient(circle at 35% 30%, #A93B3A, #6E1818)"}}/>;
+  return (
+    <button onClick={onClick} aria-label="Open the letter" style={{position:"relative",width:`${size}px`,height:`${size}px`,border:"none",background:"none",padding:0,cursor:"pointer",animation:"abatonSeal 2.6s ease-in-out infinite"}}>
+      {blob("-4%","58%","22%")}{blob("80%","-2%","20%")}{blob("84%","66%","18%")}{blob("6%","4%","16%")}
+      <div style={{position:"absolute",inset:0,borderRadius:"52% 48% 50% 50% / 49% 52% 48% 51%",background:"radial-gradient(circle at 34% 28%, #C04A48 0%, #962626 42%, #641515 100%)",boxShadow:"inset 0 3px 5px rgba(255,255,255,0.28), inset 0 -6px 9px rgba(0,0,0,0.42), 0 6px 12px rgba(0,0,0,0.5)"}}/>
+      <div style={{position:"absolute",inset:"11%",borderRadius:"50%",border:"1.5px solid rgba(255,214,200,0.38)",boxShadow:"inset 0 2px 4px rgba(0,0,0,0.38), 0 1px 0 rgba(255,255,255,0.14)"}}/>
+      <img src="/logo-eye2.png" alt="" style={{position:"absolute",left:"50%",top:"50%",width:"58%",transform:"translate(-50%,-50%)",filter:"sepia(0.5) saturate(0.9) brightness(1.18) drop-shadow(0 -1px 0 rgba(0,0,0,0.5)) drop-shadow(0 1px 0 rgba(255,210,200,0.4))",opacity:0.92,pointerEvents:"none"}}/>
+    </button>
+  );
+}
+
+function LetterOverlay({lang,session,phase,onDone,onReview}) {
+  const [stage,setStage] = useState("closed");
+  const txt = LETTER_TXT[phase];
+  const L = (o) => o[lang]||o.en;
+  const name = session?.name||"";
+  const openIt = () => { if(stage!=="closed") return; setStage("opening"); setTimeout(()=>setStage("open"),1250); };
+  const opened = stage!=="closed";
+  const W = "min(88vw, 360px)";
+  return (
+    <div style={{position:"fixed",inset:0,zIndex:10001,display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",padding:"20px",background:"radial-gradient(ellipse at center, rgba(34,52,92,0.94), rgba(12,20,40,0.97))",backdropFilter:"blur(6px)",animation:"abatonFade 0.7s ease both"}}>
+      {stage!=="open"?(
+        <>
+          <div style={{perspective:"1100px",width:W}}>
+            <div style={{position:"relative",width:"100%",aspectRatio:"1.5 / 1",filter:"drop-shadow(0 18px 30px rgba(0,0,0,0.55))",animation:"abatonFloat 5s ease-in-out infinite"}}>
+              <div style={{position:"absolute",inset:0,borderRadius:"8px",background:"linear-gradient(160deg,#F3E4CE,#E7D2B2)",border:`1px solid ${C.goldD}55`}}/>
+              <div style={{position:"absolute",left:"6%",right:"6%",top:"7%",bottom:"8%",borderRadius:"4px",background:"#FFFCF6",transition:"transform 1.1s ease 0.25s",transform:opened?"translateY(-34%)":"translateY(0)",boxShadow:"0 1px 4px rgba(0,0,0,0.18)"}}/>
+              <div style={{position:"absolute",inset:0,borderRadius:"8px",clipPath:"polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%)",background:"linear-gradient(165deg,#EEDDC4,#DFC7A3)"}}>
+                <div style={{position:"absolute",left:0,right:0,bottom:"11%",textAlign:"center",fontFamily:FD,fontStyle:"italic",fontSize:"19px",color:C.goldD,letterSpacing:"0.04em"}}>{L(LETTER_FOR)} {name}</div>
+              </div>
+              <div style={{position:"absolute",left:0,right:0,top:0,height:"56%",borderRadius:"8px 8px 0 0",transformOrigin:"top",transition:"transform 1s ease",transform:opened?"rotateX(180deg)":"rotateX(0deg)",zIndex:opened?0:3,filter:"drop-shadow(0 3px 3px rgba(0,0,0,0.2))"}}>
+                <div style={{position:"absolute",inset:0,clipPath:"polygon(0 0, 100% 0, 50% 100%)",background:"linear-gradient(180deg,#F6E8D2,#E9D3B2)"}}/>
+              </div>
+              <div style={{position:"absolute",left:"50%",top:"56%",transform:"translate(-50%,-50%)",zIndex:5,opacity:opened?0:1,transition:"opacity 0.45s ease"}}>
+                <WaxSeal onClick={openIt}/>
+              </div>
+            </div>
+          </div>
+          <div style={{marginTop:"34px",fontFamily:FD,fontStyle:"italic",fontSize:"18px",color:"rgba(255,244,225,0.88)",textAlign:"center",opacity:opened?0:1,transition:"opacity 0.4s"}}>{L(LETTER_HINT)}</div>
+          <button onClick={onDone} style={{marginTop:"18px",background:"none",border:"none",color:"rgba(255,255,255,0.5)",fontFamily:FB,fontSize:"13px",cursor:"pointer",opacity:opened?0:1}}>{L(LETTER_LATER)}</button>
+        </>
+      ):(
+        <div style={{width:"min(92vw, 440px)",maxHeight:"90vh",overflowY:"auto",background:"linear-gradient(180deg,#FFFCF6,#F7ECD9)",borderRadius:"6px",padding:"30px 26px 26px",boxShadow:`0 0 0 6px #F7ECD9, 0 0 0 7px ${C.gold}88, 0 24px 60px rgba(0,0,0,0.6)`,textAlign:"center",animation:"abatonLetterIn 0.8s ease both"}}>
+          <img src="/logo-eye2.png" alt="" style={{width:"62px",height:"auto",margin:"0 auto 10px",display:"block",opacity:0.95}}/>
+          <div style={{fontFamily:FD,fontSize:"28px",color:C.blue,lineHeight:"1.25",marginBottom:"8px"}}>{L(txt.title).replace("{n}",name)}</div>
+          <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"10px",marginBottom:"16px"}}>
+            <div style={{height:"1px",width:"46px",background:`${C.gold}88`}}/><div style={{color:C.gold,fontSize:"13px"}}>✦</div><div style={{height:"1px",width:"46px",background:`${C.gold}88`}}/>
+          </div>
+          <div style={{fontFamily:FD,fontSize:"17.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line",marginBottom:"22px"}}>{L(txt.body)}</div>
+          {phase==="departure"?(
+            <>
+              {CFG.reviewUrl
+                ? <ExtLink href={CFG.reviewUrl} lang={lang} onClick={()=>track("link","Recensione dalla lettera",{lang})} style={{display:"block",padding:"14px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"15px",fontWeight:"600",marginBottom:"10px"}}>{L(txt.cta)}</ExtLink>
+                : <button onClick={onReview} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"600",marginBottom:"10px"}}>{L(txt.cta)}</button>}
+              <button onClick={onDone} style={{background:"none",border:"none",color:C.textM,fontFamily:FB,fontSize:"13px",cursor:"pointer",padding:"8px"}}>{L(LETTER_CLOSE)}</button>
+            </>
+          ):(
+            <button onClick={onDone} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"600"}}>{L(txt.cta)}</button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ContactButton({phone,text,lang,trackLabel,renderTrigger}) {
   const [open,setOpen] = useState(false);
@@ -587,7 +844,7 @@ function HouseRulesPanel({lang,renderTrigger}) {
             {HOUSE_RULES.map((r,i)=>(
               <div key={i} style={{marginBottom:"22px"}}>
                 <div style={{fontFamily:FD,fontSize:"17px",color:C.goldD,marginBottom:"6px"}}>{r["title"+lang.toUpperCase()]||r.titleIT}</div>
-                <div style={{fontSize:"14.5px",color:C.textD,lineHeight:"1.7"}}>{r["body"+lang.toUpperCase()]||r.bodyIT}</div>
+                <div style={{fontSize:"14.5px",color:C.textD,lineHeight:"1.7"}}>{cx(r["body"+lang.toUpperCase()]||r.bodyIT)}</div>
               </div>
             ))}
             <div style={{fontSize:"13px",color:C.textM,fontStyle:"italic",lineHeight:"1.6",marginTop:"28px",paddingTop:"18px",borderTop:`1px solid ${C.border}`}}>
@@ -612,6 +869,7 @@ function PopoliExperienceButton({t,lang,style}) {
   const [picked,setPicked] = useState([]);
   const [note,setNote] = useState("");
   const toggle = id => setPicked(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
+  const openSheet = () => { track("popoli_open","Tempo dei Popoli",{lang}); setOpen(true); };
   const session = getSession();
   const room = ROOMS_LIST.find(r=>r.id===getRoom());
   const interestNames = POPOLI_INTERESTS.filter(i=>picked.includes(i.id)).map(i=>i.it).join(", ");
@@ -629,7 +887,7 @@ function PopoliExperienceButton({t,lang,style}) {
           <Rosone src="/temple/rosone-vittoria.jpg" size={196} spin={140} style={{position:"absolute",top:0,left:0,opacity:0.95,boxShadow:`0 0 0 2px ${C.gold}88`}}/>
           <div style={{width:"196px",height:"196px",borderRadius:"50%",border:`1px dashed ${C.blue}55`,display:"flex",alignItems:"center",justifyContent:"center"}}>
             <div style={{width:"174px",height:"174px",borderRadius:"50%",border:`1px solid ${C.blue}33`,display:"flex",alignItems:"center",justifyContent:"center"}}>
-              <Circle size={156} bg={SPHERE_BG_NAVY} onClick={()=>setOpen(true)} style={{border:`3px solid ${C.blue}`,boxShadow:`0 0 0 4px ${C.blue}33, ${SPHERE_SHADOW_NAVY}`,overflow:"hidden"}}>
+              <Circle size={156} bg={SPHERE_BG_NAVY} onClick={openSheet} style={{border:`2px solid ${C.gold}`,boxShadow:`0 0 0 1px ${C.goldD}88, ${SPHERE_SHADOW_NAVY}`,overflow:"hidden"}}>
                 <div style={{position:"absolute",top:"10%",left:"18%",width:"46%",height:"30%",borderRadius:"50%",background:"radial-gradient(ellipse, rgba(255,255,255,0.4), rgba(255,255,255,0) 70%)",pointerEvents:"none"}}/>
                 <div style={{textAlign:"center",padding:"10px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
                   <div style={{fontSize:"14px",color:C.gold,marginBottom:"5px",textShadow:SPHERE_TEXT_SHADOW}}>✦</div>
@@ -649,7 +907,7 @@ function PopoliExperienceButton({t,lang,style}) {
             return <div key={i} style={{position:"absolute",left:`${x-3}px`,top:`${y-3}px`,width:"6px",height:"6px",borderRadius:"50%",background:i%2===0?C.blue:`${C.blue}44`}}/>;
           })}
         </div>
-        <div style={{fontSize:"14px",color:C.goldD,fontFamily:FB,textAlign:"center",cursor:"pointer"}} onClick={()=>setOpen(true)}>
+        <div style={{fontSize:"14px",color:C.goldD,fontFamily:FB,textAlign:"center",cursor:"pointer"}} onClick={openSheet}>
           {lang==="it"?"Prenota una tua esperienza privata →":lang==="de"?"Buche dein privates Erlebnis →":lang==="fr"?"Réservez votre expérience privée →":lang==="ru"?"Забронируйте личный опыт →":"Book your private experience →"}
         </div>
       </div>
@@ -787,7 +1045,7 @@ function clearSession(){
   try{ localStorage.removeItem('abaton_session'); localStorage.removeItem('abaton_onboarded_id'); }catch(e){}
 }
 
-function StaffPanel({session,onSave,onClear,onClose,onDashboard}) {
+function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo}) {
   const [pinOk,setPinOk] = useState(false);
   const [pin,setPin] = useState("");
   const [name,setName] = useState(session?.name||"");
@@ -847,6 +1105,7 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard}) {
 
         <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut,lang:guestLang}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>Salva nuovo ospite</button>
         <button onClick={onClear} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>Pulisci dati ospite (check-out)</button>
+        {onEditInfo&&<button onClick={()=>onEditInfo(pin)} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>✏️ Modifica le info dell'app →</button>}
         {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>📊 Vedi statistiche →</button>}
         <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"13px"}}>Chiudi</button>
       </div>
@@ -903,7 +1162,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           {showWifi&&(
             <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"16px 18px",minWidth:"190px",zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
               <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>{t.wifiName}</div>
-              <div style={{fontSize:"15px",color:C.textD,fontFamily:FB}}>Password: <span style={{fontWeight:"700"}}>abaton1950</span></div>
+              <div style={{fontSize:"15px",color:C.textD,fontFamily:FB}}>Password: <span style={{fontWeight:"700"}}>{CFG.wifiPass}</span></div>
             </div>
           )}
         </div>
@@ -916,7 +1175,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>
                 {lang==="it"?"Check-out":lang==="de"?"Check-out":lang==="fr"?"Départ":lang==="ru"?"Выезд":"Check-out"}
               </div>
-              <div style={{fontFamily:FD,fontSize:"22px",color:C.blue,marginBottom:"10px"}}>10:30</div>
+              <div style={{fontFamily:FD,fontSize:"22px",color:C.blue,marginBottom:"10px"}}>{CFG.checkOut}</div>
               <div style={{fontSize:"14px",color:C.textD,fontFamily:FB,lineHeight:"1.6",marginBottom:"14px"}}>
                 {lang==="it"?"Se desideri fermarti oltre quest'orario, va accordato con lo staff in anticipo.":lang==="de"?"Möchtest du länger bleiben, muss dies vorab mit dem Team vereinbart werden.":lang==="fr"?"Si vous souhaitez rester au-delà de cet horaire, cela doit être convenu à l'avance avec le personnel.":lang==="ru"?"Если вы хотите остаться дольше, это нужно заранее согласовать с персоналом.":"If you'd like to stay past this time, it needs to be arranged with staff in advance."}
               </div>
@@ -993,6 +1252,12 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           </div>
         )}
 
+        {noticeFor(lang)&&(
+          <div style={{background:C.goldPale,border:`1px solid ${C.gold}55`,borderRadius:"20px",padding:"16px 20px",marginBottom:"16px",boxShadow:C.shadow}}>
+            <div style={{fontSize:"11px",fontWeight:"700",letterSpacing:"0.14em",textTransform:"uppercase",color:C.gold,marginBottom:"6px"}}>✦ Abaton</div>
+            <div style={{fontSize:"14.5px",color:C.textD,lineHeight:"1.7",whiteSpace:"pre-line"}}>{noticeFor(lang)}</div>
+          </div>
+        )}
         <DailyQuote lang={lang}/>
         <MoodSuggest lang={lang}/>
 
@@ -1531,7 +1796,7 @@ function AbatonPage({t,lang,setPage}) {
           <WhiteCard style={{marginTop:"16px",padding:"0",overflow:"hidden"}}>
             <div style={{display:"flex",overflowX:"auto",scrollSnapType:"x mandatory"}}>
               {(roomDetail.templeImgs||[roomDetail.templeImg]).map((im,i)=>(
-                <img key={i} src={im} alt={`Sala ${roomDetail.name}`} style={{flex:"0 0 100%",width:"100%",height:"200px",objectFit:"cover",scrollSnapAlign:"start"}}/>
+                <ZoomImg key={i} src={im} group={roomDetail.templeImgs||[roomDetail.templeImg]} alt={`Sala ${roomDetail.name}`} style={{flex:"0 0 100%",width:"100%",height:"200px",objectFit:"cover",scrollSnapAlign:"start"}}/>
               ))}
             </div>
             <div style={{padding:"14px 18px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:"10px"}}>
@@ -1621,7 +1886,7 @@ function AbatonPage({t,lang,setPage}) {
           )}
           {sub==="tempio"&&<img src="/temple/fregio.jpg" alt="" style={{width:"100%",height:"56px",objectFit:"cover",borderRadius:"14px",marginBottom:"14px",boxShadow:C.shadow,display:"block"}}/>}
           <WhiteCard>
-            <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",fontWeight:"300",whiteSpace:"pre-line"}}>{sc?(sc[lang]||sc.it):""}</div>
+            <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",fontWeight:"300",whiteSpace:"pre-line"}}>{sc?cx(sc[lang]||sc.it):""}</div>
           </WhiteCard>
           {sc&&sc.link&&(
             <ExtLink href={sc.link} lang={lang} style={{display:"block",marginTop:"12px",padding:"14px 20px",background:C.white,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"13px",boxShadow:C.shadow,textAlign:"center"}}>
@@ -1632,7 +1897,7 @@ function AbatonPage({t,lang,setPage}) {
             <div style={{display:"flex",gap:"10px",marginTop:"12px",overflowX:"auto",paddingBottom:"4px"}}>
               {sc.gallery.map((img,i)=>(
                 <div key={i} style={{flexShrink:0,borderRadius:"16px",overflow:"hidden",width:"260px",height:"170px",boxShadow:C.shadow,border:`1.5px solid ${C.gold}66`}}>
-                  <img src={img} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+                  <ZoomImg src={img} group={sc.gallery} style={{width:"100%",height:"100%",objectFit:"cover"}}/>
                 </div>
               ))}
             </div>
@@ -2445,7 +2710,7 @@ function ConciergePage({t,lang,setPage}) {
     setMessages(next); setInput(""); setLoading(true);
     track("concierge", msg, {lang});
     try{
-      const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-5",max_tokens:1000,system:SYS[lang]||SYS.en,messages:next})});
+      const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-5",max_tokens:1000,system:cx(SYS[lang]||SYS.en)+conciergeExtra(),messages:next})});
       const data=await res.json();
       const reply=data.content?.find(b=>b.type==="text")?.text;
       if(reply){
@@ -2592,6 +2857,61 @@ function DashboardPage({t,lang,setPage}) {
           </div>
         </div>
 
+        {(()=>{
+          const cnt = ty => (data.byType.find(r=>r.type===ty)||{}).count||0;
+          const opens = cnt("app_open"), popOpen = cnt("popoli_open"), popReq = data.popoliInterest||0;
+          const staffReq = (data.requestsByItem||[]).reduce((n,r)=>n+r.count,0);
+          const pct = (a,b) => b?Math.round(a/b*100)+"%":"—";
+          const roomName = id => (ROOMS_LIST.find(r=>r.id===id)||{}).name||id;
+          const Card = ({n,l,sub}) => (
+            <div style={{flex:"1 1 130px",background:C.white,borderRadius:"16px",padding:"14px",boxShadow:C.shadow,textAlign:"center"}}>
+              <div style={{fontFamily:FD,fontSize:"26px",color:C.gold}}>{n}</div>
+              <div style={{fontSize:"12px",color:C.textM}}>{l}</div>
+              {sub&&<div style={{fontSize:"11px",color:C.goldD,marginTop:"3px"}}>{sub}</div>}
+            </div>
+          );
+          return (
+            <Section title="Dall'app alla richiesta">
+              <div style={{display:"flex",gap:"10px",flexWrap:"wrap",marginBottom:"14px"}}>
+                <Card n={opens} l="aperture dell'app"/>
+                <Card n={popOpen} l="Tempo dei Popoli aperto" sub={pct(popOpen,opens)+" delle aperture"}/>
+                <Card n={popReq} l="richieste di meditazione" sub={pct(popReq,popOpen)+" di chi l'ha aperto"}/>
+                <Card n={staffReq} l="richieste dirette allo staff"/>
+              </div>
+              <WhiteCard style={{marginBottom:"12px"}}>
+                <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>Per camera</div>
+                {(data.roomFunnel||[]).length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessun dato ancora.</div>}
+                {(data.roomFunnel||[]).length>0&&(
+                  <div style={{display:"grid",gridTemplateColumns:"1.2fr repeat(4,1fr)",gap:"6px 8px",fontSize:"13px",color:C.textS,alignItems:"center"}}>
+                    <div/><div style={{fontSize:"11px",color:C.textM}}>aperture</div><div style={{fontSize:"11px",color:C.textM}}>Popoli</div><div style={{fontSize:"11px",color:C.textM}}>interesse</div><div style={{fontSize:"11px",color:C.textM}}>richieste</div>
+                    {data.roomFunnel.map((r,i)=>[
+                      <div key={"a"+i} style={{fontWeight:"700",color:C.blue}}>{roomName(r.room)}</div>,
+                      <div key={"b"+i}>{r.opens}</div>,<div key={"c"+i}>{r.popoli_open}</div>,<div key={"d"+i}>{r.interest}</div>,<div key={"e"+i}>{r.requests}</div>
+                    ])}
+                  </div>
+                )}
+              </WhiteCard>
+              <WhiteCard style={{marginBottom:"12px"}}>
+                <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>Richieste dirette per tipo</div>
+                <Bar rows={data.requestsByItem||[]} labelKey="item"/>
+              </WhiteCard>
+              <WhiteCard>
+                <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>Ultime richieste allo staff</div>
+                <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
+                  {(data.recentRequests||[]).map((q,i)=>(
+                    <div key={i} style={{paddingBottom:"10px",borderBottom:i<data.recentRequests.length-1?`1px solid ${C.border}`:"none"}}>
+                      <div style={{fontSize:"14px",color:C.textD}}>{q.item}{q.time_pref?` · ${q.time_pref}`:""}</div>
+                      <div style={{fontSize:"12px",color:C.textS}}>{[q.name,q.room&&roomName(q.room)].filter(Boolean).join(" · ")}{q.note?` — ${q.note}`:""}</div>
+                      <div style={{fontSize:"11px",color:C.textM,marginTop:"2px"}}>{new Date(q.created_at).toLocaleString("it-IT")}</div>
+                    </div>
+                  ))}
+                  {(data.recentRequests||[]).length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessuna richiesta ancora.</div>}
+                </div>
+              </WhiteCard>
+            </Section>
+          );
+        })()}
+
         <Section title="Link più cliccati">
           <WhiteCard><Bar rows={links} labelKey="label"/></WhiteCard>
         </Section>
@@ -2655,7 +2975,17 @@ function DashboardPage({t,lang,setPage}) {
 export default function AbatonApp() {
   const [page,setPage] = useState("home");
   const [lang,setLang] = useState(()=>getSession()?.lang||"it");
-  const t = T[lang]||T.it;
+  const [,setCfgTick] = useState(0);
+  const t = cxDeep(T[lang]||T.it);
+  useEffect(()=>{
+    let alive = true;
+    const pull = () => fetch("/api/config",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{ if(alive&&j&&j.values){ setCfg(j.values); setCfgTick(x=>x+1); } }).catch(()=>{});
+    pull();
+    const id = setInterval(pull, 5*60*1000);
+    const onVis = () => { if(document.visibilityState==="visible") pull(); };
+    document.addEventListener("visibilitychange",onVis);
+    return ()=>{ alive=false; clearInterval(id); document.removeEventListener("visibilitychange",onVis); };
+  },[]);
   const goPage = (id) => { track("page", id, {lang}); setPage(id); scrollTop0(); };
   const goLang = (l) => { track("lang", l); setLang(l); };
   useEffect(()=>{
@@ -2676,6 +3006,8 @@ export default function AbatonApp() {
   // ── TABLET / STAFF ────────────────────────────────────────────────────────
   const [session, setSession] = useState(()=>getSession());
   const [showStaff, setShowStaff] = useState(false);
+  const [editorPin, setEditorPin] = useState(null);
+  const [letter, setLetter] = useState(()=>pendingLetterFor(getSession()));
   const roomInfo = ROOMS_LIST.find(r=>r.id===getRoom());
   // ── ONBOARDING ──────────────────────────────────────────────────────────
   const [showOnboard, setShowOnboard] = useState(()=>{
@@ -2686,7 +3018,7 @@ export default function AbatonApp() {
     } catch(e){ return false; }
   });
   const [onboardStep, setOnboardStep] = useState(0);
-  const onboardSteps = [
+  const onboardSteps0 = [
     ...(session ? [{
       key:"welcome", icon:"✦",
       title: lang==="it"?"Il tuo soggiorno inizia qui":lang==="de"?"Dein Aufenthalt beginnt hier":lang==="fr"?"Votre séjour commence ici":lang==="ru"?"Ваше пребывание начинается здесь":"Your stay begins here",
@@ -2710,6 +3042,7 @@ export default function AbatonApp() {
     {key:"abaton",icon:"◈", title:lang==="it"?"Le Cinque Stanze":lang==="de"?"Die fünf Zimmer":lang==="fr"?"Les Cinq Chambres":lang==="ru"?"Пять комнат":"The Five Rooms", desc:lang==="it"?"Esplora le stanze e il loro significato":lang==="de"?"Erkunde die Zimmer und ihre Bedeutung":lang==="fr"?"Explore les chambres et leur signification":lang==="ru"?"Изучите комнаты и их значение":"Explore the rooms and their meaning"},
     {key:"events",icon:"◎", title:lang==="it"?"Gli eventi":lang==="de"?"Die Veranstaltungen":lang==="fr"?"Les événements":lang==="ru"?"Мероприятия":"Events",               desc:lang==="it"?"Scopri cosa accade questa settimana a Damanhur":lang==="de"?"Entdecke, was diese Woche in Damanhur passiert":lang==="fr"?"Découvre ce qui se passe cette semaine à Damanhur":lang==="ru"?"Узнайте, что происходит на этой неделе в Даманхуре":"Discover what's happening this week at Damanhur"},
   ];
+  const onboardSteps = onboardSteps0.map(st=>({...st,desc:cx(st.desc)}));
   const dismissOnboard = () => {
     try {
       localStorage.setItem('abaton_visited','1');
@@ -2724,6 +3057,11 @@ export default function AbatonApp() {
     setOnboardStep(0);
     setShowOnboard(true);
     setShowStaff(false);
+    setLetter(pendingLetterFor(s));
+  };
+  const dismissLetter = () => {
+    try{ if(session&&letter) localStorage.setItem(`abaton_letter_${session.id}_${letter}`,'1'); }catch(e){}
+    setLetter(null);
   };
   const handleClearSession = () => {
     clearSession();
@@ -2752,6 +3090,10 @@ export default function AbatonApp() {
         ::-webkit-scrollbar{width:0}
         input::placeholder{color:${C.textM}}
         button{-webkit-tap-highlight-color:transparent}
+        @keyframes abatonSeal{0%,100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(255,200,160,0))}50%{transform:scale(1.06);filter:drop-shadow(0 0 14px rgba(255,190,150,0.55))}}
+        @keyframes abatonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        @keyframes abatonFade{from{opacity:0}to{opacity:1}}
+        @keyframes abatonLetterIn{from{opacity:0;transform:translateY(46px) scale(0.92)}to{opacity:1;transform:none}}
         @keyframes abatonSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         @keyframes abatonPulse{from{opacity:.15;transform:scale(.6)}to{opacity:1;transform:scale(1.3)}}
       `}</style>
@@ -2782,7 +3124,7 @@ export default function AbatonApp() {
               })}
             </nav>
           )}
-      {showOnboard&&(
+      {showOnboard&&!letter&&(
         <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.82)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={dismissOnboard}>
           <div style={{background:C.white,borderRadius:"28px",padding:"32px 28px",maxWidth:"340px",width:"100%",textAlign:"center"}} onClick={e=>e.stopPropagation()}>
             <div style={{fontFamily:FD,fontSize:"28px",color:C.gold,marginBottom:"6px"}}>Abaton</div>
@@ -2813,7 +3155,13 @@ export default function AbatonApp() {
         </div>
       )}
       {showStaff&&(
-        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}}/>
+        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}} onEditInfo={pn=>{setShowStaff(false);setEditorPin(pn);}}/>
+      )}
+      {editorPin&&(
+        <InfoEditor pin={editorPin} onClose={()=>setEditorPin(null)} onSaved={()=>setCfgTick(x=>x+1)}/>
+      )}
+      {letter&&session&&page==="home"&&(
+        <LetterOverlay lang={lang} session={session} phase={letter} onDone={dismissLetter} onReview={()=>{dismissLetter();goPage("shop");}}/>
       )}
         </div>
       </div>
