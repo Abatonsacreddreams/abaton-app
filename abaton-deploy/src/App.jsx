@@ -455,6 +455,7 @@ function ZoomImg({src,group,style,alt=""}) {
 }
 
 let KEEP_AWAKE = 0;
+const updLog = () => { try{ const n=Date.now(); return JSON.parse(localStorage.getItem("abaton_upd_log")||"[]").filter(t=>n-t<10*60*1000); }catch(e){ return []; } };
 const RESUME_SAVER = (()=>{ try{ const f=sessionStorage.getItem("abaton_resume_saver"); sessionStorage.removeItem("abaton_resume_saver"); return !!f; }catch(e){ return false; } })();
 const bundleSrc = () => { const el=document.querySelector('script[src*="/assets/index-"]'); return el?el.getAttribute("src"):""; };
 const appVersion = () => { const m=bundleSrc().match(/index-([^.]+)\.js/); return m?m[1]:"dev"; };
@@ -1506,12 +1507,6 @@ function stayPhase(session) {
 }
 
 // ── DAILY QUOTE — citazioni verificate; il team può ampliare l'elenco ─────────
-const QUOTES = [
-  {author:"Falco Tarassaco",it:"La vita è una bella avventura.",en:"Life is a beautiful adventure.",de:"Das Leben ist ein wunderschönes Abenteuer.",fr:"La vie est une belle aventure.",ru:"Жизнь — это прекрасное приключение."},
-  {author:"Rumi",it:"Non sei una goccia nell'oceano, sei l'intero oceano in una goccia.",en:"You are not a drop in the ocean, you are the entire ocean in a drop.",de:"Du bist kein Tropfen im Ozean, du bist der ganze Ozean in einem Tropfen.",fr:"Tu n'es pas une goutte dans l'océan, tu es l'océan entier dans une goutte.",ru:"Ты не капля в океане, ты — весь океан в капле."},
-  {author:"Thich Nhat Hanh",it:"Il momento presente è l'unico momento a nostra disposizione: è la porta verso tutti gli altri momenti.",en:"The present moment is the only moment available to us, and it is the door to all moments.",de:"Der gegenwärtige Moment ist der einzige, der uns zur Verfügung steht, und er ist die Tür zu allen Momenten.",fr:"Le moment présent est le seul dont nous disposions, et c'est la porte vers tous les moments.",ru:"Настоящий момент — единственный доступный нам момент, и это дверь ко всем моментам."},
-  {author:"Hermann Hesse",it:"Dentro di te c'è una quiete e un rifugio in cui puoi ritirarti in ogni momento ed essere te stesso.",en:"Within you there is a stillness and sanctuary to which you can retreat at any time and be yourself.",de:"In dir ist eine Stille und ein Zufluchtsort, zu dem du dich jederzeit zurückziehen und du selbst sein kannst.",fr:"En toi se trouve un calme et un sanctuaire où tu peux te retirer à tout moment pour être toi-même.",ru:"Внутри тебя есть тишина и убежище, куда ты можешь удалиться в любой момент, чтобы быть собой."},
-];
 // Frasi autentiche da "Il Sincronico" di O. Airaudi (Falco Tarassaco), pubblicate su damanhurblog.com
 const SYNC_PHRASES = [
   {it:"Sei aiutato. Più di quanto vedi, più di quanto credi.",en:"You are helped. More than you see, more than you believe.",de:"Dir wird geholfen. Mehr, als du siehst, mehr, als du glaubst.",fr:"Tu es aidé. Plus que tu ne le vois, plus que tu ne le crois.",ru:"Тебе помогают. Больше, чем ты видишь, больше, чем ты веришь."},
@@ -1525,24 +1520,14 @@ const SYNC_PHRASES = [
 ];
 function DailyQuote({lang}) {
   const dayNum = Math.floor(Date.now()/86400000);
-  const q = QUOTES[dayNum % QUOTES.length];
   const sync = SYNC_PHRASES[dayNum % SYNC_PHRASES.length];
   return (
     <WhiteCard style={{marginBottom:"24px",background:C.blue,border:"none"}}>
-      <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"12px"}}>
-        {lang==="it"?"Un pensiero per oggi":lang==="de"?"Ein Gedanke für heute":lang==="fr"?"Une pensée pour aujourd'hui":lang==="ru"?"Мысль на сегодня":"A thought for today"}
+      <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>
+        {lang==="it"?"Frase sincronica":lang==="de"?"Synchronischer Satz":lang==="fr"?"Phrase synchronique":lang==="ru"?"Синхронная фраза":"Synchronic phrase"}
       </div>
-      <div style={{fontFamily:FD,fontWeight:"500",fontSize:"19px",fontStyle:"italic",color:C.white,lineHeight:"1.5",marginBottom:"8px"}}>
-        "{q[lang]||q.it}"
-      </div>
-      <div style={{fontSize:"14.5px",color:"#C9D3E5"}}>— {q.author}</div>
-      <div style={{marginTop:"18px",paddingTop:"18px",borderTop:"1px solid rgba(255,255,255,0.15)"}}>
-        <div style={{fontSize:"12.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>
-          {lang==="it"?"Frase sincronica":lang==="de"?"Synchronischer Satz":lang==="fr"?"Phrase synchronique":lang==="ru"?"Синхронная фраза":"Synchronic phrase"}
-        </div>
-        <div style={{fontSize:"15.5px",color:C.white,lineHeight:"1.5",marginBottom:"6px"}}>{sync[lang]||sync.it}</div>
-        <div style={{fontSize:"12.5px",color:"#C9D3E5"}}>— "Il Sincronico", O. Airaudi (Falco Tarassaco)</div>
-      </div>
+      <div style={{fontFamily:FD,fontWeight:"500",fontSize:"21px",fontStyle:"italic",color:C.white,lineHeight:"1.5",marginBottom:"8px"}}>{sync[lang]||sync.it}</div>
+      <div style={{fontSize:"13.5px",color:"#C9D3E5"}}>— "Il Sincronico", O. Airaudi (Falco Tarassaco)</div>
     </WhiteCard>
   );
 }
@@ -3098,7 +3083,7 @@ export default function AbatonApp() {
     const evs = ["pointerdown","keydown","touchstart","wheel"];
     evs.forEach(e=>window.addEventListener(e,onAct,{passive:true,capture:true}));
     const tick = setInterval(()=>{
-      if(updateReady.current && KEEP_AWAKE===0 && (asleepRef.current || Date.now()-lastAct.current>45000)){ try{ sessionStorage.setItem("abaton_resume_saver","1"); }catch(e){} window.location.reload(); return; }
+      if(updateReady.current && asleepRef.current && KEEP_AWAKE===0 && updLog().length<2){ try{ sessionStorage.setItem("abaton_resume_saver","1"); const l=updLog(); l.push(Date.now()); localStorage.setItem("abaton_upd_log",JSON.stringify(l)); }catch(e){} window.location.reload(); return; }
       if(asleepRef.current) return;
       const limit = KEEP_AWAKE>0 ? 10*60*1000 : 90*1000;
       if(Date.now()-lastAct.current>limit){ asleepRef.current=true; inUse.current=false; setAsleep(true); }
@@ -3120,7 +3105,7 @@ export default function AbatonApp() {
     const v2 = setInterval(checkVersion, 5*60*1000);
     return ()=>{ evs.forEach(e=>window.removeEventListener(e,onAct,{capture:true})); clearInterval(tick); clearTimeout(pre); clearTimeout(v1); clearInterval(v2); document.removeEventListener("visibilitychange",onVisible); };
   },[]);
-  const wake = () => { if(updateReady.current){ window.location.reload(); return; } asleepRef.current=false; setAsleep(false); lastAct.current=Date.now(); markUse(); };
+  const wake = () => { asleepRef.current=false; setAsleep(false); lastAct.current=Date.now(); markUse(); };
   // ── LANDSCAPE (TABLET) LAYOUT ─────────────────────────────────────────────
   const [isLandscape,setIsLandscape] = useState(()=>window.innerWidth>window.innerHeight&&window.innerWidth>=900);
   useEffect(()=>{
@@ -3289,7 +3274,7 @@ export default function AbatonApp() {
       {asleep&&<Screensaver lang={lang} onWake={wake}/>}
       {debugOn&&(
         <div style={{position:"fixed",left:"50%",top:"8px",transform:"translateX(-50%)",width:"max-content",maxWidth:"96vw",zIndex:10003,pointerEvents:"none",background:"#FFE066",color:"#14223D",fontFamily:"monospace",fontSize:"16px",fontWeight:"700",padding:"8px 14px",borderRadius:"10px",border:"2px solid #14223D",textAlign:"center",boxShadow:"0 4px 16px rgba(0,0,0,0.4)"}}>
-          {asleep?"SALVASCHERMO ATTIVO":`inattivo ${Math.round((Date.now()-lastAct.current)/1000)}s / ${KEEP_AWAKE>0?600:90}s`} · ultimo: {lastEvt.current} · blocchi: {KEEP_AWAKE} · v {appVersion()}
+          {asleep?"SALVASCHERMO ATTIVO":`inattivo ${Math.round((Date.now()-lastAct.current)/1000)}s / ${KEEP_AWAKE>0?600:90}s`} · ultimo: {lastEvt.current} · blocchi: {KEEP_AWAKE} · v {appVersion()} · nuova versione: {updateReady.current?"sì":"no"} · ricariche: {updLog().length}
         </div>
       )}
       {editorPin&&(
