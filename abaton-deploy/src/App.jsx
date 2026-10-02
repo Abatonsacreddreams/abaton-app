@@ -899,20 +899,7 @@ const POPOLI_INTERESTS = [
 ];
 function PopoliExperienceButton({t,lang,style}) {
   const [open,setOpen] = useState(false);
-  const [picked,setPicked] = useState([]);
-  const [note,setNote] = useState("");
-  const toggle = id => setPicked(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
   const openSheet = () => { track("popoli_open","Tempo dei Popoli",{lang}); setOpen(true); };
-  const session = getSession();
-  const room = ROOMS_LIST.find(r=>r.id===getRoom());
-  const interestNames = POPOLI_INTERESTS.filter(i=>picked.includes(i.id)).map(i=>i.it).join(", ");
-  const message = [
-    "Buongiorno, vorrei prenotare un'esperienza nel Tempo dei Popoli.",
-    room?`Stanza: ${room.name}`:null,
-    session?.name?`Ospite: ${session.name}`:null,
-    interestNames?`Interessi: ${interestNames}`:null,
-    note?`Note: ${note}`:null,
-  ].filter(Boolean).join("\n");
   return (
     <>
       <div style={{display:"flex",flexDirection:"column",alignItems:"center",padding:"8px 0",...style}}>
@@ -944,110 +931,120 @@ function PopoliExperienceButton({t,lang,style}) {
           {lang==="it"?"Prenota una tua esperienza privata →":lang==="de"?"Buche dein privates Erlebnis →":lang==="fr"?"Réservez votre expérience privée →":lang==="ru"?"Забронируйте личный опыт →":"Book your private experience →"}
         </div>
       </div>
-      {open&&(
-        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:9999,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setOpen(false)}>
-          <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
-            <div style={{fontFamily:FD,fontSize:"24px",color:C.blue,marginBottom:"8px"}}>
-              {lang==="it"?"Il Tempo dei Popoli":lang==="de"?"Die Zeit der Völker":lang==="fr"?"Le Temps des Peuples":lang==="ru"?"Время Народов":"The Time of the Peoples"}
-            </div>
-            <div style={{fontSize:"15.5px",color:C.textM,lineHeight:"1.6",marginBottom:"20px"}}>
-              {lang==="it"?"La Sala del Tempo dei Popoli è uno degli spazi più silenziosi e riservati dei Templi dell'Umanità — normalmente chiusa alle visite guidate, aperta solo su richiesta a chi desidera fermarsi davvero. Chi vi entra racconta di percepire il tempo diversamente: più lento, più proprio. Un luogo pensato per la meditazione, dove il presente si fa più nitido e il pensiero trova spazio per posarsi.\n\nRaccontaci cosa desideri vivere: lo staff organizzerà l'esperienza su misura per te.":lang==="de"?"Die Halle der Zeit der Völker ist einer der stillsten und privatesten Räume innerhalb der Tempel der Menschheit — normalerweise nicht Teil der geführten Besichtigungen und nur auf Anfrage für jene geöffnet, die wirklich innehalten möchten. Wer sie betritt, erzählt oft, die Zeit dort anders zu erleben: langsamer, ganz die eigene. Ein Raum für die Meditation, in dem die Gegenwart klarer wird und der Gedanke zur Ruhe kommt.\n\nErzähl uns, was du erleben möchtest: das Team organisiert ein maßgeschneidertes Erlebnis für dich.":lang==="fr"?"La Salle du Temps des Peuples est l'un des espaces les plus silencieux et les plus privés des Temples de l'Humanité — habituellement fermée aux visites guidées, elle n'ouvre que sur demande à ceux qui souhaitent vraiment s'arrêter. Ceux qui y entrent racontent souvent y percevoir le temps autrement : plus lent, plus personnel. Un lieu pensé pour la méditation, où le présent devient plus net et où la pensée trouve enfin l'espace pour se poser.\n\nDites-nous ce que vous souhaitez vivre : l'équipe organisera une expérience sur mesure.":lang==="ru"?"Зал Времени Народов — одно из самых тихих и уединённых пространств Храмов Человечества, обычно закрытое для экскурсий и открывающееся лишь по запросу для тех, кто действительно хочет остановиться. Те, кто входит туда, часто рассказывают, что время там ощущается иначе — медленнее, более своим. Пространство, созданное для медитации, где настоящее становится яснее, а мысли наконец находят покой.\n\nРасскажите, что вы хотели бы испытать — персонал организует индивидуальный опыт.":"The Hall of Time of the Peoples is one of the quietest, most private spaces within the Temples of Humanity — usually closed to guided visits, and opened only on request for those who truly wish to pause. Those who enter often say they experience time differently there: slower, more their own. A space conceived for meditation, where the present becomes clearer and thought finds room to settle.\n\nTell us what you'd like to experience — our staff will arrange it for you."}
-            </div>
-            <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"}}>
-              {lang==="it"?"Cosa ti interessa?":lang==="de"?"Was interessiert dich?":lang==="fr"?"Qu'est-ce qui vous intéresse ?":lang==="ru"?"Что вас интересует?":"What interests you?"}
-            </div>
-            <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"18px"}}>
-              {POPOLI_INTERESTS.map(i=>(
-                <button key={i.id} onClick={()=>toggle(i.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${picked.includes(i.id)?C.gold:C.border}`,background:picked.includes(i.id)?C.gold:"none",color:picked.includes(i.id)?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>{i[lang]||i.it}</button>
-              ))}
-            </div>
-            <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={lang==="it"?"Altre note (facoltativo)":lang==="de"?"Weitere Hinweise (optional)":lang==="fr"?"Autres notes (facultatif)":lang==="ru"?"Дополнительно (необязательно)":"Anything else (optional)"} style={{width:"100%",minHeight:"70px",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",resize:"vertical",marginBottom:"20px",boxSizing:"border-box"}}/>
-            <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp book Popoli Time experience" text={message} renderTrigger={openContact=>(
-              <button onClick={openContact} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600",marginBottom:"10px"}}>
-                {lang==="it"?"Richiedi l'esperienza →":lang==="de"?"Erlebnis anfragen →":lang==="fr"?"Demander l'expérience →":lang==="ru"?"Запросить опыт →":"Request the experience →"}
-              </button>
-            )}/>
-            <button onClick={()=>setOpen(false)} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"14.5px",cursor:"pointer",fontFamily:FB}}>
-              {lang==="it"?"Chiudi":lang==="de"?"Schließen":lang==="fr"?"Fermer":lang==="ru"?"Закрыть":"Close"}
-            </button>
-          </div>
-        </div>
-      )}
+      <RequestSheet open={open} onClose={()=>setOpen(false)} item="Meditazione / esperienza nel Tempo dei Popoli" trackLabel="Request Popoli experience" lang={lang}
+        title={lang==="it"?"Il Tempo dei Popoli":lang==="de"?"Die Zeit der Völker":lang==="fr"?"Le Temps des Peuples":lang==="ru"?"Время Народов":"The Time of the Peoples"}
+        intro={lang==="it"?"La Sala del Tempo dei Popoli è uno degli spazi più silenziosi e riservati dei Templi dell'Umanità — normalmente chiusa alle visite guidate, aperta solo su richiesta a chi desidera fermarsi davvero. Chi vi entra racconta di percepire il tempo diversamente: più lento, più proprio. Un luogo pensato per la meditazione, dove il presente si fa più nitido e il pensiero trova spazio per posarsi.\n\nRaccontaci cosa desideri vivere: lo staff organizzerà l'esperienza su misura per te.":lang==="de"?"Die Halle der Zeit der Völker ist einer der stillsten und privatesten Räume innerhalb der Tempel der Menschheit — normalerweise nicht Teil der geführten Besichtigungen und nur auf Anfrage für jene geöffnet, die wirklich innehalten möchten. Wer sie betritt, erzählt oft, die Zeit dort anders zu erleben: langsamer, ganz die eigene. Ein Raum für die Meditation, in dem die Gegenwart klarer wird und der Gedanke zur Ruhe kommt.\n\nErzähl uns, was du erleben möchtest: das Team organisiert ein maßgeschneidertes Erlebnis für dich.":lang==="fr"?"La Salle du Temps des Peuples est l'un des espaces les plus silencieux et les plus privés des Temples de l'Humanité — habituellement fermée aux visites guidées, elle n'ouvre que sur demande à ceux qui souhaitent vraiment s'arrêter. Ceux qui y entrent racontent souvent y percevoir le temps autrement : plus lent, plus personnel. Un lieu pensé pour la méditation, où le présent devient plus net et où la pensée trouve enfin l'espace pour se poser.\n\nDites-nous ce que vous souhaitez vivre : l'équipe organisera une expérience sur mesure.":lang==="ru"?"Зал Времени Народов — одно из самых тихих и уединённых пространств Храмов Человечества, обычно закрытое для экскурсий и открывающееся лишь по запросу для тех, кто действительно хочет остановиться. Те, кто входит туда, часто рассказывают, что время там ощущается иначе — медленнее, более своим. Пространство, созданное для медитации, где настоящее становится яснее, а мысли наконец находят покой.\n\nРасскажите, что вы хотели бы испытать — персонал организует индивидуальный опыт.":"The Hall of Time of the Peoples is one of the quietest, most private spaces within the Temples of Humanity — usually closed to guided visits, and opened only on request for those who truly wish to pause. Those who enter often say they experience time differently there: slower, more their own. A space conceived for meditation, where the present becomes clearer and thought finds room to settle.\n\nTell us what you'd like to experience — our staff will arrange it for you."}
+        chipsLabel={lang==="it"?"Cosa ti interessa?":lang==="de"?"Was interessiert dich?":lang==="fr"?"Qu'est-ce qui vous intéresse ?":lang==="ru"?"Что вас интересует?":"What interests you?"}
+        chipsNoteLabel="Interessi" chips={POPOLI_INTERESTS}/>
     </>
   );
 }
 
-// ── QUICK ASK — richiesta diretta allo staff via Telegram, senza numero dell'ospite ──
-function QuickAsk({item,lang,style,children,trackLabel}) {
-  const [open,setOpen] = useState(false);
+// ── RICHIESTE ALLO STAFF — giorno + momento indicativi, telefono facoltativo, arriva sul bot Telegram ──
+const REQ_SLOTS = [
+  {id:"prima_mattina",it:"Prima mattina",en:"Early morning",de:"Früher Morgen",fr:"Début de matinée",ru:"Рано утром"},
+  {id:"prima_pranzo",it:"Prima di pranzo",en:"Before lunch",de:"Vor dem Mittagessen",fr:"Avant le déjeuner",ru:"Перед обедом"},
+  {id:"dopo_pranzo",it:"Dopo pranzo",en:"After lunch",de:"Nach dem Mittagessen",fr:"Après le déjeuner",ru:"После обеда"},
+  {id:"tardo_pomeriggio",it:"Tardo pomeriggio",en:"Late afternoon",de:"Später Nachmittag",fr:"Fin d'après-midi",ru:"Ближе к вечеру"},
+];
+const RQ = {
+  intro:{it:"Lo staff organizza tutto per te e ti dà tutte le informazioni.",en:"Our staff arranges everything for you and gives you all the details.",de:"Das Team organisiert alles für dich und gibt dir alle Informationen.",fr:"L'équipe organise tout pour vous et vous donne toutes les informations.",ru:"Персонал всё организует и сообщит вам все подробности."},
+  day:{it:"Che giorno ti andrebbe bene?",en:"Which day would suit you?",de:"Welcher Tag passt dir?",fr:"Quel jour vous conviendrait ?",ru:"Какой день вам подходит?"},
+  slot:{it:"In quale momento della giornata?",en:"At what time of day?",de:"Zu welcher Tageszeit?",fr:"À quel moment de la journée ?",ru:"В какое время дня?"},
+  indic:{it:"Indicativo: lo staff conferma disponibilità e orario esatto.",en:"Indicative only: our staff will confirm availability and the exact time.",de:"Unverbindlich: Das Team bestätigt Verfügbarkeit und genaue Uhrzeit.",fr:"À titre indicatif : l'équipe confirme la disponibilité et l'horaire exact.",ru:"Ориентировочно: персонал подтвердит наличие мест и точное время."},
+  name:{it:"Il tuo nome",en:"Your name",de:"Dein Name",fr:"Votre nom",ru:"Ваше имя"},
+  phone:{it:"Il tuo numero di telefono (facoltativo)",en:"Your phone number (optional)",de:"Deine Telefonnummer (optional)",fr:"Votre numéro de téléphone (facultatif)",ru:"Ваш номер телефона (необязательно)"},
+  phoneHint:{it:"Con il numero lo staff ti raggiunge più facilmente, ma la richiesta arriva anche senza.",en:"A number helps our staff reach you, but the request arrives without it too.",de:"Mit Nummer erreicht dich das Team leichter, die Anfrage kommt aber auch ohne an.",fr:"Un numéro aide l'équipe à vous joindre, mais la demande arrive aussi sans.",ru:"Номер поможет связаться с вами, но запрос дойдёт и без него."},
+  note:{it:"Altre note (facoltativo)",en:"Anything else (optional)",de:"Weitere Hinweise (optional)",fr:"Autres notes (facultatif)",ru:"Дополнительно (необязательно)"},
+  send:{it:"Invia richiesta →",en:"Send request →",de:"Anfrage senden →",fr:"Envoyer la demande →",ru:"Отправить запрос →"},
+  sending:{it:"Invio...",en:"Sending...",de:"Senden...",fr:"Envoi...",ru:"Отправка..."},
+  okTitle:{it:"Richiesta inviata",en:"Request sent",de:"Anfrage gesendet",fr:"Demande envoyée",ru:"Запрос отправлен"},
+  okBody:{it:"Abbiamo ricevuto la tua richiesta: ci pensa lo staff, che organizza tutto e ti darà tutte le informazioni.",en:"We have your request: our staff will take care of everything and send you all the details.",de:"Wir haben deine Anfrage erhalten: Das Team kümmert sich um alles und gibt dir alle Informationen.",fr:"Nous avons bien reçu votre demande : l'équipe s'occupe de tout et vous donnera toutes les informations.",ru:"Мы получили ваш запрос: персонал всё организует и сообщит вам все подробности."},
+  err:{it:"Non sono riuscito a inviare la richiesta. Riprova tra un momento.",en:"The request could not be sent. Please try again in a moment.",de:"Die Anfrage konnte nicht gesendet werden. Bitte versuche es gleich noch einmal.",fr:"La demande n'a pas pu être envoyée. Réessayez dans un instant.",ru:"Не удалось отправить запрос. Попробуйте ещё раз чуть позже."},
+  close:{it:"Chiudi",en:"Close",de:"Schließen",fr:"Fermer",ru:"Закрыть"},
+  cancel:{it:"Annulla",en:"Cancel",de:"Abbrechen",fr:"Annuler",ru:"Отмена"},
+};
+function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel="Interessi",item,lang,trackLabel}) {
   const [name,setName] = useState(()=>getSession()?.name||"");
-  const [time,setTime] = useState(null);
+  const [phone,setPhone] = useState("");
+  const [date,setDate] = useState("");
+  const [slot,setSlot] = useState(null);
+  const [picked,setPicked] = useState([]);
   const [note,setNote] = useState("");
   const [sent,setSent] = useState(false);
   const [sending,setSending] = useState(false);
-  const room = getRoom();
-  const opts = [
-    {id:"mattina",it:"Mattina",en:"Morning",de:"Morgens",fr:"Matin",ru:"Утром"},
-    {id:"pomeriggio",it:"Pomeriggio",en:"Afternoon",de:"Nachmittags",fr:"Après-midi",ru:"Днём"},
-    {id:"sera",it:"Sera",en:"Evening",de:"Abends",fr:"Soir",ru:"Вечером"},
-  ];
+  const [err,setErr] = useState(false);
+  if(!open) return null;
+  const T_ = o => o[lang]||o.en;
+  const today = (()=>{ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; })();
+  const toggle = id => setPicked(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
   const send = async () => {
-    setSending(true);
-    const timeLabel = opts.find(o=>o.id===time);
+    setSending(true); setErr(false);
     track(trackLabel||"quick_request", item, {lang});
+    const slotObj = REQ_SLOTS.find(o=>o.id===slot);
+    const chipNames = (chips||[]).filter(c=>picked.includes(c.id)).map(c=>c.it).join(", ");
+    const fullNote = [chipNames?`${chipsNoteLabel}: ${chipNames}`:null, note||null].filter(Boolean).join(" — ");
     try{
-      await fetch("/api/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,room,item,timePref:timeLabel?(timeLabel[lang]||timeLabel.it):null,note,lang})});
-    }catch(e){}
+      const res = await fetch("/api/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,phone,room:getRoom(),item,date,slot:slotObj?slotObj.it:null,note:fullNote,lang})});
+      if(!res.ok) throw new Error("req");
+      setSent(true);
+    }catch(e){ setErr(true); }
     setSending(false);
-    setSent(true);
   };
-  const closeAll = () => { setOpen(false); setTimeout(()=>{setSent(false);setTime(null);setNote("");},300); };
+  const closeAll = () => { onClose(); setTimeout(()=>{ setSent(false); setErr(false); setSlot(null); setDate(""); setNote(""); setPicked([]); },300); };
+  const lbl = {fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"};
+  const fld = {width:"100%",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",marginBottom:"12px",boxSizing:"border-box",color:C.textD,background:C.white};
+  return (
+    <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:9999,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={closeAll}>
+      <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"90vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
+        {sent ? (
+          <div style={{textAlign:"center",padding:"20px 0"}}>
+            <div style={{fontSize:"38px",marginBottom:"14px",color:C.gold}}>✓</div>
+            <div style={{fontFamily:FD,fontWeight:"500",fontSize:"22px",color:C.blue,marginBottom:"8px"}}>{T_(RQ.okTitle)}</div>
+            <div style={{fontSize:"15.5px",color:C.textM,marginBottom:"22px",lineHeight:"1.6"}}>{T_(RQ.okBody)}</div>
+            <button onClick={closeAll} style={{padding:"12px 26px",background:C.gold,color:C.white,border:"none",borderRadius:"14px",fontFamily:FB,fontSize:"15.5px",cursor:"pointer"}}>{T_(RQ.close)}</button>
+          </div>
+        ) : (
+          <>
+            <div style={{fontFamily:FD,fontWeight:"500",fontSize:"24px",color:C.blue,marginBottom:"8px"}}>{title||item}</div>
+            <div style={{fontSize:"15.5px",color:C.textM,lineHeight:"1.6",marginBottom:"20px",whiteSpace:"pre-line"}}>{intro||T_(RQ.intro)}</div>
+            {chips&&chips.length>0&&<>
+              <div style={lbl}>{chipsLabel}</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"18px"}}>
+                {chips.map(c=>(
+                  <button key={c.id} onClick={()=>toggle(c.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${picked.includes(c.id)?C.gold:C.border}`,background:picked.includes(c.id)?C.gold:"none",color:picked.includes(c.id)?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer",textAlign:"left"}}>{c[lang]||c.it}</button>
+                ))}
+              </div>
+            </>}
+            <div style={lbl}>{T_(RQ.day)}</div>
+            <input type="date" value={date} min={today} onChange={e=>setDate(e.target.value)} style={{...fld,marginBottom:"16px"}}/>
+            <div style={lbl}>{T_(RQ.slot)}</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"8px"}}>
+              {REQ_SLOTS.map(o=>(
+                <button key={o.id} onClick={()=>setSlot(slot===o.id?null:o.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${slot===o.id?C.gold:C.border}`,background:slot===o.id?C.gold:"none",color:slot===o.id?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>{T_(o)}</button>
+              ))}
+            </div>
+            <div style={{fontSize:"13px",color:C.textM,fontStyle:"italic",marginBottom:"20px",lineHeight:"1.5"}}>{T_(RQ.indic)}</div>
+            <input value={name} onChange={e=>setName(e.target.value)} placeholder={T_(RQ.name)} style={fld}/>
+            <input type="tel" inputMode="tel" value={phone} onChange={e=>setPhone(e.target.value)} placeholder={T_(RQ.phone)} style={{...fld,marginBottom:"4px"}}/>
+            <div style={{fontSize:"13px",color:C.textM,marginBottom:"14px",lineHeight:"1.5"}}>{T_(RQ.phoneHint)}</div>
+            <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={T_(RQ.note)} style={{...fld,minHeight:"60px",resize:"vertical",marginBottom:"18px"}}/>
+            {err&&<div style={{fontSize:"14px",color:"#B04A4A",marginBottom:"10px"}}>{T_(RQ.err)}</div>}
+            <button onClick={send} disabled={sending||!name.trim()} style={{width:"100%",padding:"14px",background:sending||!name.trim()?C.border:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:sending||!name.trim()?"default":"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600",marginBottom:"10px"}}>{sending?T_(RQ.sending):T_(RQ.send)}</button>
+            <button onClick={closeAll} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"14.5px",cursor:"pointer",fontFamily:FB}}>{T_(RQ.cancel)}</button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function QuickAsk({item,title,intro,chips,chipsLabel,chipsNoteLabel,lang,style,children,trackLabel}) {
+  const [open,setOpen] = useState(false);
   return (
     <>
       <button onClick={()=>setOpen(true)} style={style}>{children}</button>
-      {open&&(
-        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:9999,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={closeAll}>
-          <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
-            {sent ? (
-              <div style={{textAlign:"center",padding:"20px 0"}}>
-                <div style={{fontSize:"38px",marginBottom:"14px"}}>✓</div>
-                <div style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:C.blue,marginBottom:"8px"}}>
-                  {lang==="it"?"Richiesta inviata":lang==="de"?"Anfrage gesendet":lang==="fr"?"Demande envoyée":lang==="ru"?"Запрос отправлен":"Request sent"}
-                </div>
-                <div style={{fontSize:"15.5px",color:C.textM,marginBottom:"22px",lineHeight:"1.5"}}>
-                  {lang==="it"?"Lo staff ti risponderà a breve.":lang==="de"?"Das Team meldet sich bald bei dir.":lang==="fr"?"L'équipe reviendra vers vous bientôt.":lang==="ru"?"Персонал скоро свяжется с вами.":"Our staff will get back to you shortly."}
-                </div>
-                <button onClick={closeAll} style={{padding:"12px 24px",background:C.gold,color:C.white,border:"none",borderRadius:"14px",fontFamily:FB,fontSize:"15.5px",cursor:"pointer"}}>
-                  {lang==="it"?"Chiudi":lang==="de"?"Schließen":lang==="fr"?"Fermer":lang==="ru"?"Закрыть":"Close"}
-                </button>
-              </div>
-            ) : (
-              <>
-                <div style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:C.blue,marginBottom:"4px"}}>{item}</div>
-                <div style={{fontSize:"14.5px",color:C.textM,marginBottom:"20px"}}>
-                  {lang==="it"?"Arriva direttamente allo staff, senza bisogno del tuo numero.":lang==="de"?"Geht direkt ans Team, deine Nummer wird nicht benötigt.":lang==="fr"?"Envoyé directement au personnel, sans besoin de votre numéro.":lang==="ru"?"Отправляется напрямую персоналу, ваш номер не нужен.":"Goes straight to our staff — no phone number needed."}
-                </div>
-                <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"}}>
-                  {lang==="it"?"Quando preferisci?":lang==="de"?"Wann passt es dir?":lang==="fr"?"Quand préférez-vous ?":lang==="ru"?"Когда вам удобно?":"When works for you?"}
-                </div>
-                <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"18px"}}>
-                  {opts.map(o=>(
-                    <button key={o.id} onClick={()=>setTime(o.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${time===o.id?C.gold:C.border}`,background:time===o.id?C.gold:"none",color:time===o.id?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>{o[lang]||o.it}</button>
-                  ))}
-                </div>
-                <input value={name} onChange={e=>setName(e.target.value)} placeholder={lang==="it"?"Il tuo nome":lang==="de"?"Dein Name":lang==="fr"?"Votre nom":lang==="ru"?"Ваше имя":"Your name"} style={{width:"100%",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",marginBottom:"12px",boxSizing:"border-box"}}/>
-                <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={lang==="it"?"Altre note (facoltativo)":lang==="de"?"Weitere Hinweise (optional)":lang==="fr"?"Autres notes (facultatif)":lang==="ru"?"Дополнительно (необязательно)":"Anything else (optional)"} style={{width:"100%",minHeight:"60px",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",resize:"vertical",marginBottom:"20px",boxSizing:"border-box"}}/>
-                <button onClick={send} disabled={sending||!name} style={{width:"100%",padding:"14px",background:sending||!name?C.border:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:sending||!name?"default":"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600",marginBottom:"10px"}}>
-                  {sending?(lang==="it"?"Invio...":lang==="de"?"Senden...":lang==="fr"?"Envoi...":lang==="ru"?"Отправка...":"Sending..."):(lang==="it"?"Invia richiesta →":lang==="de"?"Anfrage senden →":lang==="fr"?"Envoyer la demande →":lang==="ru"?"Отправить запрос →":"Send request →")}
-                </button>
-                <button onClick={closeAll} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"14.5px",cursor:"pointer",fontFamily:FB}}>
-                  {lang==="it"?"Annulla":lang==="de"?"Abbrechen":lang==="fr"?"Annuler":lang==="ru"?"Отмена":"Cancel"}
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      <RequestSheet open={open} onClose={()=>setOpen(false)} title={title} intro={intro} chips={chips} chipsLabel={chipsLabel} chipsNoteLabel={chipsNoteLabel} item={item} lang={lang} trackLabel={trackLabel}/>
     </>
   );
 }
@@ -1549,7 +1546,7 @@ function MoodSuggest({lang}) {
             <div key={i} style={{padding:"14px 16px",background:C.bg,borderRadius:"16px"}}>
               <div style={{fontFamily:FD,fontWeight:"500",fontSize:"17.5px",color:C.blue,marginBottom:"3px"}}>{s[lang]||s.it}</div>
               <div style={{fontSize:"14.5px",color:C.textM,marginBottom:"10px",lineHeight:"1.4"}}>{s["desc"+lang.toUpperCase()]||s.descIT}</div>
-              <QuickAsk item={s[lang]||s.it} lang={lang} trackLabel="Mood suggestion request" style={{padding:"8px 16px",background:C.white,border:`1px solid ${C.gold}66`,borderRadius:"20px",color:C.goldD,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>
+              <QuickAsk item={s.it} title={s[lang]||s.it} lang={lang} trackLabel="Mood suggestion request" style={{padding:"8px 16px",background:C.white,border:`1px solid ${C.gold}66`,borderRadius:"20px",color:C.goldD,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>
                 {lang==="it"?"Mi interessa →":lang==="de"?"Interessiert mich →":lang==="fr"?"Ça m'intéresse →":lang==="ru"?"Интересно →":"I'm interested →"}
               </QuickAsk>
             </div>
@@ -2560,11 +2557,13 @@ function WellnessPage({t,lang,setPage}) {
                 </div>
               ))}
             </div>
-            <ContactButton phone="393510103842" lang={lang} trackLabel={`WhatsApp book ${p.name}`} text={lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`} renderTrigger={openModal=>(
-              <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px"}}>
-                💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
-              </button>
-            )}/>
+            <QuickAsk item={`Trattamento ${p.name}`} lang={lang} trackLabel={`Request ${p.name}`}
+              title={lang==="it"?`Prenota con ${p.name}`:lang==="de"?`Bei ${p.name} buchen`:lang==="fr"?`Réserver avec ${p.name}`:lang==="ru"?`Записаться к ${p.name}`:`Book with ${p.name}`}
+              chipsLabel={lang==="it"?"Quale trattamento?":lang==="de"?"Welche Behandlung?":lang==="fr"?"Quel soin ?":lang==="ru"?"Какая процедура?":"Which treatment?"}
+              chipsNoteLabel="Trattamenti" chips={p.treatments.map((tr,i)=>({id:String(i),it:tr.nameIT,en:tr.nameEN,de:tr.nameDE,fr:tr.nameFR,ru:tr.nameRU}))}
+              style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px"}}>
+              💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
+            </QuickAsk>
             </div>
           </WhiteCard>
         ))}
@@ -2933,8 +2932,8 @@ function DashboardPage({t,lang,setPage}) {
                 <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
                   {(data.recentRequests||[]).map((q,i)=>(
                     <div key={i} style={{paddingBottom:"10px",borderBottom:i<data.recentRequests.length-1?`1px solid ${C.border}`:"none"}}>
-                      <div style={{fontSize:"15.5px",color:C.textD}}>{q.item}{q.time_pref?` · ${q.time_pref}`:""}</div>
-                      <div style={{fontSize:"13.5px",color:C.textS}}>{[q.name,q.room&&roomName(q.room)].filter(Boolean).join(" · ")}{q.note?` — ${q.note}`:""}</div>
+                      <div style={{fontSize:"15.5px",color:C.textD}}>{q.item}{(q.req_date||q.time_pref)?` · ${[q.req_date,q.time_pref].filter(Boolean).join(" ")}`:""}</div>
+                      <div style={{fontSize:"13.5px",color:C.textS}}>{[q.name,q.phone,q.room&&roomName(q.room)].filter(Boolean).join(" · ")}{q.note?` — ${q.note}`:""}</div>
                       <div style={{fontSize:"12.5px",color:C.textM,marginTop:"2px"}}>{new Date(q.created_at).toLocaleString("it-IT")}</div>
                     </div>
                   ))}
