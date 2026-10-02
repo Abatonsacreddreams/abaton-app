@@ -1120,7 +1120,7 @@ function clearSession(){
   try{ localStorage.removeItem('abaton_session'); localStorage.removeItem('abaton_onboarded_id'); }catch(e){}
 }
 
-function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTestSaver,onToggleDebug}) {
+function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTestSaver,onToggleDebug,debugOn}) {
   const [pinOk,setPinOk] = useState(false);
   const [pin,setPin] = useState("");
   const [name,setName] = useState(session?.name||"");
@@ -1180,6 +1180,7 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTes
 
         <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut,lang:guestLang}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>Salva nuovo ospite</button>
         <button onClick={onClear} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>Pulisci dati ospite (check-out)</button>
+        {onToggleDebug&&<button onClick={onToggleDebug} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${debugOn?"#B04A4A":C.border}`,background:debugOn?"#FFE066":"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>🔧 {debugOn?"Spegni la diagnostica (è accesa)":"Accendi la diagnostica del salvaschermo"}</button>}
         {onTestSaver&&<button onClick={onTestSaver} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>🌙 Prova il salvaschermo ora</button>}
         {onEditInfo&&<button onClick={()=>onEditInfo(pin)} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>✏️ Modifica le info dell'app →</button>}
         {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>📊 Vedi statistiche →</button>}
@@ -3281,11 +3282,11 @@ export default function AbatonApp() {
         </div>
       )}
       {showStaff&&(
-        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}} onEditInfo={pn=>{setShowStaff(false);setEditorPin(pn);}} onToggleDebug={()=>setDebugOn(v=>!v)} onTestSaver={()=>{ setShowStaff(false); asleepRef.current=true; inUse.current=false; setAsleep(true); }}/>
+        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}} onEditInfo={pn=>{setShowStaff(false);setEditorPin(pn);}} onToggleDebug={()=>setDebugOn(v=>!v)} debugOn={debugOn} onTestSaver={()=>{ setShowStaff(false); asleepRef.current=true; inUse.current=false; setAsleep(true); }}/>
       )}
       {asleep&&<Screensaver lang={lang} onWake={wake}/>}
       {debugOn&&(
-        <div style={{position:"fixed",left:"8px",bottom:"8px",zIndex:10003,pointerEvents:"none",background:"rgba(0,0,0,0.78)",color:"#fff",fontFamily:"monospace",fontSize:"13px",padding:"6px 10px",borderRadius:"8px"}}>
+        <div style={{position:"fixed",left:"50%",top:"8px",transform:"translateX(-50%)",width:"max-content",maxWidth:"96vw",zIndex:10003,pointerEvents:"none",background:"#FFE066",color:"#14223D",fontFamily:"monospace",fontSize:"16px",fontWeight:"700",padding:"8px 14px",borderRadius:"10px",border:"2px solid #14223D",textAlign:"center",boxShadow:"0 4px 16px rgba(0,0,0,0.4)"}}>
           {asleep?"SALVASCHERMO ATTIVO":`inattivo ${Math.round((Date.now()-lastAct.current)/1000)}s / ${KEEP_AWAKE>0?600:90}s`} · ultimo: {lastEvt.current} · blocchi: {KEEP_AWAKE} · v {appVersion()}
         </div>
       )}
