@@ -1120,7 +1120,7 @@ function clearSession(){
   try{ localStorage.removeItem('abaton_session'); localStorage.removeItem('abaton_onboarded_id'); }catch(e){}
 }
 
-function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo}) {
+function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTestSaver}) {
   const [pinOk,setPinOk] = useState(false);
   const [pin,setPin] = useState("");
   const [name,setName] = useState(session?.name||"");
@@ -1180,6 +1180,7 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo}) {
 
         <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut,lang:guestLang}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>Salva nuovo ospite</button>
         <button onClick={onClear} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>Pulisci dati ospite (check-out)</button>
+        {onTestSaver&&<button onClick={onTestSaver} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>🌙 Prova il salvaschermo ora</button>}
         {onEditInfo&&<button onClick={()=>onEditInfo(pin)} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>✏️ Modifica le info dell'app →</button>}
         {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>📊 Vedi statistiche →</button>}
         <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>Chiudi</button>
@@ -3087,7 +3088,7 @@ export default function AbatonApp() {
   const markUse = () => { if(!inUse.current){ inUse.current=true; track("app_open","App aperta"); } };
   useEffect(()=>{
     const onAct = () => { if(asleepRef.current) return; lastAct.current=Date.now(); markUse(); };
-    const evs = ["pointerdown","keydown","touchstart","wheel","scroll"];
+    const evs = ["pointerdown","keydown","touchstart","wheel"];
     evs.forEach(e=>window.addEventListener(e,onAct,{passive:true,capture:true}));
     const tick = setInterval(()=>{
       if(updateReady.current && KEEP_AWAKE===0 && (asleepRef.current || Date.now()-lastAct.current>45000)){ window.location.reload(); return; }
@@ -3107,8 +3108,10 @@ export default function AbatonApp() {
       }catch(e){}
     };
     const v1 = setTimeout(checkVersion, 20000);
+    const onVisible = () => { if(document.visibilityState==="visible") checkVersion(); };
+    document.addEventListener("visibilitychange",onVisible);
     const v2 = setInterval(checkVersion, 5*60*1000);
-    return ()=>{ evs.forEach(e=>window.removeEventListener(e,onAct,{capture:true})); clearInterval(tick); clearTimeout(pre); clearTimeout(v1); clearInterval(v2); };
+    return ()=>{ evs.forEach(e=>window.removeEventListener(e,onAct,{capture:true})); clearInterval(tick); clearTimeout(pre); clearTimeout(v1); clearInterval(v2); document.removeEventListener("visibilitychange",onVisible); };
   },[]);
   const wake = () => { if(updateReady.current){ window.location.reload(); return; } asleepRef.current=false; setAsleep(false); lastAct.current=Date.now(); markUse(); };
   // ── LANDSCAPE (TABLET) LAYOUT ─────────────────────────────────────────────
@@ -3274,7 +3277,7 @@ export default function AbatonApp() {
         </div>
       )}
       {showStaff&&(
-        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}} onEditInfo={pn=>{setShowStaff(false);setEditorPin(pn);}}/>
+        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}} onEditInfo={pn=>{setShowStaff(false);setEditorPin(pn);}} onTestSaver={()=>{ setShowStaff(false); asleepRef.current=true; inUse.current=false; setAsleep(true); }}/>
       )}
       {asleep&&<Screensaver lang={lang} onWake={wake}/>}
       {editorPin&&(
