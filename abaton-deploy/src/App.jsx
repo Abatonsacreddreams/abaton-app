@@ -21,8 +21,9 @@ const C = {
   salvia:  "#9DA890",   // Salvia
   bluePale:"#EAF0F8",
   text:    "#14223D",   // Notte
-  textS:   "#3A4A6A",   // notte secondario
-  textM:   "#3E4E72",   // Notte chiaro (blu scuro, non più grigino)
+  textD:   "#14223D",
+  textS:   "#1A2A4A",   // blu notte, quasi pieno
+  textM:   "#22335A",   // blu notte, un filo più chiaro
   border:  "#E2D4BC",   // Pergamena border
   borderL: "#D8CCAA",
   shadow:  "0 4px 24px rgba(20,34,61,0.07)",
@@ -343,8 +344,8 @@ function BreathingPlayer({t}) {
         <svg viewBox="0 0 24 24" fill={C.white} width="20" height="20"><polygon points="6,3 20,12 6,21"/></svg>
       </SphereIcon>
       <div style={{textAlign:"left"}}>
-        <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"3px"}}>{t.breathTitle}</div>
-        <div style={{fontSize:"14px",color:C.textM,fontWeight:"300"}}>{t.breathDesc}</div>
+        <div style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:C.blue,marginBottom:"3px"}}>{t.breathTitle}</div>
+        <div style={{fontSize:"15.5px",color:C.textM,fontWeight:"400"}}>{t.breathDesc}</div>
       </div>
     </button>
   );
@@ -358,12 +359,12 @@ function BreathingPlayer({t}) {
     <div style={{padding:"24px",background:C.goldPale,borderRadius:"20px"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"16px"}}>
         <div style={{fontFamily:FD,fontSize:"32px",color:C.gold}}>{labels[phase]||phase}</div>
-        <div style={{fontFamily:FD,fontSize:"22px",color:C.textM}}>{min}:{String(sec).padStart(2,"0")}</div>
+        <div style={{fontFamily:FD,fontWeight:"500",fontSize:"22px",color:C.textM}}>{min}:{String(sec).padStart(2,"0")}</div>
       </div>
       <div style={{height:"4px",background:C.cream,borderRadius:"2px",overflow:"hidden",marginBottom:"16px"}}>
         <div style={{height:"100%",width:`${pct*100}%`,background:`linear-gradient(90deg,${C.gold},${C.goldL})`,transition:"width 1s linear",borderRadius:"2px"}}/>
       </div>
-      <button onClick={()=>{stopAll();setSt("idle");}} style={{background:"transparent",border:`1px solid ${C.border}`,borderRadius:"10px",padding:"8px 18px",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14px"}}>■ stop</button>
+      <button onClick={()=>{stopAll();setSt("idle");}} style={{background:"transparent",border:`1px solid ${C.border}`,borderRadius:"10px",padding:"8px 18px",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"15.5px"}}>■ stop</button>
     </div>
   );
 }
@@ -379,15 +380,15 @@ function WeatherWidget() {
       }).catch(()=>{});
   },[]);
   if(!wx) return null;
-  return <span style={{fontSize:"16px",color:"inherit"}}>{wx.icon} {wx.temp}°C</span>;
+  return <span style={{fontSize:"17.5px",color:"inherit"}}>{wx.icon} {wx.temp}°C</span>;
 }
 
 // ── SHARED ────────────────────────────────────────────────────────────────────
 const Back = ({label,onClick}) => (
-  <button onClick={onClick} style={{background:"none",border:"none",color:C.blue,cursor:"pointer",fontFamily:FB,fontSize:"14px",fontWeight:"600",letterSpacing:"0.1em",display:"flex",alignItems:"center",gap:"4px",padding:0}}>{label}</button>
+  <button onClick={onClick} style={{background:"none",border:"none",color:C.blue,cursor:"pointer",fontFamily:FB,fontSize:"15.5px",fontWeight:"600",letterSpacing:"0.1em",display:"flex",alignItems:"center",gap:"4px",padding:0}}>{label}</button>
 );
 function Pill({children,color=C.gold}) {
-  return <span style={{display:"inline-block",padding:"4px 14px",background:`${color}15`,border:`1px solid ${color}44`,borderRadius:"20px",fontSize:"11px",fontFamily:FB,letterSpacing:"0.18em",textTransform:"uppercase",color}}>{children}</span>;
+  return <span style={{display:"inline-block",padding:"4px 14px",background:`${color}15`,border:`1px solid ${color}44`,borderRadius:"20px",fontSize:"12.5px",fontFamily:FB,letterSpacing:"0.18em",textTransform:"uppercase",color}}>{children}</span>;
 }
 const Circle = ({children,size=160,bg=C.gold,onClick,shadow=true,style={}}) => (
   <button onClick={onClick} style={{width:`${size}px`,height:`${size}px`,borderRadius:"50%",background:bg,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:onClick?"pointer":"default",border:"none",flexShrink:0,boxShadow:shadow?C.shadowG:"none",transition:"transform 0.2s",position:"relative",...style}}>
@@ -410,7 +411,7 @@ function WhiteCard({children,style={}}) {
 }
 const Section = ({title,children,style={}}) => (
   <div style={{marginBottom:"32px",...style}}>
-    <div style={{fontSize:"12px",fontWeight:"500",letterSpacing:"0.2em",textTransform:"uppercase",color:C.gold,fontFamily:FB,marginBottom:"14px"}}>{title}</div>
+    <div style={{fontSize:"13.5px",fontWeight:"500",letterSpacing:"0.2em",textTransform:"uppercase",color:C.goldD,fontFamily:FB,marginBottom:"14px"}}>{title}</div>
     {children}
   </div>
 );
@@ -444,7 +445,7 @@ function ZoomImg({src,group,style,alt=""}) {
           {list.length>1&&<>
             <button onClick={e=>{e.stopPropagation();setIdx((idx-1+list.length)%list.length);}} aria-label="Previous" style={{...arrow,left:"12px"}}>‹</button>
             <button onClick={e=>{e.stopPropagation();setIdx((idx+1)%list.length);}} aria-label="Next" style={{...arrow,right:"12px"}}>›</button>
-            <div style={{position:"absolute",bottom:"18px",left:0,right:0,textAlign:"center",color:"rgba(255,255,255,0.7)",fontFamily:FB,fontSize:"13px"}}>{idx+1} / {list.length}</div>
+            <div style={{position:"absolute",bottom:"18px",left:0,right:0,textAlign:"center",color:"rgba(255,255,255,0.7)",fontFamily:FB,fontSize:"14.5px"}}>{idx+1} / {list.length}</div>
           </>}
         </div>
       )}
@@ -533,23 +534,23 @@ function InfoEditor({pin,onClose,onSaved}) {
       setState("saved"); setMsg("Salvato. Le camere si aggiornano da sole entro pochi minuti (o alla prossima apertura dell'app).");
     }catch(e){ setState("error"); setMsg("Non sono riuscito a salvare. Controlla la connessione e riprova."); }
   };
-  const inp = {width:"100%",padding:"11px 12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15px",outline:"none",background:C.white,color:C.textD};
+  const inp = {width:"100%",padding:"11px 12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"16.5px",outline:"none",background:C.white,color:C.textD};
   return (
     <div style={{position:"fixed",inset:0,background:C.bg,zIndex:9999,display:"flex",flexDirection:"column"}}>
-      <button onClick={onClose} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>← Chiudi</button>
+      <button onClick={onClose} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>← Chiudi</button>
       <div style={{flex:1,overflowY:"auto",padding:"22px 22px 120px",maxWidth:"640px",width:"100%",margin:"0 auto"}}>
         <div style={{fontFamily:FD,fontSize:"28px",color:C.blue,marginBottom:"6px"}}>Modifica le info</div>
-        <div style={{fontSize:"13px",color:C.textM,lineHeight:"1.6",marginBottom:"22px"}}>Quello che scrivi qui cambia l'app in tutte le camere, in tutte le lingue: orari, WiFi, regole, colazione e risposte del Concierge.</div>
+        <div style={{fontSize:"14.5px",color:C.textM,lineHeight:"1.6",marginBottom:"22px"}}>Quello che scrivi qui cambia l'app in tutte le camere, in tutte le lingue: orari, WiFi, regole, colazione e risposte del Concierge.</div>
         {EDIT_FIELDS.map(sec=>(
           <div key={sec.sec} style={{marginBottom:"26px"}}>
-            <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.12em",textTransform:"uppercase",color:C.gold,marginBottom:"12px"}}>{sec.sec}</div>
+            <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.12em",textTransform:"uppercase",color:C.goldD,marginBottom:"12px"}}>{sec.sec}</div>
             {sec.items.map(f=>(
               <div key={f.k} style={{marginBottom:"14px"}}>
-                <label style={{fontSize:"13px",color:C.textS,display:"block",marginBottom:"6px"}}>{f.label}</label>
+                <label style={{fontSize:"14.5px",color:C.textS,display:"block",marginBottom:"6px"}}>{f.label}</label>
                 {f.area
                   ? <textarea value={vals[f.k]||""} onChange={e=>set(f.k,e.target.value)} rows={4} placeholder={f.ph} style={{...inp,resize:"vertical",lineHeight:"1.5"}}/>
                   : <input value={vals[f.k]||""} onChange={e=>set(f.k,e.target.value)} placeholder={f.ph} inputMode={f.time?"numeric":undefined} style={inp}/>}
-                {f.hint&&<div style={{fontSize:"12px",color:C.textM,marginTop:"5px",lineHeight:"1.5"}}>{f.hint}</div>}
+                {f.hint&&<div style={{fontSize:"13.5px",color:C.textM,marginTop:"5px",lineHeight:"1.5"}}>{f.hint}</div>}
               </div>
             ))}
           </div>
@@ -557,8 +558,8 @@ function InfoEditor({pin,onClose,onSaved}) {
       </div>
       <div style={{position:"absolute",left:0,right:0,bottom:0,padding:"14px 22px 22px",background:`linear-gradient(to top, ${C.bg} 70%, transparent)`}}>
         <div style={{maxWidth:"640px",margin:"0 auto"}}>
-          {msg&&<div style={{fontSize:"13px",marginBottom:"8px",color:state==="error"?"#B04A4A":C.goldD}}>{msg}</div>}
-          <button onClick={save} disabled={state==="saving"} style={{width:"100%",padding:"14px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"16px",fontWeight:"600"}}>{state==="saving"?"Salvo…":"Salva le modifiche"}</button>
+          {msg&&<div style={{fontSize:"14.5px",marginBottom:"8px",color:state==="error"?"#B04A4A":C.goldD}}>{msg}</div>}
+          <button onClick={save} disabled={state==="saving"} style={{width:"100%",padding:"14px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"17.5px",fontWeight:"600"}}>{state==="saving"?"Salvo…":"Salva le modifiche"}</button>
         </div>
       </div>
     </div>
@@ -658,7 +659,7 @@ function LetterOverlay({lang,session,phase,onDone,onReview}) {
               <div style={{position:"absolute",inset:0,borderRadius:"8px",background:"linear-gradient(160deg,#F3E4CE,#E7D2B2)",border:`1px solid ${C.goldD}55`}}/>
               <div style={{position:"absolute",left:"6%",right:"6%",top:"7%",bottom:"8%",borderRadius:"4px",background:"#FFFCF6",transition:"transform 1.1s ease 0.25s",transform:opened?"translateY(-34%)":"translateY(0)",boxShadow:"0 1px 4px rgba(0,0,0,0.18)"}}/>
               <div style={{position:"absolute",inset:0,borderRadius:"8px",clipPath:"polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%)",background:"linear-gradient(165deg,#EEDDC4,#DFC7A3)"}}>
-                <div style={{position:"absolute",left:0,right:0,bottom:"11%",textAlign:"center",fontFamily:FD,fontStyle:"italic",fontSize:"19px",color:C.goldD,letterSpacing:"0.04em"}}>{L(LETTER_FOR)} {name}</div>
+                <div style={{position:"absolute",left:0,right:0,bottom:"11%",textAlign:"center",fontFamily:FD,fontWeight:"500",fontStyle:"italic",fontSize:"19px",color:C.goldD,letterSpacing:"0.04em"}}>{L(LETTER_FOR)} {name}</div>
               </div>
               <div style={{position:"absolute",left:0,right:0,top:0,height:"56%",borderRadius:"8px 8px 0 0",transformOrigin:"top",transition:"transform 1s ease",transform:opened?"rotateX(180deg)":"rotateX(0deg)",zIndex:opened?0:3,filter:"drop-shadow(0 3px 3px rgba(0,0,0,0.2))"}}>
                 <div style={{position:"absolute",inset:0,clipPath:"polygon(0 0, 100% 0, 50% 100%)",background:"linear-gradient(180deg,#F6E8D2,#E9D3B2)"}}/>
@@ -668,26 +669,26 @@ function LetterOverlay({lang,session,phase,onDone,onReview}) {
               </div>
             </div>
           </div>
-          <div style={{marginTop:"34px",fontFamily:FD,fontStyle:"italic",fontSize:"18px",color:"rgba(255,244,225,0.88)",textAlign:"center",opacity:opened?0:1,transition:"opacity 0.4s"}}>{L(LETTER_HINT)}</div>
-          <button onClick={onDone} style={{marginTop:"18px",background:"none",border:"none",color:"rgba(255,255,255,0.5)",fontFamily:FB,fontSize:"13px",cursor:"pointer",opacity:opened?0:1}}>{L(LETTER_LATER)}</button>
+          <div style={{marginTop:"34px",fontFamily:FD,fontWeight:"500",fontStyle:"italic",fontSize:"18px",color:"rgba(255,244,225,0.88)",textAlign:"center",opacity:opened?0:1,transition:"opacity 0.4s"}}>{L(LETTER_HINT)}</div>
+          <button onClick={onDone} style={{marginTop:"18px",background:"none",border:"none",color:"rgba(255,255,255,0.5)",fontFamily:FB,fontSize:"14.5px",cursor:"pointer",opacity:opened?0:1}}>{L(LETTER_LATER)}</button>
         </>
       ):(
         <div style={{width:"min(92vw, 440px)",maxHeight:"90vh",overflowY:"auto",background:"linear-gradient(180deg,#FFFCF6,#F7ECD9)",borderRadius:"6px",padding:"30px 26px 26px",boxShadow:`0 0 0 6px #F7ECD9, 0 0 0 7px ${C.gold}88, 0 24px 60px rgba(0,0,0,0.6)`,textAlign:"center",animation:"abatonLetterIn 0.8s ease both"}}>
           <img src="/logo-eye2.png" alt="" style={{width:"62px",height:"auto",margin:"0 auto 10px",display:"block",opacity:0.95}}/>
           <div style={{fontFamily:FD,fontSize:"28px",color:C.blue,lineHeight:"1.25",marginBottom:"8px"}}>{L(txt.title).replace("{n}",name)}</div>
           <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"10px",marginBottom:"16px"}}>
-            <div style={{height:"1px",width:"46px",background:`${C.gold}88`}}/><div style={{color:C.gold,fontSize:"13px"}}>✦</div><div style={{height:"1px",width:"46px",background:`${C.gold}88`}}/>
+            <div style={{height:"1px",width:"46px",background:`${C.gold}88`}}/><div style={{color:C.gold,fontSize:"14.5px"}}>✦</div><div style={{height:"1px",width:"46px",background:`${C.gold}88`}}/>
           </div>
-          <div style={{fontFamily:FD,fontSize:"17.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line",marginBottom:"22px"}}>{L(txt.body)}</div>
+          <div style={{fontFamily:FD,fontWeight:"500",fontSize:"17.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line",marginBottom:"22px"}}>{L(txt.body)}</div>
           {phase==="departure"?(
             <>
               {CFG.reviewUrl
-                ? <ExtLink href={CFG.reviewUrl} lang={lang} onClick={()=>track("link","Recensione dalla lettera",{lang})} style={{display:"block",padding:"14px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"15px",fontWeight:"600",marginBottom:"10px"}}>{L(txt.cta)}</ExtLink>
-                : <button onClick={onReview} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"600",marginBottom:"10px"}}>{L(txt.cta)}</button>}
-              <button onClick={onDone} style={{background:"none",border:"none",color:C.textM,fontFamily:FB,fontSize:"13px",cursor:"pointer",padding:"8px"}}>{L(LETTER_CLOSE)}</button>
+                ? <ExtLink href={CFG.reviewUrl} lang={lang} onClick={()=>track("link","Recensione dalla lettera",{lang})} style={{display:"block",padding:"14px",background:C.gold,borderRadius:"14px",color:C.white,textDecoration:"none",fontFamily:FB,fontSize:"16.5px",fontWeight:"600",marginBottom:"10px"}}>{L(txt.cta)}</ExtLink>
+                : <button onClick={onReview} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600",marginBottom:"10px"}}>{L(txt.cta)}</button>}
+              <button onClick={onDone} style={{background:"none",border:"none",color:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer",padding:"8px"}}>{L(LETTER_CLOSE)}</button>
             </>
           ):(
-            <button onClick={onDone} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"600"}}>{L(txt.cta)}</button>
+            <button onClick={onDone} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600"}}>{L(txt.cta)}</button>
           )}
         </div>
       )}
@@ -714,17 +715,17 @@ function ContactButton({phone,text,lang,trackLabel,renderTrigger}) {
           <div style={{background:C.white,borderRadius:"24px",padding:"28px 24px",maxWidth:"340px",width:"100%",textAlign:"center"}} onClick={e=>e.stopPropagation()}>
             <div style={{display:"flex",gap:"8px",justifyContent:"center",marginBottom:"18px"}}>
               {[{id:"wa",label:"WhatsApp"},{id:"tg",label:"Telegram"}].map(c=>(
-                <button key={c.id} onClick={()=>setChannel(c.id)} style={{padding:"8px 18px",borderRadius:"20px",border:`1px solid ${channel===c.id?C.gold:C.border}`,background:channel===c.id?C.gold:"none",color:channel===c.id?C.white:C.textM,fontFamily:FB,fontSize:"13px",fontWeight:"600",cursor:"pointer"}}>{c.label}</button>
+                <button key={c.id} onClick={()=>setChannel(c.id)} style={{padding:"8px 18px",borderRadius:"20px",border:`1px solid ${channel===c.id?C.gold:C.border}`,background:channel===c.id?C.gold:"none",color:channel===c.id?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",fontWeight:"600",cursor:"pointer"}}>{c.label}</button>
               ))}
             </div>
             {qr?<img src={qr} alt="QR code" style={{width:"200px",height:"200px",margin:"0 auto 16px",display:"block",borderRadius:"12px"}}/>:<div style={{width:"200px",height:"200px",margin:"0 auto 16px"}}/>}
-            <div style={{fontSize:"15px",color:C.blue,fontFamily:FB,fontWeight:"700",marginBottom:"6px",lineHeight:"1.4"}}>
+            <div style={{fontSize:"16.5px",color:C.blue,fontFamily:FB,fontWeight:"700",marginBottom:"6px",lineHeight:"1.4"}}>
               {lang==="it"?"Inquadra il codice con il tuo telefono":lang==="de"?"Scanne den Code mit deinem Telefon":lang==="fr"?"Scannez le code avec votre téléphone":lang==="ru"?"Наведите телефон на код":"Scan the code with your phone"}
             </div>
-            <div style={{fontSize:"13px",color:C.textM,marginBottom:"18px",lineHeight:"1.5"}}>
+            <div style={{fontSize:"14.5px",color:C.textM,marginBottom:"18px",lineHeight:"1.5"}}>
               {lang==="it"?`La chat ${channel==="wa"?"WhatsApp":"Telegram"} si apre solo sul tuo dispositivo personale, non su questo tablet.`:lang==="de"?`Der ${channel==="wa"?"WhatsApp":"Telegram"}-Chat öffnet sich nur auf deinem eigenen Gerät, nicht auf diesem Tablet.`:lang==="fr"?`La discussion ${channel==="wa"?"WhatsApp":"Telegram"} ne s'ouvre que sur votre appareil personnel, pas sur cette tablette.`:lang==="ru"?`Чат ${channel==="wa"?"WhatsApp":"Telegram"} откроется только на вашем личном устройстве, а не на этом планшете.`:`The ${channel==="wa"?"WhatsApp":"Telegram"} chat only opens on your own device, not on this tablet.`}
             </div>
-            <button onClick={()=>setOpen(false)} style={{background:"none",border:"none",color:C.textM,fontSize:"13px",cursor:"pointer",fontFamily:FB}}>
+            <button onClick={()=>setOpen(false)} style={{background:"none",border:"none",color:C.textM,fontSize:"14.5px",cursor:"pointer",fontFamily:FB}}>
               {lang==="it"?"Chiudi":lang==="de"?"Schließen":lang==="fr"?"Fermer":lang==="ru"?"Закрыть":"Close"}
             </button>
           </div>
@@ -766,7 +767,7 @@ function ExtLink({href,style,onClick,children,lang}) {
       <a href={href} onClick={handleClick} style={style}>{children}</a>
       {open&&(
         <div style={{position:"fixed",inset:0,background:C.bg,zIndex:9999,display:"flex",flexDirection:"column"}}>
-          <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>
+          <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>
             {closeLabel}
           </button>
           <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
@@ -774,15 +775,15 @@ function ExtLink({href,style,onClick,children,lang}) {
               <iframe src={mapEmbed} title="map" style={{flex:1,border:"none",width:"100%"}}/>
             ) : (
               <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"32px",textAlign:"center",overflowY:"auto"}}>
-                <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"18px"}}>{host}</div>
+                <div style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:C.blue,marginBottom:"18px"}}>{host}</div>
                 {qr?<img src={qr} alt="QR code" style={{width:"180px",height:"180px",marginBottom:"18px",display:"block",borderRadius:"12px",boxShadow:C.shadow}}/>:<div style={{width:"180px",height:"180px",marginBottom:"18px"}}/>}
-                <div style={{fontSize:"15px",color:C.blue,fontFamily:FB,fontWeight:"700",marginBottom:"8px",lineHeight:"1.4",maxWidth:"280px"}}>
+                <div style={{fontSize:"16.5px",color:C.blue,fontFamily:FB,fontWeight:"700",marginBottom:"8px",lineHeight:"1.4",maxWidth:"280px"}}>
                   {lang==="it"?"Inquadra il codice con il tuo telefono":lang==="de"?"Scanne den Code mit deinem Telefon":lang==="fr"?"Scannez le code avec votre téléphone":lang==="ru"?"Наведите телефон на код":"Scan the code with your phone"}
                 </div>
-                <div style={{fontSize:"13px",color:C.textM,marginBottom:"26px",maxWidth:"280px",lineHeight:"1.5"}}>
+                <div style={{fontSize:"14.5px",color:C.textM,marginBottom:"26px",maxWidth:"280px",lineHeight:"1.5"}}>
                   {lang==="it"?"Il sito si apre sul tuo telefono, senza uscire da Abaton su questo tablet.":lang==="de"?"Die Seite öffnet sich auf deinem Telefon, ohne Abaton auf diesem Tablet zu verlassen.":lang==="fr"?"Le site s'ouvre sur votre téléphone, sans quitter Abaton sur cette tablette.":lang==="ru"?"Сайт откроется на вашем телефоне, не закрывая Abaton на этом планшете.":"The site opens on your phone, without leaving Abaton on this tablet."}
                 </div>
-                <a href={href} onClick={()=>track("link",`${host} (same tab)`,{lang})} style={{color:C.textM,textDecoration:"underline",fontFamily:FB,fontSize:"13px"}}>
+                <a href={href} onClick={()=>track("link",`${host} (same tab)`,{lang})} style={{color:C.textM,textDecoration:"underline",fontFamily:FB,fontSize:"14.5px"}}>
                   {lang==="it"?"Apri comunque su questo dispositivo →":lang==="de"?"Trotzdem auf diesem Gerät öffnen →":lang==="fr"?"Ouvrir quand même sur cet appareil →":lang==="ru"?"Всё равно открыть на этом устройстве →":"Open on this device anyway →"}
                 </a>
               </div>
@@ -865,7 +866,7 @@ function HouseRulesPanel({lang,renderTrigger}) {
       {renderTrigger(()=>setOpen(true))}
       {open&&(
         <div style={{position:"fixed",inset:0,background:C.bg,zIndex:9999,display:"flex",flexDirection:"column"}}>
-          <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>
+          <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>
             {closeLabel}
           </button>
           <div style={{flex:1,overflowY:"auto",padding:"24px 22px 60px"}}>
@@ -875,11 +876,11 @@ function HouseRulesPanel({lang,renderTrigger}) {
             </div>
             {HOUSE_RULES.map((r,i)=>(
               <div key={i} style={{marginBottom:"22px"}}>
-                <div style={{fontFamily:FD,fontSize:"17px",color:C.goldD,marginBottom:"6px"}}>{r["title"+lang.toUpperCase()]||r.titleIT}</div>
-                <div style={{fontSize:"14.5px",color:C.textD,lineHeight:"1.7"}}>{cx(r["body"+lang.toUpperCase()]||r.bodyIT)}</div>
+                <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18.5px",color:C.goldD,marginBottom:"6px"}}>{r["title"+lang.toUpperCase()]||r.titleIT}</div>
+                <div style={{fontSize:"16px",color:C.textD,lineHeight:"1.7"}}>{cx(r["body"+lang.toUpperCase()]||r.bodyIT)}</div>
               </div>
             ))}
-            <div style={{fontSize:"13px",color:C.textM,fontStyle:"italic",lineHeight:"1.6",marginTop:"28px",paddingTop:"18px",borderTop:`1px solid ${C.border}`}}>
+            <div style={{fontSize:"14.5px",color:C.textM,fontStyle:"italic",lineHeight:"1.6",marginTop:"28px",paddingTop:"18px",borderTop:`1px solid ${C.border}`}}>
               {lang==="it"?"Il rispetto di queste semplici regole contribuisce a mantenere un ambiente armonioso e accogliente per tutti. Siamo sempre disponibili per qualsiasi necessità o chiarimento.":lang==="de"?"Die Einhaltung dieser einfachen Regeln trägt dazu bei, eine harmonische und einladende Umgebung für alle zu erhalten. Wir stehen jederzeit für Fragen oder Anliegen zur Verfügung.":lang==="fr"?"Le respect de ces règles simples contribue à maintenir un environnement harmonieux et accueillant pour tous. Nous restons toujours disponibles pour toute nécessité ou clarification.":lang==="ru"?"Соблюдение этих простых правил помогает поддерживать гармоничную и гостеприимную атмосферу для всех. Мы всегда готовы помочь или что-то прояснить.":"Respecting these simple rules helps keep a harmonious, welcoming environment for everyone. We're always available for any need or clarification."}
             </div>
           </div>
@@ -922,11 +923,11 @@ function PopoliExperienceButton({t,lang,style}) {
               <Circle size={156} bg={SPHERE_BG_NAVY} onClick={openSheet} style={{border:`2px solid ${C.gold}`,boxShadow:`0 0 0 1px ${C.goldD}88, ${SPHERE_SHADOW_NAVY}`,overflow:"hidden"}}>
                 <div style={{position:"absolute",top:"10%",left:"18%",width:"46%",height:"30%",borderRadius:"50%",background:"radial-gradient(ellipse, rgba(255,255,255,0.4), rgba(255,255,255,0) 70%)",pointerEvents:"none"}}/>
                 <div style={{textAlign:"center",padding:"10px",position:"relative",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-                  <div style={{fontSize:"14px",color:C.gold,marginBottom:"5px",textShadow:SPHERE_TEXT_SHADOW}}>✦</div>
+                  <div style={{fontSize:"15.5px",color:C.gold,marginBottom:"5px",textShadow:SPHERE_TEXT_SHADOW}}>✦</div>
                   <div style={{fontFamily:FD,fontSize:"18px",color:C.white,fontWeight:"600",lineHeight:"1.25",whiteSpace:"pre-line",textShadow:SPHERE_TEXT_SHADOW}}>
                     {lang==="it"?"Il Tempo\ndei Popoli":lang==="de"?"Die Zeit\nder Völker":lang==="fr"?"Le Temps\ndes Peuples":lang==="ru"?"Время\nНародов":"The Time\nof the Peoples"}
                   </div>
-                  <div style={{fontSize:"14px",color:C.gold,marginTop:"5px",textShadow:SPHERE_TEXT_SHADOW}}>✦</div>
+                  <div style={{fontSize:"15.5px",color:C.gold,marginTop:"5px",textShadow:SPHERE_TEXT_SHADOW}}>✦</div>
                 </div>
               </Circle>
             </div>
@@ -939,7 +940,7 @@ function PopoliExperienceButton({t,lang,style}) {
             return <div key={i} style={{position:"absolute",left:`${x-3}px`,top:`${y-3}px`,width:"6px",height:"6px",borderRadius:"50%",background:i%2===0?C.blue:`${C.blue}44`}}/>;
           })}
         </div>
-        <div style={{fontSize:"14px",color:C.goldD,fontFamily:FB,textAlign:"center",cursor:"pointer"}} onClick={openSheet}>
+        <div style={{fontSize:"15.5px",color:C.goldD,fontFamily:FB,textAlign:"center",cursor:"pointer"}} onClick={openSheet}>
           {lang==="it"?"Prenota una tua esperienza privata →":lang==="de"?"Buche dein privates Erlebnis →":lang==="fr"?"Réservez votre expérience privée →":lang==="ru"?"Забронируйте личный опыт →":"Book your private experience →"}
         </div>
       </div>
@@ -949,24 +950,24 @@ function PopoliExperienceButton({t,lang,style}) {
             <div style={{fontFamily:FD,fontSize:"24px",color:C.blue,marginBottom:"8px"}}>
               {lang==="it"?"Il Tempo dei Popoli":lang==="de"?"Die Zeit der Völker":lang==="fr"?"Le Temps des Peuples":lang==="ru"?"Время Народов":"The Time of the Peoples"}
             </div>
-            <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.6",marginBottom:"20px"}}>
+            <div style={{fontSize:"15.5px",color:C.textM,lineHeight:"1.6",marginBottom:"20px"}}>
               {lang==="it"?"La Sala del Tempo dei Popoli è uno degli spazi più silenziosi e riservati dei Templi dell'Umanità — normalmente chiusa alle visite guidate, aperta solo su richiesta a chi desidera fermarsi davvero. Chi vi entra racconta di percepire il tempo diversamente: più lento, più proprio. Un luogo pensato per la meditazione, dove il presente si fa più nitido e il pensiero trova spazio per posarsi.\n\nRaccontaci cosa desideri vivere: lo staff organizzerà l'esperienza su misura per te.":lang==="de"?"Die Halle der Zeit der Völker ist einer der stillsten und privatesten Räume innerhalb der Tempel der Menschheit — normalerweise nicht Teil der geführten Besichtigungen und nur auf Anfrage für jene geöffnet, die wirklich innehalten möchten. Wer sie betritt, erzählt oft, die Zeit dort anders zu erleben: langsamer, ganz die eigene. Ein Raum für die Meditation, in dem die Gegenwart klarer wird und der Gedanke zur Ruhe kommt.\n\nErzähl uns, was du erleben möchtest: das Team organisiert ein maßgeschneidertes Erlebnis für dich.":lang==="fr"?"La Salle du Temps des Peuples est l'un des espaces les plus silencieux et les plus privés des Temples de l'Humanité — habituellement fermée aux visites guidées, elle n'ouvre que sur demande à ceux qui souhaitent vraiment s'arrêter. Ceux qui y entrent racontent souvent y percevoir le temps autrement : plus lent, plus personnel. Un lieu pensé pour la méditation, où le présent devient plus net et où la pensée trouve enfin l'espace pour se poser.\n\nDites-nous ce que vous souhaitez vivre : l'équipe organisera une expérience sur mesure.":lang==="ru"?"Зал Времени Народов — одно из самых тихих и уединённых пространств Храмов Человечества, обычно закрытое для экскурсий и открывающееся лишь по запросу для тех, кто действительно хочет остановиться. Те, кто входит туда, часто рассказывают, что время там ощущается иначе — медленнее, более своим. Пространство, созданное для медитации, где настоящее становится яснее, а мысли наконец находят покой.\n\nРасскажите, что вы хотели бы испытать — персонал организует индивидуальный опыт.":"The Hall of Time of the Peoples is one of the quietest, most private spaces within the Temples of Humanity — usually closed to guided visits, and opened only on request for those who truly wish to pause. Those who enter often say they experience time differently there: slower, more their own. A space conceived for meditation, where the present becomes clearer and thought finds room to settle.\n\nTell us what you'd like to experience — our staff will arrange it for you."}
             </div>
-            <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>
+            <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"}}>
               {lang==="it"?"Cosa ti interessa?":lang==="de"?"Was interessiert dich?":lang==="fr"?"Qu'est-ce qui vous intéresse ?":lang==="ru"?"Что вас интересует?":"What interests you?"}
             </div>
             <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"18px"}}>
               {POPOLI_INTERESTS.map(i=>(
-                <button key={i.id} onClick={()=>toggle(i.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${picked.includes(i.id)?C.gold:C.border}`,background:picked.includes(i.id)?C.gold:"none",color:picked.includes(i.id)?C.white:C.textM,fontFamily:FB,fontSize:"13px",cursor:"pointer"}}>{i[lang]||i.it}</button>
+                <button key={i.id} onClick={()=>toggle(i.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${picked.includes(i.id)?C.gold:C.border}`,background:picked.includes(i.id)?C.gold:"none",color:picked.includes(i.id)?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>{i[lang]||i.it}</button>
               ))}
             </div>
-            <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={lang==="it"?"Altre note (facoltativo)":lang==="de"?"Weitere Hinweise (optional)":lang==="fr"?"Autres notes (facultatif)":lang==="ru"?"Дополнительно (необязательно)":"Anything else (optional)"} style={{width:"100%",minHeight:"70px",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",resize:"vertical",marginBottom:"20px",boxSizing:"border-box"}}/>
+            <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={lang==="it"?"Altre note (facoltativo)":lang==="de"?"Weitere Hinweise (optional)":lang==="fr"?"Autres notes (facultatif)":lang==="ru"?"Дополнительно (необязательно)":"Anything else (optional)"} style={{width:"100%",minHeight:"70px",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",resize:"vertical",marginBottom:"20px",boxSizing:"border-box"}}/>
             <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp book Popoli Time experience" text={message} renderTrigger={openContact=>(
-              <button onClick={openContact} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"600",marginBottom:"10px"}}>
+              <button onClick={openContact} style={{width:"100%",padding:"14px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600",marginBottom:"10px"}}>
                 {lang==="it"?"Richiedi l'esperienza →":lang==="de"?"Erlebnis anfragen →":lang==="fr"?"Demander l'expérience →":lang==="ru"?"Запросить опыт →":"Request the experience →"}
               </button>
             )}/>
-            <button onClick={()=>setOpen(false)} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"13px",cursor:"pointer",fontFamily:FB}}>
+            <button onClick={()=>setOpen(false)} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"14.5px",cursor:"pointer",fontFamily:FB}}>
               {lang==="it"?"Chiudi":lang==="de"?"Schließen":lang==="fr"?"Fermer":lang==="ru"?"Закрыть":"Close"}
             </button>
           </div>
@@ -1010,36 +1011,36 @@ function QuickAsk({item,lang,style,children,trackLabel}) {
             {sent ? (
               <div style={{textAlign:"center",padding:"20px 0"}}>
                 <div style={{fontSize:"38px",marginBottom:"14px"}}>✓</div>
-                <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"8px"}}>
+                <div style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:C.blue,marginBottom:"8px"}}>
                   {lang==="it"?"Richiesta inviata":lang==="de"?"Anfrage gesendet":lang==="fr"?"Demande envoyée":lang==="ru"?"Запрос отправлен":"Request sent"}
                 </div>
-                <div style={{fontSize:"14px",color:C.textM,marginBottom:"22px",lineHeight:"1.5"}}>
+                <div style={{fontSize:"15.5px",color:C.textM,marginBottom:"22px",lineHeight:"1.5"}}>
                   {lang==="it"?"Lo staff ti risponderà a breve.":lang==="de"?"Das Team meldet sich bald bei dir.":lang==="fr"?"L'équipe reviendra vers vous bientôt.":lang==="ru"?"Персонал скоро свяжется с вами.":"Our staff will get back to you shortly."}
                 </div>
-                <button onClick={closeAll} style={{padding:"12px 24px",background:C.gold,color:C.white,border:"none",borderRadius:"14px",fontFamily:FB,fontSize:"14px",cursor:"pointer"}}>
+                <button onClick={closeAll} style={{padding:"12px 24px",background:C.gold,color:C.white,border:"none",borderRadius:"14px",fontFamily:FB,fontSize:"15.5px",cursor:"pointer"}}>
                   {lang==="it"?"Chiudi":lang==="de"?"Schließen":lang==="fr"?"Fermer":lang==="ru"?"Закрыть":"Close"}
                 </button>
               </div>
             ) : (
               <>
-                <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"4px"}}>{item}</div>
-                <div style={{fontSize:"13px",color:C.textM,marginBottom:"20px"}}>
+                <div style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:C.blue,marginBottom:"4px"}}>{item}</div>
+                <div style={{fontSize:"14.5px",color:C.textM,marginBottom:"20px"}}>
                   {lang==="it"?"Arriva direttamente allo staff, senza bisogno del tuo numero.":lang==="de"?"Geht direkt ans Team, deine Nummer wird nicht benötigt.":lang==="fr"?"Envoyé directement au personnel, sans besoin de votre numéro.":lang==="ru"?"Отправляется напрямую персоналу, ваш номер не нужен.":"Goes straight to our staff — no phone number needed."}
                 </div>
-                <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>
+                <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"}}>
                   {lang==="it"?"Quando preferisci?":lang==="de"?"Wann passt es dir?":lang==="fr"?"Quand préférez-vous ?":lang==="ru"?"Когда вам удобно?":"When works for you?"}
                 </div>
                 <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"18px"}}>
                   {opts.map(o=>(
-                    <button key={o.id} onClick={()=>setTime(o.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${time===o.id?C.gold:C.border}`,background:time===o.id?C.gold:"none",color:time===o.id?C.white:C.textM,fontFamily:FB,fontSize:"13px",cursor:"pointer"}}>{o[lang]||o.it}</button>
+                    <button key={o.id} onClick={()=>setTime(o.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${time===o.id?C.gold:C.border}`,background:time===o.id?C.gold:"none",color:time===o.id?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>{o[lang]||o.it}</button>
                   ))}
                 </div>
-                <input value={name} onChange={e=>setName(e.target.value)} placeholder={lang==="it"?"Il tuo nome":lang==="de"?"Dein Name":lang==="fr"?"Votre nom":lang==="ru"?"Ваше имя":"Your name"} style={{width:"100%",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",marginBottom:"12px",boxSizing:"border-box"}}/>
-                <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={lang==="it"?"Altre note (facoltativo)":lang==="de"?"Weitere Hinweise (optional)":lang==="fr"?"Autres notes (facultatif)":lang==="ru"?"Дополнительно (необязательно)":"Anything else (optional)"} style={{width:"100%",minHeight:"60px",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",resize:"vertical",marginBottom:"20px",boxSizing:"border-box"}}/>
-                <button onClick={send} disabled={sending||!name} style={{width:"100%",padding:"14px",background:sending||!name?C.border:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:sending||!name?"default":"pointer",fontFamily:FB,fontSize:"15px",fontWeight:"600",marginBottom:"10px"}}>
+                <input value={name} onChange={e=>setName(e.target.value)} placeholder={lang==="it"?"Il tuo nome":lang==="de"?"Dein Name":lang==="fr"?"Votre nom":lang==="ru"?"Ваше имя":"Your name"} style={{width:"100%",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",marginBottom:"12px",boxSizing:"border-box"}}/>
+                <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={lang==="it"?"Altre note (facoltativo)":lang==="de"?"Weitere Hinweise (optional)":lang==="fr"?"Autres notes (facultatif)":lang==="ru"?"Дополнительно (необязательно)":"Anything else (optional)"} style={{width:"100%",minHeight:"60px",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",resize:"vertical",marginBottom:"20px",boxSizing:"border-box"}}/>
+                <button onClick={send} disabled={sending||!name} style={{width:"100%",padding:"14px",background:sending||!name?C.border:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:sending||!name?"default":"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600",marginBottom:"10px"}}>
                   {sending?(lang==="it"?"Invio...":lang==="de"?"Senden...":lang==="fr"?"Envoi...":lang==="ru"?"Отправка...":"Sending..."):(lang==="it"?"Invia richiesta →":lang==="de"?"Anfrage senden →":lang==="fr"?"Envoyer la demande →":lang==="ru"?"Отправить запрос →":"Send request →")}
                 </button>
-                <button onClick={closeAll} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"13px",cursor:"pointer",fontFamily:FB}}>
+                <button onClick={closeAll} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"14.5px",cursor:"pointer",fontFamily:FB}}>
                   {lang==="it"?"Annulla":lang==="de"?"Abbrechen":lang==="fr"?"Annuler":lang==="ru"?"Отмена":"Cancel"}
                 </button>
               </>
@@ -1090,8 +1091,8 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo}) {
     return (
       <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.88)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={onClose}>
         <div onClick={e=>e.stopPropagation()} style={{background:C.white,borderRadius:"20px",padding:"28px",width:"100%",maxWidth:"320px"}}>
-          <div style={{fontFamily:FD,fontSize:"18px",color:C.blue,marginBottom:"14px"}}>Accesso staff</div>
-          <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&(pin===STAFF_PIN?setPinOk(true):setPin(""))} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"16px",marginBottom:"12px",outline:"none"}}/>
+          <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18px",color:C.blue,marginBottom:"14px"}}>Accesso staff</div>
+          <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&(pin===STAFF_PIN?setPinOk(true):setPin(""))} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"17.5px",marginBottom:"12px",outline:"none"}}/>
           <div style={{display:"flex",gap:"10px"}}>
             <button onClick={onClose} style={{flex:1,padding:"12px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",cursor:"pointer",fontFamily:FB}}>Annulla</button>
             <button onClick={()=>{ if(pin===STAFF_PIN) setPinOk(true); else setPin(""); }} style={{flex:1,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB}}>Entra</button>
@@ -1104,19 +1105,19 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo}) {
   return (
     <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.88)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px",overflowY:"auto"}}>
       <div style={{background:C.white,borderRadius:"20px",padding:"28px",width:"100%",maxWidth:"380px"}}>
-        <div style={{fontFamily:FD,fontSize:"20px",color:C.blue,marginBottom:"18px"}}>Pannello Staff</div>
+        <div style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:C.blue,marginBottom:"18px"}}>Pannello Staff</div>
 
-        <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Stanza di questo tablet</label>
-        <select value={room} onChange={e=>setRoomSel(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15px"}}>
+        <label style={{fontSize:"13.5px",color:C.textM,display:"block",marginBottom:"6px"}}>Stanza di questo tablet</label>
+        <select value={room} onChange={e=>setRoomSel(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"16.5px"}}>
           <option value="">— seleziona —</option>
           {ROOMS_LIST.map(r=><option key={r.id} value={r.id}>{r.name}</option>)}
         </select>
 
-        <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Nome ospite</label>
-        <input value={name} onChange={e=>setName(e.target.value)} placeholder="Es. Denise" style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15px",outline:"none"}}/>
+        <label style={{fontSize:"13.5px",color:C.textM,display:"block",marginBottom:"6px"}}>Nome ospite</label>
+        <input value={name} onChange={e=>setName(e.target.value)} placeholder="Es. Denise" style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"16.5px",outline:"none"}}/>
 
-        <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Lingua ospite</label>
-        <select value={guestLang} onChange={e=>setGuestLang(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"15px"}}>
+        <label style={{fontSize:"13.5px",color:C.textM,display:"block",marginBottom:"6px"}}>Lingua ospite</label>
+        <select value={guestLang} onChange={e=>setGuestLang(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,marginBottom:"16px",fontFamily:FB,fontSize:"16.5px"}}>
           <option value="it">🇮🇹 Italiano</option>
           <option value="en">🇬🇧 English</option>
           <option value="de">🇩🇪 Deutsch</option>
@@ -1126,20 +1127,20 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo}) {
 
         <div style={{display:"flex",gap:"10px",marginBottom:"20px"}}>
           <div style={{flex:1}}>
-            <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Check-in</label>
-            <input type="date" value={checkIn} onChange={e=>setCheckIn(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px"}}/>
+            <label style={{fontSize:"13.5px",color:C.textM,display:"block",marginBottom:"6px"}}>Check-in</label>
+            <input type="date" value={checkIn} onChange={e=>setCheckIn(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px"}}/>
           </div>
           <div style={{flex:1}}>
-            <label style={{fontSize:"12px",color:C.textM,display:"block",marginBottom:"6px"}}>Check-out</label>
-            <input type="date" value={checkOut} onChange={e=>setCheckOut(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px"}}/>
+            <label style={{fontSize:"13.5px",color:C.textM,display:"block",marginBottom:"6px"}}>Check-out</label>
+            <input type="date" value={checkOut} onChange={e=>setCheckOut(e.target.value)} style={{width:"100%",padding:"10px",borderRadius:"10px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px"}}/>
           </div>
         </div>
 
-        <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut,lang:guestLang}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>Salva nuovo ospite</button>
-        <button onClick={onClear} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>Pulisci dati ospite (check-out)</button>
-        {onEditInfo&&<button onClick={()=>onEditInfo(pin)} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>✏️ Modifica le info dell'app →</button>}
-        {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"15px"}}>📊 Vedi statistiche →</button>}
-        <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"13px"}}>Chiudi</button>
+        <button onClick={()=>{ setRoomStorage(room); onSave({name,checkIn,checkOut,lang:guestLang}); }} disabled={!name||!room} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:name&&room?C.gold:C.border,color:C.white,cursor:name&&room?"pointer":"not-allowed",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>Salva nuovo ospite</button>
+        <button onClick={onClear} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",color:C.textM,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>Pulisci dati ospite (check-out)</button>
+        {onEditInfo&&<button onClick={()=>onEditInfo(pin)} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>✏️ Modifica le info dell'app →</button>}
+        {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>📊 Vedi statistiche →</button>}
+        <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>Chiudi</button>
       </div>
     </div>
   );
@@ -1176,13 +1177,13 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
       <div style={{padding:"48px 28px 140px",textAlign:"center",position:"relative",backgroundImage:"url(data:image/jpeg;base64,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)",backgroundSize:"cover",backgroundPosition:"center"}}>
         <div style={{position:"absolute",inset:0,background:C.blue,opacity:0.8}}/>
         <div style={{position:"absolute",top:"20px",right:"20px"}}>
-          <button onClick={()=>setShowLang(!showLang)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",padding:"7px 12px",color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"13px",boxShadow:C.shadow}}>
+          <button onClick={()=>setShowLang(!showLang)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",padding:"7px 12px",color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"14.5px",boxShadow:C.shadow}}>
             {lang.toUpperCase()}
           </button>
           {showLang&&(
             <div style={{position:"absolute",top:"40px",right:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"8px",minWidth:"148px",zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
               {[["it","🇮🇹 Italiano"],["en","🇬🇧 English"],["de","🇩🇪 Deutsch"],["fr","🇫🇷 Français"],["ru","🇷🇺 Русский"]].map(([l,lb])=>(
-                <button key={l} onClick={()=>{setLang(l);setShowLang(false);}} style={{display:"block",width:"100%",textAlign:"left",padding:"9px 13px",background:lang===l?C.goldPale:"transparent",color:lang===l?C.goldD:C.textS,border:"none",borderRadius:"8px",cursor:"pointer",fontFamily:FB,fontSize:"15px"}}>{lb}</button>
+                <button key={l} onClick={()=>{setLang(l);setShowLang(false);}} style={{display:"block",width:"100%",textAlign:"left",padding:"9px 13px",background:lang===l?C.goldPale:"transparent",color:lang===l?C.goldD:C.textS,border:"none",borderRadius:"8px",cursor:"pointer",fontFamily:FB,fontSize:"16.5px"}}>{lb}</button>
               ))}
             </div>
           )}
@@ -1193,8 +1194,8 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           </button>
           {showWifi&&(
             <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"16px 18px",minWidth:"190px",zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
-              <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>{t.wifiName}</div>
-              <div style={{fontSize:"15px",color:C.textD,fontFamily:FB}}>Password: <span style={{fontWeight:"700"}}>{CFG.wifiPass}</span></div>
+              <div style={{fontSize:"13.5px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"8px"}}>{t.wifiName}</div>
+              <div style={{fontSize:"16.5px",color:C.textD,fontFamily:FB}}>Password: <span style={{fontWeight:"700"}}>{CFG.wifiPass}</span></div>
             </div>
           )}
         </div>
@@ -1204,15 +1205,15 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           </button>
           {showLateOut&&(
             <div style={{position:"absolute",top:"40px",left:0,background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"18px 20px",minWidth:"240px",zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
-              <div style={{fontSize:"12px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>
+              <div style={{fontSize:"13.5px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"8px"}}>
                 {lang==="it"?"Check-out":lang==="de"?"Check-out":lang==="fr"?"Départ":lang==="ru"?"Выезд":"Check-out"}
               </div>
-              <div style={{fontFamily:FD,fontSize:"22px",color:C.blue,marginBottom:"10px"}}>{CFG.checkOut}</div>
-              <div style={{fontSize:"14px",color:C.textD,fontFamily:FB,lineHeight:"1.6",marginBottom:"14px"}}>
+              <div style={{fontFamily:FD,fontWeight:"500",fontSize:"22px",color:C.blue,marginBottom:"10px"}}>{CFG.checkOut}</div>
+              <div style={{fontSize:"15.5px",color:C.textD,fontFamily:FB,lineHeight:"1.6",marginBottom:"14px"}}>
                 {lang==="it"?"Se desideri fermarti oltre quest'orario, va accordato con lo staff in anticipo.":lang==="de"?"Möchtest du länger bleiben, muss dies vorab mit dem Team vereinbart werden.":lang==="fr"?"Si vous souhaitez rester au-delà de cet horaire, cela doit être convenu à l'avance avec le personnel.":lang==="ru"?"Если вы хотите остаться дольше, это нужно заранее согласовать с персоналом.":"If you'd like to stay past this time, it needs to be arranged with staff in advance."}
               </div>
               <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp late check-out" text={lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you"} renderTrigger={openModal=>(
-                <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"6px",color:C.gold,fontFamily:FB,fontSize:"14px",fontWeight:"600",background:"none",border:"none",cursor:"pointer",padding:0}}>💬 {t.lateOut} →</button>
+                <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"6px",color:C.gold,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",background:"none",border:"none",cursor:"pointer",padding:0}}>💬 {t.lateOut} →</button>
               )}/>
             </div>
           )}
@@ -1279,15 +1280,15 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
 
       <div style={{padding:"0 22px"}}>
         {phase&&(
-          <div style={{padding:"14px 18px",background:C.goldPale,borderRadius:"16px",marginBottom:"20px",fontSize:"14px",color:C.textD,lineHeight:"1.5"}}>
+          <div style={{padding:"14px 18px",background:C.goldPale,borderRadius:"16px",marginBottom:"20px",fontSize:"15.5px",color:C.textD,lineHeight:"1.5"}}>
             {PHASE_MSG[phase][lang]||PHASE_MSG[phase].it}
           </div>
         )}
 
         {noticeFor(lang)&&(
           <div style={{background:C.goldPale,border:`1px solid ${C.gold}55`,borderRadius:"20px",padding:"16px 20px",marginBottom:"16px",boxShadow:C.shadow}}>
-            <div style={{fontSize:"11px",fontWeight:"700",letterSpacing:"0.14em",textTransform:"uppercase",color:C.gold,marginBottom:"6px"}}>✦ Abaton</div>
-            <div style={{fontSize:"14.5px",color:C.textD,lineHeight:"1.7",whiteSpace:"pre-line"}}>{noticeFor(lang)}</div>
+            <div style={{fontSize:"12.5px",fontWeight:"700",letterSpacing:"0.14em",textTransform:"uppercase",color:C.goldD,marginBottom:"6px"}}>✦ Abaton</div>
+            <div style={{fontSize:"16px",color:C.textD,lineHeight:"1.7",whiteSpace:"pre-line"}}>{noticeFor(lang)}</div>
           </div>
         )}
         <DailyQuote lang={lang}/>
@@ -1308,9 +1309,9 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             {id:"damanhur",  label:"Damanhur",                         sym:"◎", bg:C.goldPale, fg:C.goldD},
             {id:"wellness",  label:lang==="it"?"Benessere":lang==="de"?"Wellness":lang==="fr"?"Bien-être":lang==="ru"?"Велнес":"Wellness", sym:"◈", bg:"#EFF4ED",  fg:"#5A7A58"},
           ].map(item=>(
-            <button key={item.id} onClick={()=>setPage(item.id)} style={item.special?{position:"relative",padding:"13px 20px",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14px",fontWeight:"600",letterSpacing:"0.04em",color:C.white,display:"flex",alignItems:"center",gap:"7px",boxShadow:`0 4px 18px ${C.gold}66`}:{padding:"13px 18px",background:item.bg,border:`1px solid ${C.border}`,borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"14px",fontWeight:"400",letterSpacing:"0.04em",color:item.fg,display:"flex",alignItems:"center",gap:"7px",boxShadow:C.shadow}}>
+            <button key={item.id} onClick={()=>setPage(item.id)} style={item.special?{position:"relative",padding:"13px 20px",background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"15.5px",fontWeight:"600",letterSpacing:"0.04em",color:C.white,display:"flex",alignItems:"center",gap:"7px",boxShadow:`0 4px 18px ${C.gold}66`}:{padding:"13px 18px",background:item.bg,border:`1px solid ${C.border}`,borderRadius:"30px",cursor:"pointer",fontFamily:FB,fontSize:"15.5px",fontWeight:"400",letterSpacing:"0.04em",color:item.fg,display:"flex",alignItems:"center",gap:"7px",boxShadow:C.shadow}}>
               {item.special&&<span style={{position:"absolute",top:"-3px",right:"-3px",width:"10px",height:"10px",borderRadius:"50%",background:"#fff",animation:"abatonPulse 1.4s ease-in-out infinite alternate"}}/>}
-              <span style={{fontSize:"16px"}}>{item.sym}</span>{item.label}
+              <span style={{fontSize:"17.5px"}}>{item.sym}</span>{item.label}
             </button>
           ))}
         </div>
@@ -1323,13 +1324,13 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             </SphereIcon>
             <div>
               <div style={{fontFamily:FD,fontSize:"26px",fontWeight:"600",color:C.blue,marginBottom:"2px",lineHeight:"1.2"}}>{lang==="it"?"Hai domande sul soggiorno?":lang==="de"?"Fragen zu deinem Aufenthalt?":lang==="fr"?"Des questions sur votre séjour ?":lang==="ru"?"Есть вопросы о пребывании?":"Questions about your stay?"}</div>
-              <div style={{fontSize:"13px",color:C.textM}}>AI Concierge · 24h</div>
+              <div style={{fontSize:"14.5px",color:C.textM}}>AI Concierge · 24h</div>
             </div>
           </button>
           <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp staff (home)" text={lang==="it"?"Buongiorno, vi scrivo dall'app Abaton.":lang==="de"?"Guten Tag, ich schreibe Ihnen aus der Abaton-App.":lang==="fr"?"Bonjour, je vous écris depuis l'application Abaton.":lang==="ru"?"Здравствуйте, пишу вам из приложения Abaton.":"Hello, I'm messaging you from the Abaton app."} renderTrigger={openModal=>(
             <button onClick={openModal} style={{padding:"16px 14px",background:C.white,borderRadius:"20px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",border:"none",cursor:"pointer",boxShadow:C.shadow,flexShrink:0,gap:"4px"}}>
               <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path fill="#25D366" fillOpacity=".25" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/><path fill="#25D366" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.101-1.135l-.294-.175-3.048.906.906-3.048-.175-.294A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
-              <div style={{fontSize:"11px",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
+              <div style={{fontSize:"12.5px",color:"#25D366",fontFamily:FB,letterSpacing:"0.06em",textAlign:"center",lineHeight:"1.3",fontWeight:"500"}}>{lang==="it"?"Contatta il":lang==="de"?"Kontaktiere":lang==="fr"?"Contacter":lang==="ru"?"Связаться":"Contact"}<br/>{lang==="it"?"personale":lang==="de"?"das Personal":lang==="fr"?"le personnel":lang==="ru"?"с персоналом":"the team"}</div>
             </button>
           )}/>
         </div>
@@ -1339,32 +1340,32 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           {EVENTS.map((ev,i)=>(
             <ExtLink key={i} href={ev.url} lang={lang} style={{display:"flex",alignItems:"center",gap:"16px",padding:"16px 0",borderBottom:i<EVENTS.length-1?`1px solid ${C.border}`:"none",textDecoration:"none"}}>
               <div style={{textAlign:"center",minWidth:"52px"}}>
-                <div style={{fontSize:"15px",color:C.textM,fontFamily:FB,textTransform:"uppercase",letterSpacing:"0.08em"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ")[0]}</div>
+                <div style={{fontSize:"16.5px",color:C.textM,fontFamily:FB,textTransform:"uppercase",letterSpacing:"0.08em"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ")[0]}</div>
                 <div style={{fontFamily:FD,fontSize:"26px",color:C.gold,lineHeight:"1"}}>{((lang==="it"?ev.date:ev.dateEN||ev.date)||"").split(" ").slice(1).join(" ")||ev.date||""}</div>
               </div>
               <div style={{flex:1}}>
                 <div style={{fontSize:"18px",color:C.blue,marginBottom:"3px",fontWeight:"400"}}>{lang==="it"?ev.title:ev.titleEN||ev.title}</div>
-                <div style={{fontSize:"14px",color:C.gold,marginBottom:"3px"}}>{lang==="it"?ev.time:ev.timeEN||ev.time} · {(lang==="it"?ev.loc:ev.locEN||ev.loc)||ev.place||""}</div>
-                <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?ev.desc:ev.descEN}</div>
+                <div style={{fontSize:"15.5px",color:C.gold,marginBottom:"3px"}}>{lang==="it"?ev.time:ev.timeEN||ev.time} · {(lang==="it"?ev.loc:ev.locEN||ev.loc)||ev.place||""}</div>
+                <div style={{fontSize:"15.5px",color:C.textM,lineHeight:"1.5"}}>{lang==="it"?ev.desc:ev.descEN}</div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.gold} strokeWidth="1.5" width="16" height="16"><polyline points="9,18 15,12 9,6"/></svg>
             </ExtLink>
           ))}
           <div style={{paddingTop:"16px",display:"flex",flexDirection:"column",gap:"12px"}}>
             <div style={{padding:"14px 16px",background:C.goldPale,borderRadius:"14px"}}>
-              <div style={{fontSize:"15px",color:C.goldD,fontFamily:FB,fontWeight:"500",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:"6px"}}>{lang==="it"?"Per prenotarsi agli eventi":lang==="de"?"Für die Anmeldung zu Veranstaltungen":lang==="fr"?"Pour réserver aux événements":lang==="ru"?"Для записи на мероприятия":"To book events"}</div>
-              <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.6",marginBottom:"8px"}}>{lang==="it"?"Contattare il Welcome Center di Damanhur:":lang==="de"?"Kontaktiere das Welcome Center von Damanhur:":lang==="fr"?"Contacter le Welcome Center de Damanhur :":lang==="ru"?"Свяжитесь с Welcome Center Даманхура:":"Contact Damanhur's Welcome Center:"}</div>
-              <a href="tel:+393204824427" style={{fontFamily:FD,fontSize:"20px",color:C.goldD,textDecoration:"none",display:"block"}}>{t.eventsPhone}</a>
-              <a href="mailto:welcome@dhwelcome.org" style={{fontFamily:FB,fontSize:"16px",color:C.goldD,textDecoration:"none",display:"block",marginTop:"4px"}}>welcome@dhwelcome.org</a>
+              <div style={{fontSize:"16.5px",color:C.goldD,fontFamily:FB,fontWeight:"500",letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:"6px"}}>{lang==="it"?"Per prenotarsi agli eventi":lang==="de"?"Für die Anmeldung zu Veranstaltungen":lang==="fr"?"Pour réserver aux événements":lang==="ru"?"Для записи на мероприятия":"To book events"}</div>
+              <div style={{fontSize:"17.5px",color:C.textS,lineHeight:"1.6",marginBottom:"8px"}}>{lang==="it"?"Contattare il Welcome Center di Damanhur:":lang==="de"?"Kontaktiere das Welcome Center von Damanhur:":lang==="fr"?"Contacter le Welcome Center de Damanhur :":lang==="ru"?"Свяжитесь с Welcome Center Даманхура:":"Contact Damanhur's Welcome Center:"}</div>
+              <a href="tel:+393204824427" style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:C.goldD,textDecoration:"none",display:"block"}}>{t.eventsPhone}</a>
+              <a href="mailto:welcome@dhwelcome.org" style={{fontFamily:FB,fontSize:"17.5px",color:C.goldD,textDecoration:"none",display:"block",marginTop:"4px"}}>welcome@dhwelcome.org</a>
             </div>
-            <ExtLink href="https://damanhur.community/events/" lang={lang} style={{color:C.gold,fontFamily:FB,fontSize:"16px",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</ExtLink>
+            <ExtLink href="https://damanhur.community/events/" lang={lang} style={{color:C.gold,fontFamily:FB,fontSize:"17.5px",letterSpacing:"0.1em",textDecoration:"none",textAlign:"center"}}>{t.eventsFull}</ExtLink>
           </div>
         </Section>
 
         <div style={{borderRadius:"24px",overflow:"hidden",boxShadow:C.shadow,position:"relative",marginBottom:"24px"}}>
           <img src="/damanhur/il-popolo.jpg" alt="Il Popolo di Damanhur" style={{width:"100%",height:"220px",objectFit:"cover",display:"block"}}/>
           <div style={{position:"absolute",inset:0,background:"linear-gradient(to top, rgba(20,34,61,0.78), transparent 55%)"}}/>
-          <div style={{position:"absolute",bottom:"18px",left:"20px",right:"20px",color:C.white,fontFamily:FD,fontSize:"21px",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
+          <div style={{position:"absolute",bottom:"18px",left:"20px",right:"20px",color:C.white,fontFamily:FD,fontWeight:"500",fontSize:"21px",textShadow:"0 2px 10px rgba(0,0,0,0.4)"}}>
             {lang==="it"?"Il Popolo di Damanhur":lang==="de"?"Das Volk von Damanhur":lang==="fr"?"Le Peuple de Damanhur":lang==="ru"?"Народ Даманхура":"The People of Damanhur"}
           </div>
         </div>
@@ -1396,7 +1397,7 @@ function ExperiencePage({t,lang,setPage}) {
         <WhiteCard style={{marginBottom:"24px",background:`linear-gradient(135deg,${C.goldPale},${C.white})`}}>
           <Pill color={C.goldD}>{lang==="it"?"La Selfica dei Sogni":lang==="de"?"Die Traum-Selfica":lang==="fr"?"La Selfica des Rêves":lang==="ru"?"Селфика Снов":"Dream Selfica"}</Pill>
           <div style={{fontFamily:FD,fontSize:"24px",color:C.blue,marginTop:"12px",marginBottom:"12px"}}>{lang==="it"?"La Tecnologia del Sogno":lang==="de"?"Die Technologie des Traums":lang==="fr"?"La Technologie du Rêve":lang==="ru"?"Технология сна":"The Technology of Dreams"}</div>
-          <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>
+          <div style={{fontSize:"16.5px",color:C.textS,lineHeight:"1.8",fontWeight:"400",whiteSpace:"pre-line"}}>
             {lang==="it"
               ?"La Selfica dei Sogni si trova sopra l'armadio, orientata verso il letto — da dove lavora in silenzio per tutta la notte. È uno strumento energetico forgiato a mano dagli artigiani di Damanhur: spirali metalliche che creano un campo semi-autonomo, progettato per:\n\n• Ampliare e rendere più vivido il sogno\n• Favorire il ricordo al risveglio\n• Creare un campo di protezione durante il sonno\n\nNon va toccata. Il modo di relazionarsi con lei è attraverso il pensiero o la parola: prima di dormire, guardala da dove sei, osservane le spirali. Rivolgile un'intenzione, una domanda, un saluto. Lei riceve."
               :lang==="de"
@@ -1407,7 +1408,7 @@ function ExperiencePage({t,lang,setPage}) {
               ?"Селфика Снов находится над шкафом, направленная к кровати — оттуда она тихо работает всю ночь. Это энергетический инструмент, выкованный вручную мастерами Даманхура: металлические спирали, создающие полуавтономное поле, предназначенное для того, чтобы:\n\n• расширять сон и делать его более ярким\n• способствовать запоминанию снов при пробуждении\n• создавать защитное поле во время сна\n\nЕё нельзя трогать. Способ взаимодействия с ней — через мысль или слово: перед сном посмотри на неё оттуда, где ты находишься, понаблюдай за спиралями. Обратись к ней с намерением, вопросом, приветствием. Она принимает."
               :"The Dream Selfica rests above the wardrobe, directed toward the bed — from where it works silently through the night. It is an energy tool hand-forged by Damanhur artisans: metal spirals creating a semi-autonomous field, designed to:\n\n• Expand and make the dream world more vivid\n• Facilitate dream recall upon waking\n• Create a protective field during sleep\n\nDo not touch it. Relate to it through thought or spoken word: before sleeping, look at it from where you are, observe its spirals. Bring it an intention, a question, a greeting. It receives."}
           </div>
-          <ExtLink href="https://shop.selfica.space/pages/what-is-selfica" lang={lang} style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14px",letterSpacing:"0.08em",textDecoration:"none"}}>
+          <ExtLink href="https://shop.selfica.space/pages/what-is-selfica" lang={lang} style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"15.5px",letterSpacing:"0.08em",textDecoration:"none"}}>
             {lang==="it"?"Scopri di più sulla Selfica, una tecnologia nata a Damanhur →":lang==="de"?"Mehr über Selfica erfahren, eine in Damanhur entwickelte Technologie →":lang==="fr"?"En savoir plus sur la Selfica, une technologie née à Damanhur →":lang==="ru"?"Узнать больше о Селфике, технологии, созданной в Даманхуре →":"Learn more about Selfica, a technology born in Damanhur →"}
           </ExtLink>
         </WhiteCard>
@@ -1421,7 +1422,7 @@ function ExperiencePage({t,lang,setPage}) {
                 <div style={{width:"24px",height:"24px",borderRadius:"50%",flexShrink:0,border:`1.5px solid ${checked[s.id]?C.gold:C.border}`,background:checked[s.id]?C.gold:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s"}}>
                   {checked[s.id]&&<svg viewBox="0 0 12 12" fill="none" stroke={C.white} strokeWidth="2.5" width="10" height="10"><polyline points="2,6 5,9 10,3"/></svg>}
                 </div>
-                <span style={{fontSize:"16px",color:checked[s.id]?C.textM:C.blue,textDecoration:checked[s.id]?"line-through":"none",fontWeight:"300"}}>{s.text}</span>
+                <span style={{fontSize:"17.5px",color:checked[s.id]?C.textM:C.blue,textDecoration:checked[s.id]?"line-through":"none",fontWeight:"400"}}>{s.text}</span>
               </button>
             ))}
           </div>
@@ -1480,19 +1481,19 @@ function DailyQuote({lang}) {
   const sync = SYNC_PHRASES[dayNum % SYNC_PHRASES.length];
   return (
     <WhiteCard style={{marginBottom:"24px",background:C.blue,border:"none"}}>
-      <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"12px"}}>
+      <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"12px"}}>
         {lang==="it"?"Un pensiero per oggi":lang==="de"?"Ein Gedanke für heute":lang==="fr"?"Une pensée pour aujourd'hui":lang==="ru"?"Мысль на сегодня":"A thought for today"}
       </div>
-      <div style={{fontFamily:FD,fontSize:"19px",fontStyle:"italic",color:C.white,lineHeight:"1.5",marginBottom:"8px"}}>
+      <div style={{fontFamily:FD,fontWeight:"500",fontSize:"19px",fontStyle:"italic",color:C.white,lineHeight:"1.5",marginBottom:"8px"}}>
         "{q[lang]||q.it}"
       </div>
-      <div style={{fontSize:"13px",color:"#C9D3E5"}}>— {q.author}</div>
+      <div style={{fontSize:"14.5px",color:"#C9D3E5"}}>— {q.author}</div>
       <div style={{marginTop:"18px",paddingTop:"18px",borderTop:"1px solid rgba(255,255,255,0.15)"}}>
-        <div style={{fontSize:"11px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>
+        <div style={{fontSize:"12.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"8px"}}>
           {lang==="it"?"Frase sincronica":lang==="de"?"Synchronischer Satz":lang==="fr"?"Phrase synchronique":lang==="ru"?"Синхронная фраза":"Synchronic phrase"}
         </div>
-        <div style={{fontSize:"14px",color:C.white,lineHeight:"1.5",marginBottom:"6px"}}>{sync[lang]||sync.it}</div>
-        <div style={{fontSize:"11px",color:"#C9D3E5"}}>— "Il Sincronico", O. Airaudi (Falco Tarassaco)</div>
+        <div style={{fontSize:"15.5px",color:C.white,lineHeight:"1.5",marginBottom:"6px"}}>{sync[lang]||sync.it}</div>
+        <div style={{fontSize:"12.5px",color:"#C9D3E5"}}>— "Il Sincronico", O. Airaudi (Falco Tarassaco)</div>
       </div>
     </WhiteCard>
   );
@@ -1532,12 +1533,12 @@ function MoodSuggest({lang}) {
   const [mood,setMood] = useState(null);
   return (
     <WhiteCard style={{marginBottom:"28px"}}>
-      <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"12px"}}>
+      <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"12px"}}>
         {lang==="it"?"Di cosa hai voglia oggi?":lang==="de"?"Worauf hast du heute Lust?":lang==="fr"?"De quoi avez-vous envie aujourd'hui ?":lang==="ru"?"Чего вам хочется сегодня?":"What are you in the mood for today?"}
       </div>
       <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:mood?"18px":0}}>
         {MOOD_OPTIONS.map(m=>(
-          <button key={m.id} onClick={()=>setMood(mood===m.id?null:m.id)} style={{padding:"9px 14px",borderRadius:"20px",border:`1px solid ${mood===m.id?C.gold:C.border}`,background:mood===m.id?C.gold:"none",color:mood===m.id?C.white:C.textM,fontFamily:FB,fontSize:"13px",cursor:"pointer",display:"flex",alignItems:"center",gap:"6px"}}>
+          <button key={m.id} onClick={()=>setMood(mood===m.id?null:m.id)} style={{padding:"9px 14px",borderRadius:"20px",border:`1px solid ${mood===m.id?C.gold:C.border}`,background:mood===m.id?C.gold:"none",color:mood===m.id?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer",display:"flex",alignItems:"center",gap:"6px"}}>
             <span>{m.sym}</span>{m[lang]||m.it}
           </button>
         ))}
@@ -1546,9 +1547,9 @@ function MoodSuggest({lang}) {
         <div style={{display:"flex",flexDirection:"column",gap:"12px"}}>
           {MOOD_SUGGESTIONS[mood].map((s,i)=>(
             <div key={i} style={{padding:"14px 16px",background:C.bg,borderRadius:"16px"}}>
-              <div style={{fontFamily:FD,fontSize:"16px",color:C.blue,marginBottom:"3px"}}>{s[lang]||s.it}</div>
-              <div style={{fontSize:"13px",color:C.textM,marginBottom:"10px",lineHeight:"1.4"}}>{s["desc"+lang.toUpperCase()]||s.descIT}</div>
-              <QuickAsk item={s[lang]||s.it} lang={lang} trackLabel="Mood suggestion request" style={{padding:"8px 16px",background:C.white,border:`1px solid ${C.gold}66`,borderRadius:"20px",color:C.goldD,fontFamily:FB,fontSize:"13px",cursor:"pointer"}}>
+              <div style={{fontFamily:FD,fontWeight:"500",fontSize:"17.5px",color:C.blue,marginBottom:"3px"}}>{s[lang]||s.it}</div>
+              <div style={{fontSize:"14.5px",color:C.textM,marginBottom:"10px",lineHeight:"1.4"}}>{s["desc"+lang.toUpperCase()]||s.descIT}</div>
+              <QuickAsk item={s[lang]||s.it} lang={lang} trackLabel="Mood suggestion request" style={{padding:"8px 16px",background:C.white,border:`1px solid ${C.gold}66`,borderRadius:"20px",color:C.goldD,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>
                 {lang==="it"?"Mi interessa →":lang==="de"?"Interessiert mich →":lang==="fr"?"Ça m'intéresse →":lang==="ru"?"Интересно →":"I'm interested →"}
               </QuickAsk>
             </div>
@@ -1653,20 +1654,20 @@ function RoomExplorer({room,lang}) {
         <img src={current.src} alt={room.name} style={{width:"100%",display:"block"}}/>
         {spots.map((h,i)=>(
           <button key={i} onClick={()=>setActive(active===i?null:i)} style={{position:"absolute",left:`${h.x}%`,top:`${h.y}%`,transform:"translate(-50%,-50%)",width:"30px",height:"30px",borderRadius:"50%",background:active===i?C.gold:"rgba(255,255,255,0.88)",border:`2px solid ${C.gold}`,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 10px rgba(0,0,0,0.35)",cursor:"pointer",padding:0,animation:active===null?"abatonPulse 1.8s ease-in-out infinite alternate":"none"}}>
-            <span style={{color:active===i?C.white:C.goldD,fontSize:"13px",fontWeight:"700",fontFamily:FB}}>{i+1}</span>
+            <span style={{color:active===i?C.white:C.goldD,fontSize:"14.5px",fontWeight:"700",fontFamily:FB}}>{i+1}</span>
           </button>
         ))}
       </div>
       {active!==null&&spots[active] ? (
         <div style={{marginTop:"14px",background:C.white,borderRadius:"16px",padding:"18px",boxShadow:C.shadow}}>
-          <div style={{fontFamily:FD,fontSize:"19px",color:C.blue,marginBottom:"6px"}}>{LS(spots[active],"label",lang)}</div>
-          <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.7"}}>{LS(spots[active],"desc",lang)}</div>
+          <div style={{fontFamily:FD,fontWeight:"500",fontSize:"19px",color:C.blue,marginBottom:"6px"}}>{LS(spots[active],"label",lang)}</div>
+          <div style={{fontSize:"15.5px",color:C.textM,lineHeight:"1.7"}}>{LS(spots[active],"desc",lang)}</div>
           {spots[active].url&&(
-            <ExtLink href={spots[active].url} lang={lang} style={{display:"inline-block",marginTop:"8px",color:C.gold,fontFamily:FB,fontSize:"13px",textDecoration:"none"}}>{lang==="it"?"Scopri di più →":lang==="de"?"Mehr erfahren →":lang==="fr"?"En savoir plus →":lang==="ru"?"Узнать больше →":"Learn more →"}</ExtLink>
+            <ExtLink href={spots[active].url} lang={lang} style={{display:"inline-block",marginTop:"8px",color:C.gold,fontFamily:FB,fontSize:"14.5px",textDecoration:"none"}}>{lang==="it"?"Scopri di più →":lang==="de"?"Mehr erfahren →":lang==="fr"?"En savoir plus →":lang==="ru"?"Узнать больше →":"Learn more →"}</ExtLink>
           )}
         </div>
       ) : (
-        <div style={{marginTop:"14px",fontSize:"13px",color:C.textM,textAlign:"center",fontStyle:"italic"}}>
+        <div style={{marginTop:"14px",fontSize:"14.5px",color:C.textM,textAlign:"center",fontStyle:"italic"}}>
           {spots.length>0
             ? (lang==="it"?"Tocca i cerchi dorati per scoprire i dettagli":lang==="de"?"Tippe auf die goldenen Kreise, um mehr zu erfahren":lang==="fr"?"Touche les cercles dorés pour découvrir les détails":lang==="ru"?"Коснитесь золотых кружков, чтобы узнать подробности":"Tap the golden circles to discover the details")
             : (lang==="it"?"Scorri le foto qui sotto per esplorare la stanza":lang==="de"?"Scrolle durch die Fotos unten, um das Zimmer zu erkunden":lang==="fr"?"Fais défiler les photos ci-dessous pour explorer la chambre":lang==="ru"?"Пролистайте фото ниже, чтобы осмотреть комнату":"Scroll the photos below to explore the room")}
@@ -1822,7 +1823,7 @@ function AbatonPage({t,lang,setPage}) {
       <div style={{padding:"24px 22px 0"}}>
         <RoomExplorer room={roomDetail} lang={lang}/>
         <WhiteCard style={{marginTop:"20px"}}>
-          <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>{LS(roomDetail,"desc",lang)}</div>
+          <div style={{fontSize:"16.5px",color:C.textS,lineHeight:"1.8",fontWeight:"400",whiteSpace:"pre-line"}}>{LS(roomDetail,"desc",lang)}</div>
         </WhiteCard>
         {roomDetail.templeImg&&(
           <WhiteCard style={{marginTop:"16px",padding:"0",overflow:"hidden"}}>
@@ -1832,11 +1833,11 @@ function AbatonPage({t,lang,setPage}) {
               ))}
             </div>
             <div style={{padding:"14px 18px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:"10px"}}>
-              <div style={{fontSize:"13px",color:C.textM,fontFamily:FB,fontStyle:"italic"}}>
+              <div style={{fontSize:"14.5px",color:C.textM,fontFamily:FB,fontStyle:"italic"}}>
                 {lang==="it"?`La Sala ${roomDetail.name} nei Templi dell'Umanità`:lang==="de"?`Der Saal der ${roomDetail.name} in den Tempeln der Menschheit`:lang==="fr"?`La Salle des ${roomDetail.name} dans les Temples de l'Humanité`:lang==="ru"?`Зал ${roomDetail.name} в Храмах Человечества`:`The Hall of ${roomDetail.name} in the Temples of Humanity`}
               </div>
               {roomDetail.templeUrl&&(
-                <ExtLink href={roomDetail.templeUrl} lang={lang} style={{display:"inline-block",padding:"7px 14px",background:`${roomDetail.acc}18`,border:`1px solid ${roomDetail.acc}44`,borderRadius:"20px",color:roomDetail.acc,textDecoration:"none",fontFamily:FB,fontSize:"12px",letterSpacing:"0.1em",whiteSpace:"nowrap"}}>
+                <ExtLink href={roomDetail.templeUrl} lang={lang} style={{display:"inline-block",padding:"7px 14px",background:`${roomDetail.acc}18`,border:`1px solid ${roomDetail.acc}44`,borderRadius:"20px",color:roomDetail.acc,textDecoration:"none",fontFamily:FB,fontSize:"13.5px",letterSpacing:"0.1em",whiteSpace:"nowrap"}}>
                   {lang==="it"?"Scopri la Sala →":lang==="de"?"Saal entdecken →":lang==="fr"?"Découvrir la salle →":lang==="ru"?"Узнать о зале →":"Discover the Hall →"}
                 </ExtLink>
               )}
@@ -1854,7 +1855,7 @@ function AbatonPage({t,lang,setPage}) {
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <WhiteCard style={{background:C.goldPale,marginBottom:"24px"}}>
-          <div style={{fontFamily:FD,fontSize:"18px",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
+          <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18px",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
             {lang==="it"
               ?"Ogni stanza è connessa a una sala dei Templi dell'Umanità. I materiali, i dipinti, la Selfica — tutto parla la lingua di quello spazio sacro."
               :lang==="de"
@@ -1877,15 +1878,15 @@ function AbatonPage({t,lang,setPage}) {
             )}
             <div style={{padding:"18px"}}>
               {!r.img&&<div style={{fontFamily:FD,fontSize:"24px",color:r.acc,marginBottom:"10px"}}>{r.sym} {r.name}</div>}
-              <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",fontWeight:"300",whiteSpace:"pre-line"}}>{LS(r,"desc",lang)}</div>
+              <div style={{fontSize:"16.5px",color:C.textS,lineHeight:"1.8",fontWeight:"400",whiteSpace:"pre-line"}}>{LS(r,"desc",lang)}</div>
               <div style={{display:"flex",gap:"10px",flexWrap:"wrap",marginTop:"14px"}}>
                 {ROOM_IMAGES[r.name]&&(
-                  <button onClick={()=>setRoomDetail(r)} style={{padding:"8px 16px",background:r.acc,border:"none",borderRadius:"20px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"13px",letterSpacing:"0.05em"}}>
+                  <button onClick={()=>setRoomDetail(r)} style={{padding:"8px 16px",background:r.acc,border:"none",borderRadius:"20px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14.5px",letterSpacing:"0.05em"}}>
                     {lang==="it"?"Esplora la stanza →":lang==="de"?"Zimmer erkunden →":lang==="fr"?"Explorer la chambre →":lang==="ru"?"Осмотреть комнату →":"Explore the room →"}
                   </button>
                 )}
                 {r.templeUrl&&(
-                  <ExtLink href={r.templeUrl} lang={lang} style={{display:"inline-block",padding:"8px 16px",background:`${r.acc}18`,border:`1px solid ${r.acc}44`,borderRadius:"20px",color:r.acc,textDecoration:"none",fontFamily:FB,fontSize:"13px",letterSpacing:"0.1em"}}>
+                  <ExtLink href={r.templeUrl} lang={lang} style={{display:"inline-block",padding:"8px 16px",background:`${r.acc}18`,border:`1px solid ${r.acc}44`,borderRadius:"20px",color:r.acc,textDecoration:"none",fontFamily:FB,fontSize:"14.5px",letterSpacing:"0.1em"}}>
                     {lang==="it"?"Scopri la Sala →":lang==="de"?"Saal entdecken →":lang==="fr"?"Découvrir la salle →":lang==="ru"?"Узнать о зале →":"Discover the Hall →"}
                   </ExtLink>
                 )}
@@ -1918,10 +1919,10 @@ function AbatonPage({t,lang,setPage}) {
           )}
           {sub==="tempio"&&<img src="/temple/fregio.jpg" alt="" style={{width:"100%",height:"56px",objectFit:"cover",borderRadius:"14px",marginBottom:"14px",boxShadow:C.shadow,display:"block"}}/>}
           <WhiteCard>
-            <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",fontWeight:"300",whiteSpace:"pre-line"}}>{sc?cx(sc[lang]||sc.it):""}</div>
+            <div style={{fontSize:"17.5px",color:C.textS,lineHeight:"1.9",fontWeight:"400",whiteSpace:"pre-line"}}>{sc?cx(sc[lang]||sc.it):""}</div>
           </WhiteCard>
           {sc&&sc.link&&(
-            <ExtLink href={sc.link} lang={lang} style={{display:"block",marginTop:"12px",padding:"14px 20px",background:C.white,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"13px",boxShadow:C.shadow,textAlign:"center"}}>
+            <ExtLink href={sc.link} lang={lang} style={{display:"block",marginTop:"12px",padding:"14px 20px",background:C.white,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14.5px",boxShadow:C.shadow,textAlign:"center"}}>
               {LS(sc,"linkLabel",lang)}
             </ExtLink>
           )}
@@ -1936,8 +1937,8 @@ function AbatonPage({t,lang,setPage}) {
           )}
           {sub==="sogno"&&sc&&sc.dreamReading&&(
             <div style={{background:C.goldPale,borderRadius:"20px",padding:"22px",border:`1px solid ${C.gold}33`}}>
-              <div style={{fontFamily:FD,fontSize:"22px",color:C.goldD,marginBottom:"10px"}}>{lang==="it"?"Lettura dei Sogni":lang==="de"?"Traumdeutung":lang==="fr"?"Lecture des Rêves":lang==="ru"?"Толкование снов":"Dream Reading"}</div>
-              <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+              <div style={{fontFamily:FD,fontWeight:"500",fontSize:"22px",color:C.goldD,marginBottom:"10px"}}>{lang==="it"?"Lettura dei Sogni":lang==="de"?"Traumdeutung":lang==="fr"?"Lecture des Rêves":lang==="ru"?"Толкование снов":"Dream Reading"}</div>
+              <div style={{fontSize:"16.5px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
                 {lang==="it"
                   ?"Vuoi approfondire il significato dei sogni che stai vivendo durante questo soggiorno?\n\nÈ possibile richiedere una sessione di lettura dei sogni con un esperto della comunità di Damanhur. I sogni hanno un linguaggio simbolico e personale — un sguardo esterno può aiutare a riconoscerne il messaggio."
                   :lang==="de"
@@ -1948,11 +1949,11 @@ function AbatonPage({t,lang,setPage}) {
                   ?"Хотите глубже понять смысл снов, которые видите во время этого пребывания?\n\nВы можете запросить сеанс толкования снов с экспертом сообщества Даманхур. Сны говорят на символическом, личном языке — взгляд со стороны может помочь распознать их послание."
                   :"Would you like to explore the meaning of the dreams you are experiencing during this stay?\n\nA dream reading session with a Damanhur community expert is available on request. Dreams have a symbolic, personal language — an outside perspective can help recognize their message."}
               </div>
-              <button onClick={()=>setPage("concierge")} style={{padding:"12px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px",letterSpacing:"0.1em",textTransform:"uppercase"}}>
+              <button onClick={()=>setPage("concierge")} style={{padding:"12px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px",letterSpacing:"0.1em",textTransform:"uppercase"}}>
                 {lang==="it"?"Richiedi una lettura →":lang==="de"?"Eine Deutung anfragen →":lang==="fr"?"Demander une lecture →":lang==="ru"?"Запросить толкование →":"Request a reading →"}
               </button>
               <div style={{background:C.card,borderRadius:"20px",padding:"22px",border:`1px solid ${C.border}`,marginTop:"12px"}}>
-                <div style={{fontFamily:FD,fontSize:"20px",color:C.goldD,marginBottom:"10px"}}>{lang==="it"?"Lo Schema Teco":lang==="de"?"Das Teco-Schema":lang==="fr"?"Le Schéma Teco":lang==="ru"?"Схема Теко":"The Teco Schema"}</div>
+                <div style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:C.goldD,marginBottom:"10px"}}>{lang==="it"?"Lo Schema Teco":lang==="de"?"Das Teco-Schema":lang==="fr"?"Le Schéma Teco":lang==="ru"?"Схема Теко":"The Teco Schema"}</div>
                 <div style={{borderRadius:"16px",overflow:"hidden",marginBottom:"14px",boxShadow:C.shadow}}>
                   <img src="/rooms/schema-sogni.jpg" alt="Schema Teco" style={{width:"100%",display:"block"}}/>
                 </div>
@@ -1992,16 +1993,16 @@ function AbatonPage({t,lang,setPage}) {
                   const tk = TECO[lang]||TECO.en;
                   return (
                     <>
-                      <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8",marginBottom:"14px"}}>{tk.intro}</div>
+                      <div style={{fontSize:"16.5px",color:C.textS,lineHeight:"1.8",marginBottom:"14px"}}>{tk.intro}</div>
                       <div style={{display:"flex",flexDirection:"column",gap:"10px",marginBottom:"14px"}}>
                         {tk.items.map((item,i)=>(
                           <div key={i} style={{background:C.goldPale,borderRadius:"14px",padding:"14px 16px"}}>
-                            <div style={{fontFamily:FB,fontSize:"12px",fontWeight:"600",color:C.goldD,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:"5px"}}>{i+1}. {item.title}</div>
-                            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.6"}}>{item.desc}</div>
+                            <div style={{fontFamily:FB,fontSize:"13.5px",fontWeight:"600",color:C.goldD,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:"5px"}}>{i+1}. {item.title}</div>
+                            <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.6"}}>{item.desc}</div>
                           </div>
                         ))}
                       </div>
-                      <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8"}}>{tk.outro}</div>
+                      <div style={{fontSize:"16.5px",color:C.textS,lineHeight:"1.8"}}>{tk.outro}</div>
                     </>
                   );
                 })()}
@@ -2023,7 +2024,7 @@ function AbatonPage({t,lang,setPage}) {
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <WhiteCard style={{background:C.goldPale,marginBottom:"28px"}}>
-          <div style={{fontFamily:FD,fontSize:"18px",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
+          <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18px",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
             {lang==="it"
               ?"L'Abaton non è stato concepito come una semplice struttura ricettiva, ma come un campo intelligente, un ambiente vivo capace di sostenere l'essere umano nel ricordare chi è."
               :lang==="de"
@@ -2039,7 +2040,7 @@ function AbatonPage({t,lang,setPage}) {
           {SUBS.map(s=>(
             <button key={s.id} onClick={()=>setSub(s.id)} style={{padding:"22px 18px",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",textAlign:"left",boxShadow:C.shadow,fontFamily:FB}}>
               <div style={{fontSize:"28px",color:s.color,marginBottom:"10px"}}>{s.sym}</div>
-              <div style={{fontSize:"15px",fontWeight:"500",color:C.blue,lineHeight:"1.3"}}>{LS(s,"label",lang)}</div>
+              <div style={{fontSize:"16.5px",fontWeight:"500",color:C.blue,lineHeight:"1.3"}}>{LS(s,"label",lang)}</div>
             </button>
           ))}
         </div>
@@ -2306,10 +2307,10 @@ function DamanPage({t,lang,setPage}) {
           {comm&&(
             <>
               <WhiteCard>
-                <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{LS(comm,"desc",lang)}</div>
+                <div style={{fontSize:"17.5px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{LS(comm,"desc",lang)}</div>
               </WhiteCard>
               {comm.url&&(
-                <ExtLink href={comm.url} lang={lang} style={{display:"block",padding:"14px 20px",marginTop:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15px",boxShadow:C.shadow,textAlign:"center"}}>
+                <ExtLink href={comm.url} lang={lang} style={{display:"block",padding:"14px 20px",marginTop:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"16.5px",boxShadow:C.shadow,textAlign:"center"}}>
                   {lang==="it"?"Visita il sito →":lang==="de"?"Website besuchen →":lang==="fr"?"Visiter le site →":lang==="ru"?"Посетить сайт →":"Visit website →"}
                 </ExtLink>
               )}
@@ -2321,10 +2322,10 @@ function DamanPage({t,lang,setPage}) {
                 <img src={SUBCONTENT.blog.img} alt={label} style={{width:"100%",height:"200px",objectFit:"cover"}}/>
               </div>
               <WhiteCard>
-                <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT.blog[lang]||SUBCONTENT.blog.it}</div>
+                <div style={{fontSize:"17.5px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT.blog[lang]||SUBCONTENT.blog.it}</div>
               </WhiteCard>
               {[{url:"https://damanhur.org/blog",label:lang==="it"?"Vai al Blog →":lang==="de"?"Zum Blog →":lang==="fr"?"Aller au Blog →":lang==="ru"?"Перейти в блог →":"Go to Blog →"},{url:"https://damanhur.community",label:lang==="it"?"Entra nella Community →":lang==="de"?"Der Community beitreten →":lang==="fr"?"Rejoindre la Communauté →":lang==="ru"?"Присоединиться к сообществу →":"Join the Community →"}].map((link,i)=>(
-                <ExtLink key={i} href={link.url} lang={lang} style={{display:"block",padding:"16px 20px",marginBottom:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15px",boxShadow:C.shadow}}>{link.label}</ExtLink>
+                <ExtLink key={i} href={link.url} lang={lang} style={{display:"block",padding:"16px 20px",marginBottom:"10px",background:C.white,borderRadius:"16px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"16.5px",boxShadow:C.shadow}}>{link.label}</ExtLink>
               ))}
             </>
           )}
@@ -2336,22 +2337,22 @@ function DamanPage({t,lang,setPage}) {
                 </div>
               )}
               <WhiteCard>
-                <div style={{fontSize:"16px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT[sub][lang]||SUBCONTENT[sub].it}</div>
+                <div style={{fontSize:"17.5px",color:C.textS,lineHeight:"1.9",whiteSpace:"pre-line"}}>{SUBCONTENT[sub][lang]||SUBCONTENT[sub].it}</div>
                 {SUBCONTENT[sub].link&&(
-                  <ExtLink href={SUBCONTENT[sub].link} lang={lang} style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"14px",letterSpacing:"0.08em",textDecoration:"none"}}>
+                  <ExtLink href={SUBCONTENT[sub].link} lang={lang} style={{display:"inline-block",marginTop:"14px",color:C.goldD,fontFamily:FB,fontSize:"15.5px",letterSpacing:"0.08em",textDecoration:"none"}}>
                     {LS(SUBCONTENT[sub],"linkLabel",lang)}
                   </ExtLink>
                 )}
               </WhiteCard>
-              {sub==="templi"&&<ExtLink href="https://thetemples.org/it/" lang={lang} style={{display:"block",padding:"14px 20px",background:C.goldPale,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14px",textAlign:"center"}}>{lang==="it"?"Sito ufficiale Templi →":lang==="de"?"Offizielle Tempel-Website →":lang==="fr"?"Site officiel des Temples →":lang==="ru"?"Официальный сайт Храмов →":"Official Temple website →"}</ExtLink>}
+              {sub==="templi"&&<ExtLink href="https://thetemples.org/it/" lang={lang} style={{display:"block",padding:"14px 20px",background:C.goldPale,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"15.5px",textAlign:"center"}}>{lang==="it"?"Sito ufficiale Templi →":lang==="de"?"Offizielle Tempel-Website →":lang==="fr"?"Site officiel des Temples →":lang==="ru"?"Официальный сайт Храмов →":"Official Temple website →"}</ExtLink>}
               {sub==="crea"&&SUBCONTENT.crea.links&&SUBCONTENT.crea.links.map((item,i)=>(
                 <WhiteCard key={i} style={{padding:"16px 20px",marginBottom:"10px"}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:"12px"}}>
                     <div style={{flex:1}}>
-                      <div style={{fontFamily:FD,fontSize:"17px",color:C.blue,marginBottom:"4px"}}>{item.name}</div>
-                      <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.5"}}>{LS(item,"desc",lang)}</div>
+                      <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18.5px",color:C.blue,marginBottom:"4px"}}>{item.name}</div>
+                      <div style={{fontSize:"15.5px",color:C.textM,lineHeight:"1.5"}}>{LS(item,"desc",lang)}</div>
                     </div>
-                    {item.url&&<ExtLink href={item.url} lang={lang} onClick={()=>track("link",item.name,{lang})} style={{color:C.goldD,fontFamily:FB,fontSize:"13px",textDecoration:"none",flexShrink:0,marginTop:"2px"}}>{"→"}</ExtLink>}
+                    {item.url&&<ExtLink href={item.url} lang={lang} onClick={()=>track("link",item.name,{lang})} style={{color:C.goldD,fontFamily:FB,fontSize:"14.5px",textDecoration:"none",flexShrink:0,marginTop:"2px"}}>{"→"}</ExtLink>}
                   </div>
                 </WhiteCard>
               ))}
@@ -2360,19 +2361,19 @@ function DamanPage({t,lang,setPage}) {
                   <div style={{display:"flex",gap:"12px",alignItems:"flex-start"}}>
                     <span style={{fontSize:"24px",marginTop:"2px"}}>{p.em}</span>
                     <div style={{flex:1}}>
-                      <div style={{fontFamily:FD,fontSize:"18px",color:C.blue,marginBottom:"3px"}}>
+                      <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18px",color:C.blue,marginBottom:"3px"}}>
                         {p.url ? <ExtLink href={p.url} lang={lang} onClick={()=>track("link",LD(p.n,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(p.n,lang)}</ExtLink> : LD(p.n,lang)}
                       </div>
-                      <div style={{fontSize:"14px",color:C.textM,marginBottom:p.list?"10px":"0"}}>{LD(p.d,lang)}</div>
+                      <div style={{fontSize:"15.5px",color:C.textM,marginBottom:p.list?"10px":"0"}}>{LD(p.d,lang)}</div>
                       {p.list&&p.list.map((cat,ci)=>(
                         <div key={ci} style={{marginBottom:"12px"}}>
-                          <div style={{fontFamily:FB,fontSize:"13px",letterSpacing:"0.08em",color:C.gold,textTransform:"uppercase",marginBottom:"6px"}}>{LD(cat.cat,lang)}</div>
+                          <div style={{fontFamily:FB,fontSize:"14.5px",letterSpacing:"0.08em",color:C.goldD,textTransform:"uppercase",marginBottom:"6px"}}>{LD(cat.cat,lang)}</div>
                           {cat.items.map((r,ri)=>(
                             <div key={ri} style={{paddingBottom:"6px",borderBottom:`1px solid ${C.border}`,marginBottom:"6px"}}>
-                              <div style={{fontFamily:FD,fontSize:"16px",color:C.textD,fontWeight:"500"}}>
+                              <div style={{fontFamily:FD,fontSize:"17.5px",color:C.textD,fontWeight:"500"}}>
                                 {r.url ? <ExtLink href={r.url} lang={lang} onClick={()=>track("link",LD(r.name,"it"),{lang})} style={{color:"inherit",textDecoration:"underline"}}>{LD(r.name,lang)}</ExtLink> : LD(r.name,lang)}
                               </div>
-                              <div style={{fontSize:"13px",color:C.textM,lineHeight:"1.4"}}>{LD(r.note,lang)}</div>
+                              <div style={{fontSize:"14.5px",color:C.textM,lineHeight:"1.4"}}>{LD(r.note,lang)}</div>
                             </div>
                           ))}
                         </div>
@@ -2399,7 +2400,7 @@ function DamanPage({t,lang,setPage}) {
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <WhiteCard style={{background:C.bluePale,marginBottom:"28px"}}>
-          <div style={{fontFamily:FD,fontSize:"17px",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
+          <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18.5px",fontStyle:"italic",color:C.blue,lineHeight:"1.8"}}>
             {lang==="it"
               ?"Una federazione di comunità, un laboratorio spirituale, un'opera d'arte collettiva. Fondato nel 1975 da Falco Tarassaco, riconosciuto dall'ONU come modello di sostenibilità."
               :lang==="de"
@@ -2417,14 +2418,14 @@ function DamanPage({t,lang,setPage}) {
             {DAMANSUBSECTIONS.map(s=>(
               <button key={s.id} onClick={()=>setSub(s.id)} style={{padding:"20px 16px",background:C.white,borderRadius:"20px",border:"none",cursor:"pointer",textAlign:"left",boxShadow:C.shadow}}>
                 <div style={{fontSize:"26px",color:s.color,marginBottom:"8px"}}>{s.sym}</div>
-                <div style={{fontFamily:FB,fontSize:"15px",fontWeight:"500",color:C.blue}}>{LS(s,"label",lang)}</div>
+                <div style={{fontFamily:FB,fontSize:"16.5px",fontWeight:"500",color:C.blue}}>{LS(s,"label",lang)}</div>
               </button>
             ))}
           </div>
         </Section>
 
         <Section title={lang==="it"?"Le 4 Comunità":lang==="de"?"Die 4 Gemeinschaften":lang==="fr"?"Les 4 Communautés":lang==="ru"?"4 сообщества":"The 4 Communities"}>
-          <div style={{fontFamily:FS,fontSize:"15px",color:C.textM,lineHeight:"1.6",padding:"4px 4px 16px",borderBottom:`1px solid ${C.border}`,marginBottom:"16px"}}>
+          <div style={{fontFamily:FS,fontSize:"16.5px",color:C.textM,lineHeight:"1.6",padding:"4px 4px 16px",borderBottom:`1px solid ${C.border}`,marginBottom:"16px"}}>
             {lang==="it"
               ? "Damanhur è organizzata in comunità distinte per preservare la qualità autentica delle relazioni. La ricerca sociale ha mostrato che ogni essere umano può mantenere al massimo circa 200 relazioni significative: oltre questo numero, i legami si indeboliscono. Suddividersi in comunità più piccole permette a ogni persona di essere davvero conosciuta e riconosciuta. Esistono inoltre comunità di Damanhur sparse nel mondo."
               : lang==="de"
@@ -2442,8 +2443,8 @@ function DamanPage({t,lang,setPage}) {
               <div style={{display:"flex",alignItems:"center",gap:"14px",padding:"14px 18px"}}>
               <div style={{width:"40px",height:"40px",borderRadius:"50%",background:`${c.color}18`,border:`2px solid ${c.color}33`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20px",flexShrink:0}}>{c.sym}</div>
               <div style={{flex:1}}>
-                <div style={{fontFamily:FD,fontSize:"20px",color:c.color,marginBottom:"2px"}}>{LS(c,"label",lang)}</div>
-                <div style={{fontSize:"13px",color:C.textM,fontFamily:FB}}>{LS(c,"desc",lang).substring(0,60)}…</div>
+                <div style={{fontFamily:FD,fontWeight:"500",fontSize:"20px",color:c.color,marginBottom:"2px"}}>{LS(c,"label",lang)}</div>
+                <div style={{fontSize:"14.5px",color:C.textM,fontFamily:FB}}>{LS(c,"desc",lang).substring(0,60)}…</div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke={C.textM} strokeWidth="1.5" width="16" height="16"><polyline points="9,18 15,12 9,6"/></svg>
               </div>
@@ -2511,7 +2512,7 @@ function WellnessPage({t,lang,setPage}) {
       <div style={{padding:"24px 22px 0"}}>
         {/* MEDITAZIONE NEL TEMPO DEI POPOLI — la nostra esperienza di punta, massima visibilità */}
         <div style={{marginBottom:"8px",textAlign:"center"}}>
-          <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.12em",textTransform:"uppercase",color:C.gold,marginBottom:"4px"}}>
+          <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.12em",textTransform:"uppercase",color:C.goldD,marginBottom:"4px"}}>
             {lang==="it"?"L'esperienza più amata":lang==="de"?"Das beliebteste Erlebnis":lang==="fr"?"L'expérience la plus appréciée":lang==="ru"?"Самый любимый опыт":"Our most loved experience"}
           </div>
           <div style={{fontFamily:FD,fontSize:"24px",color:C.blue}}>
@@ -2524,7 +2525,7 @@ function WellnessPage({t,lang,setPage}) {
           <PopoliExperienceButton t={t} lang={lang} style={{position:"relative",padding:"24px 0 8px"}}/>
         </div>
         <WhiteCard style={{marginBottom:"24px",background:C.goldPale,border:`1px solid ${C.gold}33`}}>
-          <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8"}}>
+          <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.8"}}>
             {lang==="it"?"La Sala del Tempo dei Popoli è uno degli spazi più silenziosi e riservati dei Templi dell'Umanità — normalmente chiusa alle visite guidate, aperta solo su richiesta. È qui che proponiamo la nostra meditazione guidata: un momento di silenzio autentico e su misura, in uno dei luoghi più potenti di Damanhur.":lang==="de"?"Die Halle der Zeit der Völker ist einer der stillsten und privatesten Räume der Tempel der Menschheit — normalerweise nicht Teil der geführten Besichtigungen, nur auf Anfrage geöffnet. Hier bieten wir unsere geführte Meditation an: einen authentischen, maßgeschneiderten Moment der Stille an einem der kraftvollsten Orte Damanhurs.":lang==="fr"?"La Salle du Temps des Peuples est l'un des espaces les plus silencieux et les plus privés des Temples de l'Humanité — habituellement fermée aux visites guidées, ouverte seulement sur demande. C'est ici que nous proposons notre méditation guidée : un moment de silence authentique et sur mesure, dans l'un des lieux les plus puissants de Damanhur.":lang==="ru"?"Зал Времени Народов — одно из самых тихих и уединённых пространств Храмов Человечества, обычно закрытое для экскурсий и открывающееся только по запросу. Именно здесь мы предлагаем нашу медитацию под руководством — подлинный, персональный момент тишины в одном из самых сильных мест Даманхура.":"The Hall of Time of the Peoples is one of the quietest, most private spaces within the Temples of Humanity — usually closed to guided visits, opened only on request. This is where we offer our guided meditation: an authentic, tailored moment of silence in one of Damanhur's most powerful places."}
           </div>
         </WhiteCard>
@@ -2532,7 +2533,7 @@ function WellnessPage({t,lang,setPage}) {
           <img src="/damanhur/benessere-1.jpg" alt="Trattamento Selfico" style={{width:"100%",height:"200px",objectFit:"cover",display:"block"}}/>
         </div>
         <WhiteCard style={{marginBottom:"24px"}}>
-          <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.8"}}>
+          <div style={{fontSize:"16.5px",color:C.textS,lineHeight:"1.8"}}>
             {lang==="it"
               ?"Una delle caratteristiche uniche dell'offerta olistica di Damanhur è l'integrazione della tecnologia Selfica, un'arte-scienza antica riscoperta e sviluppata qui da oltre 50 anni. Le Selfiche, collegate a forze cosmiche specifiche, utilizzano strutture basate su geometrie sacre, metalli e sostanze alchemiche per favorire l'evoluzione personale e collettiva, sostenendo la guarigione e l'espansione delle capacità umane."
               :lang==="de"
@@ -2550,17 +2551,17 @@ function WellnessPage({t,lang,setPage}) {
           <WhiteCard key={p.id} style={{marginBottom:"16px",background:p.bg,border:`1px solid ${p.color}33`,overflow:"hidden",padding:0}}>
             {p.img&&<img src={p.img} alt={p.name} style={{width:"100%",height:"160px",objectFit:"cover",display:"block"}}/>}
             <div style={{padding:"20px"}}>
-            <div style={{fontFamily:FB,fontSize:"13px",fontWeight:"600",letterSpacing:"0.12em",textTransform:"uppercase",color:p.color,marginBottom:"14px"}}>{p.name}</div>
+            <div style={{fontFamily:FB,fontSize:"14.5px",fontWeight:"600",letterSpacing:"0.12em",textTransform:"uppercase",color:p.color,marginBottom:"14px"}}>{p.name}</div>
             <div style={{display:"flex",flexDirection:"column",gap:"14px",marginBottom:"16px"}}>
               {p.treatments.map((tr,i)=>(
                 <div key={i}>
-                  <div style={{fontFamily:FD,fontSize:"18px",color:C.blue,marginBottom:"3px"}}>{LS(tr,"name",lang)}</div>
-                  <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.6"}}>{LS(tr,"desc",lang)}</div>
+                  <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18px",color:C.blue,marginBottom:"3px"}}>{LS(tr,"name",lang)}</div>
+                  <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.6"}}>{LS(tr,"desc",lang)}</div>
                 </div>
               ))}
             </div>
             <ContactButton phone="393510103842" lang={lang} trackLabel={`WhatsApp book ${p.name}`} text={lang==="it"?`Buongiorno, vorrei prenotare un trattamento con ${p.name}. Potete aiutarmi a organizzarlo?`:lang==="de"?`Guten Tag, ich möchte eine Behandlung bei ${p.name} buchen. Können Sie mir dabei helfen?`:lang==="fr"?`Bonjour, je souhaiterais réserver un soin avec ${p.name}. Pouvez-vous m'aider à l'organiser ?`:lang==="ru"?`Здравствуйте, хотел(а) бы записаться на процедуру у ${p.name}. Поможете организовать?`:`Hello, I would like to book a treatment with ${p.name}. Could you help me arrange it?`} renderTrigger={openModal=>(
-              <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px"}}>
+              <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"12px 20px",background:p.color,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px"}}>
                 💬 {lang==="it"?`Prenota con ${p.name} →`:lang==="de"?`Bei ${p.name} buchen →`:lang==="fr"?`Réserver avec ${p.name} →`:lang==="ru"?`Записаться к ${p.name} →`:`Book with ${p.name} →`}
               </button>
             )}/>
@@ -2568,15 +2569,15 @@ function WellnessPage({t,lang,setPage}) {
           </WhiteCard>
         ))}
 
-        <ExtLink href="https://shop.selfica.space/" lang={lang} style={{display:"block",padding:"16px 20px",marginBottom:"24px",background:C.blue,borderRadius:"18px",color:C.white,textDecoration:"none",textAlign:"center",fontFamily:FB,fontSize:"14px",letterSpacing:"0.05em"}}>
+        <ExtLink href="https://shop.selfica.space/" lang={lang} style={{display:"block",padding:"16px 20px",marginBottom:"24px",background:C.blue,borderRadius:"18px",color:C.white,textDecoration:"none",textAlign:"center",fontFamily:FB,fontSize:"15.5px",letterSpacing:"0.05em"}}>
           {lang==="it"?"Scopri di più sulla Selfica →":lang==="de"?"Mehr über Selfica erfahren →":lang==="fr"?"En savoir plus sur la Selfica →":lang==="ru"?"Узнать больше о Селфике →":"Find out more on Selfica →"}
         </ExtLink>
 
         <div style={{padding:"18px 20px",background:C.white,borderRadius:"20px",boxShadow:C.shadow}}>
-          <div style={{fontSize:"14px",color:C.textM,lineHeight:"1.7",marginBottom:"10px"}}>
+          <div style={{fontSize:"15.5px",color:C.textM,lineHeight:"1.7",marginBottom:"10px"}}>
             {lang==="it"?"Per trattamenti esterni o info: contatta la direzione o il Welcome Center di Damanhur.":lang==="de"?"Für externe Behandlungen oder Infos: Kontaktiere die Leitung oder das Welcome Center von Damanhur.":lang==="fr"?"Pour des soins externes ou des informations : contacte la direction ou le Welcome Center de Damanhur.":lang==="ru"?"По вопросам внешних процедур или информации: свяжитесь с администрацией или Welcome Center Даманхура.":"For external treatments or info: contact management or Damanhur's Welcome Center."}
           </div>
-          <a href="tel:+393204824427" style={{color:C.gold,fontFamily:FB,fontSize:"15px",textDecoration:"none"}}>📞 +39 320 482 4427</a>
+          <a href="tel:+393204824427" style={{color:C.gold,fontFamily:FB,fontSize:"16.5px",textDecoration:"none"}}>📞 +39 320 482 4427</a>
         </div>
       </div>
     </div>
@@ -2616,14 +2617,14 @@ function GuestsPage({t,lang,setPage}) {
       <div style={{position:"sticky",top:0,zIndex:50,padding:"32px 28px 24px",background:C.white,borderRadius:"0 0 32px 32px",boxShadow:C.shadow,marginBottom:"20px",overflow:"hidden"}}><HeaderRosone/>
         <Back label={t.back} onClick={()=>setPage("home")}/>
         <div style={{fontFamily:FD,fontSize:"28px",color:C.blue,marginTop:"16px"}}>{lang==="it"?"I tuoi privilegi":lang==="de"?"Deine Vorteile":lang==="fr"?"Vos privilèges":lang==="ru"?"Ваши привилегии":"Your privileges"}</div>
-        <div style={{fontFamily:FS,fontSize:"14px",color:C.textM,fontStyle:"italic",marginTop:"4px"}}>{lang==="it"?"Ospiti Abaton · Sacred Dreams":lang==="de"?"Abaton Gäste · Sacred Dreams":lang==="fr"?"Hôtes Abaton · Sacred Dreams":lang==="ru"?"Гости Абатона · Sacred Dreams":"Abaton Guests · Sacred Dreams"}</div>
+        <div style={{fontFamily:FS,fontSize:"15.5px",color:C.textM,fontStyle:"italic",marginTop:"4px"}}>{lang==="it"?"Ospiti Abaton · Sacred Dreams":lang==="de"?"Abaton Gäste · Sacred Dreams":lang==="fr"?"Hôtes Abaton · Sacred Dreams":lang==="ru"?"Гости Абатона · Sacred Dreams":"Abaton Guests · Sacred Dreams"}</div>
       </div>
       <div style={{padding:"0 22px"}}>
 
         {/* PORTA UN AMICO */}
         <Section title={lang==="it"?"Porta un amico":lang==="de"?"Bring einen Freund mit":lang==="fr"?"Parraine un ami":lang==="ru"?"Приведи друга":"Bring a friend"}>
           <div style={{background:C.goldPale,borderRadius:"20px",padding:"22px",border:`1px solid ${C.gold}44`}}>
-            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+            <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
               {lang==="it"
                 ?"Conosci qualcuno che potrebbe beneficiare di questo luogo? Condividi la tua esperienza all'Abaton — per ogni amico che prenota grazie a te, riceverai uno sconto esclusivo sul tuo prossimo soggiorno."
                 :lang==="de"
@@ -2635,7 +2636,7 @@ function GuestsPage({t,lang,setPage}) {
                 :"Do you know someone who could benefit from this place? Share your Abaton experience — for every friend who books thanks to you, you will receive an exclusive discount on your next stay."}
             </div>
             <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp bring a friend" text={lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":lang==="de"?"Guten Tag, ich möchte einen Freund für einen Aufenthalt im Abaton empfehlen.":lang==="fr"?"Bonjour, je souhaiterais recommander un ami pour un séjour à l'Abaton.":lang==="ru"?"Здравствуйте, хотел(а) бы порекомендовать друга для пребывания в Абатоне.":"Hello, I would like to refer a friend for a stay at Abaton."} renderTrigger={openModal=>(
-              <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px"}}>
+              <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px"}}>
                 💬 {lang==="it"?"Scrivi al personale →":lang==="de"?"Dem Personal schreiben →":lang==="fr"?"Écrire au personnel →":lang==="ru"?"Написать персоналу →":"Message the staff →"}
               </button>
             )}/>
@@ -2645,11 +2646,11 @@ function GuestsPage({t,lang,setPage}) {
         {/* FEEDBACK */}
         <Section title={lang==="it"?"Lascia un feedback":lang==="de"?"Hinterlasse ein Feedback":lang==="fr"?"Laisse un avis":lang==="ru"?"Оставить отзыв":"Leave feedback"}>
           <div style={{background:C.white,borderRadius:"20px",padding:"22px",boxShadow:C.shadow}}>
-            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+            <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
               {lang==="it"?"Com'è andato il tuo soggiorno? Il tuo feedback ci aiuta a migliorare.":lang==="de"?"Wie war dein Aufenthalt? Dein Feedback hilft uns, besser zu werden.":lang==="fr"?"Comment s'est passé ton séjour ? Ton avis nous aide à nous améliorer.":lang==="ru"?"Как прошло ваше пребывание? Ваш отзыв поможет нам стать лучше.":"How was your stay? Your feedback helps us improve."}
             </div>
             {feedbackSent
-              ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontSize:"18px"}}>
+              ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontWeight:"500",fontSize:"18px"}}>
                   ✦ {lang==="it"?"Grazie per il tuo feedback!":lang==="de"?"Danke für dein Feedback!":lang==="fr"?"Merci pour ton avis !":lang==="ru"?"Спасибо за ваш отзыв!":"Thank you for your feedback!"}
                 </div>
               : <>
@@ -2663,9 +2664,9 @@ function GuestsPage({t,lang,setPage}) {
                     onChange={e=>setComment(e.target.value)}
                     placeholder={lang==="it"?"Raccontaci qualcosa (facoltativo)":lang==="de"?"Erzähl uns etwas (optional)":lang==="fr"?"Dis-nous quelque chose (facultatif)":lang==="ru"?"Расскажите что-нибудь (необязательно)":"Tell us something (optional)"}
                     rows={3}
-                    style={{width:"100%",padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",background:C.bg,outline:"none",resize:"none",marginBottom:"14px"}}
+                    style={{width:"100%",padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",background:C.bg,outline:"none",resize:"none",marginBottom:"14px"}}
                   />
-                  <button onClick={handleFeedbackSubmit} disabled={!rating||feedbackSending} style={{width:"100%",padding:"13px",background:rating?C.gold:C.border,border:"none",borderRadius:"14px",color:C.white,cursor:rating?"pointer":"not-allowed",fontFamily:FB,fontSize:"14px"}}>
+                  <button onClick={handleFeedbackSubmit} disabled={!rating||feedbackSending} style={{width:"100%",padding:"13px",background:rating?C.gold:C.border,border:"none",borderRadius:"14px",color:C.white,cursor:rating?"pointer":"not-allowed",fontFamily:FB,fontSize:"15.5px"}}>
                     {lang==="it"?"Invia feedback":lang==="de"?"Feedback senden":lang==="fr"?"Envoyer l'avis":lang==="ru"?"Отправить отзыв":"Send feedback"}
                   </button>
                 </>
@@ -2676,14 +2677,14 @@ function GuestsPage({t,lang,setPage}) {
         {/* RECENSIONE PUBBLICA */}
         <Section title={lang==="it"?"Lascia una recensione":lang==="de"?"Hinterlasse eine Bewertung":lang==="fr"?"Laisse un avis public":lang==="ru"?"Оставить публичный отзыв":"Leave a public review"}>
           <div style={{background:C.goldPale,borderRadius:"20px",padding:"22px",border:`1px solid ${C.gold}44`}}>
-            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
+            <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
               {lang==="it"?"Se hai amato il tuo soggiorno, una recensione pubblica ci aiuta moltissimo.":lang==="de"?"Wenn dir dein Aufenthalt gefallen hat, hilft uns eine öffentliche Bewertung enorm.":lang==="fr"?"Si tu as aimé ton séjour, un avis public nous aide énormément.":lang==="ru"?"Если вам понравилось пребывание, публичный отзыв очень нам поможет.":"If you loved your stay, a public review helps us enormously."}
             </div>
             <div style={{display:"flex",gap:"10px",flexWrap:"wrap"}}>
-              <ExtLink href="https://g.page/r/CX8uKstnGHC8EAE/review" lang={lang} onClick={()=>track("link","Review Google",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14px",boxShadow:C.shadow}}>
+              <ExtLink href="https://g.page/r/CX8uKstnGHC8EAE/review" lang={lang} onClick={()=>track("link","Review Google",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15.5px",boxShadow:C.shadow}}>
                 Google →
               </ExtLink>
-              <ExtLink href="https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html" lang={lang} onClick={()=>track("link","Review TripAdvisor",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"14px",boxShadow:C.shadow}}>
+              <ExtLink href="https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html" lang={lang} onClick={()=>track("link","Review TripAdvisor",{lang})} style={{flex:1,minWidth:"140px",textAlign:"center",padding:"13px 18px",background:C.white,borderRadius:"14px",color:C.blue,textDecoration:"none",fontFamily:FB,fontSize:"15.5px",boxShadow:C.shadow}}>
                 TripAdvisor →
               </ExtLink>
             </div>
@@ -2693,7 +2694,7 @@ function GuestsPage({t,lang,setPage}) {
         {/* NEWSLETTER */}
         <Section title={lang==="it"?"Rimani connesso":lang==="de"?"Bleib verbunden":lang==="fr"?"Reste connecté":lang==="ru"?"Оставайтесь на связи":"Stay connected"}>
           <div style={{background:C.white,borderRadius:"20px",padding:"22px",boxShadow:C.shadow}}>
-            <div style={{fontSize:"14px",color:C.textS,lineHeight:"1.8",marginBottom:"18px"}}>
+            <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.8",marginBottom:"18px"}}>
               {lang==="it"
                 ?"Iscriviti alla newsletter per ricevere aggiornamenti sugli eventi di Damanhur, offerte esclusive per ospiti e notizie dal campo dell'Abaton."
                 :lang==="de"
@@ -2705,7 +2706,7 @@ function GuestsPage({t,lang,setPage}) {
                 :"Subscribe to the newsletter to receive updates on Damanhur events, exclusive guest offers and news from the Abaton field."}
             </div>
             {emailSent
-              ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontSize:"18px"}}>
+              ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontWeight:"500",fontSize:"18px"}}>
                   ✦ {lang==="it"?"Grazie! Ti ricontatteremo presto.":lang==="de"?"Danke! Wir melden uns bald bei dir.":lang==="fr"?"Merci ! Nous te recontacterons bientôt.":lang==="ru"?"Спасибо! Мы скоро свяжемся с вами.":"Thank you! We will be in touch soon."}
                 </div>
               : <div style={{display:"flex",gap:"10px"}}>
@@ -2714,9 +2715,9 @@ function GuestsPage({t,lang,setPage}) {
                     onChange={e=>setEmail(e.target.value)}
                     onKeyDown={e=>e.key==="Enter"&&handleEmailSubmit()}
                     placeholder={lang==="it"?"La tua email":lang==="de"?"Deine E-Mail":lang==="fr"?"Ton e-mail":lang==="ru"?"Ваш email":"Your email"}
-                    style={{flex:1,padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"14px",background:C.bg,outline:"none"}}
+                    style={{flex:1,padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",background:C.bg,outline:"none"}}
                   />
-                  <button onClick={handleEmailSubmit} style={{padding:"13px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"14px",whiteSpace:"nowrap"}}>
+                  <button onClick={handleEmailSubmit} style={{padding:"13px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px",whiteSpace:"nowrap"}}>
                     {lang==="it"?"Iscriviti":lang==="de"?"Abonnieren":lang==="fr"?"S'inscrire":lang==="ru"?"Подписаться":"Subscribe"}
                   </button>
                 </div>
@@ -2765,7 +2766,7 @@ function ConciergePage({t,lang,setPage}) {
           <SphereIcon size={48} fontSize={20}>✦</SphereIcon>
           <div>
             <div style={{fontFamily:FD,fontSize:"24px",color:C.blue}}>{t.concTitle}</div>
-            <div style={{fontSize:"13px",color:C.textM}}>{lang==="it"?"AI · sempre disponibile":lang==="de"?"KI · immer verfügbar":lang==="fr"?"IA · toujours disponible":lang==="ru"?"ИИ · всегда на связи":"AI · always available"}</div>
+            <div style={{fontSize:"14.5px",color:C.textM}}>{lang==="it"?"AI · sempre disponibile":lang==="de"?"KI · immer verfügbar":lang==="fr"?"IA · toujours disponible":lang==="ru"?"ИИ · всегда на связи":"AI · always available"}</div>
           </div>
         </div>
       </div>
@@ -2773,7 +2774,7 @@ function ConciergePage({t,lang,setPage}) {
         {messages.map((m,i)=>(
           <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start",gap:"10px",alignItems:"flex-end"}}>
             {m.role==="assistant"&&<SphereIcon size={32} fontSize={14}>✦</SphereIcon>}
-            <div style={{maxWidth:"76%",padding:"14px 18px",lineHeight:"1.7",borderRadius:m.role==="user"?"20px 20px 4px 20px":"20px 20px 20px 4px",background:m.role==="user"?`linear-gradient(135deg,${C.gold},${C.goldD})`:C.white,color:m.role==="user"?C.white:C.blue,fontSize:"16px",fontWeight:"300",boxShadow:m.role==="user"?C.shadowG:C.shadow,whiteSpace:"pre-wrap"}}>{m.content}</div>
+            <div style={{maxWidth:"76%",padding:"14px 18px",lineHeight:"1.7",borderRadius:m.role==="user"?"20px 20px 4px 20px":"20px 20px 20px 4px",background:m.role==="user"?`linear-gradient(135deg,${C.gold},${C.goldD})`:C.white,color:m.role==="user"?C.white:C.blue,fontSize:"17.5px",fontWeight:"400",boxShadow:m.role==="user"?C.shadowG:C.shadow,whiteSpace:"pre-wrap"}}>{m.content}</div>
           </div>
         ))}
         {loading&&<div style={{display:"flex",gap:"5px",paddingLeft:"42px"}}>{[0,1,2].map(i=><div key={i} style={{width:"7px",height:"7px",borderRadius:"50%",background:C.gold,animation:`abatonPulse 1.2s ${i*0.22}s ease-in-out infinite alternate`}}/>)}</div>}
@@ -2781,12 +2782,12 @@ function ConciergePage({t,lang,setPage}) {
       </div>
       {messages.length<=2&&(
         <div style={{padding:"8px 16px 12px",display:"flex",gap:"8px",overflowX:"auto",flexShrink:0}}>
-          {t.suggestions.map((s,i)=><button key={i} onClick={()=>send(s)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"20px",padding:"8px 16px",color:C.textS,fontSize:"14px",cursor:"pointer",whiteSpace:"nowrap",fontFamily:FB,flexShrink:0,boxShadow:C.shadow}}>{s}</button>)}
+          {t.suggestions.map((s,i)=><button key={i} onClick={()=>send(s)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"20px",padding:"8px 16px",color:C.textS,fontSize:"15.5px",cursor:"pointer",whiteSpace:"nowrap",fontFamily:FB,flexShrink:0,boxShadow:C.shadow}}>{s}</button>)}
         </div>
       )}
       <div style={{padding:"12px 16px 80px",background:C.white,borderTop:`1px solid ${C.border}`,display:"flex",gap:"10px",flexShrink:0}}>
-        <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder={t.concPlaceholder} style={{flex:1,background:C.bg,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"13px 18px",color:C.blue,fontFamily:FB,fontSize:"16px",outline:"none"}}/>
-        <button onClick={()=>send()} disabled={loading||!input.trim()} style={{background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"16px",padding:"0 20px",cursor:"pointer",opacity:loading||!input.trim()?0.4:1,color:C.white,fontSize:"22px",fontWeight:"300",boxShadow:C.shadowG}}>→</button>
+        <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder={t.concPlaceholder} style={{flex:1,background:C.bg,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"13px 18px",color:C.blue,fontFamily:FB,fontSize:"17.5px",outline:"none"}}/>
+        <button onClick={()=>send()} disabled={loading||!input.trim()} style={{background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"16px",padding:"0 20px",cursor:"pointer",opacity:loading||!input.trim()?0.4:1,color:C.white,fontSize:"22px",fontWeight:"400",boxShadow:C.shadowG}}>→</button>
       </div>
     </div>
   );
@@ -2826,9 +2827,9 @@ function DashboardPage({t,lang,setPage}) {
   if(!pinOk) return (
     <div style={{minHeight:"100vh",background:C.bg,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}}>
       <div style={{background:C.white,borderRadius:"20px",padding:"28px",width:"100%",maxWidth:"320px"}}>
-        <div style={{fontFamily:FD,fontSize:"18px",color:C.blue,marginBottom:"14px"}}>Dashboard — accesso</div>
-        <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&load(pin)} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"16px",marginBottom:"12px",outline:"none"}}/>
-        {error&&<div style={{color:"#B04A4A",fontSize:"13px",marginBottom:"10px"}}>{error}</div>}
+        <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18px",color:C.blue,marginBottom:"14px"}}>Dashboard — accesso</div>
+        <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&load(pin)} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"17.5px",marginBottom:"12px",outline:"none"}}/>
+        {error&&<div style={{color:"#B04A4A",fontSize:"14.5px",marginBottom:"10px"}}>{error}</div>}
         <div style={{display:"flex",gap:"10px"}}>
           <button onClick={()=>setPage("home")} style={{flex:1,padding:"12px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",cursor:"pointer",fontFamily:FB}}>Annulla</button>
           <button onClick={()=>load(pin)} disabled={loading} style={{flex:1,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB}}>{loading?"...":"Entra"}</button>
@@ -2843,7 +2844,7 @@ function DashboardPage({t,lang,setPage}) {
       <div style={{display:"flex",flexDirection:"column",gap:"8px"}}>
         {rows.map((r,i)=>(
           <div key={i}>
-            <div style={{display:"flex",justifyContent:"space-between",fontSize:"13px",color:C.textS,marginBottom:"3px"}}>
+            <div style={{display:"flex",justifyContent:"space-between",fontSize:"14.5px",color:C.textS,marginBottom:"3px"}}>
               <span>{r[labelKey]}</span><span style={{color:C.textM}}>{r[countKey]}</span>
             </div>
             <div style={{height:"6px",background:C.bg,borderRadius:"4px",overflow:"hidden"}}>
@@ -2851,7 +2852,7 @@ function DashboardPage({t,lang,setPage}) {
             </div>
           </div>
         ))}
-        {rows.length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessun dato ancora.</div>}
+        {rows.length===0&&<div style={{fontSize:"14.5px",color:C.textM,fontStyle:"italic"}}>Nessun dato ancora.</div>}
       </div>
     );
   };
@@ -2870,22 +2871,22 @@ function DashboardPage({t,lang,setPage}) {
       </div>
       <div style={{padding:"24px 22px 0"}}>
         <div style={{display:"flex",gap:"10px",marginBottom:"18px"}}>
-          <button onClick={()=>load(pin)} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"13px"}}>↻ Aggiorna</button>
-          <button onClick={async()=>{ if(!window.confirm("Cancellare tutte le statistiche di navigazione? Feedback e recensioni non vengono toccati.")) return; await fetch("/api/reset",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin})}); load(pin); }} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:"#B04A4A",cursor:"pointer",fontFamily:FB,fontSize:"13px"}}>🗑 Azzera statistiche</button>
+          <button onClick={()=>load(pin)} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>↻ Aggiorna</button>
+          <button onClick={async()=>{ if(!window.confirm("Cancellare tutte le statistiche di navigazione? Feedback e recensioni non vengono toccati.")) return; await fetch("/api/reset",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin})}); load(pin); }} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:"#B04A4A",cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>🗑 Azzera statistiche</button>
         </div>
 
         <div style={{display:"flex",gap:"10px",marginBottom:"24px"}}>
           <div style={{flex:1,background:C.white,borderRadius:"16px",padding:"16px",boxShadow:C.shadow,textAlign:"center"}}>
             <div style={{fontFamily:FD,fontSize:"28px",color:C.gold}}>{data.total}</div>
-            <div style={{fontSize:"12px",color:C.textM}}>eventi totali</div>
+            <div style={{fontSize:"13.5px",color:C.textM}}>eventi totali</div>
           </div>
           <div style={{flex:1,background:C.white,borderRadius:"16px",padding:"16px",boxShadow:C.shadow,textAlign:"center"}}>
             <div style={{fontFamily:FD,fontSize:"28px",color:C.gold}}>{data.recentQuestions.length}</div>
-            <div style={{fontSize:"12px",color:C.textM}}>domande al concierge</div>
+            <div style={{fontSize:"13.5px",color:C.textM}}>domande al concierge</div>
           </div>
           <div style={{flex:1,background:C.white,borderRadius:"16px",padding:"16px",boxShadow:C.shadow,textAlign:"center"}}>
             <div style={{fontFamily:FD,fontSize:"28px",color:C.gold}}>{data.feedbackAvg?Number(data.feedbackAvg).toFixed(1):"—"}</div>
-            <div style={{fontSize:"12px",color:C.textM}}>media feedback ({data.feedbackCount})</div>
+            <div style={{fontSize:"13.5px",color:C.textM}}>media feedback ({data.feedbackCount})</div>
           </div>
         </div>
 
@@ -2898,8 +2899,8 @@ function DashboardPage({t,lang,setPage}) {
           const Card = ({n,l,sub}) => (
             <div style={{flex:"1 1 130px",background:C.white,borderRadius:"16px",padding:"14px",boxShadow:C.shadow,textAlign:"center"}}>
               <div style={{fontFamily:FD,fontSize:"26px",color:C.gold}}>{n}</div>
-              <div style={{fontSize:"12px",color:C.textM}}>{l}</div>
-              {sub&&<div style={{fontSize:"11px",color:C.goldD,marginTop:"3px"}}>{sub}</div>}
+              <div style={{fontSize:"13.5px",color:C.textM}}>{l}</div>
+              {sub&&<div style={{fontSize:"12.5px",color:C.goldD,marginTop:"3px"}}>{sub}</div>}
             </div>
           );
           return (
@@ -2911,11 +2912,11 @@ function DashboardPage({t,lang,setPage}) {
                 <Card n={staffReq} l="richieste dirette allo staff"/>
               </div>
               <WhiteCard style={{marginBottom:"12px"}}>
-                <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>Per camera</div>
-                {(data.roomFunnel||[]).length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessun dato ancora.</div>}
+                <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"}}>Per camera</div>
+                {(data.roomFunnel||[]).length===0&&<div style={{fontSize:"14.5px",color:C.textM,fontStyle:"italic"}}>Nessun dato ancora.</div>}
                 {(data.roomFunnel||[]).length>0&&(
-                  <div style={{display:"grid",gridTemplateColumns:"1.2fr repeat(4,1fr)",gap:"6px 8px",fontSize:"13px",color:C.textS,alignItems:"center"}}>
-                    <div/><div style={{fontSize:"11px",color:C.textM}}>aperture</div><div style={{fontSize:"11px",color:C.textM}}>Popoli</div><div style={{fontSize:"11px",color:C.textM}}>interesse</div><div style={{fontSize:"11px",color:C.textM}}>richieste</div>
+                  <div style={{display:"grid",gridTemplateColumns:"1.2fr repeat(4,1fr)",gap:"6px 8px",fontSize:"14.5px",color:C.textS,alignItems:"center"}}>
+                    <div/><div style={{fontSize:"12.5px",color:C.textM}}>aperture</div><div style={{fontSize:"12.5px",color:C.textM}}>Popoli</div><div style={{fontSize:"12.5px",color:C.textM}}>interesse</div><div style={{fontSize:"12.5px",color:C.textM}}>richieste</div>
                     {data.roomFunnel.map((r,i)=>[
                       <div key={"a"+i} style={{fontWeight:"700",color:C.blue}}>{roomName(r.room)}</div>,
                       <div key={"b"+i}>{r.opens}</div>,<div key={"c"+i}>{r.popoli_open}</div>,<div key={"d"+i}>{r.interest}</div>,<div key={"e"+i}>{r.requests}</div>
@@ -2924,20 +2925,20 @@ function DashboardPage({t,lang,setPage}) {
                 )}
               </WhiteCard>
               <WhiteCard style={{marginBottom:"12px"}}>
-                <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>Richieste dirette per tipo</div>
+                <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"}}>Richieste dirette per tipo</div>
                 <Bar rows={data.requestsByItem||[]} labelKey="item"/>
               </WhiteCard>
               <WhiteCard>
-                <div style={{fontSize:"12px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.gold,marginBottom:"10px"}}>Ultime richieste allo staff</div>
+                <div style={{fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"}}>Ultime richieste allo staff</div>
                 <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
                   {(data.recentRequests||[]).map((q,i)=>(
                     <div key={i} style={{paddingBottom:"10px",borderBottom:i<data.recentRequests.length-1?`1px solid ${C.border}`:"none"}}>
-                      <div style={{fontSize:"14px",color:C.textD}}>{q.item}{q.time_pref?` · ${q.time_pref}`:""}</div>
-                      <div style={{fontSize:"12px",color:C.textS}}>{[q.name,q.room&&roomName(q.room)].filter(Boolean).join(" · ")}{q.note?` — ${q.note}`:""}</div>
-                      <div style={{fontSize:"11px",color:C.textM,marginTop:"2px"}}>{new Date(q.created_at).toLocaleString("it-IT")}</div>
+                      <div style={{fontSize:"15.5px",color:C.textD}}>{q.item}{q.time_pref?` · ${q.time_pref}`:""}</div>
+                      <div style={{fontSize:"13.5px",color:C.textS}}>{[q.name,q.room&&roomName(q.room)].filter(Boolean).join(" · ")}{q.note?` — ${q.note}`:""}</div>
+                      <div style={{fontSize:"12.5px",color:C.textM,marginTop:"2px"}}>{new Date(q.created_at).toLocaleString("it-IT")}</div>
                     </div>
                   ))}
-                  {(data.recentRequests||[]).length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessuna richiesta ancora.</div>}
+                  {(data.recentRequests||[]).length===0&&<div style={{fontSize:"14.5px",color:C.textM,fontStyle:"italic"}}>Nessuna richiesta ancora.</div>}
                 </div>
               </WhiteCard>
             </Section>
@@ -2961,11 +2962,11 @@ function DashboardPage({t,lang,setPage}) {
             <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
               {data.recentQuestions.map((q,i)=>(
                 <div key={i} style={{paddingBottom:"10px",borderBottom:i<data.recentQuestions.length-1?`1px solid ${C.border}`:"none"}}>
-                  <div style={{fontSize:"14px",color:C.textD}}>{q.label}</div>
-                  <div style={{fontSize:"11px",color:C.textM,marginTop:"2px"}}>{q.lang?.toUpperCase()} · {new Date(q.created_at).toLocaleString("it-IT")}</div>
+                  <div style={{fontSize:"15.5px",color:C.textD}}>{q.label}</div>
+                  <div style={{fontSize:"12.5px",color:C.textM,marginTop:"2px"}}>{q.lang?.toUpperCase()} · {new Date(q.created_at).toLocaleString("it-IT")}</div>
                 </div>
               ))}
-              {data.recentQuestions.length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessuna domanda ancora.</div>}
+              {data.recentQuestions.length===0&&<div style={{fontSize:"14.5px",color:C.textM,fontStyle:"italic"}}>Nessuna domanda ancora.</div>}
             </div>
           </WhiteCard>
         </Section>
@@ -2975,11 +2976,11 @@ function DashboardPage({t,lang,setPage}) {
             <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
               {(data.recentErrors||[]).map((e,i)=>(
                 <div key={i} style={{paddingBottom:"10px",borderBottom:i<(data.recentErrors.length-1)?`1px solid ${C.border}`:"none"}}>
-                  <div style={{fontSize:"14px",color:"#B04A4A"}}>{e.label}</div>
-                  <div style={{fontSize:"11px",color:C.textM,marginTop:"2px"}}>{e.lang?.toUpperCase()} · {new Date(e.created_at).toLocaleString("it-IT")}</div>
+                  <div style={{fontSize:"15.5px",color:"#B04A4A"}}>{e.label}</div>
+                  <div style={{fontSize:"12.5px",color:C.textM,marginTop:"2px"}}>{e.lang?.toUpperCase()} · {new Date(e.created_at).toLocaleString("it-IT")}</div>
                 </div>
               ))}
-              {(!data.recentErrors||data.recentErrors.length===0)&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessun errore registrato.</div>}
+              {(!data.recentErrors||data.recentErrors.length===0)&&<div style={{fontSize:"14.5px",color:C.textM,fontStyle:"italic"}}>Nessun errore registrato.</div>}
             </div>
           </WhiteCard>
         </Section>
@@ -2989,12 +2990,12 @@ function DashboardPage({t,lang,setPage}) {
             <div style={{display:"flex",flexDirection:"column",gap:"12px",maxHeight:"320px",overflowY:"auto"}}>
               {data.recentFeedback.map((f,i)=>(
                 <div key={i} style={{paddingBottom:"10px",borderBottom:i<data.recentFeedback.length-1?`1px solid ${C.border}`:"none"}}>
-                  <div style={{fontSize:"14px",color:C.gold}}>{"★".repeat(f.rating)}{"☆".repeat(5-f.rating)}</div>
-                  {f.comment&&<div style={{fontSize:"14px",color:C.textD,marginTop:"3px"}}>{f.comment}</div>}
-                  <div style={{fontSize:"11px",color:C.textM,marginTop:"2px"}}>{f.room||""} {f.lang?.toUpperCase()} · {new Date(f.created_at).toLocaleString("it-IT")}</div>
+                  <div style={{fontSize:"15.5px",color:C.gold}}>{"★".repeat(f.rating)}{"☆".repeat(5-f.rating)}</div>
+                  {f.comment&&<div style={{fontSize:"15.5px",color:C.textD,marginTop:"3px"}}>{f.comment}</div>}
+                  <div style={{fontSize:"12.5px",color:C.textM,marginTop:"2px"}}>{f.room||""} {f.lang?.toUpperCase()} · {new Date(f.created_at).toLocaleString("it-IT")}</div>
                 </div>
               ))}
-              {data.recentFeedback.length===0&&<div style={{fontSize:"13px",color:C.textM,fontStyle:"italic"}}>Nessun feedback ancora.</div>}
+              {data.recentFeedback.length===0&&<div style={{fontSize:"14.5px",color:C.textM,fontStyle:"italic"}}>Nessun feedback ancora.</div>}
             </div>
           </WhiteCard>
         </Section>
@@ -3136,6 +3137,7 @@ export default function AbatonApp() {
     <div style={{display:"flex",minHeight:"100vh",background:C.bg}}>
       <style>{`
         :root{color-scheme:light only}
+        body{color:#14223D}
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:0}
         input::placeholder{color:${C.textM}}
@@ -3153,7 +3155,7 @@ export default function AbatonApp() {
           {NAV.map(({id,Icon})=>{
             const active = page===id||(page==="experience"&&id==="home");
             return(
-              <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 8px",color:active?C.gold:C.blue,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9px",fontWeight:active?"500":"300",letterSpacing:"0.1em",textTransform:"uppercase",transition:"color 0.2s"}}>
+              <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 8px",color:active?C.gold:C.blue,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"11px",fontWeight:active?"500":"300",letterSpacing:"0.1em",textTransform:"uppercase",transition:"color 0.2s"}}>
                 <Icon/>{t.nav[NAV.indexOf(NAV.find(n=>n.id===id))]}
               </button>
             );
@@ -3168,7 +3170,7 @@ export default function AbatonApp() {
               {NAV.map(({id,Icon})=>{
                 const active = page===id||(page==="experience"&&id==="home");
                 return(
-                  <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 14px",color:active?C.gold:C.blue,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"9px",fontWeight:active?"500":"300",letterSpacing:"0.12em",textTransform:"uppercase",transition:"color 0.2s"}}>
+                  <button key={id} onClick={()=>goPage(id)} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"4px",padding:"3px 4px",color:active?C.gold:C.blue,background:"none",border:"none",cursor:"pointer",fontFamily:FB,fontSize:"11px",fontWeight:active?"500":"300",letterSpacing:"0.06em",textTransform:"uppercase",transition:"color 0.2s"}}>
                     <Icon/>{t.nav[NAV.indexOf(NAV.find(n=>n.id===id))]}
                   </button>
                 );
@@ -3179,25 +3181,25 @@ export default function AbatonApp() {
         <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.82)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={dismissOnboard}>
           <div style={{background:C.white,borderRadius:"28px",padding:"32px 28px",maxWidth:"340px",width:"100%",textAlign:"center"}} onClick={e=>e.stopPropagation()}>
             <div style={{fontFamily:FD,fontSize:"28px",color:C.gold,marginBottom:"6px"}}>Abaton</div>
-            <div style={{fontFamily:FS,fontSize:"14px",color:C.textM,marginBottom:"28px",fontStyle:"italic"}}>
+            <div style={{fontFamily:FS,fontSize:"15.5px",color:C.textM,marginBottom:"28px",fontStyle:"italic"}}>
               {lang==="it"?"Benvenuto. Qualche cosa da esplorare:":lang==="de"?"Willkommen. Ein paar Dinge zum Entdecken:":lang==="fr"?"Bienvenue. Quelques choses à explorer :":lang==="ru"?"Добро пожаловать. Несколько вещей, которые стоит изучить:":"Welcome. A few things to explore:"}
             </div>
             {onboardSteps.map((s,i)=>(
               <div key={i} style={{display:"flex",gap:"14px",alignItems:"flex-start",marginBottom:"20px",textAlign:"left",opacity:onboardStep===i?1:0.45,transition:"opacity 0.3s"}} onClick={()=>setOnboardStep(i)}>
                 <div style={{width:"42px",height:"42px",borderRadius:"50%",background:C.goldPale,border:`2px solid ${C.gold}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:"18px"}}>{s.icon}</div>
                 <div>
-                  <div style={{fontFamily:FB,fontSize:"14px",color:C.blue,marginBottom:"2px"}}>{s.title}</div>
-                  <div style={{fontFamily:FS,fontSize:"12px",color:C.textM,lineHeight:"1.5"}}>{s.desc}</div>
+                  <div style={{fontFamily:FB,fontSize:"15.5px",color:C.blue,marginBottom:"2px"}}>{s.title}</div>
+                  <div style={{fontFamily:FS,fontSize:"13.5px",color:C.textM,lineHeight:"1.5"}}>{s.desc}</div>
                 </div>
               </div>
             ))}
             <div style={{display:"flex",gap:"8px",marginTop:"8px"}}>
-              {onboardStep > 0 && <button onClick={()=>setOnboardStep(p=>p-1)} style={{flex:1,padding:"12px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",fontFamily:FB,fontSize:"13px",color:C.textM,cursor:"pointer"}}>←</button>}
+              {onboardStep > 0 && <button onClick={()=>setOnboardStep(p=>p-1)} style={{flex:1,padding:"12px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",fontFamily:FB,fontSize:"14.5px",color:C.textM,cursor:"pointer"}}>←</button>}
               {onboardStep < onboardSteps.length-1
-                ? <button onClick={()=>setOnboardStep(p=>p+1)} style={{flex:2,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"13px",cursor:"pointer",letterSpacing:"0.05em"}}>
+                ? <button onClick={()=>setOnboardStep(p=>p+1)} style={{flex:2,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"14.5px",cursor:"pointer",letterSpacing:"0.05em"}}>
                     {lang==="it"?"Avanti →":lang==="de"?"Weiter →":lang==="fr"?"Suivant →":lang==="ru"?"Далее →":"Next →"}
                   </button>
-                : <button onClick={dismissOnboard} style={{flex:2,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"13px",cursor:"pointer",letterSpacing:"0.05em"}}>
+                : <button onClick={dismissOnboard} style={{flex:2,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"14.5px",cursor:"pointer",letterSpacing:"0.05em"}}>
                     {lang==="it"?"Inizia →":lang==="de"?"Los geht's →":lang==="fr"?"C'est parti →":lang==="ru"?"Начнём →":"Let's go →"}
                   </button>
               }
