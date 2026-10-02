@@ -310,12 +310,14 @@ function BreathingPlayer({t}) {
   const total = 660;
   const refs = useRef({ctx:null,src:null,timer:null,btimer:null});
   const stopAll = useCallback(() => {
+    if(refs.current.awake){ refs.current.awake=false; KEEP_AWAKE--; }
     clearInterval(refs.current.timer); clearInterval(refs.current.btimer);
     try{refs.current.src&&refs.current.src.stop();}catch(e){}
     try{refs.current.ctx&&refs.current.ctx.close();}catch(e){}
   },[]);
   const startPlay = useCallback(() => {
     setSt("playing"); setEl(0); setPhase("inhale");
+    if(!refs.current.awake){ refs.current.awake=true; KEEP_AWAKE++; }
     const ctx = new(window.AudioContext||window.webkitAudioContext)();
     refs.current.ctx = ctx;
     const buf = ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);
@@ -450,10 +452,12 @@ function ZoomImg({src,group,style,alt=""}) {
   );
 }
 
+let KEEP_AWAKE = 0;
+
 // ── CONFIG MODIFICABILE DALLO STAFF (salvata su /api/config) ──────────────────
 const CFG_DEFAULT = {
   checkOut:"10:30", breakfastFrom:"8:00", breakfastTo:"10:00", receptionFrom:"8:00", receptionTo:"18:00",
-  wifiName:"abaton", wifiPass:"abaton1950", reviewUrl:"", noticeIT:"", noticeEN:"", conciergeNotes:"",
+  wifiName:"abaton", wifiPass:"abaton1950", reviewUrl:"https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html", noticeIT:"", noticeEN:"", conciergeNotes:"",
 };
 let CFG = {...CFG_DEFAULT};
 const setCfg = v => { CFG = {...CFG_DEFAULT, ...(v||{})}; };
@@ -492,7 +496,7 @@ const EDIT_FIELDS = [
     {k:"wifiPass",label:"Password",ph:"abaton1950"},
   ]},
   {sec:"Recensione", items:[
-    {k:"reviewUrl",label:"Link per la recensione (Google, Booking, Tripadvisor…)",ph:"https://…",hint:"Appare nella lettera di congedo come QR da inquadrare col telefono. Se vuoto, l'ospite viene portato al modulo di feedback interno."},
+    {k:"reviewUrl",label:"Link per la recensione (Google, Booking, Tripadvisor…)",ph:"https://…",hint:"Appare nella lettera di congedo come QR da inquadrare col telefono (ora è la recensione TripAdvisor). Se lo svuoti, l'ospite viene portato al modulo di feedback interno."},
   ]},
   {sec:"Avviso in evidenza nella Home", items:[
     {k:"noticeIT",label:"Testo in italiano",area:true,hint:"Compare in un riquadro dorato nella Home. Lascia vuoto per non mostrare nulla."},
@@ -590,6 +594,33 @@ const LETTER_HINT = {it:"Tocca il sigillo per aprire la lettera",en:"Touch the s
 const LETTER_FOR = {it:"Per",en:"For",de:"Für",fr:"Pour",ru:"Для"};
 const LETTER_CLOSE = {it:"Chiudi",en:"Close",de:"Schließen",fr:"Fermer",ru:"Закрыть"};
 const LETTER_LATER = {it:"Più tardi",en:"Later",de:"Später",fr:"Plus tard",ru:"Позже"};
+
+const SS_WELCOME = {it:"Benvenuto",en:"Welcome",de:"Willkommen",fr:"Bienvenue",ru:"Добро пожаловать"};
+const SS_TAP = {it:"Clicca qui!",en:"Tap here!",de:"Hier tippen!",fr:"Touchez ici !",ru:"Нажмите здесь!"};
+const SS_IMGS = ["/temple/rosone-acqua-big.jpg","/temple/rosone-vittoria-big.jpg"];
+function Screensaver({lang,onWake}) {
+  const [i] = useState(()=>{
+    try{ const n=(+localStorage.getItem("abaton_ss")||0)+1; localStorage.setItem("abaton_ss",String(n)); return n%SS_IMGS.length; }catch(e){ return 0; }
+  });
+  const L = o => o[lang]||o.en;
+  const S = "min(84vmin, 680px)";
+  return (
+    <div role="button" onClick={onWake} style={{position:"fixed",inset:0,zIndex:10002,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",background:"radial-gradient(ellipse at center, #1B2C52 0%, #0C1428 78%)",animation:"abatonFade 1.2s ease both"}}>
+      <div style={{position:"relative",width:S,height:S,animation:"abatonFloat 9s ease-in-out infinite"}}>
+        <div style={{position:"absolute",inset:"-3%",borderRadius:"50%",border:`1px solid ${C.gold}66`,boxShadow:`0 0 90px ${C.gold}40`}}/>
+        <img src={SS_IMGS[i]} alt="" style={{width:"100%",height:"100%",borderRadius:"50%",objectFit:"cover",border:`2px solid ${C.gold}`,animation:"abatonSpin 240s linear infinite",display:"block"}}/>
+        <div style={{position:"absolute",left:"50%",top:"50%",width:"60%",height:"60%",transform:"translate(-50%,-50%)",borderRadius:"50%",background:"radial-gradient(circle, rgba(12,20,40,0.9) 0%, rgba(12,20,40,0.82) 62%, rgba(12,20,40,0) 100%)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textAlign:"center",padding:"6%"}}>
+          <img src="/logo-eye2.png" alt="" style={{width:"22%",height:"auto",marginBottom:"3%",opacity:0.95}}/>
+          <div style={{fontFamily:FD,fontSize:"clamp(26px, 7.2vmin, 58px)",color:C.white,lineHeight:1.1,textShadow:"0 2px 14px rgba(0,0,0,0.6)"}}>{L(SS_WELCOME)}</div>
+          <div style={{display:"flex",alignItems:"center",gap:"10px",margin:"3% 0"}}>
+            <div style={{height:"1px",width:"clamp(18px,5vmin,40px)",background:`${C.gold}99`}}/><div style={{color:C.gold,fontSize:"clamp(11px,2.6vmin,18px)"}}>✦</div><div style={{height:"1px",width:"clamp(18px,5vmin,40px)",background:`${C.gold}99`}}/>
+          </div>
+          <div style={{fontFamily:FD,fontStyle:"italic",fontSize:"clamp(20px, 5vmin, 40px)",color:C.gold,animation:"abatonTap 2.4s ease-in-out infinite"}}>{L(SS_TAP)}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function pendingLetterFor(session) {
   const phase = stayPhase(session);
@@ -721,6 +752,7 @@ function ExtLink({href,style,onClick,children,lang}) {
   const [open,setOpen] = useState(false);
   const [qr,setQr] = useState("");
   const mapEmbed = href?buildMapEmbed(href):null;
+  useEffect(()=>{ if(!open) return; KEEP_AWAKE++; return ()=>{ KEEP_AWAKE--; }; },[open]);
   useEffect(()=>{
     if(!open||!href||mapEmbed) return;
     QRCode.toDataURL(href,{width:200,margin:1,color:{dark:C.blue,light:"#ffffff"}}).then(setQr).catch(()=>setQr(""));
@@ -2993,7 +3025,25 @@ export default function AbatonApp() {
     document.head.appendChild(link);
     return()=>{try{document.head.removeChild(link);}catch(e){}};
   },[]);
-  useEffect(()=>{ track("app_open","App aperta"); },[]);
+  // ── SALVASCHERMO: l'evento "app aperta" parte solo al tocco, non al caricamento ──
+  const [asleep,setAsleep] = useState(false);
+  const asleepRef = useRef(false);
+  const lastAct = useRef(Date.now());
+  const inUse = useRef(false);
+  const markUse = () => { if(!inUse.current){ inUse.current=true; track("app_open","App aperta"); } };
+  useEffect(()=>{
+    const onAct = () => { if(asleepRef.current) return; lastAct.current=Date.now(); markUse(); };
+    const evs = ["pointerdown","keydown","touchstart","wheel","scroll"];
+    evs.forEach(e=>window.addEventListener(e,onAct,{passive:true,capture:true}));
+    const tick = setInterval(()=>{
+      if(asleepRef.current) return;
+      const limit = KEEP_AWAKE>0 ? 10*60*1000 : 90*1000;
+      if(Date.now()-lastAct.current>limit){ asleepRef.current=true; inUse.current=false; setAsleep(true); }
+    },5000);
+    const pre = setTimeout(()=>{ SS_IMGS.forEach(src=>{ const im=new Image(); im.src=src; }); },5000);
+    return ()=>{ evs.forEach(e=>window.removeEventListener(e,onAct,{capture:true})); clearInterval(tick); clearTimeout(pre); };
+  },[]);
+  const wake = () => { asleepRef.current=false; setAsleep(false); lastAct.current=Date.now(); markUse(); };
   // ── LANDSCAPE (TABLET) LAYOUT ─────────────────────────────────────────────
   const [isLandscape,setIsLandscape] = useState(()=>window.innerWidth>window.innerHeight&&window.innerWidth>=900);
   useEffect(()=>{
@@ -3092,6 +3142,7 @@ export default function AbatonApp() {
         button{-webkit-tap-highlight-color:transparent}
         @keyframes abatonSeal{0%,100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(255,200,160,0))}50%{transform:scale(1.06);filter:drop-shadow(0 0 14px rgba(255,190,150,0.55))}}
         @keyframes abatonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        @keyframes abatonTap{0%,100%{opacity:0.55;transform:scale(0.97)}50%{opacity:1;transform:scale(1.05)}}
         @keyframes abatonFade{from{opacity:0}to{opacity:1}}
         @keyframes abatonLetterIn{from{opacity:0;transform:translateY(46px) scale(0.92)}to{opacity:1;transform:none}}
         @keyframes abatonSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -3157,6 +3208,7 @@ export default function AbatonApp() {
       {showStaff&&(
         <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}} onEditInfo={pn=>{setShowStaff(false);setEditorPin(pn);}}/>
       )}
+      {asleep&&<Screensaver lang={lang} onWake={wake}/>}
       {editorPin&&(
         <InfoEditor pin={editorPin} onClose={()=>setEditorPin(null)} onSaved={()=>setCfgTick(x=>x+1)}/>
       )}
