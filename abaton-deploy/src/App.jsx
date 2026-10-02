@@ -1120,7 +1120,7 @@ function clearSession(){
   try{ localStorage.removeItem('abaton_session'); localStorage.removeItem('abaton_onboarded_id'); }catch(e){}
 }
 
-function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTestSaver}) {
+function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTestSaver,onToggleDebug}) {
   const [pinOk,setPinOk] = useState(false);
   const [pin,setPin] = useState("");
   const [name,setName] = useState(session?.name||"");
@@ -1184,7 +1184,7 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTes
         {onEditInfo&&<button onClick={()=>onEditInfo(pin)} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>✏️ Modifica le info dell'app →</button>}
         {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>📊 Vedi statistiche →</button>}
         <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>Chiudi</button>
-        <div style={{textAlign:"center",fontSize:"12.5px",color:C.textM,marginTop:"6px"}}>Versione app: {appVersion()}</div>
+        <div onClick={onToggleDebug} style={{textAlign:"center",fontSize:"12.5px",color:C.textM,marginTop:"6px"}}>Versione app: {appVersion()}</div>
       </div>
     </div>
   );
@@ -3085,9 +3085,13 @@ export default function AbatonApp() {
   const lastAct = useRef(Date.now());
   const inUse = useRef(false);
   const updateReady = useRef(false);
+  const lastEvt = useRef("—");
+  const [debugOn,setDebugOn] = useState(false);
+  const [,setDbgTick] = useState(0);
+  useEffect(()=>{ if(!debugOn) return; const id=setInterval(()=>setDbgTick(x=>x+1),1000); return ()=>clearInterval(id); },[debugOn]);
   const markUse = () => { if(!inUse.current){ inUse.current=true; track("app_open","App aperta"); } };
   useEffect(()=>{
-    const onAct = () => { if(asleepRef.current) return; lastAct.current=Date.now(); markUse(); };
+    const onAct = (e) => { if(asleepRef.current) return; lastAct.current=Date.now(); lastEvt.current=`${e.type} ${(e.target&&e.target.tagName)||""}`; markUse(); };
     const evs = ["pointerdown","keydown","touchstart","wheel"];
     evs.forEach(e=>window.addEventListener(e,onAct,{passive:true,capture:true}));
     const tick = setInterval(()=>{
@@ -3277,9 +3281,14 @@ export default function AbatonApp() {
         </div>
       )}
       {showStaff&&(
-        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}} onEditInfo={pn=>{setShowStaff(false);setEditorPin(pn);}} onTestSaver={()=>{ setShowStaff(false); asleepRef.current=true; inUse.current=false; setAsleep(true); }}/>
+        <StaffPanel session={session} onSave={handleSaveSession} onClear={handleClearSession} onClose={()=>setShowStaff(false)} onDashboard={()=>{setShowStaff(false);goPage("dashboard");}} onEditInfo={pn=>{setShowStaff(false);setEditorPin(pn);}} onToggleDebug={()=>setDebugOn(v=>!v)} onTestSaver={()=>{ setShowStaff(false); asleepRef.current=true; inUse.current=false; setAsleep(true); }}/>
       )}
       {asleep&&<Screensaver lang={lang} onWake={wake}/>}
+      {debugOn&&(
+        <div style={{position:"fixed",left:"8px",bottom:"8px",zIndex:10003,pointerEvents:"none",background:"rgba(0,0,0,0.78)",color:"#fff",fontFamily:"monospace",fontSize:"13px",padding:"6px 10px",borderRadius:"8px"}}>
+          {asleep?"SALVASCHERMO ATTIVO":`inattivo ${Math.round((Date.now()-lastAct.current)/1000)}s / ${KEEP_AWAKE>0?600:90}s`} · ultimo: {lastEvt.current} · blocchi: {KEEP_AWAKE} · v {appVersion()}
+        </div>
+      )}
       {editorPin&&(
         <InfoEditor pin={editorPin} onClose={()=>setEditorPin(null)} onSaved={()=>setCfgTick(x=>x+1)}/>
       )}
