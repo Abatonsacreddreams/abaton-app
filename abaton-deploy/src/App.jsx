@@ -941,6 +941,17 @@ function PopoliExperienceButton({t,lang,style}) {
 }
 
 // ── RICHIESTE ALLO STAFF — giorno + momento indicativi, telefono facoltativo, arriva sul bot Telegram ──
+const PHONE_PREFIXES = [
+  {c:"+39",f:"🇮🇹",n:"Italia"},{c:"+49",f:"🇩🇪",n:"Deutschland"},{c:"+33",f:"🇫🇷",n:"France"},{c:"+44",f:"🇬🇧",n:"United Kingdom"},
+  {c:"+41",f:"🇨🇭",n:"Schweiz / Suisse"},{c:"+43",f:"🇦🇹",n:"Österreich"},{c:"+34",f:"🇪🇸",n:"España"},{c:"+31",f:"🇳🇱",n:"Nederland"},
+  {c:"+32",f:"🇧🇪",n:"Belgique"},{c:"+351",f:"🇵🇹",n:"Portugal"},{c:"+30",f:"🇬🇷",n:"Ελλάδα"},{c:"+48",f:"🇵🇱",n:"Polska"},
+  {c:"+420",f:"🇨🇿",n:"Česko"},{c:"+7",f:"🇷🇺",n:"Россия"},{c:"+380",f:"🇺🇦",n:"Україна"},{c:"+46",f:"🇸🇪",n:"Sverige"},
+  {c:"+47",f:"🇳🇴",n:"Norge"},{c:"+45",f:"🇩🇰",n:"Danmark"},{c:"+358",f:"🇫🇮",n:"Suomi"},{c:"+353",f:"🇮🇪",n:"Ireland"},
+  {c:"+1",f:"🇺🇸",n:"USA / Canada"},{c:"+61",f:"🇦🇺",n:"Australia"},{c:"+55",f:"🇧🇷",n:"Brasil"},{c:"+972",f:"🇮🇱",n:"Israel"},
+  {c:"+81",f:"🇯🇵",n:"日本"},
+];
+const PREFIX_BY_LANG = {it:"+39",en:"+44",de:"+49",fr:"+33",ru:"+7"};
+
 const REQ_SLOTS = [
   {id:"prima_mattina",it:"Prima mattina",en:"Early morning",de:"Früher Morgen",fr:"Début de matinée",ru:"Рано утром"},
   {id:"prima_pranzo",it:"Prima di pranzo",en:"Before lunch",de:"Vor dem Mittagessen",fr:"Avant le déjeuner",ru:"Перед обедом"},
@@ -953,8 +964,11 @@ const RQ = {
   slot:{it:"In quale momento della giornata?",en:"At what time of day?",de:"Zu welcher Tageszeit?",fr:"À quel moment de la journée ?",ru:"В какое время дня?"},
   indic:{it:"Indicativo: lo staff conferma disponibilità e orario esatto.",en:"Indicative only: our staff will confirm availability and the exact time.",de:"Unverbindlich: Das Team bestätigt Verfügbarkeit und genaue Uhrzeit.",fr:"À titre indicatif : l'équipe confirme la disponibilité et l'horaire exact.",ru:"Ориентировочно: персонал подтвердит наличие мест и точное время."},
   name:{it:"Il tuo nome",en:"Your name",de:"Dein Name",fr:"Votre nom",ru:"Ваше имя"},
-  phone:{it:"Il tuo numero di telefono (facoltativo)",en:"Your phone number (optional)",de:"Deine Telefonnummer (optional)",fr:"Votre numéro de téléphone (facultatif)",ru:"Ваш номер телефона (необязательно)"},
-  phoneHint:{it:"Con il numero lo staff ti raggiunge più facilmente, ma la richiesta arriva anche senza.",en:"A number helps our staff reach you, but the request arrives without it too.",de:"Mit Nummer erreicht dich das Team leichter, die Anfrage kommt aber auch ohne an.",fr:"Un numéro aide l'équipe à vous joindre, mais la demande arrive aussi sans.",ru:"Номер поможет связаться с вами, но запрос дойдёт и без него."},
+  phoneLbl:{it:"Il tuo numero di telefono",en:"Your phone number",de:"Deine Telefonnummer",fr:"Votre numéro de téléphone",ru:"Ваш номер телефона"},
+  phoneNum:{it:"Numero",en:"Number",de:"Nummer",fr:"Numéro",ru:"Номер"},
+  phoneOther:{it:"Altro prefisso…",en:"Other prefix…",de:"Andere Vorwahl…",fr:"Autre indicatif…",ru:"Другой код…"},
+  phoneHint:{it:"Serve allo staff per confermarti la prenotazione e darti tutte le informazioni.",en:"Our staff needs it to confirm your booking and give you all the details.",de:"Das Team braucht sie, um deine Buchung zu bestätigen und dir alle Infos zu geben.",fr:"L'équipe en a besoin pour confirmer votre réservation et vous donner toutes les informations.",ru:"Нужен персоналу, чтобы подтвердить бронирование и сообщить вам все подробности."},
+  phoneErr:{it:"Controlla il numero (solo cifre, senza il prefisso).",en:"Please check the number (digits only, without the prefix).",de:"Bitte prüfe die Nummer (nur Ziffern, ohne Vorwahl).",fr:"Vérifiez le numéro (chiffres uniquement, sans l'indicatif).",ru:"Проверьте номер (только цифры, без кода страны)."},
   note:{it:"Altre note (facoltativo)",en:"Anything else (optional)",de:"Weitere Hinweise (optional)",fr:"Autres notes (facultatif)",ru:"Дополнительно (необязательно)"},
   send:{it:"Invia richiesta →",en:"Send request →",de:"Anfrage senden →",fr:"Envoyer la demande →",ru:"Отправить запрос →"},
   sending:{it:"Invio...",en:"Sending...",de:"Senden...",fr:"Envoi...",ru:"Отправка..."},
@@ -964,9 +978,12 @@ const RQ = {
   close:{it:"Chiudi",en:"Close",de:"Schließen",fr:"Fermer",ru:"Закрыть"},
   cancel:{it:"Annulla",en:"Cancel",de:"Abbrechen",fr:"Annuler",ru:"Отмена"},
 };
-function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel="Interessi",item,lang,trackLabel}) {
+function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel="Interessi",noteLabel,showWhen=true,item,lang,trackLabel}) {
   const [name,setName] = useState(()=>getSession()?.name||"");
-  const [phone,setPhone] = useState("");
+  const [prefix,setPrefix] = useState(PREFIX_BY_LANG[lang]||"+39");
+  const [otherPrefix,setOtherPrefix] = useState("+");
+  const [number,setNumber] = useState("");
+  const [touched,setTouched] = useState(false);
   const [date,setDate] = useState("");
   const [slot,setSlot] = useState(null);
   const [picked,setPicked] = useState([]);
@@ -978,20 +995,29 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   const T_ = o => o[lang]||o.en;
   const today = (()=>{ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; })();
   const toggle = id => setPicked(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
+  const usingOther = prefix==="other";
+  const effPrefix = usingOther ? ("+"+otherPrefix.replace(/\D/g,"")) : prefix;
+  let digits = number.replace(/\D/g,"");
+  if(effPrefix!=="+39") digits = digits.replace(/^0+/,"");
+  const prefixOk = /^\+\d{1,4}$/.test(effPrefix);
+  const phoneOk = prefixOk && digits.length>=6 && digits.length<=14;
+  const canSend = !sending && name.trim() && phoneOk;
   const send = async () => {
+    setTouched(true);
+    if(!canSend) return;
     setSending(true); setErr(false);
     track(trackLabel||"quick_request", item, {lang});
     const slotObj = REQ_SLOTS.find(o=>o.id===slot);
     const chipNames = (chips||[]).filter(c=>picked.includes(c.id)).map(c=>c.it).join(", ");
     const fullNote = [chipNames?`${chipsNoteLabel}: ${chipNames}`:null, note||null].filter(Boolean).join(" — ");
     try{
-      const res = await fetch("/api/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,phone,room:getRoom(),item,date,slot:slotObj?slotObj.it:null,note:fullNote,lang})});
+      const res = await fetch("/api/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name.trim(),phone:`${effPrefix} ${digits}`,room:getRoom(),item,date:showWhen?date:"",slot:showWhen&&slotObj?slotObj.it:null,note:fullNote,lang})});
       if(!res.ok) throw new Error("req");
       setSent(true);
     }catch(e){ setErr(true); }
     setSending(false);
   };
-  const closeAll = () => { onClose(); setTimeout(()=>{ setSent(false); setErr(false); setSlot(null); setDate(""); setNote(""); setPicked([]); },300); };
+  const closeAll = () => { onClose(); setTimeout(()=>{ setSent(false); setErr(false); setSlot(null); setDate(""); setNote(""); setPicked([]); setTouched(false); },300); };
   const lbl = {fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"};
   const fld = {width:"100%",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",marginBottom:"12px",boxSizing:"border-box",color:C.textD,background:C.white};
   return (
@@ -1016,19 +1042,29 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
                 ))}
               </div>
             </>}
-            <div style={lbl}>{T_(RQ.day)}</div>
-            <input type="date" value={date} min={today} onChange={e=>setDate(e.target.value)} style={{...fld,marginBottom:"16px"}}/>
-            <div style={lbl}>{T_(RQ.slot)}</div>
-            <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"8px"}}>
-              {REQ_SLOTS.map(o=>(
-                <button key={o.id} onClick={()=>setSlot(slot===o.id?null:o.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${slot===o.id?C.gold:C.border}`,background:slot===o.id?C.gold:"none",color:slot===o.id?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>{T_(o)}</button>
-              ))}
-            </div>
-            <div style={{fontSize:"13px",color:C.textM,fontStyle:"italic",marginBottom:"20px",lineHeight:"1.5"}}>{T_(RQ.indic)}</div>
+            {showWhen&&<>
+              <div style={lbl}>{T_(RQ.day)}</div>
+              <input type="date" value={date} min={today} onChange={e=>setDate(e.target.value)} style={{...fld,marginBottom:"16px"}}/>
+              <div style={lbl}>{T_(RQ.slot)}</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"8px"}}>
+                {REQ_SLOTS.map(o=>(
+                  <button key={o.id} onClick={()=>setSlot(slot===o.id?null:o.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${slot===o.id?C.gold:C.border}`,background:slot===o.id?C.gold:"none",color:slot===o.id?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>{T_(o)}</button>
+                ))}
+              </div>
+              <div style={{fontSize:"13px",color:C.textM,fontStyle:"italic",marginBottom:"20px",lineHeight:"1.5"}}>{T_(RQ.indic)}</div>
+            </>}
             <input value={name} onChange={e=>setName(e.target.value)} placeholder={T_(RQ.name)} style={fld}/>
-            <input type="tel" inputMode="tel" value={phone} onChange={e=>setPhone(e.target.value)} placeholder={T_(RQ.phone)} style={{...fld,marginBottom:"4px"}}/>
-            <div style={{fontSize:"13px",color:C.textM,marginBottom:"14px",lineHeight:"1.5"}}>{T_(RQ.phoneHint)}</div>
-            <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={T_(RQ.note)} style={{...fld,minHeight:"60px",resize:"vertical",marginBottom:"18px"}}/>
+            <div style={lbl}>{T_(RQ.phoneLbl)} *</div>
+            <div style={{display:"flex",gap:"8px",marginBottom:"4px"}}>
+              <select value={prefix} onChange={e=>setPrefix(e.target.value)} style={{...fld,width:"auto",flex:"0 0 auto",maxWidth:"46%",marginBottom:0,padding:"12px 10px"}}>
+                {PHONE_PREFIXES.map(p=><option key={p.c} value={p.c}>{p.f} {p.c}</option>)}
+                <option value="other">{T_(RQ.phoneOther)}</option>
+              </select>
+              {usingOther&&<input value={otherPrefix} onChange={e=>setOtherPrefix(e.target.value)} inputMode="tel" style={{...fld,width:"72px",flex:"0 0 72px",marginBottom:0,padding:"12px 8px",textAlign:"center"}} aria-label="prefix"/>}
+              <input type="tel" inputMode="tel" value={number} onChange={e=>setNumber(e.target.value)} placeholder={T_(RQ.phoneNum)} style={{...fld,flex:1,minWidth:0,marginBottom:0,borderColor:touched&&!phoneOk?"#B04A4A":C.border}}/>
+            </div>
+            <div style={{fontSize:"13px",color:touched&&!phoneOk?"#B04A4A":C.textM,marginBottom:"14px",lineHeight:"1.5"}}>{touched&&!phoneOk?T_(RQ.phoneErr):T_(RQ.phoneHint)}</div>
+            <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={noteLabel||T_(RQ.note)} style={{...fld,minHeight:"60px",resize:"vertical",marginBottom:"18px"}}/>
             {err&&<div style={{fontSize:"14px",color:"#B04A4A",marginBottom:"10px"}}>{T_(RQ.err)}</div>}
             <button onClick={send} disabled={sending||!name.trim()} style={{width:"100%",padding:"14px",background:sending||!name.trim()?C.border:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:sending||!name.trim()?"default":"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600",marginBottom:"10px"}}>{sending?T_(RQ.sending):T_(RQ.send)}</button>
             <button onClick={closeAll} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"14.5px",cursor:"pointer",fontFamily:FB}}>{T_(RQ.cancel)}</button>
@@ -1039,12 +1075,12 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   );
 }
 
-function QuickAsk({item,title,intro,chips,chipsLabel,chipsNoteLabel,lang,style,children,trackLabel}) {
+function QuickAsk({item,title,intro,chips,chipsLabel,chipsNoteLabel,noteLabel,showWhen,lang,style,children,trackLabel}) {
   const [open,setOpen] = useState(false);
   return (
     <>
       <button onClick={()=>setOpen(true)} style={style}>{children}</button>
-      <RequestSheet open={open} onClose={()=>setOpen(false)} title={title} intro={intro} chips={chips} chipsLabel={chipsLabel} chipsNoteLabel={chipsNoteLabel} item={item} lang={lang} trackLabel={trackLabel}/>
+      <RequestSheet open={open} onClose={()=>setOpen(false)} title={title} intro={intro} chips={chips} chipsLabel={chipsLabel} chipsNoteLabel={chipsNoteLabel} noteLabel={noteLabel} showWhen={showWhen} item={item} lang={lang} trackLabel={trackLabel}/>
     </>
   );
 }
@@ -1209,9 +1245,10 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <div style={{fontSize:"15.5px",color:C.textD,fontFamily:FB,lineHeight:"1.6",marginBottom:"14px"}}>
                 {lang==="it"?"Se desideri fermarti oltre quest'orario, va accordato con lo staff in anticipo.":lang==="de"?"Möchtest du länger bleiben, muss dies vorab mit dem Team vereinbart werden.":lang==="fr"?"Si vous souhaitez rester au-delà de cet horaire, cela doit être convenu à l'avance avec le personnel.":lang==="ru"?"Если вы хотите остаться дольше, это нужно заранее согласовать с персоналом.":"If you'd like to stay past this time, it needs to be arranged with staff in advance."}
               </div>
-              <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp late check-out" text={lang==="it"?"Buongiorno, vorrei richiedere il late check-out. Potete confermare la disponibilità? Grazie":lang==="de"?"Guten Tag, ich möchte einen späteren Check-out anfragen. Können Sie die Verfügbarkeit bestätigen? Danke":lang==="fr"?"Bonjour, je souhaiterais demander un départ tardif. Pouvez-vous confirmer la disponibilité ? Merci":lang==="ru"?"Здравствуйте, хотел(а) бы попросить поздний выезд. Можете подтвердить возможность? Спасибо":"Hello, I would like to request a late check-out. Could you confirm availability? Thank you"} renderTrigger={openModal=>(
-                <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"6px",color:C.gold,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",background:"none",border:"none",cursor:"pointer",padding:0}}>💬 {t.lateOut} →</button>
-              )}/>
+              <QuickAsk item="Late check-out" lang={lang} trackLabel="Request late check-out" showWhen={false} title={lang==="ru"?"Поздний выезд":lang==="fr"?"Départ tardif":lang==="de"?"Später Check-out":"Late check-out"}
+                intro={lang==="it"?"Dicci a che ora vorresti partire: lo staff verifica la disponibilità e ti conferma.":lang==="de"?"Sag uns, wann du abreisen möchtest: Das Team prüft die Verfügbarkeit und bestätigt dir.":lang==="fr"?"Dites-nous à quelle heure vous souhaitez partir : l'équipe vérifie la disponibilité et vous confirme.":lang==="ru"?"Скажите, во сколько хотите выехать: персонал проверит возможность и подтвердит.":"Tell us what time you'd like to leave: our staff will check availability and confirm."}
+                noteLabel={lang==="it"?"A che ora vorresti partire?":lang==="de"?"Wann möchtest du abreisen?":lang==="fr"?"À quelle heure souhaitez-vous partir ?":lang==="ru"?"Во сколько хотите выехать?":"What time would you like to leave?"}
+                style={{display:"inline-flex",alignItems:"center",gap:"6px",color:C.gold,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",background:"none",border:"none",cursor:"pointer",padding:0}}>💬 {t.lateOut} →</QuickAsk>
             </div>
           )}
         </div>
@@ -2634,11 +2671,13 @@ function GuestsPage({t,lang,setPage}) {
                 ?"Знаете кого-то, кому это место могло бы пригодиться? Поделитесь своим опытом в Абатоне — за каждого друга, который забронирует благодаря вам, вы получите эксклюзивную скидку на следующее пребывание."
                 :"Do you know someone who could benefit from this place? Share your Abaton experience — for every friend who books thanks to you, you will receive an exclusive discount on your next stay."}
             </div>
-            <ContactButton phone="393510103842" lang={lang} trackLabel="WhatsApp bring a friend" text={lang==="it"?"Buongiorno, vorrei segnalare un amico per un soggiorno in Abaton.":lang==="de"?"Guten Tag, ich möchte einen Freund für einen Aufenthalt im Abaton empfehlen.":lang==="fr"?"Bonjour, je souhaiterais recommander un ami pour un séjour à l'Abaton.":lang==="ru"?"Здравствуйте, хотел(а) бы порекомендовать друга для пребывания в Абатоне.":"Hello, I would like to refer a friend for a stay at Abaton."} renderTrigger={openModal=>(
-              <button onClick={openModal} style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px"}}>
-                💬 {lang==="it"?"Scrivi al personale →":lang==="de"?"Dem Personal schreiben →":lang==="fr"?"Écrire au personnel →":lang==="ru"?"Написать персоналу →":"Message the staff →"}
-              </button>
-            )}/>
+            <QuickAsk item="Segnalazione amico (sconto prossimo soggiorno)" lang={lang} trackLabel="Request bring a friend" showWhen={false}
+              title={lang==="it"?"Segnala un amico":lang==="de"?"Einen Freund empfehlen":lang==="fr"?"Recommander un ami":lang==="ru"?"Порекомендовать друга":"Refer a friend"}
+              intro={lang==="it"?"Lasciaci i tuoi dati e dicci chi vuoi segnalare: lo staff si occupa del resto.":lang==="de"?"Hinterlasse uns deine Daten und sag uns, wen du empfehlen möchtest: Das Team kümmert sich um den Rest.":lang==="fr"?"Laissez-nous vos coordonnées et dites-nous qui vous souhaitez recommander : l'équipe s'occupe du reste.":lang==="ru"?"Оставьте свои данные и скажите, кого хотите порекомендовать: остальным займётся персонал.":"Leave us your details and tell us who you'd like to refer: our staff takes care of the rest."}
+              noteLabel={lang==="it"?"Nome e contatto del tuo amico":lang==="de"?"Name und Kontakt deines Freundes":lang==="fr"?"Nom et contact de votre ami":lang==="ru"?"Имя и контакт вашего друга":"Your friend's name and contact"}
+              style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px"}}>
+                💬 {lang==="it"?"Segnala un amico →":lang==="de"?"Einen Freund empfehlen →":lang==="fr"?"Recommander un ami →":lang==="ru"?"Порекомендовать друга →":"Refer a friend →"}
+              </QuickAsk>
           </div>
         </Section>
 

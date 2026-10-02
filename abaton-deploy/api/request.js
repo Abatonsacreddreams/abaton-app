@@ -62,6 +62,7 @@ export default async function handler(req, res) {
     const niceDate = fmtDate(date);
     const when = [niceDate, slot].filter(Boolean).join(' · ') || null;
     if (!item) return res.status(400).json({ error: 'Missing item' });
+    if (!phone || String(phone).replace(/\D/g, '').length < 7) return res.status(400).json({ error: 'Missing phone' });
     await ensureTable();
     await sql`
       INSERT INTO guest_requests (name, phone, room, item, time_pref, req_date, note, lang)
