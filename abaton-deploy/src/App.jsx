@@ -455,6 +455,7 @@ function ZoomImg({src,group,style,alt=""}) {
 }
 
 let KEEP_AWAKE = 0;
+const RESUME_SAVER = (()=>{ try{ const f=sessionStorage.getItem("abaton_resume_saver"); sessionStorage.removeItem("abaton_resume_saver"); return !!f; }catch(e){ return false; } })();
 const bundleSrc = () => { const el=document.querySelector('script[src*="/assets/index-"]'); return el?el.getAttribute("src"):""; };
 const appVersion = () => { const m=bundleSrc().match(/index-([^.]+)\.js/); return m?m[1]:"dev"; };
 
@@ -1186,6 +1187,7 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTes
         {onDashboard&&<button onClick={onDashboard} style={{width:"100%",padding:"13px",borderRadius:"14px",border:`1px solid ${C.gold}66`,background:C.goldPale,color:C.goldD,cursor:"pointer",marginBottom:"10px",fontFamily:FB,fontSize:"16.5px"}}>📊 Vedi statistiche →</button>}
         <button onClick={onClose} style={{width:"100%",padding:"10px",border:"none",background:"none",color:C.textM,cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>Chiudi</button>
         <div onClick={onToggleDebug} style={{textAlign:"center",fontSize:"12.5px",color:C.textM,marginTop:"6px"}}>Versione app: {appVersion()}</div>
+        {(()=>{ let e=""; try{ e=localStorage.getItem("abaton_last_error")||""; }catch(_){} return e?<div style={{fontSize:"11.5px",color:"#B04A4A",marginTop:"6px",wordBreak:"break-word"}}>Ultimo errore: {e}</div>:null; })()}
       </div>
     </div>
   );
@@ -3081,8 +3083,8 @@ export default function AbatonApp() {
     return()=>{try{document.head.removeChild(link);}catch(e){}};
   },[]);
   // ── SALVASCHERMO: l'evento "app aperta" parte solo al tocco, non al caricamento ──
-  const [asleep,setAsleep] = useState(false);
-  const asleepRef = useRef(false);
+  const [asleep,setAsleep] = useState(RESUME_SAVER);
+  const asleepRef = useRef(RESUME_SAVER);
   const lastAct = useRef(Date.now());
   const inUse = useRef(false);
   const updateReady = useRef(false);
@@ -3096,7 +3098,7 @@ export default function AbatonApp() {
     const evs = ["pointerdown","keydown","touchstart","wheel"];
     evs.forEach(e=>window.addEventListener(e,onAct,{passive:true,capture:true}));
     const tick = setInterval(()=>{
-      if(updateReady.current && KEEP_AWAKE===0 && (asleepRef.current || Date.now()-lastAct.current>45000)){ window.location.reload(); return; }
+      if(updateReady.current && KEEP_AWAKE===0 && (asleepRef.current || Date.now()-lastAct.current>45000)){ try{ sessionStorage.setItem("abaton_resume_saver","1"); }catch(e){} window.location.reload(); return; }
       if(asleepRef.current) return;
       const limit = KEEP_AWAKE>0 ? 10*60*1000 : 90*1000;
       if(Date.now()-lastAct.current>limit){ asleepRef.current=true; inUse.current=false; setAsleep(true); }
@@ -3109,7 +3111,7 @@ export default function AbatonApp() {
       try{
         const r = await fetch("/?v="+Date.now(),{cache:"no-store"});
         const m = (await r.text()).match(/\/assets\/index-[A-Za-z0-9_-]+\.js/);
-        if(m && m[0]!==cur) updateReady.current = true;
+        if(m && m[0]!==cur){ const ar = await fetch(m[0],{cache:"no-store"}); if(ar.ok && /javascript/.test(ar.headers.get("content-type")||"")) updateReady.current = true; }
       }catch(e){}
     };
     const v1 = setTimeout(checkVersion, 20000);

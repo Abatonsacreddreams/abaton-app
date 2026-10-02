@@ -10,6 +10,16 @@
     <meta name="theme-color" content="#F2DFCF" />
     <meta name="color-scheme" content="light only" />
     <title>Abaton Sacred Dreams</title>
+    <style>html,body{background:#F2DFCF;margin:0}</style>
+    <script>
+      window.addEventListener('error',function(e){
+        var t=e.target;
+        if(t&&t.tagName==='SCRIPT'){
+          var k='abaton_script_fail',n=+(sessionStorage.getItem(k)||0);
+          if(n<3){sessionStorage.setItem(k,String(n+1));setTimeout(function(){location.reload()},3000);}
+        }
+      },true);
+    </script>
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
