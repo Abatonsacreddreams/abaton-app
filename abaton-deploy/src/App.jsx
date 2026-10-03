@@ -3105,7 +3105,7 @@ export default function AbatonApp() {
     const v2 = setInterval(checkVersion, 5*60*1000);
     return ()=>{ evs.forEach(e=>window.removeEventListener(e,onAct,{capture:true})); clearInterval(tick); clearTimeout(pre); clearTimeout(v1); clearInterval(v2); document.removeEventListener("visibilitychange",onVisible); };
   },[]);
-  const wake = () => { asleepRef.current=false; setAsleep(false); lastAct.current=Date.now(); markUse(); };
+  const wake = () => { asleepRef.current=false; setAsleep(false); setPage("home"); scrollTop0(); lastAct.current=Date.now(); markUse(); };
   // ── LANDSCAPE (TABLET) LAYOUT ─────────────────────────────────────────────
   const [isLandscape,setIsLandscape] = useState(()=>window.innerWidth>window.innerHeight&&window.innerWidth>=900);
   useEffect(()=>{
