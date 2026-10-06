@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import QRCode from "qrcode";
+import GLOSSARY from "./glossary.js";
 
 const FONT_URL = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap";
 
@@ -2091,6 +2092,53 @@ function AbatonPage({t,lang,setPage}) {
 }
 
 // ── DAMANHUR ──────────────────────────────────────────────────────────────────
+const GLOSS_TXT = {
+  intro:{
+    it:"Le parole che incontrerai a Damanhur, scritte come le usa la comunità. Le spiegazioni brevi sono dove il termine ha un significato particolare.",
+    en:"The words you will come across in Damanhur, written the way the community uses them. Short explanations appear where a term has a special meaning.",
+    de:"Die Wörter, denen du in Damanhur begegnen wirst, so geschrieben, wie die Gemeinschaft sie verwendet. Kurze Erklärungen stehen dort, wo ein Begriff eine besondere Bedeutung hat. (Begriffe auf Italienisch und Englisch.)",
+    fr:"Les mots que vous rencontrerez à Damanhur, écrits comme la communauté les utilise. De courtes explications accompagnent les termes ayant un sens particulier. (Termes en italien et en anglais.)",
+    ru:"Слова, которые вам встретятся в Даманхуре, в написании, принятом в общине. Краткие пояснения даны там, где у термина особое значение. (Термины на итальянском и английском.)",
+  },
+  search:{it:"Cerca un termine…",en:"Search a term…",de:"Begriff suchen…",fr:"Rechercher un terme…",ru:"Найти термин…"},
+  none:{it:"Nessun termine trovato.",en:"No term found.",de:"Kein Begriff gefunden.",fr:"Aucun terme trouvé.",ru:"Ничего не найдено."},
+  count:{it:"termini",en:"terms",de:"Begriffe",fr:"termes",ru:"терминов"},
+};
+function GlossaryView({lang}) {
+  const [q,setQ] = useState("");
+  const L = o => o[lang]||o.en;
+  const norm = x => (x||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const sorted = [...GLOSSARY].sort((a,b)=>a[0].localeCompare(b[0],"it",{sensitivity:"base"}));
+  const nq = norm(q.trim());
+  const list = nq ? sorted.filter(e=>norm(e[0]).includes(nq)||norm(e[1]).includes(nq)||norm(e[2]).includes(nq)||norm(e[3]).includes(nq)) : sorted;
+  let lastLetter = "";
+  return (
+    <div>
+      <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.7",marginBottom:"14px"}}>{L(GLOSS_TXT.intro)}</div>
+      <input value={q} onChange={e=>setQ(e.target.value)} placeholder={L(GLOSS_TXT.search)} style={{width:"100%",padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"16px",marginBottom:"6px",boxSizing:"border-box",background:C.white,color:C.textD,outline:"none"}}/>
+      <div style={{fontSize:"13px",color:C.textM,marginBottom:"14px"}}>{list.length} {L(GLOSS_TXT.count)}</div>
+      {list.length===0&&<div style={{fontSize:"15px",color:C.textM,fontStyle:"italic"}}>{L(GLOSS_TXT.none)}</div>}
+      {list.map((e,i)=>{
+        const letter = e[0].charAt(0).toUpperCase();
+        const head = letter!==lastLetter && !nq; lastLetter = letter;
+        const main = lang==="it" ? e[0] : e[1];
+        const other = lang==="it" ? e[1] : e[0];
+        const note = lang==="it" ? e[2] : e[3];
+        return (
+          <div key={i}>
+            {head&&<div style={{fontFamily:FD,fontSize:"26px",fontWeight:"500",color:C.gold,margin:"18px 0 6px",borderBottom:`1px solid ${C.gold}55`,paddingBottom:"2px"}}>{letter}</div>}
+            <WhiteCard style={{padding:"12px 16px",marginBottom:"8px"}}>
+              <div style={{fontFamily:FD,fontWeight:"600",fontSize:"19px",color:C.blue}}>{main}</div>
+              {other.toLowerCase()!==main.toLowerCase()&&<div style={{fontSize:"14.5px",color:C.goldD,fontWeight:"600",marginTop:"1px"}}>{lang==="it"?"EN":"IT"} · {other}</div>}
+              {note&&<div style={{fontSize:"14.5px",color:C.textS,lineHeight:"1.55",marginTop:"4px"}}>{note}</div>}
+            </WhiteCard>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function DamanPage({t,lang,setPage}) {
   const [sub,setSub] = useState(null);
   useEffect(()=>{ scrollTop0(); },[sub]);
@@ -2129,6 +2177,7 @@ function DamanPage({t,lang,setPage}) {
     {id:"crea",    sym:"◈", color:C.goldD, labelIT:"Damanhur Crea",           labelEN:"Damanhur Crea",         labelDE:"Damanhur Crea",              labelFR:"Damanhur Crea",              labelRU:"Damanhur Crea"},
     {id:"academy", sym:"⊕", color:C.blueM, labelIT:"Studia con Noi",          labelEN:"Study with Us",         labelDE:"Bei uns lernen",              labelFR:"Étudier avec nous",          labelRU:"Учиться с нами"},
     {id:"blog",    sym:"⊙", color:C.textS, labelIT:"Community & Blog",         labelEN:"Community & Blog",      labelDE:"Community & Blog",           labelFR:"Community & Blog",           labelRU:"Community & Blog"},
+    {id:"glossario",sym:"Aa",color:C.goldD,labelIT:"Glossario damanhuriano",labelEN:"Damanhurian glossary",labelDE:"Damanhurisches Glossar",labelFR:"Glossaire damanhurien",labelRU:"Глоссарий Даманхура"},
     {id:"valle",   sym:"🌿",color:"#4A7A4A",labelIT:"Val Chiusella",            labelEN:"Val Chiusella",         labelDE:"Val Chiusella",              labelFR:"Val Chiusella",              labelRU:"Валь-Кьюзелла"},
   ];
   const SUBCONTENT = {
@@ -2357,6 +2406,7 @@ function DamanPage({t,lang,setPage}) {
               )}
             </>
           )}
+          {sub==="glossario"&&<GlossaryView lang={lang}/>}
           {sub==="blog"&&(
             <>
               <div style={{borderRadius:"20px",overflow:"hidden",marginBottom:"16px",boxShadow:C.shadow}}>
