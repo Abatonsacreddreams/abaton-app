@@ -209,14 +209,17 @@ const CONC_ERR = {
 const SYS_FACTS = `
 INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiesta sopra — traduci il contenuto se necessario, ma non i fatti):
 - Check-in: dalle 15:00 alle 18:00 (orari diversi solo previo accordo). Late check-in dopo le 22:00: extra di 30€.
-- Check-out: 10:30. Late check-out gratuito fino alle 13:00 se disponibile (chiedere su WhatsApp/Telegram); dopo le 13:00, costo pari al 50% del totale della stanza. Bagagli lasciabili in reception previo accordo.
+- Check-out: 10:30. Late check-out gratuito fino alle 13:00 se disponibile (chiedere su WhatsApp/Telegram); dopo le 13:00, costo pari al 50% del totale della stanza.
 - Reception: aperta dalle 8:00 alle 18:00.
 - Animali: non ammessi in struttura.
 - WiFi: rete "abaton", password abaton1950.
 - Asciugamani/lenzuola: cambiati nel refresh quotidiano se sporchi, o su richiesta.
 - Lavanderia: lavatrice e asciugatrice disponibili, 12€ in totale per lavaggio e asciugatura; il servizio è incluso per i soggiorni di una settimana. Il bucato lo fa lo staff (non è self-service): l'ospite deve chiederlo allo staff, che lava e asciuga e fa ritrovare i capi in camera. Lo stiro NON è incluso: si fa su richiesta, con costo secondo il numero di capi. L'ospite può richiederlo dall'app (Abaton > Lavanderia e servizi).
 - Fumo: vietato in tutta la struttura, dentro e fuori (comprese sigarette elettroniche); si può fumare solo oltre il cancello.
-- Parcheggio: gratuito, davanti alla struttura.
+- Parcheggio: gratuito, proprio davanti alla struttura.
+- Come si arriva alla struttura e come si entra: l'ospite riceve le mappe per raggiungere il cancello. Al cancello suona il campanello (si trova sulla destra) e attende che venga aperto; poi tiene la destra e parcheggia proprio davanti alla struttura. Il personale accoglie gli ospiti e al check-in consegna la chiave per entrare in autonomia, insieme alla pennetta per aprire il cancello. Alternativa: se l'ospite si è organizzato per trovare la chiave nella keybox, ha già ricevuto tutte le istruzioni dal personale.
+- Arrivo tardivo: con il late check-in (extra di 30€) il personale attende l'ospite oppure ci si accorda per ritirare la chiave dalla keybox; il parcheggio resta davanti alla struttura. Per ogni arrivo fuori dall'orario normale (15:00-18:00) invitare l'ospite a metterlo d'accordo con lo staff in anticipo.
+- Bagagli: si possono lasciare prima del check-in e dopo il check-out. L'ospite deve chiedere direttamente al personale, che verifica e accorda gli orari del deposito e del ritiro.
 - Problemi in camera: contattare lo staff al +39 351 0103842 (WhatsApp/Telegram).
 - Oggetti dimenticati dopo il check-out: scrivere email o WhatsApp/Telegram; se l'ospite è ancora in zona si organizza la riconsegna diretta, altrimenti la spedizione.
 - Visita ai Templi dell'Umanità: si prenota tramite il Welcome Center di Damanhur (damanhur.travel); se il Welcome è al completo, l'Abaton può aiutare a organizzare una visita privata. Visita classica: 3,5 ore, 77€ a persona. Giornata intera con pranzo e visita al bosco: 140€ a persona. Altre tipologie di visita: chiedere al Welcome Center.
