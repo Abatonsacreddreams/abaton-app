@@ -214,7 +214,7 @@ INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiest
 - Animali: non ammessi in struttura.
 - WiFi: rete "abaton", password abaton1950.
 - Asciugamani/lenzuola: cambiati nel refresh quotidiano se sporchi, o su richiesta.
-- Lavanderia: lavatrice e asciugatrice disponibili, 12€ in totale per lavaggio e asciugatura; il servizio è incluso per i soggiorni di una settimana. Stiro su richiesta, costo secondo numero di capi. Nell'app: sezione Abaton > Lavanderia e servizi.
+- Lavanderia: lavatrice e asciugatrice disponibili, 12€ in totale per lavaggio e asciugatura; il servizio è incluso per i soggiorni di una settimana. Il bucato lo fa lo staff (non è self-service): l'ospite deve chiederlo allo staff, che lava e asciuga e fa ritrovare i capi in camera. Lo stiro NON è incluso: si fa su richiesta, con costo secondo il numero di capi. L'ospite può richiederlo dall'app (Abaton > Lavanderia e servizi).
 - Fumo: vietato in tutta la struttura, dentro e fuori (comprese sigarette elettroniche); si può fumare solo oltre il cancello.
 - Parcheggio: gratuito, davanti alla struttura.
 - Problemi in camera: contattare lo staff al +39 351 0103842 (WhatsApp/Telegram).
@@ -1818,11 +1818,11 @@ function AbatonPage({t,lang,setPage}) {
       ru:"Гостиная Абатона — это не зал ожидания, а пространство перехода между ночью и днём, между сном и бодрствованием.\n\nОна создана так, чтобы ничего не прерывать. Свет мягкий, материалы натуральные, атмосфера — атмосфера того, кто никуда не спешит. Это место, где сон не теряется, а сохраняется, где завтрак становится моментом, а не рассеянным жестом.\n\nЕё энергия отражает энергию Лабиринта Храмов — зала, посвящённого единству и гармонии божественных сил Планеты. Лабиринт образует путь через всю историю человечества, выделяя ту часть, что связана с божественным началом, с вечной сутью, лежащей за пределами культурных форм: он подготавливает к контакту с самыми глубинными частями себя через медитацию над собственным духовным путём. Как и Лабиринт, Гостиная — это место перехода, открывающееся к чему-то большему.",
     },
     servizi:{
-      it:"Lavanderia\nLavatrice e asciugatrice sono a disposizione degli ospiti: 12€ in totale per lavaggio e asciugatura. Per i soggiorni di una settimana il servizio è incluso.\n\nStiro\nSu richiesta, con costo in base al numero di capi.\n\nPer qualsiasi dubbio scrivi allo staff dal pulsante “Contatta il personale” in Home.",
-      en:"Laundry\nA washing machine and a dryer are available to guests: €12 in total for washing and drying. For stays of one week the service is included.\n\nIroning\nOn request, priced by the number of items.\n\nFor any question, write to our staff with the “Contact the staff” button on the Home page.",
-      de:"Wäscherei\nWaschmaschine und Trockner stehen den Gästen zur Verfügung: 12 € insgesamt für Waschen und Trocknen. Bei Aufenthalten von einer Woche ist der Service inklusive.\n\nBügeln\nAuf Anfrage, der Preis richtet sich nach der Anzahl der Teile.\n\nBei Fragen schreibe dem Team über den Button „Personal kontaktieren“ auf der Startseite.",
-      fr:"Buanderie\nUn lave-linge et un sèche-linge sont à la disposition des hôtes : 12 € au total pour le lavage et le séchage. Pour les séjours d'une semaine, le service est inclus.\n\nRepassage\nSur demande, tarifé selon le nombre de pièces.\n\nPour toute question, écrivez à l'équipe avec le bouton « Contacter le personnel » sur l'accueil.",
-      ru:"Прачечная\nСтиральная и сушильная машины в распоряжении гостей: 12 € за стирку и сушку вместе. При проживании в течение недели услуга включена.\n\nГлажка\nПо запросу, стоимость зависит от количества вещей.\n\nЕсли остались вопросы, напишите персоналу кнопкой «Связаться с персоналом» на главной странице.",
+      it:"Lavanderia\nCi pensiamo noi: devi solo chiederlo allo staff. Laviamo e asciughiamo i tuoi capi e te li facciamo trovare in camera. Costo: 12€ in totale per lavaggio e asciugatura; per i soggiorni di una settimana è incluso.\n\nStiro\nNon è incluso: è disponibile su richiesta, con costo in base al numero di capi.",
+      en:"Laundry\nWe take care of it: just ask our staff. We wash and dry your clothes and leave them in your room. Cost: €12 in total for washing and drying; included for stays of one week.\n\nIroning\nNot included: available on request, priced by the number of items.",
+      de:"Wäscherei\nWir kümmern uns darum: Frag einfach das Team. Wir waschen und trocknen deine Kleidung und legen sie dir ins Zimmer. Kosten: 12 € insgesamt für Waschen und Trocknen; bei Aufenthalten von einer Woche inklusive.\n\nBügeln\nNicht inklusive: auf Anfrage, der Preis richtet sich nach der Anzahl der Teile.",
+      fr:"Buanderie\nNous nous en occupons : il suffit de le demander à l'équipe. Nous lavons et séchons vos vêtements et vous les laissons dans votre chambre. Tarif : 12 € au total pour le lavage et le séchage ; inclus pour les séjours d'une semaine.\n\nRepassage\nNon inclus : sur demande, tarifé selon le nombre de pièces.",
+      ru:"Прачечная\nМы всё сделаем сами: просто попросите персонал. Мы постираем и высушим вашу одежду и оставим её в вашем номере. Стоимость: 12 € за стирку и сушку вместе; при проживании в течение недели включено.\n\nГлажка\nНе включена: по запросу, стоимость зависит от количества вещей.",
     },
     colazione:{
       img:"/damanhur/colazione.jpg",
@@ -1975,6 +1975,15 @@ function AbatonPage({t,lang,setPage}) {
             <ExtLink href={sc.link} lang={lang} style={{display:"block",marginTop:"12px",padding:"14px 20px",background:C.white,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14.5px",boxShadow:C.shadow,textAlign:"center"}}>
               {LS(sc,"linkLabel",lang)}
             </ExtLink>
+          )}
+          {sub==="servizi"&&(
+            <QuickAsk item="Lavanderia (lavaggio e asciugatura)" lang={lang} trackLabel="Request laundry"
+              title={lang==="it"?"Richiedi la lavanderia":lang==="de"?"Wäscheservice anfragen":lang==="fr"?"Demander la buanderie":lang==="ru"?"Заказать прачечную":"Request laundry"}
+              intro={lang==="it"?"Ci pensiamo noi: laviamo e asciughiamo i tuoi capi e te li facciamo trovare in camera.":lang==="de"?"Wir kümmern uns darum: Wir waschen und trocknen deine Kleidung und legen sie dir ins Zimmer.":lang==="fr"?"Nous nous en occupons : nous lavons et séchons vos vêtements et vous les laissons dans votre chambre.":lang==="ru"?"Мы всё сделаем сами: постираем и высушим вашу одежду и оставим её в вашем номере.":"We take care of it: we wash and dry your clothes and leave them in your room."}
+              noteLabel={lang==="it"?"Note (es. capi delicati, quando preferisci)":lang==="de"?"Hinweise (z. B. empfindliche Teile, bevorzugte Zeit)":lang==="fr"?"Notes (ex. vêtements délicats, moment préféré)":lang==="ru"?"Примечания (например, деликатные вещи, удобное время)":"Notes (e.g. delicate items, preferred time)"}
+              style={{display:"block",width:"100%",marginTop:"12px",padding:"15px 20px",background:C.gold,border:"none",borderRadius:"16px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600"}}>
+              {lang==="it"?"Richiedi la lavanderia →":lang==="de"?"Wäscheservice anfragen →":lang==="fr"?"Demander la buanderie →":lang==="ru"?"Заказать прачечную →":"Request laundry →"}
+            </QuickAsk>
           )}
           {sc&&sc.gallery&&(
             <div style={{display:"flex",gap:"10px",marginTop:"12px",overflowX:"auto",paddingBottom:"4px"}}>
