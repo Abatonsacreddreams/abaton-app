@@ -265,28 +265,28 @@ const EVENTS = [
     url:"https://damanhur.community/event/welcome-to-new-life-2-0-12-3/"
   },
   {
-    date:"Mer 30 Set",dateEN:"Wed 30 Sep",
+    date:"Mer 7 Ott",dateEN:"Wed 7 Oct",
     title:"Serata con i Teorici",titleEN:"Meeting with Theoreticians",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Una serata di ricerca e riflessione con i Teorici di Damanhur — incontri settimanali aperti a visitatori e ospiti.",
     descEN:"A weekly evening of research and reflection with Damanhur's Theoreticians, open to visitors and guests.",
-    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-09-30/"
+    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-10-07/"
   },
   {
-    date:"Ven 2 Ott",dateEN:"Fri 2 Oct",
+    date:"Gio 8 Ott",dateEN:"Thu 8 Oct",
+    title:"Assemblea Sociale Generale",titleEN:"Social General Meeting",
+    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
+    desc:"Una serata in cui la comunità si ritrova per condividere pensieri, scelte e visioni comuni.",
+    descEN:"An evening when the community gathers to share thoughts, choices, and a common vision.",
+    url:"https://damanhur.community/event/social-general-meeting/2026-10-08/"
+  },
+  {
+    date:"Ven 9 Ott",dateEN:"Fri 9 Oct",
     title:"Venerdì con Falco",titleEN:"Fridays with Falco",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Un incontro settimanale di parole e silenzi condivisi, ispirato al pensiero del fondatore di Damanhur.",
     descEN:"A weekly gathering of shared words and silence, inspired by the thought of Damanhur's founder.",
-    url:"https://damanhur.community/event/fridays-with-falco/2026-10-02/"
-  },
-  {
-    date:"Dom 4 Ott",dateEN:"Sun 4 Oct",
-    title:"Rituale GET Settimanale",titleEN:"Damanhur GET Weekly Ritual",
-    time:"11:30 – 13:30",loc:"Templi dell'Umanità, Via Baldissero 21, Vidracco (TO)",
-    desc:"Un rituale condiviso nei Templi dell'Umanità, tra energia, arte e spiritualità sotterranea.",
-    descEN:"A shared ritual inside the Temples of Humankind, amid energy, art, and underground spirituality.",
-    url:"https://damanhur.community/event/damanhur-get-weekly/2026-10-04/"
+    url:"https://damanhur.community/event/fridays-with-falco/2026-10-09/"
   },
   {
     date:"Sab 10 Ott",dateEN:"Sat 10 Oct",
@@ -295,6 +295,14 @@ const EVENTS = [
     desc:"Una serata rituale che riunisce la comunità in un momento di connessione ed energia condivisa.",
     descEN:"An evening ritual gathering the community in a moment of shared connection and energy.",
     url:"https://damanhur.community/event/damanhur-get-ritual-3/2026-10-10/"
+  },
+  {
+    date:"Dom 11 Ott",dateEN:"Sun 11 Oct",
+    title:"La Triade",titleEN:"The Triad",
+    time:"16:30 – 18:00",loc:"Templi dell'Umanità, Via Baldissero 21, Vidracco (TO)",
+    desc:"Un pomeriggio raccolto nei Templi dell'Umanità, dove arte e meditazione si incontrano nel silenzio.",
+    descEN:"A quiet afternoon in the Temples of Humankind, where art and meditation meet in silence.",
+    url:"https://damanhur.community/event/the-triad-2/2026-10-11/"
   },
 ];
 
