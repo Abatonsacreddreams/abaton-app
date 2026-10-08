@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import QRCode from "qrcode";
 import GLOSSARY from "./glossary.js";
 
@@ -475,6 +476,7 @@ function ZoomImg({src,group,style,alt=""}) {
 }
 
 let KEEP_AWAKE = 0;
+let VIDEO_OPEN = 0;
 const updLog = () => { try{ const n=Date.now(); return JSON.parse(localStorage.getItem("abaton_upd_log")||"[]").filter(t=>n-t<10*60*1000); }catch(e){ return []; } };
 const RESUME_SAVER = (()=>{ try{ const f=sessionStorage.getItem("abaton_resume_saver"); sessionStorage.removeItem("abaton_resume_saver"); return !!f; }catch(e){ return false; } })();
 const bundleSrc = () => { const el=document.querySelector('script[src*="/assets/index-"]'); return el?el.getAttribute("src"):""; };
@@ -2220,7 +2222,109 @@ function GlossaryView({lang}) {
 }
 
 const ACADEMY = {"intro":{"it":"La Damanhur Academy condivide quasi cinquant'anni di ricerca e di pratica fondati da Falco Tarassaco: guarigione spirituale, alchimia, sogni, esoterismo e vita di comunità. L'insegnamento unisce teoria e pratica, tenuto da iniziati damanhuriani: in presenza a Damanhur, online o nei centri partner nel mondo. Qui il gruppo è un amplificatore della crescita personale.","en":"Damanhur Academy shares nearly fifty years of research and practice founded by Falco Tarassaco: spiritual healing, alchemy, dreams, esotericism and community life. Teaching blends theory and practice, led by Damanhurian initiates: in person at Damanhur, online or through partner centres around the world. Here the group acts as an amplifier of personal growth.","de":"Die Damanhur Academy teilt fast fünfzig Jahre Forschung und Praxis, begründet von Falco Tarassaco: spirituelle Heilung, Alchemie, Träume, Esoterik und Gemeinschaftsleben. Der Unterricht verbindet Theorie und Praxis und wird von damanhurianischen Eingeweihten geleitet: vor Ort in Damanhur, online oder in Partnerzentren weltweit. Hier wirkt die Gruppe als Verstärker der persönlichen Entwicklung.","fr":"La Damanhur Academy partage près de cinquante ans de recherche et de pratique fondés par Falco Tarassaco : guérison spirituelle, alchimie, rêves, ésotérisme et vie communautaire. L'enseignement associe théorie et pratique, dispensé par des initiés damanhuriens : sur place à Damanhur, en ligne ou dans des centres partenaires dans le monde. Ici, le groupe est un amplificateur de la croissance personnelle.","ru":"Damanhur Academy делится почти пятьюдесятью годами исследований и практики, начатых Фальком Тарассако: духовное исцеление, алхимия, сны, эзотерика и жизнь общины. Обучение объединяет теорию и практику, его ведут посвящённые Даманхура: очно в Даманхуре, онлайн или в партнёрских центрах по всему миру. Здесь группа усиливает личный рост."},"schoolsTitle":{"it":"Le scuole","en":"The schools","de":"Die Schulen","fr":"Les écoles","ru":"Школы"},"schools":[{"n":{"it":"Scuola dei Sogni (Dream School)","en":"Dream School","de":"Traumschule (Dream School)","fr":"École des Rêves (Dream School)","ru":"Школа Снов (Dream School)"},"d":{"it":"Impari a guidare i tuoi sogni, a integrarli nella vita quotidiana e a scoprirne il vero potenziale.","en":"Learn to guide your own dreams, bring them into everyday life and discover their true potential.","de":"Du lernst, deine Träume zu lenken, sie in den Alltag zu integrieren und ihr wahres Potenzial zu entdecken.","fr":"Apprenez à guider vos rêves, à les intégrer dans la vie quotidienne et à découvrir leur véritable potentiel.","ru":"Вы учитесь направлять свои сны, включать их в повседневную жизнь и раскрывать их истинный потенциал."},"it":"https://dream.talej.net/","en":"https://dream.talej.net/en/"},{"n":{"it":"Mystery School","en":"Mystery School","de":"Mystery School","fr":"Mystery School","ru":"Mystery School"},"d":{"it":"Un viaggio alla scoperta di sé e della realtà che ci circonda, nella visione magico-spirituale di Falco e nell'esperienza di Damanhur.","en":"A journey to discover yourself and the reality around you, based on Falco's magical-spiritual vision and Damanhur's experience.","de":"Eine Reise zur Entdeckung deiner selbst und der Wirklichkeit um dich herum, im magisch-spirituellen Blick Falcos und aus der Erfahrung Damanhurs.","fr":"Un voyage à la découverte de soi et de la réalité qui nous entoure, dans la vision magique et spirituelle de Falco et l'expérience de Damanhur.","ru":"Путешествие к себе и к окружающей реальности в магико-духовном видении Фалько и опыте Даманхура."},"it":"https://damanhur.academy/mystery-school/","en":"https://damanhur.academy/mystery-school/"},{"n":{"it":"Scuola di Alchimia","en":"Alchemy School","de":"Alchemie-Schule","fr":"École d'Alchimie","ru":"Школа алхимии"},"d":{"it":"Crei strumenti magici per accrescere consapevolezza e potere personale e per interagire meglio con le leggi dell'universo.","en":"Create magical tools to increase your awareness and personal power and to interact better with the laws of the universe.","de":"Du erschaffst magische Werkzeuge, um Bewusstsein und persönliche Kraft zu steigern und besser mit den Gesetzen des Universums zu interagieren.","fr":"Vous créez des outils magiques pour accroître votre conscience et votre puissance personnelle et mieux interagir avec les lois de l'univers.","ru":"Вы создаёте магические инструменты, чтобы усилить осознанность и личную силу и лучше взаимодействовать с законами вселенной."},"it":"https://damanhuralchemyschool.org/ita/","en":"https://damanhuralchemyschool.org"},{"n":{"it":"Scuola di Guarigione Spirituale","en":"School of Spiritual Healing","de":"Schule für spirituelle Heilung","fr":"École de Guérison Spirituelle","ru":"Школа духовного исцеления"},"d":{"it":"Uno dei percorsi intensivi di guarigione olistica più completi al mondo, nato da quasi cinquant'anni di ricerca.","en":"One of the world's most complete intensive programs in holistic healing, drawing on nearly fifty years of research.","de":"Eines der weltweit umfassendsten Intensivprogramme für ganzheitliche Heilung, hervorgegangen aus fast fünfzig Jahren Forschung.","fr":"L'un des programmes intensifs de guérison holistique les plus complets au monde, issu de près de cinquante ans de recherche.","ru":"Одна из самых полных в мире интенсивных программ целостного исцеления, выросшая из почти пятидесяти лет исследований."},"it":"https://fb.damanhuruniversity.org/healing/scuola-guaritori-ita/","en":"https://fb.damanhuruniversity.org/healing/school-for-spiritual-healers-en/"},{"n":{"it":"Community School","en":"Community School","de":"Community School","fr":"Community School","ru":"Community School"},"d":{"it":"Comunicazione e convivenza: i passi per costruire un'esistenza creativa attraverso la crescita individuale e collettiva.","en":"Communication and living together: the steps to build a creative existence through individual and collective growth.","de":"Kommunikation und Zusammenleben: die Schritte zu einem kreativen Dasein durch individuelles und gemeinschaftliches Wachstum.","fr":"Communication et vie ensemble : les étapes pour construire une existence créative par la croissance individuelle et collective.","ru":"Общение и совместная жизнь: шаги к творческому существованию через личный и коллективный рост."},"it":"https://scuola-comunità.bitrix24.site/intesivo_corso_comunità/","en":"https://scuola-comunità.bitrix24.site/intensive_course_community/"}],"onlineTitle":{"it":"Online","en":"Online","de":"Online","fr":"En ligne","ru":"Онлайн"},"online":[{"n":{"it":"Wisdom Lab","en":"Wisdom Lab","de":"Wisdom Lab","fr":"Wisdom Lab","ru":"Wisdom Lab"},"d":{"it":"Una piattaforma in abbonamento con oltre venti corsi online, in italiano e in inglese: meditazione, filosofia e fisica spirituale, guarigione, storia antica, studi magici ed esoterici, sogni, energia e chakra, trasformazione personale. Include una comunità riservata agli iscritti.","en":"A subscription platform with over twenty online courses, in Italian and English: meditation, spiritual philosophy and physics, healing, ancient history, magical and esoteric studies, dreams, energy and chakras, personal transformation. It includes a private community for members.","de":"Eine Abo-Plattform mit über zwanzig Online-Kursen auf Italienisch und Englisch: Meditation, spirituelle Philosophie und Physik, Heilung, antike Geschichte, magische und esoterische Studien, Träume, Energie und Chakren, persönliche Transformation. Mit einer geschlossenen Community für Mitglieder.","fr":"Une plateforme par abonnement avec plus de vingt cours en ligne, en italien et en anglais : méditation, philosophie et physique spirituelles, guérison, histoire ancienne, études magiques et ésotériques, rêves, énergie et chakras, transformation personnelle. Avec une communauté réservée aux membres.","ru":"Платформа по подписке с более чем двадцатью онлайн-курсами на итальянском и английском: медитация, духовная философия и физика, исцеление, древняя история, магические и эзотерические исследования, сны, энергия и чакры, личная трансформация. Есть закрытое сообщество для участников."},"it":"https://damanhur.academy/wisdom-lab/","en":"https://damanhur.academy/wisdom-lab/"},{"n":{"it":"Corsi online","en":"Online courses","de":"Online-Kurse","fr":"Cours en ligne","ru":"Онлайн-курсы"},"d":{"it":"Corsi da seguire con i propri tempi, accompagnati passo passo da un trainer. Tra i temi: Il Potere del Sogno, Filosofia e Fisica Spirituale, Mantica e Tarocchi, La struttura del Tempo e i misteri della Sincronicità, Personalità Interiori.","en":"Courses you follow at your own pace, accompanied step by step by a trainer. Topics include Dream Power, Philosophy and Spiritual Physics, Mantics and the Tarot, The Structure of Time and the Mysteries of Synchronicity, Inner Personalities.","de":"Kurse im eigenen Tempo, Schritt für Schritt von einem Trainer begleitet. Zu den Themen gehören Die Kraft des Traums, Philosophie und Spirituelle Physik, Mantik und Tarot, Die Struktur der Zeit und die Mysterien der Synchronizität, Innere Persönlichkeiten.","fr":"Des cours à suivre à votre rythme, accompagnés pas à pas par un formateur. Parmi les thèmes : Le Pouvoir du Rêve, Philosophie et Physique Spirituelle, Mantique et Tarot, La structure du Temps et les mystères de la Synchronicité, Personnalités Intérieures.","ru":"Курсы в собственном темпе, шаг за шагом с сопровождением тренера. Среди тем: Сила сна, Философия и духовная физика, Мантика и Таро, Структура времени и тайны синхронии, Внутренние личности."},"it":"https://damanhur.academy/online-courses/","en":"https://damanhur.academy/online-courses/"}],"liveTitle":{"it":"In presenza a Damanhur","en":"In person at Damanhur","de":"Vor Ort in Damanhur","fr":"Sur place à Damanhur","ru":"Очно в Даманхуре"},"live":{"d":{"it":"Corsi e ritiri nei luoghi di Damanhur, con accesso ai Templi dell'Umanità e agli spazi sacri.","en":"Courses and retreats at Damanhur's places, with access to the Temples of Humankind and the sacred spaces.","de":"Kurse und Retreats an den Orten Damanhurs, mit Zugang zu den Tempeln der Menschheit und den heiligen Räumen.","fr":"Cours et retraites dans les lieux de Damanhur, avec accès aux Temples de l'Humanité et aux espaces sacrés.","ru":"Курсы и ретриты в местах Даманхура с доступом в Храмы Человечества и священные пространства."},"nextLabel":{"it":"Prossimo corso","en":"Next course","de":"Nächster Kurs","fr":"Prochain cours","ru":"Ближайший курс"},"next":{"it":"Awakening Essentials 1 — Accendi i sensi della tua anima","en":"Awakening Essentials 1 — Turn on the Senses of your Soul","de":"Awakening Essentials 1 — Schalte die Sinne deiner Seele ein","fr":"Awakening Essentials 1 — Allumez les sens de votre âme","ru":"Awakening Essentials 1 — Включите чувства своей души"},"nextWhen":{"it":"18–19 dicembre 2026 · Damjl, Baldissero Canavese","en":"18–19 December 2026 · Damjl, Baldissero Canavese","de":"18.–19. Dezember 2026 · Damjl, Baldissero Canavese","fr":"18–19 décembre 2026 · Damjl, Baldissero Canavese","ru":"18–19 декабря 2026 · Дамжл, Бальдиссеро-Канавезе"},"nextDesc":{"it":"Un processo di alchimia interiore che ti rende consapevole dei sensi interni, i sensi della tua anima.","en":"An inner alchemy process that makes you aware of your inner senses, the senses of your soul.","de":"Ein innerer Alchemieprozess, der dir deine inneren Sinne bewusst macht, die Sinne deiner Seele.","fr":"Un processus d'alchimie intérieure qui vous rend conscient de vos sens intérieurs, les sens de votre âme.","ru":"Процесс внутренней алхимии, который делает вас осознанными в своих внутренних чувствах — чувствах вашей души."},"nextUrl":"https://damanhur.academy/event/awakening-essentials-1-turn-on-the-senses-of-your-soul-december-2026/","all":{"it":"Tutti i corsi e i ritiri →","en":"All courses and retreats →","de":"Alle Kurse und Retreats →","fr":"Tous les cours et retraites →","ru":"Все курсы и ретриты →"},"allUrl":"https://damanhur.academy/courses-and-retreats/","cal":{"it":"Calendario →","en":"Calendar →","de":"Kalender →","fr":"Calendrier →","ru":"Календарь →"},"calUrl":"https://damanhur.academy/calendar/"},"go":{"it":"Scopri →","en":"Discover →","de":"Entdecken →","fr":"Découvrir →","ru":"Узнать больше →"},"ask":{"it":"Per consigli su quale percorso scegliere, chiedi allo staff dell'Abaton.","en":"For advice on which path to choose, ask the Abaton staff.","de":"Für Tipps, welcher Weg zu dir passt, frag das Abaton-Team.","fr":"Pour des conseils sur le parcours à choisir, demandez à l'équipe de l'Abaton.","ru":"За советом, какой путь выбрать, обратитесь к команде Абатона."},"src":{"it":"Contenuti dal sito damanhur.academy","en":"Content from damanhur.academy","de":"Inhalte von damanhur.academy","fr":"Contenu du site damanhur.academy","ru":"По материалам сайта damanhur.academy"}};
+const ACADEMY_VIDEOS = {
+  title:{it:"Video gratuiti",en:"Free videos",de:"Kostenlose Videos",fr:"Vidéos gratuites",ru:"Бесплатные видео"},
+  intro:{
+    it:"Lezioni e webinar dell'Academy da guardare gratuitamente, direttamente qui. Toccando un video si apre a schermo intero: per chiuderlo basta la ✕ in alto.",
+    en:"Academy lessons and webinars you can watch for free, right here. Tap a video to open it full screen; use the ✕ at the top to close it.",
+    de:"Lektionen und Webinare der Academy, kostenlos und direkt hier anzusehen. Ein Tipp auf das Video öffnet es im Vollbild; mit dem ✕ oben schließt du es wieder. Die Videos sind auf Englisch.",
+    fr:"Leçons et webinaires de l'Academy à regarder gratuitement, ici même. Touchez une vidéo pour l'ouvrir en plein écran ; la ✕ en haut permet de la fermer. Les vidéos sont en anglais.",
+    ru:"Уроки и вебинары Академии можно смотреть бесплатно прямо здесь. Нажмите на видео, чтобы открыть его на весь экран; закрыть можно крестиком ✕ вверху. Видео на английском языке."},
+  watch:{it:"▶ Guarda il video",en:"▶ Watch the video",de:"▶ Video ansehen",fr:"▶ Regarder la vidéo",ru:"▶ Смотреть видео"},
+  close:{it:"Chiudi",en:"Close",de:"Schließen",fr:"Fermer",ru:"Закрыть"},
+  langTag:{it:"in italiano",en:"in English",de:"auf Englisch",fr:"en anglais",ru:"на английском"},
+  min:{it:"min",en:"min",de:"Min.",fr:"min",ru:"мин"},
+  items:[
+    {t:{it:"L'energia che guarisce",en:"What Is Healing Energy",de:"Was ist Heilenergie?",fr:"Qu'est-ce que l'énergie de guérison",ru:"Что такое целительная энергия"},
+     who:"Gnomo Orzo",min:72,id:{it:"1223395624",en:"1223395625"},
+     cat:{it:"Webinar · Guarigione Spirituale",en:"Webinar · Spiritual Healing",de:"Webinar · Spirituelle Heilung",fr:"Webinaire · Guérison spirituelle",ru:"Вебинар · Духовное исцеление"},
+     d:{it:"Che cos'è davvero l'energia? Cosa accade durante una sessione di pranoterapia, quali forze invisibili possono entrare in gioco e dove la fisica lascia il posto alla Fisica Spirituale.",
+        en:"What is energy, really? What happens during a pranic healing session, which unseen forces may come into play, and where physics gives way to Spiritual Physics.",
+        de:"Was ist Energie wirklich? Was geschieht in einer Pranaheilung, welche unsichtbaren Kräfte im Spiel sein können und wo die Physik in die Spirituelle Physik übergeht.",
+        fr:"Qu'est-ce que l'énergie, vraiment ? Que se passe-t-il pendant une séance de guérison pranique, quelles forces invisibles peuvent intervenir, et où la physique cède la place à la Physique Spirituelle.",
+        ru:"Что такое энергия на самом деле? Что происходит во время сеанса пранического исцеления, какие невидимые силы могут участвовать и где физика уступает место Духовной физике."}},
+    {t:{it:"Il potere di guarigione del desiderio",en:"The Healing Power of Desire",de:"Die Heilkraft des Wunsches",fr:"Le pouvoir de guérison du désir",ru:"Целительная сила желания"},
+     who:"Tridacna Belladonna",min:52,id:{it:"1223389794",en:"1223389795"},
+     cat:{it:"Webinar · Guarigione Spirituale",en:"Webinar · Spiritual Healing",de:"Webinar · Spirituelle Heilung",fr:"Webinaire · Guérison spirituelle",ru:"Вебинар · Духовное исцеление"},
+     d:{it:"Guarigione e desiderio: come ritrovare una direzione interiore, cosa accade quando smettiamo di desiderare e il ruolo del Guaritore nel rimettere in movimento la vita.",
+        en:"Healing and desire: how to reconnect with your inner direction, what happens when we stop desiring, and the role of the Healer in helping life move again.",
+        de:"Heilung und Wunsch: wie du deine innere Richtung wiederfindest, was geschieht, wenn wir aufhören zu wünschen, und welche Rolle der Heiler dabei spielt, das Leben wieder in Bewegung zu bringen.",
+        fr:"Guérison et désir : comment retrouver une direction intérieure, ce qui se passe quand on cesse de désirer, et le rôle du Guérisseur pour remettre la vie en mouvement.",
+        ru:"Исцеление и желание: как вновь найти внутреннее направление, что происходит, когда мы перестаём желать, и какова роль Целителя в том, чтобы вернуть жизнь в движение."}},
+    {t:{it:"Guarire per Risvegliare",en:"Heal and Awaken",de:"Heilen, um zu erwachen",fr:"Guérir pour s'éveiller",ru:"Исцелять, чтобы пробуждать"},
+     who:"Antilope Verbena",min:57,id:{it:"1218275702",en:"1218275699"},
+     cat:{it:"Webinar · Guarigione Spirituale",en:"Webinar · Spiritual Healing",de:"Webinar · Spirituelle Heilung",fr:"Webinaire · Guérison spirituelle",ru:"Вебинар · Духовное исцеление"},
+     d:{it:"Guarigione e risveglio spirituale, malattia e trasformazione, potenziali spirituali e autoguarigione.",
+        en:"Healing and spiritual awakening, illness and transformation, spiritual potential and self-healing.",
+        de:"Heilung und spirituelles Erwachen, Krankheit und Wandlung, spirituelle Potenziale und Selbstheilung.",
+        fr:"Guérison et éveil spirituel, maladie et transformation, potentiels spirituels et autoguérison.",
+        ru:"Исцеление и духовное пробуждение, болезнь и трансформация, духовные потенциалы и самоисцеление."}},
+    {t:{it:"L'origine dell'anima umana",en:"Origin of the Human Soul",de:"Der Ursprung der menschlichen Seele",fr:"L'origine de l'âme humaine",ru:"Происхождение человеческой души"},
+     who:"Coyote Cardo",min:22,id:{it:"690570733",en:"690570378"},
+     cat:{it:"Lezione · Cosmogonia",en:"Lesson · Cosmogenesis",de:"Lektion · Kosmogonie",fr:"Leçon · Cosmogonie",ru:"Урок · Космогония"},
+     d:{it:"L'origine dell'anima umana, il mito dello specchio e la natura delle forze divine.",
+        en:"The origin of the human soul, the myth of the mirror and the nature of the divine forces.",
+        de:"Der Ursprung der menschlichen Seele, der Mythos des Spiegels und das Wesen der göttlichen Kräfte.",
+        fr:"L'origine de l'âme humaine, le mythe du miroir et la nature des forces divines.",
+        ru:"Происхождение человеческой души, миф о зеркале и природа божественных сил."}},
+    {t:{it:"Le Linee Sincroniche",en:"The Synchronic Lines",de:"Die Synchronen Linien",fr:"Les Lignes Synchroniques",ru:"Синхронные линии"},
+     who:"Crotalo Sesamo",min:40,id:{it:"729933649",en:"730695715"},
+     cat:{it:"Lezione · Linee Sincroniche",en:"Lesson · Synchronic Lines",de:"Lektion · Synchrone Linien",fr:"Leçon · Lignes Synchroniques",ru:"Урок · Синхронные линии"},
+     d:{it:"Cosa sono le Linee Sincroniche, come si usano nella magia e una nuova visione dell'universo e del nostro pianeta.",
+        en:"What the Synchronic Lines are, how they are used in magic, and a new understanding of the universe and our planet.",
+        de:"Was die Synchronen Linien sind, wie sie in der Magie verwendet werden und ein neues Verständnis von Universum und Planet.",
+        fr:"Ce que sont les Lignes Synchroniques, comment on les utilise en magie, et une nouvelle compréhension de l'univers et de notre planète.",
+        ru:"Что такое Синхронные линии, как они используются в магии и новое понимание вселенной и нашей планеты."}},
+    {t:{it:"Misurare l'invisibile — mattina",en:"Measuring the Invisible — morning",de:"Das Unsichtbare messen – Vormittag",fr:"Mesurer l'invisible — matin",ru:"Измерить невидимое — утро"},
+     who:"Orango Riso, Maurizio Forza, Dr. Maximilian Moser",min:150,id:{it:"1230190306",en:"1230190285"},
+     cat:{it:"Evento a Damanhur Crea · 18–19 settembre 2026",en:"Event at Damanhur Crea · 18–19 September 2026",de:"Veranstaltung in Damanhur Crea · 18.–19. September 2026",fr:"Événement à Damanhur Crea · 18–19 septembre 2026",ru:"Событие в Damanhur Crea · 18–19 сентября 2026"},
+     d:{it:"«L'energia vitale esiste?» Ricercatori, guaritori e tecnologie innovative esplorano l'energia sottile attraverso osservazione, sperimentazione e dialogo.",
+        en:"“Does vital energy exist?” Researchers, healers and innovative technologies explore subtle energy through observation, experimentation and dialogue.",
+        de:"„Gibt es Lebensenergie?“ Forschende, Heilende und innovative Technologien erkunden die feine Energie durch Beobachtung, Experiment und Dialog.",
+        fr:"« L'énergie vitale existe-t-elle ? » Chercheurs, guérisseurs et technologies innovantes explorent l'énergie subtile par l'observation, l'expérimentation et le dialogue.",
+        ru:"«Существует ли жизненная энергия?» Исследователи, целители и инновационные технологии изучают тонкую энергию через наблюдение, эксперимент и диалог."}},
+    {t:{it:"Misurare l'invisibile — pomeriggio",en:"Measuring the Invisible — afternoon",de:"Das Unsichtbare messen – Nachmittag",fr:"Mesurer l'invisible — après-midi",ru:"Измерить невидимое — день"},
+     who:"Esperide Ananas Ametista, Dr. H.c. Fabio Hüther, Martin O'Malley",min:142,id:{it:"1230197858",en:"1230190364"},
+     cat:{it:"Evento a Damanhur Crea · 18–19 settembre 2026",en:"Event at Damanhur Crea · 18–19 September 2026",de:"Veranstaltung in Damanhur Crea · 18.–19. September 2026",fr:"Événement à Damanhur Crea · 18–19 septembre 2026",ru:"Событие в Damanhur Crea · 18–19 сентября 2026"},
+     d:{it:"Seconda parte dell'evento sull'energia vitale, con i relatori della sessione pomeridiana.",
+        en:"Second part of the event on vital energy, with the speakers of the afternoon session.",
+        de:"Zweiter Teil der Veranstaltung über Lebensenergie, mit den Referierenden der Nachmittagssitzung.",
+        fr:"Seconde partie de l'événement sur l'énergie vitale, avec les intervenants de la session de l'après-midi.",
+        ru:"Вторая часть мероприятия о жизненной энергии с докладчиками дневной сессии."}},
+  ],
+};
+
+function VideoModal({video,lang,onClose}) {
+  const V = ACADEMY_VIDEOS;
+  const g = o => (o&&(o[lang]||o.en||o.it))||"";
+  useEffect(()=>{
+    VIDEO_OPEN++;
+    const k = e => { if(e.key==="Escape") onClose(); };
+    window.addEventListener("keydown",k);
+    const ov = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return ()=>{ VIDEO_OPEN--; window.removeEventListener("keydown",k); document.body.style.overflow = ov; };
+  },[]);
+  const id = lang==="it" ? video.id.it : video.id.en;
+  return createPortal(
+    <div onClick={onClose} style={{position:"fixed",top:0,left:0,right:0,bottom:0,zIndex:10000,background:"rgba(10,16,38,0.92)",display:"flex",alignItems:"center",justifyContent:"center",padding:"12px"}}>
+      <div onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:"min(960px, calc((100vh - 150px) * 1.7778))"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:"12px",marginBottom:"10px"}}>
+          <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18px",color:"#fff",lineHeight:"1.3"}}>{g(video.t)}</div>
+          <button onClick={onClose} aria-label={g(V.close)} style={{flexShrink:0,width:"44px",height:"44px",borderRadius:"50%",border:"1px solid rgba(255,255,255,0.55)",background:"rgba(255,255,255,0.14)",color:"#fff",fontSize:"22px",lineHeight:"1",cursor:"pointer",fontFamily:FB}}>✕</button>
+        </div>
+        <div style={{position:"relative",paddingTop:"56.25%",background:"#000",borderRadius:"12px",overflow:"hidden"}}>
+          <iframe src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&autoplay=1&dnt=1`} title={g(video.t)} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen style={{position:"absolute",top:0,left:0,width:"100%",height:"100%",border:0}}/>
+        </div>
+        <div style={{marginTop:"10px",color:"rgba(255,255,255,0.85)",fontSize:"14.5px"}}>{video.who} · {video.min} {g(V.min)}</div>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
 function AcademyView({lang}) {
+  const [vid,setVid] = useState(null);
   const g = o => (o&&(o[lang]||o.en||o.it))||"";
   const u = o => lang==="it" ? o.it : o.en;
   const Card = ({children,style}) => <WhiteCard style={{padding:"16px 20px",marginBottom:"10px",...style}}>{children}</WhiteCard>;
@@ -2229,6 +2333,18 @@ function AcademyView({lang}) {
   return (
     <div>
       <WhiteCard style={{marginBottom:"4px"}}><div style={{fontSize:"16px",color:C.textS,lineHeight:"1.8"}}>{g(ACADEMY.intro)}</div></WhiteCard>
+      {head(g(ACADEMY_VIDEOS.title))}
+      <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.6",margin:"0 2px 10px"}}>{g(ACADEMY_VIDEOS.intro)}</div>
+      {ACADEMY_VIDEOS.items.map((v,i)=>(
+        <Card key={i}>
+          <div style={{fontSize:"12.5px",fontWeight:"700",letterSpacing:"0.08em",textTransform:"uppercase",color:C.goldD,marginBottom:"3px"}}>{g(v.cat)}</div>
+          <div style={{fontFamily:FD,fontWeight:"600",fontSize:"19px",color:C.blue,marginBottom:"2px"}}>{g(v.t)}</div>
+          <div style={{fontSize:"14px",color:C.textM,marginBottom:"6px"}}>{v.who} · {v.min} {g(ACADEMY_VIDEOS.min)} · {g(ACADEMY_VIDEOS.langTag)}</div>
+          <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.6"}}>{g(v.d)}</div>
+          <button onClick={()=>{ track("video",v.t.it,{lang}); setVid(v); }} style={{marginTop:"10px",padding:"10px 18px",borderRadius:"22px",border:`1px solid ${C.gold}`,background:C.goldPale,color:C.goldD,fontFamily:FB,fontSize:"15px",fontWeight:"600",cursor:"pointer"}}>{g(ACADEMY_VIDEOS.watch)}</button>
+        </Card>
+      ))}
+      {vid&&<VideoModal video={vid} lang={lang} onClose={()=>setVid(null)}/>}
       {head(g(ACADEMY.schoolsTitle))}
       {ACADEMY.schools.map((sc,i)=>(
         <Card key={i}>
@@ -3272,7 +3388,7 @@ export default function AbatonApp() {
     const tick = setInterval(()=>{
       if(updateReady.current && asleepRef.current && KEEP_AWAKE===0 && updLog().length<2){ try{ sessionStorage.setItem("abaton_resume_saver","1"); const l=updLog(); l.push(Date.now()); localStorage.setItem("abaton_upd_log",JSON.stringify(l)); }catch(e){} window.location.reload(); return; }
       if(asleepRef.current) return;
-      const limit = KEEP_AWAKE>0 ? 10*60*1000 : 90*1000;
+      const limit = VIDEO_OPEN>0 ? 3*60*60*1000 : KEEP_AWAKE>0 ? 10*60*1000 : 90*1000;
       if(Date.now()-lastAct.current>limit){ asleepRef.current=true; inUse.current=false; setAsleep(true); }
     },5000);
     const pre = setTimeout(()=>{ SS_IMGS.forEach(src=>{ const im=new Image(); im.src=src; }); },5000);
