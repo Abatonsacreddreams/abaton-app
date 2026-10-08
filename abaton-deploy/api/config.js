@@ -2,7 +2,7 @@ import { sql } from '@vercel/postgres';
 
 const ALLOWED = [
   'checkOut', 'breakfastFrom', 'breakfastTo', 'receptionFrom', 'receptionTo',
-  'wifiName', 'wifiPass', 'reviewUrl', 'noticeIT', 'noticeEN', 'conciergeNotes',
+  'wifiName', 'wifiPass', 'reviewUrl', 'noticeIT', 'noticeEN', 'conciergeNotes', 'privacyText',
 ];
 
 async function ensureTable() {
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
       if (sent !== pin) return res.status(401).json({ error: 'Unauthorized' });
       const clean = {};
       for (const k of ALLOWED) {
-        if (values && typeof values[k] === 'string') clean[k] = values[k].trim().slice(0, 2000);
+        if (values && typeof values[k] === 'string') clean[k] = values[k].trim().slice(0, k === 'privacyText' ? 20000 : 2000);
       }
       await sql`
         INSERT INTO app_config (key, value, updated_at) VALUES ('main', ${JSON.stringify(clean)}, now())

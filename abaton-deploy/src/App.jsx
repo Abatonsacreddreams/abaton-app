@@ -216,7 +216,7 @@ INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiest
 - Pulizia della camera: il servizio giornaliero si fa normalmente tra le 9:00 e le 12:00, anche in base a quando la camera viene lasciata libera. Con il cartello "Non disturbare" appeso alla porta la pulizia giornaliera non viene fatta: molti ospiti lo preferiscono per proteggere la "bolla" della propria esperienza.
 - Asciugamani: cambiati una volta ogni 3 giorni; per cambiarli prima basta lasciarli a terra. Lenzuola: cambiate una volta a settimana; per cambiarle prima c'è un costo extra di 10€.
 - Dotazioni in camera: phon e una bottiglia d'acqua che si può riempire con l'acqua filtrata della cucina. Il ferro da stiro non è in camera ma può essere richiesto allo staff.
-- Lavanderia: lavatrice e asciugatrice disponibili, 12€ in totale per lavaggio e asciugatura; il servizio è incluso per i soggiorni di una settimana. Il bucato lo fa lo staff (non è self-service): l'ospite deve chiederlo allo staff, che lava e asciuga e fa ritrovare i capi in camera. Lo stiro NON è incluso: si fa su richiesta, con costo secondo il numero di capi. L'ospite può richiederlo dall'app (Abaton > Lavanderia e servizi).
+- Lavanderia: lavatrice e asciugatrice disponibili, 12€ in totale per lavaggio e asciugatura; il servizio è incluso per i soggiorni di una settimana. Il bucato lo fa lo staff (non è self-service): l'ospite deve chiederlo allo staff, che lava e asciuga e fa ritrovare i capi in camera. Il servizio di stiro non è offerto (il ferro da stiro, se serve, può essere richiesto allo staff). L'ospite può richiederlo dall'app (Abaton > Lavanderia e servizi).
 - Fumo: vietato in tutta la struttura, dentro e fuori (comprese sigarette elettroniche); si può fumare solo oltre il cancello.
 - Parcheggio: gratuito, proprio davanti alla struttura.
 - Come si arriva alla struttura e come si entra: l'ospite riceve le mappe per raggiungere il cancello. Al cancello suona il campanello (si trova sulla destra) e attende che venga aperto; poi tiene la destra e parcheggia proprio davanti alla struttura. Il personale accoglie gli ospiti e al check-in consegna la chiave per entrare in autonomia, insieme alla pennetta per aprire il cancello. Alternativa: se l'ospite si è organizzato per trovare la chiave nella keybox, ha già ricevuto tutte le istruzioni dal personale.
@@ -483,7 +483,7 @@ const appVersion = () => { const m=bundleSrc().match(/index-([^.]+)\.js/); retur
 // ── CONFIG MODIFICABILE DALLO STAFF (salvata su /api/config) ──────────────────
 const CFG_DEFAULT = {
   checkOut:"10:30", breakfastFrom:"8:00", breakfastTo:"10:00", receptionFrom:"8:00", receptionTo:"18:00",
-  wifiName:"abaton", wifiPass:"abaton1950", reviewUrl:"https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html", noticeIT:"", noticeEN:"", conciergeNotes:"",
+  wifiName:"abaton", wifiPass:"abaton1950", reviewUrl:"https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html", noticeIT:"", noticeEN:"", conciergeNotes:"", privacyText:"",
 };
 let CFG = {...CFG_DEFAULT};
 const setCfg = v => { CFG = {...CFG_DEFAULT, ...(v||{})}; };
@@ -527,6 +527,9 @@ const EDIT_FIELDS = [
   {sec:"Avviso in evidenza nella Home", items:[
     {k:"noticeIT",label:"Testo in italiano",area:true,hint:"Compare in un riquadro dorato nella Home. Lascia vuoto per non mostrare nulla."},
     {k:"noticeEN",label:"Testo in inglese (usato anche per tedesco, francese, russo)",area:true},
+  ]},
+  {sec:"Privacy", items:[
+    {k:"privacyText",label:"Testo dell'informativa privacy",area:true,rows:12,hint:"Compare nella pagina Privacy (icona scudo in Home) e nel modulo di richiesta. Finché è vuoto, la pagina mostra solo il titolo e la casella non è obbligatoria; appena inserisci il testo la casella diventa obbligatoria."},
   ]},
   {sec:"Concierge", items:[
     {k:"conciergeNotes",label:"Informazioni extra per le risposte del Concierge",area:true,hint:"Scrivi liberamente fatti, novità, eccezioni (es. \"Domenica la cucina è chiusa\"). Il Concierge le userà con priorità e le tradurrà nella lingua dell'ospite."},
@@ -573,7 +576,7 @@ function InfoEditor({pin,onClose,onSaved}) {
               <div key={f.k} style={{marginBottom:"14px"}}>
                 <label style={{fontSize:"14.5px",color:C.textS,display:"block",marginBottom:"6px"}}>{f.label}</label>
                 {f.area
-                  ? <textarea value={vals[f.k]||""} onChange={e=>set(f.k,e.target.value)} rows={4} placeholder={f.ph} style={{...inp,resize:"vertical",lineHeight:"1.5"}}/>
+                  ? <textarea value={vals[f.k]||""} onChange={e=>set(f.k,e.target.value)} rows={f.rows||4} placeholder={f.ph} style={{...inp,resize:"vertical",lineHeight:"1.5"}}/>
                   : <input value={vals[f.k]||""} onChange={e=>set(f.k,e.target.value)} placeholder={f.ph} inputMode={f.time?"numeric":undefined} style={inp}/>}
                 {f.hint&&<div style={{fontSize:"13.5px",color:C.textM,marginTop:"5px",lineHeight:"1.5"}}>{f.hint}</div>}
               </div>
@@ -966,6 +969,25 @@ function PopoliExperienceButton({t,lang,style}) {
 }
 
 // ── RICHIESTE ALLO STAFF — giorno + momento indicativi, telefono facoltativo, arriva sul bot Telegram ──
+function PrivacyPanel({lang,renderTrigger}) {
+  const [open,setOpen] = useState(false);
+  const closeLabel = lang==="it"?"← Torna in Abaton":lang==="de"?"← Zurück zu Abaton":lang==="fr"?"← Retour à Abaton":lang==="ru"?"← Вернуться в Abaton":"← Back to Abaton";
+  return (
+    <>
+      {renderTrigger(()=>setOpen(true))}
+      {open&&(
+        <div style={{position:"fixed",inset:0,background:C.bg,zIndex:10000,display:"flex",flexDirection:"column"}}>
+          <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15.5px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>{closeLabel}</button>
+          <div style={{flex:1,overflowY:"auto",padding:"24px 22px 60px"}}>
+            <div style={{fontFamily:FD,fontSize:"30px",color:C.blue,marginBottom:"20px"}}>Privacy</div>
+            {CFG.privacyText&&<div style={{fontSize:"15.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line"}}>{CFG.privacyText}</div>}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 const PHONE_PREFIXES = [
   {c:"+39",f:"🇮🇹",n:"Italia"},{c:"+49",f:"🇩🇪",n:"Deutschland"},{c:"+33",f:"🇫🇷",n:"France"},{c:"+44",f:"🇬🇧",n:"United Kingdom"},
   {c:"+41",f:"🇨🇭",n:"Schweiz / Suisse"},{c:"+43",f:"🇦🇹",n:"Österreich"},{c:"+34",f:"🇪🇸",n:"España"},{c:"+31",f:"🇳🇱",n:"Nederland"},
@@ -1000,6 +1022,10 @@ const RQ = {
   okTitle:{it:"Richiesta inviata",en:"Request sent",de:"Anfrage gesendet",fr:"Demande envoyée",ru:"Запрос отправлен"},
   okBody:{it:"Abbiamo ricevuto la tua richiesta: ci pensa lo staff, che organizza tutto e ti darà tutte le informazioni.",en:"We have your request: our staff will take care of everything and send you all the details.",de:"Wir haben deine Anfrage erhalten: Das Team kümmert sich um alles und gibt dir alle Informationen.",fr:"Nous avons bien reçu votre demande : l'équipe s'occupe de tout et vous donnera toutes les informations.",ru:"Мы получили ваш запрос: персонал всё организует и сообщит вам все подробности."},
   err:{it:"Non sono riuscito a inviare la richiesta. Riprova tra un momento.",en:"The request could not be sent. Please try again in a moment.",de:"Die Anfrage konnte nicht gesendet werden. Bitte versuche es gleich noch einmal.",fr:"La demande n'a pas pu être envoyée. Réessayez dans un instant.",ru:"Не удалось отправить запрос. Попробуйте ещё раз чуть позже."},
+  consentPre:{it:"Ho letto l'",en:"I have read the ",de:"Ich habe die ",fr:"J'ai lu la ",ru:"Я ознакомился(-лась) с "},
+  consentLink:{it:"informativa sulla privacy",en:"privacy notice",de:"Datenschutzerklärung",fr:"politique de confidentialité",ru:"политикой конфиденциальности"},
+  consentPost:{it:"",en:"",de:" gelesen",fr:"",ru:""},
+  consentErr:{it:"Per inviare la richiesta conferma di aver letto l'informativa.",en:"Please confirm you have read the privacy notice to send the request.",de:"Bitte bestätige, dass du die Datenschutzerklärung gelesen hast.",fr:"Veuillez confirmer avoir lu la politique de confidentialité pour envoyer la demande.",ru:"Чтобы отправить запрос, подтвердите, что ознакомились с политикой конфиденциальности."},
   close:{it:"Chiudi",en:"Close",de:"Schließen",fr:"Fermer",ru:"Закрыть"},
   cancel:{it:"Annulla",en:"Cancel",de:"Abbrechen",fr:"Annuler",ru:"Отмена"},
 };
@@ -1016,6 +1042,7 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   const [sent,setSent] = useState(false);
   const [sending,setSending] = useState(false);
   const [err,setErr] = useState(false);
+  const [consent,setConsent] = useState(false);
   if(!open) return null;
   const T_ = o => o[lang]||o.en;
   const today = (()=>{ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; })();
@@ -1026,7 +1053,8 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   if(effPrefix!=="+39") digits = digits.replace(/^0+/,"");
   const prefixOk = /^\+\d{1,4}$/.test(effPrefix);
   const phoneOk = prefixOk && digits.length>=6 && digits.length<=14;
-  const canSend = !sending && name.trim() && phoneOk;
+  const needConsent = !!CFG.privacyText && !consent;
+  const canSend = !sending && name.trim() && phoneOk && !needConsent;
   const send = async () => {
     setTouched(true);
     if(!canSend) return;
@@ -1042,7 +1070,7 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
     }catch(e){ setErr(true); }
     setSending(false);
   };
-  const closeAll = () => { onClose(); setTimeout(()=>{ setSent(false); setErr(false); setSlot(null); setDate(""); setNote(""); setPicked([]); setTouched(false); },300); };
+  const closeAll = () => { onClose(); setTimeout(()=>{ setSent(false); setErr(false); setSlot(null); setDate(""); setNote(""); setPicked([]); setTouched(false); setConsent(false); },300); };
   const lbl = {fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"};
   const fld = {width:"100%",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",marginBottom:"12px",boxSizing:"border-box",color:C.textD,background:C.white};
   return (
@@ -1096,6 +1124,11 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
             </div>
             <div style={{fontSize:"13px",color:touched&&!phoneOk?"#B04A4A":C.textM,marginBottom:"14px",lineHeight:"1.5"}}>{touched&&!phoneOk?T_(RQ.phoneErr):T_(RQ.phoneHint)}</div>
             <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={noteLabel||T_(RQ.note)} style={{...fld,minHeight:"60px",resize:"vertical",marginBottom:"18px"}}/>
+            <label style={{display:"flex",alignItems:"flex-start",gap:"10px",marginBottom:"12px",fontSize:"14.5px",color:C.textS,lineHeight:"1.5",cursor:"pointer"}}>
+              <input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)} style={{width:"20px",height:"20px",marginTop:"1px",flexShrink:0,accentColor:C.gold}}/>
+              <span>{T_(RQ.consentPre)}<PrivacyPanel lang={lang} renderTrigger={openP=>(<a href="#privacy" onClick={e=>{e.preventDefault();e.stopPropagation();openP();}} style={{color:C.goldD,textDecoration:"underline"}}>{T_(RQ.consentLink)}</a>)}/>{T_(RQ.consentPost)}</span>
+            </label>
+            {touched&&needConsent&&<div style={{fontSize:"13.5px",color:"#B04A4A",marginBottom:"10px"}}>{T_(RQ.consentErr)}</div>}
             {err&&<div style={{fontSize:"14px",color:"#B04A4A",marginBottom:"10px"}}>{T_(RQ.err)}</div>}
             <button onClick={send} disabled={sending||!name.trim()} style={{width:"100%",padding:"14px",background:sending||!name.trim()?C.border:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:sending||!name.trim()?"default":"pointer",fontFamily:FB,fontSize:"16.5px",fontWeight:"600",marginBottom:"10px"}}>{sending?T_(RQ.sending):T_(RQ.send)}</button>
             <button onClick={closeAll} style={{width:"100%",padding:"8px",background:"none",border:"none",color:C.textM,fontSize:"14.5px",cursor:"pointer",fontFamily:FB}}>{T_(RQ.cancel)}</button>
@@ -1305,6 +1338,13 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
               <div style={{fontSize:"15px",color:C.textD,fontFamily:FB,lineHeight:"1.6"}}>{({"it":"È vietato fumare all'interno e all'esterno della struttura, sia le sigarette tradizionali sia quelle elettroniche. Se hai bisogno di fumare, esci dal cancello e accendi la sigaretta solo una volta fuori.","en":"Smoking is forbidden both inside and outside the property — traditional and electronic cigarettes alike. If you need to smoke, please go out through the gate and light your cigarette only once you are outside.","de":"Rauchen ist im Innen- wie im Außenbereich der Unterkunft verboten, herkömmliche wie elektronische Zigaretten. Wenn du rauchen musst, geh bitte vor das Tor und zünde die Zigarette erst draußen an.","fr":"Il est interdit de fumer à l'intérieur comme à l'extérieur de la structure, cigarettes classiques comme électroniques. Si vous avez besoin de fumer, sortez du portail et n'allumez votre cigarette qu'une fois dehors.","ru":"Курение запрещено как внутри, так и на территории снаружи, включая обычные и электронные сигареты. Если вам нужно закурить, выйдите за ворота и закуривайте только оказавшись за их пределами."})[lang]||"Smoking is forbidden both inside and outside the property — traditional and electronic cigarettes alike. If you need to smoke, please go out through the gate and light your cigarette only once you are outside."}</div>
             </div>
           )}
+        </div>
+        <div style={{position:"absolute",top:"20px",left:"196px",zIndex:9999}}>
+          <PrivacyPanel lang={lang} renderTrigger={openP=>(
+            <button onClick={openP} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label="Privacy">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/><path d="M9.5 12l2 2 3.5-4"/></svg>
+            </button>
+          )}/>
         </div>
         <div style={{position:"relative",zIndex:1}}>
           <img src="/logo-full.png" alt="Abaton Sacred Dreams" onClick={handleWordmarkTap} style={{width:"280px",maxWidth:"78%",height:"auto",display:"block",margin:"0 auto 14px",filter:"drop-shadow(0 4px 18px rgba(255,255,255,0.35))",cursor:"pointer"}}/>
@@ -1841,11 +1881,11 @@ function AbatonPage({t,lang,setPage}) {
       ru:"Гостиная Абатона — это не зал ожидания, а пространство перехода между ночью и днём, между сном и бодрствованием.\n\nОна создана так, чтобы ничего не прерывать. Свет мягкий, материалы натуральные, атмосфера — атмосфера того, кто никуда не спешит. Это место, где сон не теряется, а сохраняется, где завтрак становится моментом, а не рассеянным жестом.\n\nЕё энергия отражает энергию Лабиринта Храмов — зала, посвящённого единству и гармонии божественных сил Планеты. Лабиринт образует путь через всю историю человечества, выделяя ту часть, что связана с божественным началом, с вечной сутью, лежащей за пределами культурных форм: он подготавливает к контакту с самыми глубинными частями себя через медитацию над собственным духовным путём. Как и Лабиринт, Гостиная — это место перехода, открывающееся к чему-то большему.",
     },
     servizi:{
-      it:"Lavanderia\nCi pensiamo noi: devi solo chiederlo allo staff. Laviamo e asciughiamo i tuoi capi e te li facciamo trovare in camera. Costo: 12€ in totale per lavaggio e asciugatura; per i soggiorni di una settimana è incluso.\n\nStiro\nNon è incluso: è disponibile su richiesta, con costo in base al numero di capi.",
-      en:"Laundry\nWe take care of it: just ask our staff. We wash and dry your clothes and leave them in your room. Cost: €12 in total for washing and drying; included for stays of one week.\n\nIroning\nNot included: available on request, priced by the number of items.",
-      de:"Wäscherei\nWir kümmern uns darum: Frag einfach das Team. Wir waschen und trocknen deine Kleidung und legen sie dir ins Zimmer. Kosten: 12 € insgesamt für Waschen und Trocknen; bei Aufenthalten von einer Woche inklusive.\n\nBügeln\nNicht inklusive: auf Anfrage, der Preis richtet sich nach der Anzahl der Teile.",
-      fr:"Buanderie\nNous nous en occupons : il suffit de le demander à l'équipe. Nous lavons et séchons vos vêtements et vous les laissons dans votre chambre. Tarif : 12 € au total pour le lavage et le séchage ; inclus pour les séjours d'une semaine.\n\nRepassage\nNon inclus : sur demande, tarifé selon le nombre de pièces.",
-      ru:"Прачечная\nМы всё сделаем сами: просто попросите персонал. Мы постираем и высушим вашу одежду и оставим её в вашем номере. Стоимость: 12 € за стирку и сушку вместе; при проживании в течение недели включено.\n\nГлажка\nНе включена: по запросу, стоимость зависит от количества вещей.",
+      it:"Lavanderia\nCi pensiamo noi: devi solo chiederlo allo staff. Laviamo e asciughiamo i tuoi capi e te li facciamo trovare in camera. Costo: 12€ in totale per lavaggio e asciugatura; per i soggiorni di una settimana è incluso.",
+      en:"Laundry\nWe take care of it: just ask our staff. We wash and dry your clothes and leave them in your room. Cost: €12 in total for washing and drying; included for stays of one week.",
+      de:"Wäscherei\nWir kümmern uns darum: Frag einfach das Team. Wir waschen und trocknen deine Kleidung und legen sie dir ins Zimmer. Kosten: 12 € insgesamt für Waschen und Trocknen; bei Aufenthalten von einer Woche inklusive.",
+      fr:"Buanderie\nNous nous en occupons : il suffit de le demander à l'équipe. Nous lavons et séchons vos vêtements et vous les laissons dans votre chambre. Tarif : 12 € au total pour le lavage et le séchage ; inclus pour les séjours d'une semaine.",
+      ru:"Прачечная\nМы всё сделаем сами: просто попросите персонал. Мы постираем и высушим вашу одежду и оставим её в вашем номере. Стоимость: 12 € за стирку и сушку вместе; при проживании в течение недели включено.",
     },
     colazione:{
       img:"/damanhur/colazione.jpg",
