@@ -271,52 +271,52 @@ const SYS = {
 
 const EVENTS = [
   {
-    date:"14 Set – 12 Ott",dateEN:"14 Sep – 12 Oct",
-    title:"Benvenuti alla Nuova Vita 2.0",titleEN:"Welcome to New Life 2.0",
-    time:"Programma esteso",timeEN:"Extended program",loc:"Comunità di Damanhur, Valchiusella (TO)",
-    desc:"Un percorso di alcune settimane per chi desidera conoscere Damanhur, la sua storia e il suo cammino di ricerca interiore.",
-    descEN:"A multi-week journey to discover Damanhur, its history, and its path of inner research.",
-    url:"https://damanhur.community/event/welcome-to-new-life-2-0-12-3/"
-  },
-  {
-    date:"Mer 7 Ott",dateEN:"Wed 7 Oct",
+    date:"Mer 14 Ott",dateEN:"Wed 14 Oct",
     title:"Serata con i Teorici",titleEN:"Meeting with Theoreticians",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Una serata di ricerca e riflessione con i Teorici di Damanhur — incontri settimanali aperti a visitatori e ospiti.",
     descEN:"A weekly evening of research and reflection with Damanhur's Theoreticians, open to visitors and guests.",
-    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-10-07/"
+    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-10-14/"
   },
   {
-    date:"Gio 8 Ott",dateEN:"Thu 8 Oct",
+    date:"Gio 15 Ott",dateEN:"Thu 15 Oct",
     title:"Assemblea Sociale Generale",titleEN:"Social General Meeting",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Una serata in cui la comunità si ritrova per condividere pensieri, scelte e visioni comuni.",
     descEN:"An evening when the community gathers to share thoughts, choices, and a common vision.",
-    url:"https://damanhur.community/event/social-general-meeting/2026-10-08/"
+    url:"https://damanhur.community/event/social-general-meeting/2026-10-15/"
   },
   {
-    date:"Ven 9 Ott",dateEN:"Fri 9 Oct",
+    date:"Ven 16 Ott",dateEN:"Fri 16 Oct",
     title:"Venerdì con Falco",titleEN:"Fridays with Falco",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Un incontro settimanale di parole e silenzi condivisi, ispirato al pensiero del fondatore di Damanhur.",
     descEN:"A weekly gathering of shared words and silence, inspired by the thought of Damanhur's founder.",
-    url:"https://damanhur.community/event/fridays-with-falco/2026-10-09/"
+    url:"https://damanhur.community/event/fridays-with-falco/2026-10-16/"
   },
   {
-    date:"Sab 10 Ott",dateEN:"Sat 10 Oct",
-    title:"Rituale GET di Damanhur",titleEN:"Damanhur GET Ritual",
-    time:"19:45 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Una serata rituale che riunisce la comunità in un momento di connessione ed energia condivisa.",
-    descEN:"An evening ritual gathering the community in a moment of shared connection and energy.",
-    url:"https://damanhur.community/event/damanhur-get-ritual-3/2026-10-10/"
-  },
-  {
-    date:"Dom 11 Ott",dateEN:"Sun 11 Oct",
+    date:"Dom 18 Ott",dateEN:"Sun 18 Oct",
     title:"La Triade",titleEN:"The Triad",
     time:"16:30 – 18:00",loc:"Templi dell'Umanità, Via Baldissero 21, Vidracco (TO)",
     desc:"Un pomeriggio raccolto nei Templi dell'Umanità, dove arte e meditazione si incontrano nel silenzio.",
     descEN:"A quiet afternoon in the Temples of Humankind, where art and meditation meet in silence.",
-    url:"https://damanhur.community/event/the-triad-2/2026-10-11/"
+    url:"https://damanhur.community/event/the-triad-2/2026-10-18/"
+  },
+  {
+    date:"Dom 25 Ott",dateEN:"Sun 25 Oct",
+    title:"Rituale dell'Oracolo",titleEN:"Ritual of the Oracle",
+    time:"20:00 – 23:00",loc:"Damjl, Via Pramarzo 3",
+    desc:"Una notte rituale in cui la comunità si raccoglie per porre domande e ascoltare risposte più profonde.",
+    descEN:"A ritual night when the community gathers to ask questions and listen for deeper answers.",
+    url:"https://damanhur.community/event/ritual-of-the-oracle-5/2026-10-25/"
+  },
+  {
+    date:"26 Ott – 4 Nov",dateEN:"26 Oct – 4 Nov",
+    title:"Community Life Campus",titleEN:"Community Life Campus",
+    time:"Programma esteso",timeEN:"Extended program",loc:"Comunità di Damanhur, Valchiusella (TO)",
+    desc:"Dieci giorni per vivere dall'interno il ritmo quotidiano della comunità di Damanhur.",
+    descEN:"Ten days to experience the daily rhythm of Damanhur's community from within.",
+    url:"https://damanhur.community/event/community-life-campus-magical-summer-nights-3/"
   },
 ];
 
