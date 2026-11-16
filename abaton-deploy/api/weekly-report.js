@@ -27,14 +27,16 @@ async function sendTelegram(text) {
     rest = rest.slice(cut).replace(/^\n+/, '');
   }
   parts.push(rest);
+  let ok = true;
   for (const part of parts) {
-    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: chatId, text: part, disable_web_page_preview: true }),
     });
+    if (!r.ok) { ok = false; console.error('Telegram error:', r.status, await r.text()); }
   }
-  return true;
+  return ok;
 }
 
 async function collect() {
