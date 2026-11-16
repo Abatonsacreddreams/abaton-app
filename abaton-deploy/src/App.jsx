@@ -828,6 +828,72 @@ const HOUSE_RULES = [
    bodyFR:"En cas de départ anticipé ou de non-présentation, la politique d'annulation acceptée au moment de la réservation s'applique.",
    bodyRU:"В случае досрочного отъезда или неявки применяется политика отмены, принятая при бронировании."},
 ];
+// Icona "Biancheria e riassetto" nella Home (info + due richieste allo staff)
+const LINEN = {
+  title:{it:"Biancheria e riassetto",en:"Linen & housekeeping",de:"Wäsche & Zimmerservice",fr:"Linge & entretien",ru:"Бельё и уборка"},
+  rows:[
+    {h:{it:"Lenzuola",en:"Sheets",de:"Bettwäsche",fr:"Draps",ru:"Постельное бельё"},
+     b:{it:"Vengono cambiate una volta a settimana. Se desideri cambiarle prima, puoi chiederlo allo staff qui sotto (supplemento di 10 €).",
+        en:"They are changed once a week. If you'd like fresh sheets sooner, you can ask our staff below (€10 supplement).",
+        de:"Sie wird einmal pro Woche gewechselt. Möchtest du sie früher gewechselt haben, kannst du das Team unten darum bitten (Aufpreis 10 €).",
+        fr:"Ils sont changés une fois par semaine. Si vous souhaitez les changer plus tôt, vous pouvez le demander à l'équipe ci-dessous (supplément de 10 €).",
+        ru:"Меняется раз в неделю. Если хотите сменить его раньше, попросите персонал ниже (доплата 10 €)."}},
+    {h:{it:"Asciugamani",en:"Towels",de:"Handtücher",fr:"Serviettes",ru:"Полотенца"},
+     b:{it:"Vengono cambiati ogni 3 giorni. Se li vuoi cambiare prima, lasciali a terra: verranno sostituiti.",
+        en:"They are changed every 3 days. If you'd like fresh ones sooner, just leave them on the floor and they will be replaced.",
+        de:"Sie werden alle 3 Tage gewechselt. Möchtest du früher frische, leg sie einfach auf den Boden – sie werden ersetzt.",
+        fr:"Elles sont changées tous les 3 jours. Si vous souhaitez les changer plus tôt, laissez-les simplement par terre : elles seront remplacées.",
+        ru:"Меняются раз в 3 дня. Если хотите свежие раньше, просто оставьте их на полу — их заменят."}},
+    {h:{it:"Riassetto della camera",en:"Daily room refresh",de:"Tägliche Zimmerpflege",fr:"Entretien de la chambre",ru:"Уборка номера"},
+     b:{it:"Ogni giorno la camera viene riordinata. Se preferisci che nessuno entri, anche per custodire la tua bolla energetica, appendi alla porta il cartello \"Non disturbare\" oppure chiedilo allo staff qui sotto.",
+        en:"Your room is tidied every day. If you'd rather no one came in — perhaps to keep your energetic bubble undisturbed — hang the \"Do not disturb\" sign on the door or let our staff know below.",
+        de:"Dein Zimmer wird jeden Tag aufgeräumt. Wenn du lieber möchtest, dass niemand hereinkommt – etwa um deine energetische Blase zu bewahren –, häng das Schild „Bitte nicht stören“ an die Tür oder sag dem Team unten Bescheid.",
+        fr:"Votre chambre est rafraîchie chaque jour. Si vous préférez que personne n'y entre, par exemple pour préserver votre bulle énergétique, accrochez à la porte le panneau « Ne pas déranger » ou prévenez l'équipe ci-dessous.",
+        ru:"Номер убирают каждый день. Если вы предпочитаете, чтобы никто не заходил, например чтобы сохранить свой энергетический кокон, повесьте на дверь табличку «Не беспокоить» или сообщите персоналу ниже."}},
+  ],
+  sheets:{
+    btn:{it:"Cambio lenzuola anticipato",en:"Early change of sheets",de:"Bettwäsche früher wechseln",fr:"Changement de draps anticipé",ru:"Сменить бельё раньше"},
+    intro:{it:"Dicci quando vorresti le lenzuola pulite: lo staff ti conferma. Il cambio anticipato ha un supplemento di 10 €.",
+           en:"Tell us when you'd like fresh sheets and our staff will confirm. An early change has a €10 supplement.",
+           de:"Sag uns, wann du frische Bettwäsche möchtest – das Team bestätigt dir den Termin. Der vorzeitige Wechsel kostet 10 € Aufpreis.",
+           fr:"Dites-nous quand vous souhaitez des draps propres : l'équipe vous confirmera. Le changement anticipé est facturé 10 € de supplément.",
+           ru:"Скажите, когда вам сменить бельё, и персонал подтвердит. Смена раньше срока — доплата 10 €."}},
+  noRefresh:{
+    btn:{it:"Niente riassetto in camera",en:"Skip the room refresh",de:"Kein Zimmerservice",fr:"Pas d'entretien de la chambre",ru:"Не убирать номер"},
+    intro:{it:"Nei giorni che indichi lo staff non entrerà in camera per il riassetto.",
+           en:"On the days you choose, our staff won't come into your room to tidy it.",
+           de:"An den Tagen, die du angibst, kommt das Team nicht zum Aufräumen in dein Zimmer.",
+           fr:"Les jours que vous indiquez, l'équipe n'entrera pas dans votre chambre pour l'entretien.",
+           ru:"В указанные вами дни персонал не будет заходить в номер для уборки."},
+    note:{it:"Per quali giorni? (es. per tutto il soggiorno)",en:"For which days? (e.g. for the whole stay)",de:"Für welche Tage? (z. B. für den ganzen Aufenthalt)",fr:"Pour quels jours ? (par ex. pour tout le séjour)",ru:"На какие дни? (например, на всё время проживания)"}},
+};
+function LinenPanel({lang}) {
+  const [open,setOpen] = useState(false);
+  const g = o => o[lang]||o.en;
+  const link = {display:"flex",alignItems:"center",gap:"6px",color:C.gold,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",background:"none",border:"none",cursor:"pointer",padding:"4px 0",textAlign:"left"};
+  return (
+    <>
+      <button onClick={()=>setOpen(!open)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label={g(LINEN.title)}>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 18v-6a2 2 0 012-2h14a2 2 0 012 2v6"/><path d="M3 15h18"/><path d="M3 18v2M21 18v2"/><rect x="6" y="6" width="5" height="4" rx="1.2"/></svg>
+      </button>
+      {open&&(
+        <div style={{position:"absolute",top:"40px",left:"-110px",background:C.white,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"18px 20px",width:"300px",maxWidth:"calc(100vw - 40px)",boxSizing:"border-box",textAlign:"left",zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,0.12)"}}>
+          <div style={{fontSize:"13.5px",fontWeight:"600",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"12px"}}>{g(LINEN.title)}</div>
+          {LINEN.rows.map((r,i)=>(
+            <div key={i} style={{marginBottom:"12px"}}>
+              <div style={{fontFamily:FD,fontWeight:"600",fontSize:"17px",color:C.blue,marginBottom:"2px"}}>{g(r.h)}</div>
+              <div style={{fontSize:"15px",color:C.textD,fontFamily:FB,lineHeight:"1.55"}}>{g(r.b)}</div>
+            </div>
+          ))}
+          <div style={{borderTop:`1px solid ${C.border}`,paddingTop:"10px",display:"flex",flexDirection:"column",gap:"4px"}}>
+            <QuickAsk item="Cambio lenzuola anticipato (+10 €)" lang={lang} trackLabel="Request early sheet change" title={g(LINEN.sheets.btn)} intro={g(LINEN.sheets.intro)} style={link}>✧ {g(LINEN.sheets.btn)} →</QuickAsk>
+            <QuickAsk item="Niente riassetto in camera" lang={lang} trackLabel="Request no room refresh" showWhen={false} title={g(LINEN.noRefresh.btn)} intro={g(LINEN.noRefresh.intro)} noteLabel={g(LINEN.noRefresh.note)} style={link}>🌙 {g(LINEN.noRefresh.btn)} →</QuickAsk>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
 function HouseRulesPanel({lang,renderTrigger}) {
   const [open,setOpen] = useState(false);
   const closeLabel = lang==="it"?"← Torna in Abaton":lang==="de"?"← Zurück zu Abaton":lang==="fr"?"← Retour à Abaton":lang==="ru"?"← Вернуться в Abaton":"← Back to Abaton";
@@ -1016,7 +1082,7 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   const lbl = {fontSize:"13.5px",fontWeight:"700",letterSpacing:"0.1em",textTransform:"uppercase",color:C.goldD,marginBottom:"10px"};
   const fld = {width:"100%",padding:"12px 14px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",marginBottom:"12px",boxSizing:"border-box",color:C.textD,background:C.white};
   return (
-    <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:9999,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={closeAll}>
+    <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.78)",zIndex:9999,display:"flex",alignItems:"flex-end",justifyContent:"center",fontFamily:FB,color:C.textD,textAlign:"left"}} onClick={closeAll}>
       <div style={{background:C.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 32px",maxWidth:"480px",width:"100%",maxHeight:"90vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
         {sent ? (
           <div style={{textAlign:"center",padding:"20px 0"}}>
@@ -1086,7 +1152,8 @@ function QuickAsk({item,title,intro,chips,chipsLabel,chipsNoteLabel,noteLabel,sh
   return (
     <>
       <button onClick={()=>setOpen(true)} style={style}>{children}</button>
-      <RequestSheet open={open} onClose={()=>setOpen(false)} title={title} intro={intro} chips={chips} chipsLabel={chipsLabel} chipsNoteLabel={chipsNoteLabel} noteLabel={noteLabel} showWhen={showWhen} item={item} lang={lang} trackLabel={trackLabel}/>
+      {/* portal: il modulo copre tutta la pagina anche quando il pulsante sta dentro un'icona in alto */}
+      {createPortal(<RequestSheet open={open} onClose={()=>setOpen(false)} title={title} intro={intro} chips={chips} chipsLabel={chipsLabel} chipsNoteLabel={chipsNoteLabel} noteLabel={noteLabel} showWhen={showWhen} item={item} lang={lang} trackLabel={trackLabel}/>, document.body)}
     </>
   );
 }
@@ -1271,6 +1338,9 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
           )}/>
         </div>
         <div style={{position:"absolute",top:"20px",left:"152px",zIndex:9999}}>
+          <LinenPanel lang={lang}/>
+        </div>
+        <div style={{position:"absolute",top:"20px",left:"196px",zIndex:9999}}>
           <button onClick={()=>setShowSmoke(!showSmoke)} style={{background:C.white,border:`1.5px solid #B04A4A`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:"#B04A4A",cursor:"pointer",boxShadow:C.shadow}} aria-label="No smoking">
             <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/><path d="M6.5 14h7.5"/><path d="M16 14h1.5"/><path d="M13 10.5c0-1 1-1 1-2"/></svg>
           </button>
@@ -1281,7 +1351,7 @@ function HomePage({t,lang,setLang,setPage,session,onOpenStaff}) {
             </div>
           )}
         </div>
-        <div style={{position:"absolute",top:"20px",left:"196px",zIndex:9999}}>
+        <div style={{position:"absolute",top:"20px",left:"240px",zIndex:9999}}>
           <PrivacyPanel lang={lang} renderTrigger={openP=>(
             <button onClick={openP} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"10px",width:"34px",height:"34px",display:"flex",alignItems:"center",justifyContent:"center",color:C.textS,cursor:"pointer",boxShadow:C.shadow}} aria-label="Privacy">
               <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/><path d="M9.5 12l2 2 3.5-4"/></svg>
