@@ -271,52 +271,44 @@ const SYS = {
 
 const EVENTS = [
   {
-    date:"Mer 14 Ott",dateEN:"Wed 14 Oct",
+    date:"Mer 18 Nov",dateEN:"Wed 18 Nov",
     title:"Serata con i Teorici",titleEN:"Meeting with Theoreticians",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Una serata di ricerca e riflessione con i Teorici di Damanhur — incontri settimanali aperti a visitatori e ospiti.",
     descEN:"A weekly evening of research and reflection with Damanhur's Theoreticians, open to visitors and guests.",
-    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-10-14/"
+    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-11-18/"
   },
   {
-    date:"Gio 15 Ott",dateEN:"Thu 15 Oct",
+    date:"Gio 19 Nov",dateEN:"Thu 19 Nov",
     title:"Assemblea Sociale Generale",titleEN:"Social General Meeting",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Una serata in cui la comunità si ritrova per condividere pensieri, scelte e visioni comuni.",
     descEN:"An evening when the community gathers to share thoughts, choices, and a common vision.",
-    url:"https://damanhur.community/event/social-general-meeting/2026-10-15/"
+    url:"https://damanhur.community/event/social-general-meeting/2026-11-19/"
   },
   {
-    date:"Ven 16 Ott",dateEN:"Fri 16 Oct",
+    date:"Ven 20 Nov",dateEN:"Fri 20 Nov",
     title:"Venerdì con Falco",titleEN:"Fridays with Falco",
     time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
     desc:"Un incontro settimanale di parole e silenzi condivisi, ispirato al pensiero del fondatore di Damanhur.",
     descEN:"A weekly gathering of shared words and silence, inspired by the thought of Damanhur's founder.",
-    url:"https://damanhur.community/event/fridays-with-falco/2026-10-16/"
+    url:"https://damanhur.community/event/fridays-with-falco/2026-11-20/"
   },
   {
-    date:"Dom 18 Ott",dateEN:"Sun 18 Oct",
+    date:"Dom 22 Nov",dateEN:"Sun 22 Nov",
     title:"La Triade",titleEN:"The Triad",
     time:"16:30 – 18:00",loc:"Templi dell'Umanità, Via Baldissero 21, Vidracco (TO)",
-    desc:"Un pomeriggio raccolto nei Templi dell'Umanità, dove arte e meditazione si incontrano nel silenzio.",
-    descEN:"A quiet afternoon in the Temples of Humankind, where art and meditation meet in silence.",
-    url:"https://damanhur.community/event/the-triad-2/2026-10-18/"
+    desc:"Un'offerta domenicale di musica, danza, luce o silenzio nei Templi dell'Umanità, per chi ha già visitato i Templi.",
+    descEN:"A Sunday offering of music, dance, light or silence in the Temples of Humankind, for those who have already visited the Temples.",
+    url:"https://damanhur.community/event/the-triad-2/2026-11-22/"
   },
   {
-    date:"Dom 25 Ott",dateEN:"Sun 25 Oct",
+    date:"Mar 24 Nov",dateEN:"Tue 24 Nov",
     title:"Rituale dell'Oracolo",titleEN:"Ritual of the Oracle",
-    time:"20:00 – 23:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Una notte rituale in cui la comunità si raccoglie per porre domande e ascoltare risposte più profonde.",
-    descEN:"A ritual night when the community gathers to ask questions and listen for deeper answers.",
-    url:"https://damanhur.community/event/ritual-of-the-oracle-5/2026-10-25/"
-  },
-  {
-    date:"26 Ott – 4 Nov",dateEN:"26 Oct – 4 Nov",
-    title:"Community Life Campus",titleEN:"Community Life Campus",
-    time:"Programma esteso",timeEN:"Extended program",loc:"Comunità di Damanhur, Valchiusella (TO)",
-    desc:"Dieci giorni per vivere dall'interno il ritmo quotidiano della comunità di Damanhur.",
-    descEN:"Ten days to experience the daily rhythm of Damanhur's community from within.",
-    url:"https://damanhur.community/event/community-life-campus-magical-summer-nights-3/"
+    time:"Serata",timeEN:"Evening",loc:"Damjl, Via Pramarzo 3",
+    desc:"Nella notte di luna piena, un rito antico per porre domande e ascoltare risposte più profonde; gratuito, con iscrizione al Welcome Center.",
+    descEN:"On the full-moon night, an ancient rite to ask questions and listen for deeper answers; free, with registration at the Welcome Center.",
+    url:"https://damanhur.community/event/ritual-of-the-oracle-5/2026-11-24/"
   },
 ];
 
