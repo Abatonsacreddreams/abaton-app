@@ -218,44 +218,52 @@ const SYS = {
 
 const EVENTS = [
   {
-    date:"Mer 18 Nov",dateEN:"Wed 18 Nov",
-    title:"Serata con i Teorici",titleEN:"Meeting with Theoreticians",
-    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Una serata di ricerca e riflessione con i Teorici di Damanhur — incontri settimanali aperti a visitatori e ospiti.",
-    descEN:"A weekly evening of research and reflection with Damanhur's Theoreticians, open to visitors and guests.",
-    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-11-18/"
-  },
-  {
-    date:"Gio 19 Nov",dateEN:"Thu 19 Nov",
-    title:"Assemblea Sociale Generale",titleEN:"Social General Meeting",
-    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Una serata in cui la comunità si ritrova per condividere pensieri, scelte e visioni comuni.",
-    descEN:"An evening when the community gathers to share thoughts, choices, and a common vision.",
-    url:"https://damanhur.community/event/social-general-meeting/2026-11-19/"
-  },
-  {
-    date:"Ven 20 Nov",dateEN:"Fri 20 Nov",
-    title:"Venerdì con Falco",titleEN:"Fridays with Falco",
-    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
-    desc:"Un incontro settimanale di parole e silenzi condivisi, ispirato al pensiero del fondatore di Damanhur.",
-    descEN:"A weekly gathering of shared words and silence, inspired by the thought of Damanhur's founder.",
-    url:"https://damanhur.community/event/fridays-with-falco/2026-11-20/"
-  },
-  {
-    date:"Dom 22 Nov",dateEN:"Sun 22 Nov",
-    title:"La Triade",titleEN:"The Triad",
-    time:"16:30 – 18:00",loc:"Templi dell'Umanità, Via Baldissero 21, Vidracco (TO)",
-    desc:"Un'offerta domenicale di musica, danza, luce o silenzio nei Templi dell'Umanità, per chi ha già visitato i Templi.",
-    descEN:"A Sunday offering of music, dance, light or silence in the Temples of Humankind, for those who have already visited the Temples.",
-    url:"https://damanhur.community/event/the-triad-2/2026-11-22/"
-  },
-  {
     date:"Mar 24 Nov",dateEN:"Tue 24 Nov",
     title:"Rituale dell'Oracolo",titleEN:"Ritual of the Oracle",
     time:"Serata",timeEN:"Evening",loc:"Damjl, Via Pramarzo 3",
     desc:"Nella notte di luna piena, un rito antico per porre domande e ascoltare risposte più profonde; gratuito, con iscrizione al Welcome Center.",
     descEN:"On the full-moon night, an ancient rite to ask questions and listen for deeper answers; free, with registration at the Welcome Center.",
     url:"https://damanhur.community/event/ritual-of-the-oracle-5/2026-11-24/"
+  },
+  {
+    date:"Mer 25 Nov",dateEN:"Wed 25 Nov",
+    title:"Serata con i Teorici",titleEN:"Meeting with Theoreticians",
+    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
+    desc:"Una serata di ricerca e riflessione con i Teorici di Damanhur, aperta anche a visitatori e ospiti.",
+    descEN:"An evening of research and reflection with Damanhur's Theoreticians, open to visitors and guests too.",
+    url:"https://damanhur.community/event/meeting-with-theoreticians/2026-11-25/"
+  },
+  {
+    date:"Gio 26 Nov",dateEN:"Thu 26 Nov",
+    title:"Assemblea Sociale Generale",titleEN:"Social General Meeting",
+    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
+    desc:"La comunità si ritrova per condividere pensieri, scelte e una visione comune.",
+    descEN:"The community gathers to share thoughts, choices and a common vision.",
+    url:"https://damanhur.community/event/social-general-meeting/2026-11-26/"
+  },
+  {
+    date:"Ven 27 Nov",dateEN:"Fri 27 Nov",
+    title:"Venerdì con Falco",titleEN:"Fridays with Falco",
+    time:"19:30 – 21:00",loc:"Damjl, Via Pramarzo 3",
+    desc:"Un incontro settimanale di parole e silenzi condivisi, ispirato al pensiero del fondatore di Damanhur.",
+    descEN:"A weekly gathering of shared words and silence, inspired by the thought of Damanhur's founder.",
+    url:"https://damanhur.community/event/fridays-with-falco/2026-11-27/"
+  },
+  {
+    date:"Ven 4 Dic",dateEN:"Fri 4 Dec",
+    title:"Rito Damanhur GET",titleEN:"Damanhur GET Ritual",
+    time:"11:30 – 13:30",loc:"Templi dell'Umanità, Via Baldissero 21, Vidracco (TO)",
+    desc:"Un rito in cui la comunità raccoglie e condivide i propri talenti e saperi; gratuito, in italiano, con iscrizione al Welcome Center e per chi ha già visitato i Templi.",
+    descEN:"A ritual in which the community gathers and shares its talents and knowledge; free, in Italian, with registration at the Welcome Center and for those who have already visited the Temples.",
+    url:"https://damanhur.community/event/damanhur-get-weekly-2/2026-12-04/"
+  },
+  {
+    date:"Dom 6 Dic",dateEN:"Sun 6 Dec",
+    title:"La Triade",titleEN:"The Triad",
+    time:"16:30 – 18:00",loc:"Templi dell'Umanità, Via Baldissero 21, Vidracco (TO)",
+    desc:"Un'offerta domenicale di musica, danza, luce o silenzio nei Templi dell'Umanità, per chi ha già visitato i Templi.",
+    descEN:"A Sunday offering of music, dance, light or silence in the Temples of Humankind, for those who have already visited the Temples.",
+    url:"https://damanhur.community/event/the-triad-2/2026-12-06/"
   },
 ];
 
