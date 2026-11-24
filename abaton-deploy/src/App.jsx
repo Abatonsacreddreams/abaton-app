@@ -3001,12 +3001,21 @@ function GuestsPage({t,lang,setPage}) {
   const [emailSent, setEmailSent] = useState(false);
   const [nlConsent, setNlConsent] = useState(false);
   const [nlTouched, setNlTouched] = useState(false);
-  const handleEmailSubmit = () => {
-    setNlTouched(true);
-    if(!nlConsent) return;
-    if(email && email.includes("@")) {
+  const [nlSending, setNlSending] = useState(false);
+  const [nlError, setNlError] = useState("");
+  const handleEmailSubmit = async () => {
+    setNlTouched(true); setNlError("");
+    if(!nlConsent||nlSending) return;
+    const mail = email.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) { setNlError("invalid"); return; }
+    setNlSending(true);
+    try{
+      const res = await fetch("/api/newsletter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:mail,lang,room:getRoom(),consent:true})});
+      if(!res.ok) throw new Error("nl");
+      track("newsletter","Iscrizione Rimani connesso",{lang});
       setEmailSent(true);
-    }
+    }catch(e){ setNlError("send"); }
+    setNlSending(false);
   };
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -3116,7 +3125,7 @@ function GuestsPage({t,lang,setPage}) {
             </div>
             {emailSent
               ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontWeight:"500",fontSize:"18px"}}>
-                  ✦ {lang==="it"?"Grazie! Ti ricontatteremo presto.":lang==="de"?"Danke! Wir melden uns bald bei dir.":lang==="fr"?"Merci ! Nous te recontacterons bientôt.":lang==="ru"?"Спасибо! Мы скоро свяжемся с вами.":"Thank you! We will be in touch soon."}
+                  ✦ {lang==="it"?"Grazie! La tua iscrizione è arrivata.":lang==="de"?"Danke! Deine Anmeldung ist angekommen.":lang==="fr"?"Merci ! Votre inscription a bien été reçue.":lang==="ru"?"Спасибо! Ваша подписка получена.":"Thank you! Your subscription has been received."}
                 </div>
               : <div style={{display:"flex",gap:"10px"}}>
                   <input
@@ -3136,6 +3145,9 @@ function GuestsPage({t,lang,setPage}) {
                 <input type="checkbox" checked={nlConsent} onChange={e=>setNlConsent(e.target.checked)} style={{width:"20px",height:"20px",marginTop:"1px",flexShrink:0,accentColor:C.gold}}/>
                 <span>{RQ.consentPre[lang]||RQ.consentPre.en}<PrivacyPanel lang={lang} textKey={CFG.privacyNewsletterText?"privacyNewsletterText":"privacyText"} renderTrigger={openP=>(<a href="#privacy" onClick={e=>{e.preventDefault();e.stopPropagation();openP();}} style={{color:C.goldD,textDecoration:"underline"}}>{RQ.consentLink[lang]||RQ.consentLink.en}</a>)}/>{RQ.consentPost[lang]||""}{lang==="it"?" e acconsento a ricevere la newsletter.":lang==="de"?" und bin mit dem Erhalt des Newsletters einverstanden.":lang==="fr"?" et j'accepte de recevoir la newsletter.":lang==="ru"?" и согласен(-на) получать рассылку.":" and agree to receive the newsletter."}</span>
               </label>
+              {nlError&&<div style={{fontSize:"13.5px",color:"#B04A4A",marginTop:"8px"}}>{nlError==="invalid"
+                ?(lang==="it"?"Controlla l'indirizzo email.":lang==="de"?"Bitte überprüfe die E-Mail-Adresse.":lang==="fr"?"Vérifiez l'adresse e-mail.":lang==="ru"?"Проверьте адрес электронной почты.":"Please check the email address.")
+                :(lang==="it"?"Non è stato possibile inviare l'iscrizione. Riprova tra poco.":lang==="de"?"Die Anmeldung konnte nicht gesendet werden. Bitte versuche es gleich noch einmal.":lang==="fr"?"L'inscription n'a pas pu être envoyée. Réessayez dans un instant.":lang==="ru"?"Не удалось отправить подписку. Попробуйте ещё раз чуть позже.":"Your subscription couldn't be sent. Please try again shortly.")}</div>}
               {nlTouched&&!nlConsent&&<div style={{fontSize:"13.5px",color:"#B04A4A",marginTop:"8px"}}>{lang==="it"?"Per iscriverti conferma il consenso.":lang==="de"?"Bitte bestätige deine Einwilligung, um dich anzumelden.":lang==="fr"?"Pour vous inscrire, merci de confirmer votre consentement.":lang==="ru"?"Чтобы подписаться, подтвердите согласие.":"Please confirm your consent to subscribe."}</div>}
             </>}
           </div>
