@@ -1,4 +1,5 @@
 import { sql } from '@vercel/postgres';
+import { logConsent } from './_consents.js';
 
 // Iscrizioni a "Rimani connesso": salvate con data del consenso e inviate allo staff su Telegram.
 
@@ -19,6 +20,8 @@ export default async function handler(req, res) {
       id SERIAL PRIMARY KEY, email TEXT NOT NULL, lang TEXT, room TEXT,
       consent_at TIMESTAMPTZ NOT NULL DEFAULT now())`;
     await sql`INSERT INTO newsletter_signups (email, lang, room) VALUES (${mail}, ${lg}, ${rm})`;
+    try { await logConsent({ section: 'newsletter', email: mail, room: rm, lang: lg, version: (req.body || {}).version }); }
+    catch (e) { console.error('consent log error:', e); }
 
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;

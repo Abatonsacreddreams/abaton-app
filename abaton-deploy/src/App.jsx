@@ -1093,7 +1093,7 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
     const chipNames = (chips||[]).filter(c=>picked.includes(c.id)).map(c=>c.it).join(", ");
     const fullNote = [chipNames?`${chipsNoteLabel}: ${chipNames}`:null, note||null].filter(Boolean).join(" — ");
     try{
-      const res = await fetch("/api/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name.trim(),phone:`${effPrefix} ${digits}`,room:getRoom(),item,date:showWhen?date:"",slot:showWhen&&slotObj?slotObj.it:null,note:fullNote,lang})});
+      const res = await fetch("/api/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name.trim(),phone:`${effPrefix} ${digits}`,room:getRoom(),item,date:showWhen?date:"",slot:showWhen&&slotObj?slotObj.it:null,note:fullNote,lang,consent:{accepted:!!consent,section:privacyKey==="privacyWellnessText"?"trattamenti_benessere":"richiesta",version:textVersion(CFG[pKey])}})});
       if(!res.ok) throw new Error("req");
       setSent(true);
     }catch(e){ setErr(true); }
@@ -3326,7 +3326,7 @@ function GuestsPage({t,lang,setPage}) {
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) { setNlError("invalid"); return; }
     setNlSending(true);
     try{
-      const res = await fetch("/api/newsletter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:mail,lang,room:getRoom(),consent:true})});
+      const res = await fetch("/api/newsletter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:mail,lang,room:getRoom(),consent:true,version:textVersion(CFG.privacyNewsletterText||CFG.privacyText)})});
       if(!res.ok) throw new Error("nl");
       track("newsletter","Iscrizione Rimani connesso",{lang});
       setEmailSent(true);
@@ -3478,7 +3478,7 @@ function GuestsPage({t,lang,setPage}) {
 function ConciergePage({t,lang,setPage}) {
   const aiKey = (()=>{ const s=getSession(); return s?`s:${s.id}`:"device"; })();
   const [aiOk,setAiOk] = useState(()=>{ try{ return localStorage.getItem('abaton_ai_ok')===aiKey; }catch(e){ return false; } });
-  const acceptAi = () => { try{ localStorage.setItem('abaton_ai_ok',aiKey); }catch(e){} setAiOk(true); };
+  const acceptAi = () => { try{ localStorage.setItem('abaton_ai_ok',aiKey); }catch(e){} setAiOk(true); sendConsent("concierge_ia",{name:getSession()?.name||null,lang,version:textVersion(CFG.aiNoticeText||AI_NOTICE.text[lang]||AI_NOTICE.text.en)}); };
   const [messages,setMessages] = useState([{role:"assistant",content:t.concWelcome}]);
   const [input,setInput] = useState("");
   const [loading,setLoading] = useState(false);
@@ -3760,6 +3760,16 @@ function DashboardPage({t,lang,setPage}) {
 
 // ── APP ROOT ──────────────────────────────────────────────────────────────────
 // ── PRIVACY: testi fissi intorno alle informative (le informative vere sono nel pannello staff) ──
+// Versione dell'informativa accettata: un'impronta del testo mostrato (cambia se il testo cambia).
+function textVersion(txt){
+  const s = String(txt||"").trim();
+  if(!s) return "nessun testo";
+  let h = 5381; for(let i=0;i<s.length;i++){ h = ((h<<5)+h + s.charCodeAt(i)) >>> 0; }
+  return `v-${h.toString(16)}-${s.length}`;
+}
+function sendConsent(section, data){
+  try{ fetch("/api/consent",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({section,room:getRoom(),...data})}).catch(()=>{}); }catch(e){}
+}
 const PRIV_APP = {
   title:{it:"Prima di iniziare",en:"Before you begin",de:"Bevor es losgeht",fr:"Avant de commencer",ru:"Прежде чем начать"},
   intro:{it:"Per usare l'app e inviare richieste allo staff vengono trattati alcuni tuoi dati, come il nome e il numero di telefono che scegli di inserire. Ti chiediamo di leggere l'informativa sulla privacy.",
@@ -3905,7 +3915,7 @@ export default function AbatonApp() {
   const privStored = (()=>{ try{ return localStorage.getItem('abaton_privacy_ok')===privKey; }catch(e){ return false; } })();
   const privAccepted = privPassed || privStored;
   const acceptPrivacy = () => {
-    if (CFG.privacyAppText) { try{ localStorage.setItem('abaton_privacy_ok', privKey); }catch(e){} track("privacy_ok","Informativa primo accesso accettata",{lang}); }
+    if (CFG.privacyAppText) { try{ localStorage.setItem('abaton_privacy_ok', privKey); }catch(e){} track("privacy_ok","Informativa primo accesso accettata",{lang}); sendConsent("primo_accesso",{name:session?.name||null,lang,version:textVersion(CFG.privacyAppText)}); }
     setPrivPassed(true);
   };
   const onboardSteps0 = [

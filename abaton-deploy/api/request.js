@@ -1,4 +1,5 @@
 import { sql } from '@vercel/postgres';
+import { logConsent } from './_consents.js';
 
 let ready = false;
 async function ensureTable() {
@@ -77,6 +78,13 @@ export default async function handler(req, res) {
         ${lang ? String(lang).slice(0, 5) : null}
       )
     `;
+    const consent = (req.body || {}).consent;
+    if (consent && consent.accepted === true) {
+      try {
+        await logConsent({ section: consent.section === 'trattamenti_benessere' ? 'trattamenti_benessere' : 'richiesta',
+          name, room, lang, ref: item, version: consent.version });
+      } catch (e) { console.error('consent log error:', e); }
+    }
     await notifyTelegram({ name, phone, room, item, when, note });
     return res.status(204).end();
   } catch (err) {
