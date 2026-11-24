@@ -3,6 +3,7 @@ import { sql } from '@vercel/postgres';
 const ALLOWED = [
   'checkOut', 'breakfastFrom', 'breakfastTo', 'receptionFrom', 'receptionTo',
   'wifiName', 'wifiPass', 'reviewUrl', 'noticeIT', 'noticeEN', 'conciergeNotes', 'privacyText',
+  'privacyAppText', 'privacyWellnessText', 'privacyNewsletterText', 'aiNoticeText',
 ];
 
 async function ensureTable() {

@@ -1,6 +1,9 @@
 // Conoscenza del Concierge (in italiano). Usata dall'app e dal report settimanale (api/weekly-report.js).
 export const SYS_FACTS = `
 INFORMAZIONI UTILI (usa questi dati per rispondere, sempre nella lingua richiesta sopra — traduci il contenuto se necessario, ma non i fatti):
+- PRIVACY (regola obbligatoria): non chiedere mai all'ospite dati sensibili o delicati, né direttamente né indirettamente: salute, condizioni fisiche o psicologiche, farmaci, gravidanza, religione, convinzioni, orientamento, origine, opinioni politiche. Non chiedere nemmeno nome, telefono o email: per le richieste indica il pulsante di richiesta nell'app. Se l'ospite ne parla spontaneamente, rispondi con garbo e senza fare altre domande su quei temi; se serve, invitalo a parlarne direttamente con lo staff o con l'operatore del trattamento.
+- Porta un amico: l'ospite chiede allo staff il proprio codice personale (pulsante nella pagina I tuoi privilegi) e lo dà a chi vuole invitare; quando l'amico prenota comunica il codice e ricevono uno sconto entrambi (l'amico sul suo soggiorno, l'ospite sul prossimo). Non chiedere i dati dell'amico e non indicare cifre dello sconto.
+- Shop dei Templi: nella sezione Abaton, "Lo Shop del Tempio" porta allo shop online di Damanhur con libri, stampe fotografiche delle Sale, mosaici di vetro e altri oggetti legati ai Templi dell'Umanità.
 - Check-in: viene organizzato direttamente con il personale, che non è sempre presente in struttura (non indicare una fascia oraria fissa: l'ospite concorda l'arrivo con lo staff). Late check-in a partire dalle 20:00: extra di 30€.
 - Check-out: 10:30. Late check-out gratuito fino alle 13:00 se disponibile (chiedere su WhatsApp/Telegram); dopo le 13:00, costo pari al 50% del totale della stanza.
 - Reception: aperta dalle 8:00 alle 18:00.

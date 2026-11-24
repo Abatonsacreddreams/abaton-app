@@ -433,7 +433,7 @@ const appVersion = () => { const m=bundleSrc().match(/index-([^.]+)\.js/); retur
 // ── CONFIG MODIFICABILE DALLO STAFF (salvata su /api/config) ──────────────────
 const CFG_DEFAULT = {
   checkOut:"10:30", breakfastFrom:"8:00", breakfastTo:"10:00", receptionFrom:"8:00", receptionTo:"18:00",
-  wifiName:"abaton", wifiPass:"abaton1950", reviewUrl:"https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html", noticeIT:"", noticeEN:"", conciergeNotes:"", privacyText:"",
+  wifiName:"abaton", wifiPass:"abaton1950", reviewUrl:"https://www.tripadvisor.it/UserReviewEdit-g7310872-d19945171-Abaton_Sacred_Dreams-Vidracco_Province_of_Turin_Piedmont.html", noticeIT:"", noticeEN:"", conciergeNotes:"", privacyText:"", privacyAppText:"", privacyWellnessText:"", privacyNewsletterText:"", aiNoticeText:"",
 };
 let CFG = {...CFG_DEFAULT};
 const setCfg = v => { CFG = {...CFG_DEFAULT, ...(v||{})}; };
@@ -479,7 +479,11 @@ const EDIT_FIELDS = [
     {k:"noticeEN",label:"Testo in inglese (usato anche per tedesco, francese, russo)",area:true},
   ]},
   {sec:"Privacy", items:[
-    {k:"privacyText",label:"Testo dell'informativa privacy",area:true,rows:12,hint:"Compare nella pagina Privacy (icona scudo in Home) e nel modulo di richiesta. Finché è vuoto, la pagina mostra solo il titolo e la casella non è obbligatoria; appena inserisci il testo la casella diventa obbligatoria."},
+    {k:"privacyText",label:"Informativa privacy generale",area:true,rows:12,hint:"Compare nella pagina Privacy (icona scudo in Home) e nei moduli di richiesta. Finché è vuoto, la pagina mostra solo il titolo e la casella non è obbligatoria; appena inserisci il testo, la casella diventa obbligatoria."},
+    {k:"privacyAppText",label:"Informativa al primo accesso (uso dell'app e dati inseriti)",area:true,rows:10,hint:"Compare al primo accesso, prima della presentazione dell'app. Con il testo inserito l'ospite deve accettarla per continuare; se è vuoto, la schermata mostra solo il titolo e il pulsante Continua."},
+    {k:"privacyWellnessText",label:"Informativa per le prenotazioni dei trattamenti benessere",area:true,rows:10,hint:"Compare nel modulo «Prenota con…» della sezione Benessere, con la casella di consenso obbligatoria. Se è vuoto si usa l'informativa generale."},
+    {k:"privacyNewsletterText",label:"Informativa per «Rimani connesso» (newsletter)",area:true,rows:8,hint:"Compare sotto il campo email nella pagina I tuoi privilegi. Con il testo inserito la casella di consenso diventa obbligatoria."},
+    {k:"aiNoticeText",label:"Informativa sull'uso dell'intelligenza artificiale (Concierge)",area:true,rows:8,hint:"Compare prima della prima domanda al Concierge. Se è vuoto si usa un breve testo predefinito nelle 5 lingue."},
   ]},
   {sec:"Concierge", items:[
     {k:"conciergeNotes",label:"Informazioni extra per le risposte del Concierge",area:true,hint:"Scrivi liberamente fatti, novità, eccezioni (es. \"Domenica la cucina è chiusa\"). Il Concierge le userà con priorità e le tradurrà nella lingua dell'ospite."},
@@ -991,7 +995,7 @@ function PopoliExperienceButton({t,lang,style}) {
 }
 
 // ── RICHIESTE ALLO STAFF — giorno + momento indicativi, telefono facoltativo, arriva sul bot Telegram ──
-function PrivacyPanel({lang,renderTrigger}) {
+function PrivacyPanel({lang,renderTrigger,textKey="privacyText",title="Privacy"}) {
   const [open,setOpen] = useState(false);
   const closeLabel = lang==="it"?"← Torna in Abaton":lang==="de"?"← Zurück zu Abaton":lang==="fr"?"← Retour à Abaton":lang==="ru"?"← Вернуться в Abaton":"← Back to Abaton";
   return (
@@ -1001,8 +1005,8 @@ function PrivacyPanel({lang,renderTrigger}) {
         <div style={{position:"fixed",inset:0,background:C.bg,zIndex:10000,display:"flex",flexDirection:"column"}}>
           <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15.5px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>{closeLabel}</button>
           <div style={{flex:1,overflowY:"auto",padding:"24px 22px 60px"}}>
-            <div style={{fontFamily:FD,fontSize:"30px",color:C.blue,marginBottom:"20px"}}>Privacy</div>
-            {CFG.privacyText&&<div style={{fontSize:"15.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line"}}>{CFG.privacyText}</div>}
+            <div style={{fontFamily:FD,fontSize:"30px",color:C.blue,marginBottom:"20px"}}>{title}</div>
+            {CFG[textKey]&&<div style={{fontSize:"15.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line"}}>{CFG[textKey]}</div>}
           </div>
         </div>
       )}
@@ -1051,7 +1055,10 @@ const RQ = {
   close:{it:"Chiudi",en:"Close",de:"Schließen",fr:"Fermer",ru:"Закрыть"},
   cancel:{it:"Annulla",en:"Cancel",de:"Abbrechen",fr:"Annuler",ru:"Отмена"},
 };
-function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel="Interessi",noteLabel,showWhen=true,item,lang,trackLabel}) {
+function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel="Interessi",noteLabel,showWhen=true,item,lang,trackLabel,privacyKey}) {
+  // Informativa specifica (es. trattamenti benessere): se non è ancora stata inserita si usa quella generale.
+  const pKey = privacyKey && CFG[privacyKey] ? privacyKey : "privacyText";
+  const pRequired = !!privacyKey; // per i moduli con informativa specifica il consenso è sempre obbligatorio
   const [name,setName] = useState(()=>getSession()?.name||"");
   const [prefix,setPrefix] = useState(PREFIX_BY_LANG[lang]||"+39");
   const [otherPrefix,setOtherPrefix] = useState("+");
@@ -1075,7 +1082,7 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   if(effPrefix!=="+39") digits = digits.replace(/^0+/,"");
   const prefixOk = /^\+\d{1,4}$/.test(effPrefix);
   const phoneOk = prefixOk && digits.length>=6 && digits.length<=14;
-  const needConsent = !!CFG.privacyText && !consent;
+  const needConsent = (pRequired || !!CFG[pKey]) && !consent;
   const canSend = !sending && name.trim() && phoneOk && !needConsent;
   const send = async () => {
     setTouched(true);
@@ -1148,7 +1155,7 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
             <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder={noteLabel||T_(RQ.note)} style={{...fld,minHeight:"60px",resize:"vertical",marginBottom:"18px"}}/>
             <label style={{display:"flex",alignItems:"flex-start",gap:"10px",marginBottom:"12px",fontSize:"14.5px",color:C.textS,lineHeight:"1.5",cursor:"pointer"}}>
               <input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)} style={{width:"20px",height:"20px",marginTop:"1px",flexShrink:0,accentColor:C.gold}}/>
-              <span>{T_(RQ.consentPre)}<PrivacyPanel lang={lang} renderTrigger={openP=>(<a href="#privacy" onClick={e=>{e.preventDefault();e.stopPropagation();openP();}} style={{color:C.goldD,textDecoration:"underline"}}>{T_(RQ.consentLink)}</a>)}/>{T_(RQ.consentPost)}</span>
+              <span>{T_(RQ.consentPre)}<PrivacyPanel lang={lang} textKey={pKey} renderTrigger={openP=>(<a href="#privacy" onClick={e=>{e.preventDefault();e.stopPropagation();openP();}} style={{color:C.goldD,textDecoration:"underline"}}>{T_(RQ.consentLink)}</a>)}/>{T_(RQ.consentPost)}</span>
             </label>
             {touched&&needConsent&&<div style={{fontSize:"13.5px",color:"#B04A4A",marginBottom:"10px"}}>{T_(RQ.consentErr)}</div>}
             {err&&<div style={{fontSize:"14px",color:"#B04A4A",marginBottom:"10px"}}>{T_(RQ.err)}</div>}
@@ -1161,13 +1168,13 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   );
 }
 
-function QuickAsk({item,title,intro,chips,chipsLabel,chipsNoteLabel,noteLabel,showWhen,lang,style,children,trackLabel}) {
+function QuickAsk({item,title,intro,chips,chipsLabel,chipsNoteLabel,noteLabel,showWhen,lang,style,children,trackLabel,privacyKey}) {
   const [open,setOpen] = useState(false);
   return (
     <>
       <button onClick={()=>setOpen(true)} style={style}>{children}</button>
       {/* portal: il modulo copre tutta la pagina anche quando il pulsante sta dentro un'icona in alto */}
-      {createPortal(<RequestSheet open={open} onClose={()=>setOpen(false)} title={title} intro={intro} chips={chips} chipsLabel={chipsLabel} chipsNoteLabel={chipsNoteLabel} noteLabel={noteLabel} showWhen={showWhen} item={item} lang={lang} trackLabel={trackLabel}/>, document.body)}
+      {createPortal(<RequestSheet open={open} onClose={()=>setOpen(false)} title={title} intro={intro} chips={chips} chipsLabel={chipsLabel} chipsNoteLabel={chipsNoteLabel} noteLabel={noteLabel} showWhen={showWhen} item={item} lang={lang} trackLabel={trackLabel} privacyKey={privacyKey}/>, document.body)}
     </>
   );
 }
@@ -1828,6 +1835,7 @@ function AbatonPage({t,lang,setPage}) {
     {id:"tempio",   sym:"✦", labelIT:"Connessione al Tempio",labelEN:"Temple Connection",labelDE:"Verbindung zum Tempel",  labelFR:"Connexion au Temple",     labelRU:"Связь с Храмом",     color:C.goldD},
     {id:"campo",    sym:"◎", labelIT:"Il Campo dell'Abaton",labelEN:"Abaton's Field",     labelDE:"Das Feld des Abaton",    labelFR:"Le Champ de l'Abaton",    labelRU:"Поле Абатона",       color:C.blue},
     {id:"sogno",    sym:"◈", labelIT:"L'Arte del Sogno",    labelEN:"The Art of Dreaming",labelDE:"Die Kunst des Träumens", labelFR:"L'Art du Rêve",           labelRU:"Искусство сна",      color:"#7A6AAA"},
+    {id:"shop",     sym:"❖", labelIT:"Lo Shop del Tempio",  labelEN:"The Temple Shop",    labelDE:"Der Tempel-Shop",        labelFR:"La Boutique du Temple",   labelRU:"Магазин Храма",      color:"#A0522D"},
   ];
   const ROOMS_BRIEF = [
     {
@@ -1891,6 +1899,21 @@ function AbatonPage({t,lang,setPage}) {
     },
   ];
   const subContent = {
+    shop:{
+      img:"/temple/umanita.jpg",
+      it:"Un ricordo dei Templi dell'Umanità da portare a casa, o da regalare.\n\nNello shop online di Damanhur trovi libri sui Templi, stampe fotografiche delle Sale, mosaici di vetro e altri oggetti nati dal lavoro artistico della comunità.",
+      en:"A keepsake of the Temples of Humankind to take home, or to give as a gift.\n\nIn Damanhur's online shop you'll find books about the Temples, photographic prints of the Halls, glass mosaics and other objects born from the community's artistic work.",
+      de:"Eine Erinnerung an die Tempel der Menschheit zum Mitnehmen oder Verschenken.\n\nIm Online-Shop von Damanhur findest du Bücher über die Tempel, Fotodrucke der Säle, Glasmosaike und weitere Gegenstände aus der künstlerischen Arbeit der Gemeinschaft.",
+      fr:"Un souvenir des Temples de l'Humanité à rapporter chez vous, ou à offrir.\n\nDans la boutique en ligne de Damanhur, vous trouverez des livres sur les Temples, des tirages photographiques des Salles, des mosaïques de verre et d'autres objets nés du travail artistique de la communauté.",
+      ru:"Память о Храмах Человечества, которую можно увезти с собой или подарить.\n\nВ интернет-магазине Даманхура есть книги о Храмах, фотопечать залов, стеклянные мозаики и другие предметы, созданные художниками сообщества.",
+      link:"https://damanhur.shop/it/collections/the-temples-of-humankind",
+      linkEN:"https://damanhur.shop/collections/the-temples-of-humankind",
+      linkLabelIT:"Apri lo shop dei Templi →",
+      linkLabelEN:"Open the Temples shop →",
+      linkLabelDE:"Zum Tempel-Shop →",
+      linkLabelFR:"Ouvrir la boutique des Temples →",
+      linkLabelRU:"Открыть магазин Храмов →",
+    },
     living:{
       img:"/damanhur/living.jpg",
       it:"Il Living dell'Abaton non è una sala d'attesa — è uno spazio di transizione tra la notte e il giorno, tra il sogno e la veglia.\n\nÈ progettato per non interrompere. La luce è morbida, i materiali sono naturali, l'atmosfera è quella di chi non ha fretta. È il luogo dove il sogno non si perde ma si custodisce, dove la colazione diventa un momento e non un gesto distratto.\n\nLa sua energia rispecchia quella del Labirinto dei Templi — sala dedicata all'unione e all'armonia delle forze divine del Pianeta. Il Labirinto costituisce un percorso attraverso tutta la storia umana, distillando da sé la parte collegata al principio divino, all'essenza eterna che è al di là delle rappresentazioni culturali: predispone al contatto con le proprie parti più profonde, meditando sul proprio percorso spirituale. Come il Labirinto, il Living è un luogo di passaggio che apre a qualcosa di più grande.",
@@ -2061,7 +2084,7 @@ function AbatonPage({t,lang,setPage}) {
             <div style={{fontSize:"17.5px",color:C.textS,lineHeight:"1.9",fontWeight:"400",whiteSpace:"pre-line"}}>{sc?cx(sc[lang]||sc.it):""}</div>
           </WhiteCard>
           {sc&&sc.link&&(
-            <ExtLink href={sc.link} lang={lang} style={{display:"block",marginTop:"12px",padding:"14px 20px",background:C.white,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14.5px",boxShadow:C.shadow,textAlign:"center"}}>
+            <ExtLink href={lang!=="it"&&sc.linkEN?sc.linkEN:sc.link} lang={lang} onClick={sub==="shop"?()=>track("link","Shop Templi",{lang}):undefined} style={{display:"block",marginTop:"12px",padding:"14px 20px",background:C.white,borderRadius:"16px",color:C.goldD,textDecoration:"none",fontFamily:FB,fontSize:"14.5px",boxShadow:C.shadow,textAlign:"center"}}>
               {LS(sc,"linkLabel",lang)}
             </ExtLink>
           )}
@@ -2940,7 +2963,7 @@ function WellnessPage({t,lang,setPage}) {
                 </div>
               ))}
             </div>
-            <QuickAsk item={`Trattamento ${p.name}`} lang={lang} trackLabel={`Request ${p.name}`}
+            <QuickAsk item={`Trattamento ${p.name}`} lang={lang} trackLabel={`Request ${p.name}`} privacyKey="privacyWellnessText"
               title={lang==="it"?`Prenota con ${p.name}`:lang==="de"?`Bei ${p.name} buchen`:lang==="fr"?`Réserver avec ${p.name}`:lang==="ru"?`Записаться к ${p.name}`:`Book with ${p.name}`}
               chipsLabel={lang==="it"?"Quale trattamento?":lang==="de"?"Welche Behandlung?":lang==="fr"?"Quel soin ?":lang==="ru"?"Какая процедура?":"Which treatment?"}
               chipsNoteLabel="Trattamenti" chips={p.treatments.map((tr,i)=>({id:String(i),it:tr.nameIT,en:tr.nameEN,de:tr.nameDE,fr:tr.nameFR,ru:tr.nameRU,info:tr.info}))}
@@ -2976,7 +2999,11 @@ const SHOP_DATA = [
 function GuestsPage({t,lang,setPage}) {
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
+  const [nlConsent, setNlConsent] = useState(false);
+  const [nlTouched, setNlTouched] = useState(false);
   const handleEmailSubmit = () => {
+    setNlTouched(true);
+    if(!nlConsent) return;
     if(email && email.includes("@")) {
       setEmailSent(true);
     }
@@ -3006,23 +3033,21 @@ function GuestsPage({t,lang,setPage}) {
         {/* PORTA UN AMICO */}
         <Section title={lang==="it"?"Porta un amico":lang==="de"?"Bring einen Freund mit":lang==="fr"?"Parraine un ami":lang==="ru"?"Приведи друга":"Bring a friend"}>
           <div style={{background:C.goldPale,borderRadius:"20px",padding:"22px",border:`1px solid ${C.gold}44`}}>
-            <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.8",marginBottom:"16px"}}>
-              {lang==="it"
-                ?"Conosci qualcuno che potrebbe beneficiare di questo luogo? Condividi la tua esperienza all'Abaton — per ogni amico che prenota grazie a te, riceverai uno sconto esclusivo sul tuo prossimo soggiorno."
-                :lang==="de"
-                ?"Kennst du jemanden, der von diesem Ort profitieren könnte? Teile deine Erfahrung im Abaton — für jeden Freund, der dank dir bucht, erhältst du einen exklusiven Rabatt auf deinen nächsten Aufenthalt."
-                :lang==="fr"
-                ?"Connais-tu quelqu'un qui pourrait profiter de cet endroit ? Partage ton expérience à l'Abaton — pour chaque ami qui réserve grâce à toi, tu recevras une réduction exclusive sur ton prochain séjour."
-                :lang==="ru"
-                ?"Знаете кого-то, кому это место могло бы пригодиться? Поделитесь своим опытом в Абатоне — за каждого друга, который забронирует благодаря вам, вы получите эксклюзивную скидку на следующее пребывание."
-                :"Do you know someone who could benefit from this place? Share your Abaton experience — for every friend who books thanks to you, you will receive an exclusive discount on your next stay."}
+            <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.8",marginBottom:"16px",whiteSpace:"pre-line"}}>
+              {({
+                it:"Conosci qualcuno a cui questo luogo potrebbe fare bene? Invitalo all'Abaton con il tuo codice personale, che ti diamo noi.\n\nQuando prenota, il tuo amico ci comunica il codice: così sappiamo che l'hai invitato tu, e riceverete uno sconto entrambi, lui sul suo soggiorno e tu sul tuo prossimo.",
+                en:"Do you know someone this place could do good to? Invite them to Abaton with your personal code, which we give you.\n\nWhen they book, your friend tells us the code: that way we know you invited them, and you both receive a discount, them on their stay and you on your next one.",
+                de:"Kennst du jemanden, dem dieser Ort guttun könnte? Lade ihn mit deinem persönlichen Code ins Abaton ein, den wir dir geben.\n\nBei der Buchung nennt uns dein Freund den Code: So wissen wir, dass du ihn eingeladen hast, und ihr erhaltet beide einen Rabatt – er auf seinen Aufenthalt und du auf deinen nächsten.",
+                fr:"Vous connaissez quelqu'un à qui ce lieu ferait du bien ? Invitez-le à l'Abaton avec votre code personnel, que nous vous donnons.\n\nLors de sa réservation, votre ami nous indique le code : nous savons ainsi que c'est vous qui l'avez invité, et vous recevez tous les deux une réduction, lui sur son séjour et vous sur le prochain.",
+                ru:"Знаете человека, которому это место пошло бы на пользу? Пригласите его в Абатон с вашим личным кодом, который мы вам дадим.\n\nПри бронировании ваш друг сообщает нам код: так мы узнаём, что его пригласили вы, и вы оба получаете скидку — он на своё пребывание, вы на следующее."
+              })[lang]||"Do you know someone this place could do good to? Invite them to Abaton with your personal code, which we give you."}
             </div>
-            <QuickAsk item="Segnalazione amico (sconto prossimo soggiorno)" lang={lang} trackLabel="Request bring a friend" showWhen={false}
-              title={lang==="it"?"Segnala un amico":lang==="de"?"Einen Freund empfehlen":lang==="fr"?"Recommander un ami":lang==="ru"?"Порекомендовать друга":"Refer a friend"}
-              intro={lang==="it"?"Lasciaci i tuoi dati e dicci chi vuoi segnalare: lo staff si occupa del resto.":lang==="de"?"Hinterlasse uns deine Daten und sag uns, wen du empfehlen möchtest: Das Team kümmert sich um den Rest.":lang==="fr"?"Laissez-nous vos coordonnées et dites-nous qui vous souhaitez recommander : l'équipe s'occupe du reste.":lang==="ru"?"Оставьте свои данные и скажите, кого хотите порекомендовать: остальным займётся персонал.":"Leave us your details and tell us who you'd like to refer: our staff takes care of the rest."}
-              noteLabel={lang==="it"?"Nome e contatto del tuo amico":lang==="de"?"Name und Kontakt deines Freundes":lang==="fr"?"Nom et contact de votre ami":lang==="ru"?"Имя и контакт вашего друга":"Your friend's name and contact"}
+            <QuickAsk item="Codice personale Porta un amico" lang={lang} trackLabel="Request referral code" showWhen={false}
+              title={lang==="it"?"Il tuo codice personale":lang==="de"?"Dein persönlicher Code":lang==="fr"?"Votre code personnel":lang==="ru"?"Ваш личный код":"Your personal code"}
+              intro={lang==="it"?"Chiedilo allo staff: ti mandiamo il tuo codice da condividere con chi vuoi. Non serve indicarci i dati dei tuoi amici.":lang==="de"?"Frag das Team danach: Wir schicken dir deinen Code, den du teilen kannst, mit wem du möchtest. Die Daten deiner Freunde brauchen wir nicht.":lang==="fr"?"Demandez-le à l'équipe : nous vous envoyons votre code, à partager avec qui vous voulez. Inutile de nous donner les coordonnées de vos amis.":lang==="ru"?"Попросите его у персонала: мы пришлём вам код, которым можно поделиться с кем угодно. Данные ваших друзей нам не нужны.":"Ask our staff: we'll send you your code to share with anyone you like. There's no need to give us your friends' details."}
+              noteLabel={lang==="it"?"Note (facoltativo)":lang==="de"?"Hinweise (optional)":lang==="fr"?"Notes (facultatif)":lang==="ru"?"Примечания (необязательно)":"Notes (optional)"}
               style={{display:"inline-flex",alignItems:"center",gap:"8px",padding:"13px 22px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px"}}>
-                💬 {lang==="it"?"Segnala un amico →":lang==="de"?"Einen Freund empfehlen →":lang==="fr"?"Recommander un ami →":lang==="ru"?"Порекомендовать друга →":"Refer a friend →"}
+                ✦ {lang==="it"?"Chiedi il tuo codice →":lang==="de"?"Deinen Code anfragen →":lang==="fr"?"Demander votre code →":lang==="ru"?"Получить код →":"Ask for your code →"}
               </QuickAsk>
           </div>
         </Section>
@@ -3080,14 +3105,14 @@ function GuestsPage({t,lang,setPage}) {
           <div style={{background:C.white,borderRadius:"20px",padding:"22px",boxShadow:C.shadow}}>
             <div style={{fontSize:"15.5px",color:C.textS,lineHeight:"1.8",marginBottom:"18px"}}>
               {lang==="it"
-                ?"Iscriviti alla newsletter per ricevere aggiornamenti sugli eventi di Damanhur, offerte esclusive per ospiti e notizie dal campo dell'Abaton."
+                ?"Iscriviti alla newsletter per ricevere offerte riservate agli ospiti e notizie dal campo dell'Abaton."
                 :lang==="de"
-                ?"Abonniere den Newsletter, um Updates zu Damanhur-Veranstaltungen, exklusive Gästeangebote und Neuigkeiten aus dem Feld des Abaton zu erhalten."
+                ?"Abonniere den Newsletter, um exklusive Gästeangebote und Neuigkeiten aus dem Feld des Abaton zu erhalten."
                 :lang==="fr"
-                ?"Inscris-toi à la newsletter pour recevoir les actualités des événements de Damanhur, des offres exclusives pour les hôtes et des nouvelles du champ de l'Abaton."
+                ?"Inscris-toi à la newsletter pour recevoir des offres réservées aux hôtes et des nouvelles du champ de l'Abaton."
                 :lang==="ru"
-                ?"Подпишитесь на рассылку, чтобы получать новости о мероприятиях Даманхура, эксклюзивные предложения для гостей и новости из поля Абатона."
-                :"Subscribe to the newsletter to receive updates on Damanhur events, exclusive guest offers and news from the Abaton field."}
+                ?"Подпишитесь на рассылку, чтобы получать эксклюзивные предложения для гостей и новости из поля Абатона."
+                :"Subscribe to the newsletter to receive exclusive guest offers and news from the Abaton field."}
             </div>
             {emailSent
               ? <div style={{textAlign:"center",padding:"16px",color:C.gold,fontFamily:FD,fontWeight:"500",fontSize:"18px"}}>
@@ -3101,11 +3126,18 @@ function GuestsPage({t,lang,setPage}) {
                     placeholder={lang==="it"?"La tua email":lang==="de"?"Deine E-Mail":lang==="fr"?"Ton e-mail":lang==="ru"?"Ваш email":"Your email"}
                     style={{flex:1,padding:"13px 16px",borderRadius:"14px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"15.5px",background:C.bg,outline:"none"}}
                   />
-                  <button onClick={handleEmailSubmit} style={{padding:"13px 20px",background:C.gold,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px",whiteSpace:"nowrap"}}>
+                  <button onClick={handleEmailSubmit} style={{padding:"13px 20px",background:nlConsent?C.gold:C.border,border:"none",borderRadius:"14px",color:C.white,cursor:"pointer",fontFamily:FB,fontSize:"15.5px",whiteSpace:"nowrap"}}>
                     {lang==="it"?"Iscriviti":lang==="de"?"Abonnieren":lang==="fr"?"S'inscrire":lang==="ru"?"Подписаться":"Subscribe"}
                   </button>
                 </div>
             }
+            {!emailSent&&<>
+              <label style={{display:"flex",alignItems:"flex-start",gap:"10px",marginTop:"14px",fontSize:"14.5px",color:C.textS,lineHeight:"1.5",cursor:"pointer"}}>
+                <input type="checkbox" checked={nlConsent} onChange={e=>setNlConsent(e.target.checked)} style={{width:"20px",height:"20px",marginTop:"1px",flexShrink:0,accentColor:C.gold}}/>
+                <span>{RQ.consentPre[lang]||RQ.consentPre.en}<PrivacyPanel lang={lang} textKey={CFG.privacyNewsletterText?"privacyNewsletterText":"privacyText"} renderTrigger={openP=>(<a href="#privacy" onClick={e=>{e.preventDefault();e.stopPropagation();openP();}} style={{color:C.goldD,textDecoration:"underline"}}>{RQ.consentLink[lang]||RQ.consentLink.en}</a>)}/>{RQ.consentPost[lang]||""}{lang==="it"?" e acconsento a ricevere la newsletter.":lang==="de"?" und bin mit dem Erhalt des Newsletters einverstanden.":lang==="fr"?" et j'accepte de recevoir la newsletter.":lang==="ru"?" и согласен(-на) получать рассылку.":" and agree to receive the newsletter."}</span>
+              </label>
+              {nlTouched&&!nlConsent&&<div style={{fontSize:"13.5px",color:"#B04A4A",marginTop:"8px"}}>{lang==="it"?"Per iscriverti conferma il consenso.":lang==="de"?"Bitte bestätige deine Einwilligung, um dich anzumelden.":lang==="fr"?"Pour vous inscrire, merci de confirmer votre consentement.":lang==="ru"?"Чтобы подписаться, подтвердите согласие.":"Please confirm your consent to subscribe."}</div>}
+            </>}
           </div>
         </Section>
 
@@ -3116,13 +3148,16 @@ function GuestsPage({t,lang,setPage}) {
 
 
 function ConciergePage({t,lang,setPage}) {
+  const aiKey = (()=>{ const s=getSession(); return s?`s:${s.id}`:"device"; })();
+  const [aiOk,setAiOk] = useState(()=>{ try{ return localStorage.getItem('abaton_ai_ok')===aiKey; }catch(e){ return false; } });
+  const acceptAi = () => { try{ localStorage.setItem('abaton_ai_ok',aiKey); }catch(e){} setAiOk(true); };
   const [messages,setMessages] = useState([{role:"assistant",content:t.concWelcome}]);
   const [input,setInput] = useState("");
   const [loading,setLoading] = useState(false);
   const endRef = useRef(null);
   useEffect(()=>{endRef.current?.scrollIntoView({behavior:"smooth"});},[messages]);
   const send = async(text)=>{
-    const msg=text||input; if(!msg.trim()||loading) return;
+    const msg=text||input; if(!msg.trim()||loading||!aiOk) return;
     const next=[...messages,{role:"user",content:msg}];
     setMessages(next); setInput(""); setLoading(true);
     track("concierge", msg, {lang});
@@ -3164,15 +3199,22 @@ function ConciergePage({t,lang,setPage}) {
         {loading&&<div style={{display:"flex",gap:"5px",paddingLeft:"42px"}}>{[0,1,2].map(i=><div key={i} style={{width:"7px",height:"7px",borderRadius:"50%",background:C.gold,animation:`abatonPulse 1.2s ${i*0.22}s ease-in-out infinite alternate`}}/>)}</div>}
         <div ref={endRef}/>
       </div>
-      {messages.length<=2&&(
+      {!aiOk&&(
+        <div style={{padding:"16px 16px 80px",background:C.white,borderTop:`1px solid ${C.border}`,flexShrink:0,maxHeight:"62vh",overflowY:"auto"}}>
+          <div style={{fontFamily:FD,fontSize:"21px",color:C.blue,marginBottom:"8px"}}>{AI_NOTICE.title[lang]||AI_NOTICE.title.en}</div>
+          <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.65",whiteSpace:"pre-line",marginBottom:"14px"}}>{CFG.aiNoticeText||AI_NOTICE.text[lang]||AI_NOTICE.text.en}</div>
+          <button onClick={acceptAi} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",cursor:"pointer"}}>{AI_NOTICE.accept[lang]||AI_NOTICE.accept.en}</button>
+        </div>
+      )}
+      {aiOk&&messages.length<=2&&(
         <div style={{padding:"8px 16px 12px",display:"flex",gap:"8px",overflowX:"auto",flexShrink:0}}>
           {t.suggestions.map((s,i)=><button key={i} onClick={()=>send(s)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"20px",padding:"8px 16px",color:C.textS,fontSize:"15.5px",cursor:"pointer",whiteSpace:"nowrap",fontFamily:FB,flexShrink:0,boxShadow:C.shadow}}>{s}</button>)}
         </div>
       )}
-      <div style={{padding:"12px 16px 80px",background:C.white,borderTop:`1px solid ${C.border}`,display:"flex",gap:"10px",flexShrink:0}}>
+      {aiOk&&<div style={{padding:"12px 16px 80px",background:C.white,borderTop:`1px solid ${C.border}`,display:"flex",gap:"10px",flexShrink:0}}>
         <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder={t.concPlaceholder} style={{flex:1,background:C.bg,border:`1px solid ${C.border}`,borderRadius:"16px",padding:"13px 18px",color:C.blue,fontFamily:FB,fontSize:"17.5px",outline:"none"}}/>
         <button onClick={()=>send()} disabled={loading||!input.trim()} style={{background:`linear-gradient(135deg,${C.gold},${C.goldD})`,border:"none",borderRadius:"16px",padding:"0 20px",cursor:"pointer",opacity:loading||!input.trim()?0.4:1,color:C.white,fontSize:"22px",fontWeight:"400",boxShadow:C.shadowG}}>→</button>
-      </div>
+      </div>}
     </div>
   );
 }
@@ -3389,6 +3431,28 @@ function DashboardPage({t,lang,setPage}) {
 }
 
 // ── APP ROOT ──────────────────────────────────────────────────────────────────
+// ── PRIVACY: testi fissi intorno alle informative (le informative vere sono nel pannello staff) ──
+const PRIV_APP = {
+  title:{it:"Prima di iniziare",en:"Before you begin",de:"Bevor es losgeht",fr:"Avant de commencer",ru:"Прежде чем начать"},
+  intro:{it:"Per usare l'app e inviare richieste allo staff vengono trattati alcuni tuoi dati, come il nome e il numero di telefono che scegli di inserire. Ti chiediamo di leggere l'informativa sulla privacy.",
+         en:"To use the app and send requests to our staff, some of your data is processed, such as the name and phone number you choose to enter. Please read the privacy notice.",
+         de:"Um die App zu nutzen und Anfragen an das Team zu senden, werden einige deiner Daten verarbeitet, etwa der Name und die Telefonnummer, die du angibst. Bitte lies die Datenschutzerklärung.",
+         fr:"Pour utiliser l'application et envoyer des demandes à l'équipe, certaines de vos données sont traitées, comme le nom et le numéro de téléphone que vous choisissez d'indiquer. Merci de lire la politique de confidentialité.",
+         ru:"Чтобы пользоваться приложением и отправлять запросы персоналу, обрабатываются некоторые ваши данные, например имя и номер телефона, которые вы решите указать. Пожалуйста, ознакомьтесь с политикой конфиденциальности."},
+  accept:{it:"Ho letto e accetto",en:"I have read and accept",de:"Gelesen und akzeptiert",fr:"J'ai lu et j'accepte",ru:"Прочитал(а) и принимаю"},
+  cont:{it:"Continua",en:"Continue",de:"Weiter",fr:"Continuer",ru:"Продолжить"},
+};
+const AI_NOTICE = {
+  title:{it:"Un assistente con intelligenza artificiale",en:"An AI-powered assistant",de:"Ein Assistent mit künstlicher Intelligenz",fr:"Un assistant doté d'intelligence artificielle",ru:"Помощник на основе искусственного интеллекта"},
+  text:{
+    it:"Il Concierge è un assistente basato sull'intelligenza artificiale (Claude, di Anthropic). Le risposte sono generate automaticamente e possono contenere imprecisioni: per le cose importanti fai sempre riferimento allo staff.\n\nLe domande che scrivi vengono inviate al servizio di intelligenza artificiale per ottenere la risposta e sono visibili allo staff dell'Abaton, che le usa per migliorare il servizio. Ti chiediamo di non scrivere dati personali o informazioni delicate, come quelle sulla salute.",
+    en:"The Concierge is an assistant based on artificial intelligence (Claude, by Anthropic). Its answers are generated automatically and may contain inaccuracies: for anything important, always check with our staff.\n\nThe questions you write are sent to the AI service to get an answer and are visible to the Abaton staff, who use them to improve the service. Please don't write personal data or sensitive information, such as details about your health.",
+    de:"Der Concierge ist ein Assistent auf Basis künstlicher Intelligenz (Claude von Anthropic). Die Antworten werden automatisch erstellt und können ungenau sein: Wende dich bei wichtigen Dingen immer an das Team.\n\nDeine Fragen werden an den KI-Dienst gesendet, um eine Antwort zu erhalten, und sind für das Abaton-Team sichtbar, das sie zur Verbesserung des Angebots nutzt. Bitte gib keine persönlichen Daten oder sensiblen Informationen ein, etwa zu deiner Gesundheit.",
+    fr:"Le Concierge est un assistant basé sur l'intelligence artificielle (Claude, d'Anthropic). Ses réponses sont générées automatiquement et peuvent contenir des inexactitudes : pour tout ce qui est important, adressez-vous toujours à l'équipe.\n\nLes questions que vous écrivez sont envoyées au service d'intelligence artificielle pour obtenir une réponse et sont visibles par l'équipe de l'Abaton, qui les utilise pour améliorer le service. Merci de ne pas indiquer de données personnelles ni d'informations sensibles, comme celles concernant votre santé.",
+    ru:"Консьерж — это помощник на основе искусственного интеллекта (Claude от Anthropic). Ответы создаются автоматически и могут содержать неточности: по важным вопросам всегда обращайтесь к персоналу.\n\nВаши вопросы отправляются в сервис искусственного интеллекта для получения ответа и видны персоналу Абатона, который использует их для улучшения обслуживания. Пожалуйста, не указывайте личные данные и деликатную информацию, например сведения о здоровье."},
+  accept:{it:"Ho capito, inizia",en:"I understand, start",de:"Verstanden, los geht's",fr:"J'ai compris, commencer",ru:"Понятно, начать"},
+};
+
 // ── ANTIFURTO: segnale periodico dei tablet in camera ─────────────────────────
 // Il tablet si "registra" una volta aprendo l'indirizzo di avvio di Fully Kiosk con
 // ?tablet=<stanza> (es. https://abaton-app.vercel.app/?tablet=acqua). Da quel momento
@@ -3507,6 +3571,15 @@ export default function AbatonApp() {
     } catch(e){ return false; }
   });
   const [onboardStep, setOnboardStep] = useState(0);
+  // Informativa al primo accesso: va accettata (quando il testo c'è) prima della presentazione dell'app.
+  const privKey = session ? `s:${session.id}` : "device";
+  const [privPassed, setPrivPassed] = useState(false);
+  const privStored = (()=>{ try{ return localStorage.getItem('abaton_privacy_ok')===privKey; }catch(e){ return false; } })();
+  const privAccepted = privPassed || privStored;
+  const acceptPrivacy = () => {
+    if (CFG.privacyAppText) { try{ localStorage.setItem('abaton_privacy_ok', privKey); }catch(e){} track("privacy_ok","Informativa primo accesso accettata",{lang}); }
+    setPrivPassed(true);
+  };
   const onboardSteps0 = [
     ...(session ? [{
       key:"welcome", icon:"✦",
@@ -3544,6 +3617,7 @@ export default function AbatonApp() {
     setSession(s);
     setLang(s.lang);
     setOnboardStep(0);
+    setPrivPassed(false);
     setShowOnboard(true);
     setShowStaff(false);
     setLetter(pendingLetterFor(s));
@@ -3616,7 +3690,17 @@ export default function AbatonApp() {
             </nav>
           )}
       {showOnboard&&!letter&&(
-        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.82)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={dismissOnboard}>
+        <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.82)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={privAccepted?dismissOnboard:undefined}>
+          {!privAccepted ? (
+          <div style={{background:C.white,borderRadius:"28px",padding:"30px 26px",maxWidth:"420px",width:"100%",maxHeight:"88vh",display:"flex",flexDirection:"column",textAlign:"left"}} onClick={e=>e.stopPropagation()}>
+            <div style={{fontFamily:FD,fontSize:"26px",color:C.blue,marginBottom:"8px"}}>{PRIV_APP.title[lang]||PRIV_APP.title.en}</div>
+            <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.6",marginBottom:"14px"}}>{PRIV_APP.intro[lang]||PRIV_APP.intro.en}</div>
+            {CFG.privacyAppText&&<div style={{flex:"1 1 auto",minHeight:"80px",overflowY:"auto",background:C.bg,border:`1px solid ${C.border}`,borderRadius:"14px",padding:"14px 16px",fontSize:"14.5px",color:C.textD,lineHeight:"1.7",whiteSpace:"pre-line",marginBottom:"16px"}}>{CFG.privacyAppText}</div>}
+            <button onClick={acceptPrivacy} style={{padding:"13px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",cursor:"pointer"}}>
+              {CFG.privacyAppText ? (PRIV_APP.accept[lang]||PRIV_APP.accept.en) : (PRIV_APP.cont[lang]||PRIV_APP.cont.en)}
+            </button>
+          </div>
+          ) : (
           <div style={{background:C.white,borderRadius:"28px",padding:"32px 28px",maxWidth:"340px",width:"100%",textAlign:"center"}} onClick={e=>e.stopPropagation()}>
             <div style={{fontFamily:FD,fontSize:"28px",color:C.gold,marginBottom:"6px"}}>Abaton</div>
             <div style={{fontFamily:FS,fontSize:"15.5px",color:C.textM,marginBottom:"28px",fontStyle:"italic"}}>
@@ -3643,6 +3727,7 @@ export default function AbatonApp() {
               }
             </div>
           </div>
+          )}
         </div>
       )}
       {showStaff&&(
