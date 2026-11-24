@@ -829,6 +829,12 @@ const HOUSE_RULES = [
    bodyDE:"Etwaige Schäden an Räumen, Einrichtung oder Ausstattung werden in Rechnung gestellt. Die Leitung haftet nicht für unbeaufsichtigt gelassene persönliche Gegenstände. Bitte fahren Sie beim Hinauffahren zum Abaton langsam: Wir befinden uns an einem Ort mit vielen Wildtieren, die uns am Herzen liegen.",
    bodyFR:"Tout dommage aux locaux, au mobilier ou aux équipements sera facturé. La Direction n'est pas responsable des objets personnels laissés sans surveillance. Nous vous demandons de conduire lentement en montant la colline pour rejoindre l'Abaton : nous nous trouvons dans un lieu avec de nombreux animaux sauvages que nous tenons à préserver.",
    bodyRU:"Любой ущерб помещениям, мебели или оборудованию будет оплачиваться гостем. Руководство не несёт ответственности за личные вещи, оставленные без присмотра. Просим ехать медленно, поднимаясь на холм к Abaton: здесь обитает много диких животных, которых мы бережём."},
+  {titleIT:"Tablet in camera",titleEN:"In-room tablet",titleDE:"Tablet im Zimmer",titleFR:"Tablette de la chambre",titleRU:"Планшет в номере",
+   bodyIT:"Il tablet appartiene alla camera: vi chiediamo di non portarlo in giro durante il soggiorno e di lasciarlo sempre in stanza.",
+   bodyEN:"The tablet belongs to the room: please don't carry it around during your stay and always leave it in the room.",
+   bodyDE:"Das Tablet gehört zum Zimmer: Bitte nehmen Sie es während Ihres Aufenthalts nicht mit und lassen Sie es immer im Zimmer.",
+   bodyFR:"La tablette fait partie de la chambre : merci de ne pas l'emporter avec vous pendant votre séjour et de toujours la laisser dans la chambre.",
+   bodyRU:"Планшет закреплён за номером: пожалуйста, не выносите его во время проживания и всегда оставляйте в номере."},
   {titleIT:"Partenza anticipata",titleEN:"Early departure",titleDE:"Vorzeitige Abreise",titleFR:"Départ anticipé",titleRU:"Досрочный отъезд",
    bodyIT:"In caso di partenza anticipata o mancato arrivo si applica la politica di cancellazione accettata al momento della prenotazione.",
    bodyEN:"In case of early departure or no-show, the cancellation policy accepted at the time of booking applies.",
@@ -3383,11 +3389,45 @@ function DashboardPage({t,lang,setPage}) {
 }
 
 // ── APP ROOT ──────────────────────────────────────────────────────────────────
+// ── ANTIFURTO: segnale periodico dei tablet in camera ─────────────────────────
+// Il tablet si "registra" una volta aprendo l'indirizzo di avvio di Fully Kiosk con
+// ?tablet=<stanza> (es. https://abaton-app.vercel.app/?tablet=acqua). Da quel momento
+// manda un segnale ogni 10 minuti; il server avvisa lo staff su Telegram se arriva
+// da una rete diversa da quella dell'Abaton. I telefoni degli ospiti non mandano nulla.
+const TABLET_ROOMS = ["terra","metalli","acqua","specchi","popoli"];
+function getTablet(){
+  try{
+    const q = new URLSearchParams(window.location.search).get("tablet");
+    if(q!==null){
+      const v = q.toLowerCase().trim();
+      if(TABLET_ROOMS.includes(v)){ localStorage.setItem("abaton_tablet",v); setRoomStorage(v); }
+      else if(v==="off"||v==="") localStorage.removeItem("abaton_tablet");
+    }
+    return localStorage.getItem("abaton_tablet")||"";
+  }catch(e){ return ""; }
+}
+function useTabletHeartbeat(){
+  useEffect(()=>{
+    const tablet = getTablet();
+    if(!tablet) return;
+    const beat = async () => {
+      let battery=null, charging=null;
+      try{ if(navigator.getBattery){ const b=await navigator.getBattery(); battery=Math.round(b.level*100); charging=!!b.charging; } }catch(e){}
+      fetch("/api/heartbeat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tablet,battery,charging})}).catch(()=>{});
+    };
+    beat();
+    const id = setInterval(beat, 10*60*1000);
+    window.addEventListener("online",beat);
+    return ()=>{ clearInterval(id); window.removeEventListener("online",beat); };
+  },[]);
+}
+
 export default function AbatonApp() {
   const [page,setPage] = useState("home");
   const [lang,setLang] = useState(()=>getSession()?.lang||"it");
   const [,setCfgTick] = useState(0);
   const t = cxDeep(T[lang]||T.it);
+  useTabletHeartbeat();
   useEffect(()=>{
     let alive = true;
     const pull = () => fetch("/api/config",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(j=>{ if(alive&&j&&j.values){ setCfg(j.values); setCfgTick(x=>x+1); } }).catch(()=>{});
