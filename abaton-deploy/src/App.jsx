@@ -1831,7 +1831,8 @@ function AbatonPage({t,lang,setPage}) {
     {id:"camere",   sym:"◇", labelIT:"Le Cinque Stanze",    labelEN:"The Five Rooms",    labelDE:"Die fünf Zimmer",         labelFR:"Les Cinq Chambres",       labelRU:"Пять комнат",       color:C.gold},
     {id:"living",   sym:"〰", labelIT:"Il Living",           labelEN:"The Living Space",  labelDE:"Der Wohnbereich",         labelFR:"Le Salon",                labelRU:"Гостиная",           color:C.blueM},
     {id:"colazione",sym:"☀", labelIT:"La Colazione",        labelEN:"Breakfast",          labelDE:"Das Frühstück",          labelFR:"Le Petit-Déjeuner",       labelRU:"Завтрак",            color:"#C07A30"},
-    {id:"servizi",  sym:"✧", labelIT:"Lavanderia e servizi",labelEN:"Laundry & services",labelDE:"Wäscherei & Service",labelFR:"Buanderie et services",labelRU:"Прачечная и услуги",color:C.blueM},
+    // Lavanderia e servizi: nascosta per ora, si riattiverà più avanti (contenuti in subContent.servizi)
+    // {id:"servizi",  sym:"✧", labelIT:"Lavanderia e servizi",labelEN:"Laundry & services",labelDE:"Wäscherei & Service",labelFR:"Buanderie et services",labelRU:"Прачечная и услуги",color:C.blueM},
     {id:"tempio",   sym:"✦", labelIT:"Connessione al Tempio",labelEN:"Temple Connection",labelDE:"Verbindung zum Tempel",  labelFR:"Connexion au Temple",     labelRU:"Связь с Храмом",     color:C.goldD},
     {id:"campo",    sym:"◎", labelIT:"Il Campo dell'Abaton",labelEN:"Abaton's Field",     labelDE:"Das Feld des Abaton",    labelFR:"Le Champ de l'Abaton",    labelRU:"Поле Абатона",       color:C.blue},
     {id:"sogno",    sym:"◈", labelIT:"L'Arte del Sogno",    labelEN:"The Art of Dreaming",labelDE:"Die Kunst des Träumens", labelFR:"L'Art du Rêve",           labelRU:"Искусство сна",      color:"#7A6AAA"},
