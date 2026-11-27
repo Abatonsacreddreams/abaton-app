@@ -1231,7 +1231,19 @@ function saveSession({name,checkIn,checkOut,lang}){
   return session;
 }
 function clearSession(){
-  try{ localStorage.removeItem('abaton_session'); localStorage.removeItem('abaton_onboarded_id'); }catch(e){}
+  try{
+    localStorage.removeItem('abaton_session'); localStorage.removeItem('abaton_onboarded_id');
+    localStorage.removeItem('abaton_privacy_ok'); localStorage.removeItem('abaton_ai_ok');
+    Object.keys(localStorage).filter(k=>k.startsWith('abaton_letter_')).forEach(k=>localStorage.removeItem(k));
+  }catch(e){}
+}
+const SESSION_END_HOUR = 14; // il giorno del check-out, dopo l'eventuale late check-out gratuito (fino alle 13)
+function sessionExpired(s){
+  if(!s?.checkOut) return false;
+  const m = String(s.checkOut).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(!m) return false;
+  const end = new Date(+m[1], +m[2]-1, +m[3], SESSION_END_HOUR, 0, 0);
+  return Date.now() >= end.getTime();
 }
 
 function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTestSaver,onToggleDebug,debugOn}) {
@@ -3928,6 +3940,21 @@ export default function AbatonApp() {
   const [showStaff, setShowStaff] = useState(false);
   const [editorPin, setEditorPin] = useState(null);
   const [letter, setLetter] = useState(()=>pendingLetterFor(getSession()));
+  // Fine soggiorno automatica: il giorno del check-out, alle 14:00, la scheda dell'ospite
+  // si cancella da sola (il prossimo ospite non vede il nome di chi c'era prima).
+  useEffect(()=>{
+    const check = () => {
+      const s = getSession();
+      if(s && sessionExpired(s)){
+        clearSession();
+        setSession(null); setLetter(null); setLang("it"); setPage("home");
+        track("stay_end","Fine soggiorno automatica");
+      }
+    };
+    check();
+    const id = setInterval(check, 5*60*1000);
+    return ()=>clearInterval(id);
+  },[]);
   const roomInfo = ROOMS_LIST.find(r=>r.id===getRoom());
   // ── ONBOARDING ──────────────────────────────────────────────────────────
   const [showOnboard, setShowOnboard] = useState(()=>{
