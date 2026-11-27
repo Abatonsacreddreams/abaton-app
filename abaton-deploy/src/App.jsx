@@ -1226,9 +1226,9 @@ function QuickAsk({item,title,intro,chips,chipsLabel,chipsNoteLabel,noteLabel,sh
 }
 
 // ── TABLET / STAFF: stanza fissa del device + sessione ospite corrente ────────
-// Il PIN staff non è scritto qui: lo verifica il server (/api/pin, variabile STATS_PIN su Vercel).
+// Il PIN staff non è scritto qui: lo verifica il server (POST /api/stats, variabile STATS_PIN su Vercel).
 async function checkStaffPin(pin){
-  try{ const res = await fetch("/api/pin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin})}); return res.status===204 ? "ok" : res.status===401 ? "wrong" : "error"; }
+  try{ const res = await fetch("/api/stats",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin})}); return res.status===204 ? "ok" : res.status===401 ? "wrong" : "error"; }
   catch(e){ return "error"; }
 }
 const ROOMS_LIST = [

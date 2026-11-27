@@ -1,8 +1,16 @@
 import { sql } from '@vercel/postgres';
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
   const pin = process.env.STATS_PIN || '1950';
+  // POST { pin }: solo verifica del PIN staff (pannello del tablet). 204 = giusto, 401 = sbagliato.
+  // Sta qui e non in un file a parte perché il piano Vercel ammette al massimo 12 funzioni.
+  if (req.method === 'POST') {
+    const sent = String((req.body || {}).pin || '');
+    if (sent && sent === pin) return res.status(204).end();
+    await new Promise((r) => setTimeout(r, 1200));
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
   if (req.query.pin !== pin) { await new Promise((r) => setTimeout(r, 1200)); return res.status(401).json({ error: 'Unauthorized' }); }
 
   try {
