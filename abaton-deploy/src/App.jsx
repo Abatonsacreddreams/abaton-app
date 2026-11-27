@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import QRCode from "qrcode";
 import GLOSSARY from "./glossary.js";
 import { SYS_FACTS } from "./sysFacts.js";
+import { PRIVACY_CLIENTI } from "./privacyTexts.js";
 
 const FONT_URL = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap";
 
@@ -479,8 +480,8 @@ const EDIT_FIELDS = [
     {k:"noticeEN",label:"Testo in inglese (usato anche per tedesco, francese, russo)",area:true},
   ]},
   {sec:"Privacy", items:[
-    {k:"privacyText",label:"Informativa privacy generale",area:true,rows:12,hint:"Compare nella pagina Privacy (icona scudo in Home) e nei moduli di richiesta. Finché è vuoto, la pagina mostra solo il titolo e la casella non è obbligatoria; appena inserisci il testo, la casella diventa obbligatoria."},
-    {k:"privacyAppText",label:"Informativa al primo accesso (uso dell'app e dati inseriti)",area:true,rows:10,hint:"Compare al primo accesso, prima della presentazione dell'app. Con il testo inserito l'ospite deve accettarla per continuare; se è vuoto, la schermata mostra solo il titolo e il pulsante Continua."},
+    {k:"privacyText",label:"Informativa privacy generale",area:true,rows:12,hint:"Se lasci vuoto, l'app usa l'informativa clienti già inserita (italiano per chi usa l'italiano, inglese per le altre lingue). Se scrivi qui un testo, sostituisce quella in tutte le lingue."},
+    {k:"privacyAppText",label:"Informativa al primo accesso (uso dell'app e dati inseriti)",area:true,rows:10,hint:"Compare al primo accesso con le caselle di conferma (lettura obbligatoria, marketing diretto e dati particolari). Se vuoto si usa l'informativa generale."},
     {k:"privacyWellnessText",label:"Informativa per le prenotazioni dei trattamenti benessere",area:true,rows:10,hint:"Compare nel modulo «Prenota con…» della sezione Benessere, con la casella di consenso obbligatoria. Se è vuoto si usa l'informativa generale."},
     {k:"privacyNewsletterText",label:"Informativa per «Rimani connesso» (newsletter)",area:true,rows:8,hint:"Compare sotto il campo email nella pagina I tuoi privilegi. Con il testo inserito la casella di consenso diventa obbligatoria."},
     {k:"aiNoticeText",label:"Informativa sull'uso dell'intelligenza artificiale (Concierge)",area:true,rows:8,hint:"Compare prima della prima domanda al Concierge. Se è vuoto si usa un breve testo predefinito nelle 5 lingue."},
@@ -1035,7 +1036,7 @@ function PrivacyPanel({lang,renderTrigger,textKey="privacyText",title="Privacy"}
           <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15.5px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>{closeLabel}</button>
           <div style={{flex:1,overflowY:"auto",padding:"24px 22px 60px"}}>
             <div style={{fontFamily:FD,fontSize:"30px",color:C.blue,marginBottom:"20px"}}>{title}</div>
-            {CFG[textKey]&&<div style={{fontSize:"15.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line"}}>{CFG[textKey]}</div>}
+            <div style={{fontSize:"15.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line",textAlign:"left",maxWidth:"720px",margin:"0 auto"}}>{ptext(textKey,lang)}</div>
           </div>
         </div>
       )}
@@ -1087,7 +1088,7 @@ const RQ = {
 function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel="Interessi",noteLabel,showWhen=true,item,lang,trackLabel,privacyKey}) {
   // Informativa specifica (es. trattamenti benessere): se non è ancora stata inserita si usa quella generale.
   const pKey = privacyKey && CFG[privacyKey] ? privacyKey : "privacyText";
-  const pRequired = !!privacyKey; // per i moduli con informativa specifica il consenso è sempre obbligatorio
+
   const [name,setName] = useState(()=>getSession()?.name||"");
   const [prefix,setPrefix] = useState(PREFIX_BY_LANG[lang]||"+39");
   const [otherPrefix,setOtherPrefix] = useState("+");
@@ -1111,7 +1112,7 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   if(effPrefix!=="+39") digits = digits.replace(/^0+/,"");
   const prefixOk = /^\+\d{1,4}$/.test(effPrefix);
   const phoneOk = prefixOk && digits.length>=6 && digits.length<=14;
-  const needConsent = (pRequired || !!CFG[pKey]) && !consent;
+  const needConsent = !consent;
   const canSend = !sending && name.trim() && phoneOk && !needConsent;
   const send = async () => {
     setTouched(true);
@@ -1122,7 +1123,7 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
     const chipNames = (chips||[]).filter(c=>picked.includes(c.id)).map(c=>c.it).join(", ");
     const fullNote = [chipNames?`${chipsNoteLabel}: ${chipNames}`:null, note||null].filter(Boolean).join(" — ");
     try{
-      const res = await fetch("/api/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name.trim(),phone:`${effPrefix} ${digits}`,room:getRoom(),item,date:showWhen?date:"",slot:showWhen&&slotObj?slotObj.it:null,note:fullNote,lang,consent:{accepted:!!consent,section:privacyKey==="privacyWellnessText"?"trattamenti_benessere":"richiesta",version:textVersion(CFG[pKey])}})});
+      const res = await fetch("/api/request",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name.trim(),phone:`${effPrefix} ${digits}`,room:getRoom(),item,date:showWhen?date:"",slot:showWhen&&slotObj?slotObj.it:null,note:fullNote,lang,consent:{accepted:!!consent,section:privacyKey==="privacyWellnessText"?"trattamenti_benessere":"richiesta",version:textVersion(ptext(pKey,lang))}})});
       if(!res.ok) throw new Error("req");
       setSent(true);
     }catch(e){ setErr(true); }
@@ -3367,7 +3368,7 @@ function GuestsPage({t,lang,setPage}) {
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) { setNlError("invalid"); return; }
     setNlSending(true);
     try{
-      const res = await fetch("/api/newsletter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:mail,lang,room:getRoom(),consent:true,version:textVersion(CFG.privacyNewsletterText||CFG.privacyText)})});
+      const res = await fetch("/api/newsletter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:mail,lang,room:getRoom(),consent:true,version:textVersion(ptext("privacyNewsletterText",lang))})});
       if(!res.ok) throw new Error("nl");
       track("newsletter","Iscrizione Rimani connesso",{lang});
       setEmailSent(true);
@@ -3500,7 +3501,7 @@ function GuestsPage({t,lang,setPage}) {
             {!emailSent&&<>
               <label style={{display:"flex",alignItems:"flex-start",gap:"10px",marginTop:"14px",fontSize:"14.5px",color:C.textS,lineHeight:"1.5",cursor:"pointer"}}>
                 <input type="checkbox" checked={nlConsent} onChange={e=>setNlConsent(e.target.checked)} style={{width:"20px",height:"20px",marginTop:"1px",flexShrink:0,accentColor:C.gold}}/>
-                <span>{RQ.consentPre[lang]||RQ.consentPre.en}<PrivacyPanel lang={lang} textKey={CFG.privacyNewsletterText?"privacyNewsletterText":"privacyText"} renderTrigger={openP=>(<a href="#privacy" onClick={e=>{e.preventDefault();e.stopPropagation();openP();}} style={{color:C.goldD,textDecoration:"underline"}}>{RQ.consentLink[lang]||RQ.consentLink.en}</a>)}/>{RQ.consentPost[lang]||""}{lang==="it"?" e acconsento a ricevere la newsletter.":lang==="de"?" und bin mit dem Erhalt des Newsletters einverstanden.":lang==="fr"?" et j'accepte de recevoir la newsletter.":lang==="ru"?" и согласен(-на) получать рассылку.":" and agree to receive the newsletter."}</span>
+                <span>{RQ.consentPre[lang]||RQ.consentPre.en}<PrivacyPanel lang={lang} textKey="privacyNewsletterText" renderTrigger={openP=>(<a href="#privacy" onClick={e=>{e.preventDefault();e.stopPropagation();openP();}} style={{color:C.goldD,textDecoration:"underline"}}>{RQ.consentLink[lang]||RQ.consentLink.en}</a>)}/>{RQ.consentPost[lang]||""}{lang==="it"?" e acconsento a ricevere la newsletter.":lang==="de"?" und bin mit dem Erhalt des Newsletters einverstanden.":lang==="fr"?" et j'accepte de recevoir la newsletter.":lang==="ru"?" и согласен(-на) получать рассылку.":" and agree to receive the newsletter."}</span>
               </label>
               {nlError&&<div style={{fontSize:"13.5px",color:"#B04A4A",marginTop:"8px"}}>{nlError==="invalid"
                 ?(lang==="it"?"Controlla l'indirizzo email.":lang==="de"?"Bitte überprüfe die E-Mail-Adresse.":lang==="fr"?"Vérifiez l'adresse e-mail.":lang==="ru"?"Проверьте адрес электронной почты.":"Please check the email address.")
@@ -3808,6 +3809,11 @@ function textVersion(txt){
   let h = 5381; for(let i=0;i<s.length;i++){ h = ((h<<5)+h + s.charCodeAt(i)) >>> 0; }
   return `v-${h.toString(16)}-${s.length}`;
 }
+// Testo di un'informativa: quello del pannello staff se inserito, altrimenti l'informativa clienti generale
+// (dal pannello staff, oppure quella fornita da Denise: italiano per chi usa l'italiano, inglese per le altre lingue).
+function ptext(key, lang){
+  return (CFG[key] && String(CFG[key]).trim()) || (CFG.privacyText && String(CFG.privacyText).trim()) || PRIVACY_CLIENTI[lang==="it"?"it":"en"];
+}
 function sendConsent(section, data){
   try{ fetch("/api/consent",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({section,room:getRoom(),...data})}).catch(()=>{}); }catch(e){}
 }
@@ -3818,7 +3824,12 @@ const PRIV_APP = {
          de:"Um die App zu nutzen und Anfragen an das Team zu senden, werden einige deiner Daten verarbeitet, etwa der Name und die Telefonnummer, die du angibst. Bitte lies die Datenschutzerklärung.",
          fr:"Pour utiliser l'application et envoyer des demandes à l'équipe, certaines de vos données sont traitées, comme le nom et le numéro de téléphone que vous choisissez d'indiquer. Merci de lire la politique de confidentialité.",
          ru:"Чтобы пользоваться приложением и отправлять запросы персоналу, обрабатываются некоторые ваши данные, например имя и номер телефона, которые вы решите указать. Пожалуйста, ознакомьтесь с политикой конфиденциальности."},
-  accept:{it:"Ho letto e accetto",en:"I have read and accept",de:"Gelesen und akzeptiert",fr:"J'ai lu et j'accepte",ru:"Прочитал(а) и принимаю"},
+  accept:{it:"Conferma e continua",en:"Confirm and continue",de:"Bestätigen und weiter",fr:"Confirmer et continuer",ru:"Подтвердить и продолжить"},
+  read:{it:"Dichiaro di aver letto e compreso l'informativa",en:"I declare that I have read and understood the notice",de:"Ich erkläre, dass ich die Datenschutzerklärung gelesen und verstanden habe",fr:"Je déclare avoir lu et compris la notice",ru:"Подтверждаю, что прочитал(а) и понял(а) уведомление"},
+  mkt:{it:"Comunicazioni commerciali su nuovi servizi o promozioni di terzi (marketing diretto, punto 7):",en:"Commercial communications on new services or third-party promotions (direct marketing, point 7):",de:"Werbemitteilungen zu neuen Leistungen oder Angeboten Dritter (Direktmarketing, Punkt 7):",fr:"Communications commerciales sur de nouveaux services ou des promotions de tiers (marketing direct, point 7) :",ru:"Рекламные сообщения о новых услугах или акциях третьих лиц (прямой маркетинг, пункт 7):"},
+  sens:{it:"Dati particolari (art. 9 GDPR), come disabilità o allergie alimentari, per i servizi che richiedi (punto 8):",en:"Special categories of data (Art. 9 GDPR), such as disabilities or food allergies, for the services you request (point 8):",de:"Besondere Datenkategorien (Art. 9 DSGVO), etwa Behinderungen oder Lebensmittelallergien, für die von dir gewünschten Leistungen (Punkt 8):",fr:"Catégories particulières de données (art. 9 RGPD), comme un handicap ou des allergies alimentaires, pour les services que vous demandez (point 8) :",ru:"Особые категории данных (ст. 9 GDPR), например инвалидность или пищевая аллергия, для запрашиваемых вами услуг (пункт 8):"},
+  yes:{it:"Presto il consenso",en:"I give consent",de:"Ich willige ein",fr:"Je donne mon consentement",ru:"Даю согласие"},
+  no:{it:"Nego il consenso",en:"I withhold consent",de:"Ich willige nicht ein",fr:"Je refuse mon consentement",ru:"Не даю согласия"},
   cont:{it:"Continua",en:"Continue",de:"Weiter",fr:"Continuer",ru:"Продолжить"},
 };
 const AI_NOTICE = {
@@ -3970,8 +3981,18 @@ export default function AbatonApp() {
   const [privPassed, setPrivPassed] = useState(false);
   const privStored = (()=>{ try{ return localStorage.getItem('abaton_privacy_ok')===privKey; }catch(e){ return false; } })();
   const privAccepted = privPassed || privStored;
+  // Caselle come nel modulo cartaceo: lettura (obbligatoria) + marketing diretto (punto 7) + dati particolari art. 9 (punto 8).
+  const [privRead, setPrivRead] = useState(false);
+  const [privMkt, setPrivMkt] = useState(null);
+  const [privSens, setPrivSens] = useState(null);
+  const privReady = privRead && privMkt!==null && privSens!==null;
   const acceptPrivacy = () => {
-    if (CFG.privacyAppText) { try{ localStorage.setItem('abaton_privacy_ok', privKey); }catch(e){} track("privacy_ok","Informativa primo accesso accettata",{lang}); sendConsent("primo_accesso",{name:session?.name||null,lang,version:textVersion(CFG.privacyAppText)}); }
+    if (!privReady) return;
+    try{ localStorage.setItem('abaton_privacy_ok', privKey); }catch(e){}
+    track("privacy_ok","Informativa primo accesso accettata",{lang});
+    const yn = v => v ? "presta il consenso" : "nega il consenso";
+    sendConsent("primo_accesso",{name:session?.name||null,lang,version:textVersion(ptext("privacyAppText",lang)),
+      ref:`Letta e compresa · Marketing diretto (punto 7): ${yn(privMkt)} · Dati particolari art. 9 (punto 8): ${yn(privSens)}`});
     setPrivPassed(true);
   };
   const onboardSteps0 = [
@@ -4089,9 +4110,23 @@ export default function AbatonApp() {
           <div style={{background:C.white,borderRadius:"28px",padding:"30px 26px",maxWidth:"420px",width:"100%",maxHeight:"88vh",display:"flex",flexDirection:"column",textAlign:"left"}} onClick={e=>e.stopPropagation()}>
             <div style={{fontFamily:FD,fontSize:"26px",color:C.blue,marginBottom:"8px"}}>{PRIV_APP.title[lang]||PRIV_APP.title.en}</div>
             <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.6",marginBottom:"14px"}}>{PRIV_APP.intro[lang]||PRIV_APP.intro.en}</div>
-            {CFG.privacyAppText&&<div style={{flex:"1 1 auto",minHeight:"80px",overflowY:"auto",background:C.bg,border:`1px solid ${C.border}`,borderRadius:"14px",padding:"14px 16px",fontSize:"14.5px",color:C.textD,lineHeight:"1.7",whiteSpace:"pre-line",marginBottom:"16px"}}>{CFG.privacyAppText}</div>}
-            <button onClick={acceptPrivacy} style={{padding:"13px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",cursor:"pointer"}}>
-              {CFG.privacyAppText ? (PRIV_APP.accept[lang]||PRIV_APP.accept.en) : (PRIV_APP.cont[lang]||PRIV_APP.cont.en)}
+            <div style={{flex:"1 1 auto",minHeight:"80px",overflowY:"auto",background:C.bg,border:`1px solid ${C.border}`,borderRadius:"14px",padding:"14px 16px",fontSize:"14px",color:C.textD,lineHeight:"1.65",whiteSpace:"pre-line",marginBottom:"14px"}}>{ptext("privacyAppText",lang)}</div>
+            <label style={{display:"flex",alignItems:"flex-start",gap:"10px",fontSize:"14.5px",color:C.textD,lineHeight:"1.5",cursor:"pointer",marginBottom:"12px"}}>
+              <input type="checkbox" checked={privRead} onChange={e=>setPrivRead(e.target.checked)} style={{width:"20px",height:"20px",marginTop:"1px",flexShrink:0,accentColor:C.gold}}/>
+              <span><b>{PRIV_APP.read[lang]||PRIV_APP.read.en}</b></span>
+            </label>
+            {[["mkt",privMkt,setPrivMkt,PRIV_APP.mkt],["sens",privSens,setPrivSens,PRIV_APP.sens]].map(([k,val,set,lbl])=>(
+              <div key={k} style={{marginBottom:"10px"}}>
+                <div style={{fontSize:"13.5px",color:C.textS,lineHeight:"1.45",marginBottom:"6px"}}>{lbl[lang]||lbl.en}</div>
+                <div style={{display:"flex",gap:"8px",flexWrap:"wrap"}}>
+                  {[[true,PRIV_APP.yes],[false,PRIV_APP.no]].map(([v,t])=>(
+                    <button key={String(v)} onClick={()=>set(v)} style={{flex:"1 1 140px",padding:"9px 12px",borderRadius:"12px",border:`1px solid ${val===v?C.gold:C.border}`,background:val===v?C.gold:"none",color:val===v?C.white:C.textM,fontFamily:FB,fontSize:"14px",cursor:"pointer"}}>{t[lang]||t.en}</button>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <button onClick={acceptPrivacy} disabled={!privReady} style={{marginTop:"6px",padding:"13px",borderRadius:"14px",border:"none",background:privReady?C.gold:C.border,color:C.white,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",cursor:privReady?"pointer":"default"}}>
+              {PRIV_APP.accept[lang]||PRIV_APP.accept.en}
             </button>
           </div>
           ) : (
