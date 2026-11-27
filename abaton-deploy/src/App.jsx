@@ -978,8 +978,8 @@ function HouseRulesPanel({lang,renderTrigger}) {
 // ── TEMPIO DEI POPOLI — prenotazione esperienza privata ───────────────────────
 const POPOLI_INTERESTS = [
   {id:"meditazione",it:"Meditazione silenziosa",en:"Silent meditation",de:"Stille Meditation",fr:"Méditation silencieuse",ru:"Тихая медитация"},
-  {id:"energia",it:"Connessione energetica",en:"Energetic connection",de:"Energetische Verbindung",fr:"Connexion énergétique",ru:"Энергетическая связь"},
-  {id:"storia",it:"Racconto e storia del luogo",en:"Stories and history of the place",de:"Erzählungen und Geschichte des Ortes",fr:"Récits et histoire du lieu",ru:"Рассказы и история места"},
+  {id:"visita",it:"Visita della sala",en:"Visit of the hall",de:"Besuch des Saals",fr:"Visite de la salle",ru:"Посещение зала"},
+  {id:"bagno",it:"Bagno sonoro nella sala",en:"Sound bath in the hall",de:"Klangbad im Saal",fr:"Bain sonore dans la salle",ru:"Звуковая ванна в зале"},
   {id:"medguidata",it:"Meditazione guidata",en:"Guided meditation",de:"Geführte Meditation",fr:"Méditation guidée",ru:"Медитация с гидом"},
 ];
 function PopoliExperienceButton({t,lang,style}) {
@@ -1019,8 +1019,8 @@ function PopoliExperienceButton({t,lang,style}) {
       <RequestSheet open={open} onClose={()=>setOpen(false)} item="Meditazione / esperienza nel Tempo dei Popoli" trackLabel="Request Popoli experience" lang={lang}
         title={lang==="it"?"Il Tempo dei Popoli":lang==="de"?"Die Zeit der Völker":lang==="fr"?"Le Temps des Peuples":lang==="ru"?"Время Народов":"The Time of the Peoples"}
         intro={lang==="it"?"La Sala del Tempo dei Popoli è uno degli spazi più silenziosi e riservati dei Templi dell'Umanità — normalmente chiusa alle visite guidate, aperta solo su richiesta a chi desidera fermarsi davvero. Chi vi entra racconta di percepire il tempo diversamente: più lento, più proprio. Un luogo pensato per la meditazione, dove il presente si fa più nitido e il pensiero trova spazio per posarsi.\n\nRaccontaci cosa desideri vivere: lo staff organizzerà l'esperienza su misura per te.":lang==="de"?"Die Halle der Zeit der Völker ist einer der stillsten und privatesten Räume innerhalb der Tempel der Menschheit — normalerweise nicht Teil der geführten Besichtigungen und nur auf Anfrage für jene geöffnet, die wirklich innehalten möchten. Wer sie betritt, erzählt oft, die Zeit dort anders zu erleben: langsamer, ganz die eigene. Ein Raum für die Meditation, in dem die Gegenwart klarer wird und der Gedanke zur Ruhe kommt.\n\nErzähl uns, was du erleben möchtest: das Team organisiert ein maßgeschneidertes Erlebnis für dich.":lang==="fr"?"La Salle du Temps des Peuples est l'un des espaces les plus silencieux et les plus privés des Temples de l'Humanité — habituellement fermée aux visites guidées, elle n'ouvre que sur demande à ceux qui souhaitent vraiment s'arrêter. Ceux qui y entrent racontent souvent y percevoir le temps autrement : plus lent, plus personnel. Un lieu pensé pour la méditation, où le présent devient plus net et où la pensée trouve enfin l'espace pour se poser.\n\nDites-nous ce que vous souhaitez vivre : l'équipe organisera une expérience sur mesure.":lang==="ru"?"Зал Времени Народов — одно из самых тихих и уединённых пространств Храмов Человечества, обычно закрытое для экскурсий и открывающееся лишь по запросу для тех, кто действительно хочет остановиться. Те, кто входит туда, часто рассказывают, что время там ощущается иначе — медленнее, более своим. Пространство, созданное для медитации, где настоящее становится яснее, а мысли наконец находят покой.\n\nРасскажите, что вы хотели бы испытать — персонал организует индивидуальный опыт.":"The Hall of Time of the Peoples is one of the quietest, most private spaces within the Temples of Humanity — usually closed to guided visits, and opened only on request for those who truly wish to pause. Those who enter often say they experience time differently there: slower, more their own. A space conceived for meditation, where the present becomes clearer and thought finds room to settle.\n\nTell us what you'd like to experience — our staff will arrange it for you."}
-        chipsLabel={lang==="it"?"Cosa ti interessa?":lang==="de"?"Was interessiert dich?":lang==="fr"?"Qu'est-ce qui vous intéresse ?":lang==="ru"?"Что вас интересует?":"What interests you?"}
-        chipsNoteLabel="Interessi" chips={POPOLI_INTERESTS}/>
+        chipsLabel={lang==="it"?"Cosa desideri fare?":lang==="de"?"Was möchtest du erleben?":lang==="fr"?"Que souhaitez-vous faire ?":lang==="ru"?"Что вы хотите?":"What would you like to do?"}
+        chipsNoteLabel="Esperienza" chips={POPOLI_INTERESTS} bookingRule="nextDay"/>
     </>
   );
 }
@@ -1086,7 +1086,13 @@ const RQ = {
   close:{it:"Chiudi",en:"Close",de:"Schließen",fr:"Fermer",ru:"Закрыть"},
   cancel:{it:"Annulla",en:"Cancel",de:"Abbrechen",fr:"Annuler",ru:"Отмена"},
 };
-function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel="Interessi",noteLabel,showWhen=true,item,lang,trackLabel,privacyKey}) {
+const AFTERNOON_SLOTS = ["dopo_pranzo","tardo_pomeriggio"];
+const NEXTDAY_TXT = {
+  day:{it:"Si prenota dal giorno dopo, non per oggi.",en:"Bookings start from tomorrow, not for today.",de:"Buchungen sind ab morgen möglich, nicht für heute.",fr:"Les réservations sont possibles à partir de demain, pas pour aujourd'hui.",ru:"Запись возможна с завтрашнего дня, не на сегодня."},
+  late:{it:"Dopo le 18:00, per domani si può prenotare solo il pomeriggio.",en:"After 6 pm, for tomorrow only the afternoon can be booked.",de:"Nach 18:00 Uhr ist für morgen nur der Nachmittag buchbar.",fr:"Après 18 h, pour demain seul l'après-midi peut être réservé.",ru:"После 18:00 на завтра можно записаться только на вторую половину дня."},
+  need:{it:"Scegli il giorno e il momento della giornata.",en:"Please choose the day and the time of day.",de:"Bitte wähle den Tag und die Tageszeit.",fr:"Veuillez choisir le jour et le moment de la journée.",ru:"Выберите день и время суток."},
+};
+function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel="Interessi",noteLabel,showWhen=true,item,lang,trackLabel,privacyKey,bookingRule}) {
   // Informativa specifica (es. trattamenti benessere): se non è ancora stata inserita si usa quella generale.
   const pKey = privacyKey || "privacyText";
 
@@ -1106,6 +1112,13 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   if(!open) return null;
   const T_ = o => o[lang]||o.en;
   const today = (()=>{ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; })();
+  const nextDay = bookingRule==="nextDay";
+  const ymd = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  const tomorrow = (()=>{ const d=new Date(); d.setDate(d.getDate()+1); return ymd(d); })();
+  const lateNow = new Date().getHours() >= 18;
+  const minDate = nextDay ? tomorrow : today;
+  const slotAllowed = id => !(nextDay && lateNow && date===tomorrow && !AFTERNOON_SLOTS.includes(id));
+  const whenOk = !nextDay || (date && date>=tomorrow && slot && slotAllowed(slot));
   const toggle = id => setPicked(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
   const usingOther = prefix==="other";
   const effPrefix = usingOther ? ("+"+otherPrefix.replace(/\D/g,"")) : prefix;
@@ -1114,7 +1127,7 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
   const prefixOk = /^\+\d{1,4}$/.test(effPrefix);
   const phoneOk = prefixOk && digits.length>=6 && digits.length<=14;
   const needConsent = !consent;
-  const canSend = !sending && name.trim() && phoneOk && !needConsent;
+  const canSend = !sending && name.trim() && phoneOk && !needConsent && whenOk;
   const send = async () => {
     setTouched(true);
     if(!canSend) return;
@@ -1163,13 +1176,15 @@ function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel=
             </>}
             {showWhen&&<>
               <div style={lbl}>{T_(RQ.day)}</div>
-              <input type="date" value={date} min={today} onChange={e=>setDate(e.target.value)} style={{...fld,marginBottom:"16px"}}/>
+              <input type="date" value={date} min={minDate} onChange={e=>{ const v=e.target.value; setDate(v && v<minDate ? minDate : v); }} style={{...fld,marginBottom:"16px"}}/>
               <div style={lbl}>{T_(RQ.slot)}</div>
               <div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginBottom:"8px"}}>
-                {REQ_SLOTS.map(o=>(
-                  <button key={o.id} onClick={()=>setSlot(slot===o.id?null:o.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${slot===o.id?C.gold:C.border}`,background:slot===o.id?C.gold:"none",color:slot===o.id?C.white:C.textM,fontFamily:FB,fontSize:"14.5px",cursor:"pointer"}}>{T_(o)}</button>
-                ))}
+                {REQ_SLOTS.map(o=>{ const ok=slotAllowed(o.id); return (
+                  <button key={o.id} disabled={!ok} onClick={()=>ok&&setSlot(slot===o.id?null:o.id)} style={{padding:"9px 16px",borderRadius:"20px",border:`1px solid ${slot===o.id&&ok?C.gold:C.border}`,background:slot===o.id&&ok?C.gold:"none",color:slot===o.id&&ok?C.white:C.textM,opacity:ok?1:0.35,fontFamily:FB,fontSize:"14.5px",cursor:ok?"pointer":"default"}}>{T_(o)}</button>
+                );})}
               </div>
+              {nextDay&&<div style={{fontSize:"13.5px",color:C.goldD,marginBottom:"8px",lineHeight:"1.5"}}>{T_(NEXTDAY_TXT.day)}{lateNow?" "+T_(NEXTDAY_TXT.late):""}</div>}
+              {nextDay&&touched&&!whenOk&&<div style={{fontSize:"13.5px",color:"#B04A4A",marginBottom:"8px"}}>{T_(NEXTDAY_TXT.need)}</div>}
               <div style={{fontSize:"13px",color:C.textM,fontStyle:"italic",marginBottom:"20px",lineHeight:"1.5"}}>{T_(RQ.indic)}</div>
             </>}
             <input value={name} onChange={e=>setName(e.target.value)} placeholder={T_(RQ.name)} style={fld}/>
