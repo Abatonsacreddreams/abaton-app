@@ -4,6 +4,7 @@ import QRCode from "qrcode";
 import GLOSSARY from "./glossary.js";
 import { SYS_FACTS } from "./sysFacts.js";
 import { PRIVACY_CLIENTI } from "./privacyTexts.js";
+import { PRIVACY_APP, PRIVACY_WELLNESS, PRIVACY_NEWSLETTER, PRIVACY_AI } from "./privacyTextsApp.js";
 
 const FONT_URL = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap";
 
@@ -1036,7 +1037,7 @@ function PrivacyPanel({lang,renderTrigger,textKey="privacyText",title="Privacy"}
           <button onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:"8px",padding:"18px 22px",background:C.white,border:"none",borderBottom:`1px solid ${C.border}`,cursor:"pointer",fontFamily:FB,fontSize:"15.5px",fontWeight:"700",color:C.blue,boxShadow:C.shadow,flexShrink:0,textAlign:"left"}}>{closeLabel}</button>
           <div style={{flex:1,overflowY:"auto",padding:"24px 22px 60px"}}>
             <div style={{fontFamily:FD,fontSize:"30px",color:C.blue,marginBottom:"20px"}}>{title}</div>
-            <div style={{fontSize:"15.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line",textAlign:"left",maxWidth:"720px",margin:"0 auto"}}>{ptext(textKey,lang)}</div>
+            <div style={{fontSize:"15.5px",color:C.textD,lineHeight:"1.75",whiteSpace:"pre-line",textAlign:"left",maxWidth:"720px",margin:"0 auto"}}>{textKey==="privacyText" ? `${ptext("privacyAppText",lang)}\n\n— — —\n\n${ptext("privacyText",lang)}` : ptext(textKey,lang)}</div>
           </div>
         </div>
       )}
@@ -1087,7 +1088,7 @@ const RQ = {
 };
 function RequestSheet({open,onClose,title,intro,chips,chipsLabel,chipsNoteLabel="Interessi",noteLabel,showWhen=true,item,lang,trackLabel,privacyKey}) {
   // Informativa specifica (es. trattamenti benessere): se non è ancora stata inserita si usa quella generale.
-  const pKey = privacyKey && CFG[privacyKey] ? privacyKey : "privacyText";
+  const pKey = privacyKey || "privacyText";
 
   const [name,setName] = useState(()=>getSession()?.name||"");
   const [prefix,setPrefix] = useState(PREFIX_BY_LANG[lang]||"+39");
@@ -3520,7 +3521,7 @@ function GuestsPage({t,lang,setPage}) {
 function ConciergePage({t,lang,setPage}) {
   const aiKey = (()=>{ const s=getSession(); return s?`s:${s.id}`:"device"; })();
   const [aiOk,setAiOk] = useState(()=>{ try{ return localStorage.getItem('abaton_ai_ok')===aiKey; }catch(e){ return false; } });
-  const acceptAi = () => { try{ localStorage.setItem('abaton_ai_ok',aiKey); }catch(e){} setAiOk(true); sendConsent("concierge_ia",{name:getSession()?.name||null,lang,version:textVersion(CFG.aiNoticeText||AI_NOTICE.text[lang]||AI_NOTICE.text.en)}); };
+  const acceptAi = () => { try{ localStorage.setItem('abaton_ai_ok',aiKey); }catch(e){} setAiOk(true); sendConsent("concierge_ia",{name:getSession()?.name||null,lang,version:textVersion(ptext("aiNoticeText",lang))}); };
   const [messages,setMessages] = useState([{role:"assistant",content:t.concWelcome}]);
   const [input,setInput] = useState("");
   const [loading,setLoading] = useState(false);
@@ -3572,7 +3573,7 @@ function ConciergePage({t,lang,setPage}) {
       {!aiOk&&(
         <div style={{padding:"16px 16px 80px",background:C.white,borderTop:`1px solid ${C.border}`,flexShrink:0,maxHeight:"62vh",overflowY:"auto"}}>
           <div style={{fontFamily:FD,fontSize:"21px",color:C.blue,marginBottom:"8px"}}>{AI_NOTICE.title[lang]||AI_NOTICE.title.en}</div>
-          <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.65",whiteSpace:"pre-line",marginBottom:"14px"}}>{CFG.aiNoticeText||AI_NOTICE.text[lang]||AI_NOTICE.text.en}</div>
+          <div style={{fontSize:"15px",color:C.textS,lineHeight:"1.65",whiteSpace:"pre-line",marginBottom:"14px"}}>{ptext("aiNoticeText",lang)}</div>
           <button onClick={acceptAi} style={{width:"100%",padding:"13px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",cursor:"pointer"}}>{AI_NOTICE.accept[lang]||AI_NOTICE.accept.en}</button>
         </div>
       )}
@@ -3822,8 +3823,10 @@ function textVersion(txt){
 }
 // Testo di un'informativa: quello del pannello staff se inserito, altrimenti l'informativa clienti generale
 // (dal pannello staff, oppure quella fornita da Denise: italiano per chi usa l'italiano, inglese per le altre lingue).
+const PRIVACY_DEFAULTS = { privacyText:PRIVACY_CLIENTI, privacyAppText:PRIVACY_APP, privacyWellnessText:PRIVACY_WELLNESS, privacyNewsletterText:PRIVACY_NEWSLETTER, aiNoticeText:PRIVACY_AI };
 function ptext(key, lang){
-  return (CFG[key] && String(CFG[key]).trim()) || (CFG.privacyText && String(CFG.privacyText).trim()) || PRIVACY_CLIENTI[lang==="it"?"it":"en"];
+  const l = lang==="it" ? "it" : "en";
+  return (CFG[key] && String(CFG[key]).trim()) || (PRIVACY_DEFAULTS[key] && PRIVACY_DEFAULTS[key][l]) || (CFG.privacyText && String(CFG.privacyText).trim()) || PRIVACY_CLIENTI[l];
 }
 function sendConsent(section, data){
   try{ fetch("/api/consent",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({section,room:getRoom(),...data})}).catch(()=>{}); }catch(e){}
@@ -3992,18 +3995,14 @@ export default function AbatonApp() {
   const [privPassed, setPrivPassed] = useState(false);
   const privStored = (()=>{ try{ return localStorage.getItem('abaton_privacy_ok')===privKey; }catch(e){ return false; } })();
   const privAccepted = privPassed || privStored;
-  // Caselle come nel modulo cartaceo: lettura (obbligatoria) + marketing diretto (punto 7) + dati particolari art. 9 (punto 8).
+  // Primo accesso: solo la dichiarazione di lettura dell'informativa sull'uso dell'app (nessun consenso da prestare).
   const [privRead, setPrivRead] = useState(false);
-  const [privMkt, setPrivMkt] = useState(null);
-  const [privSens, setPrivSens] = useState(null);
-  const privReady = privRead && privMkt!==null && privSens!==null;
+  const privReady = privRead;
   const acceptPrivacy = () => {
     if (!privReady) return;
     try{ localStorage.setItem('abaton_privacy_ok', privKey); }catch(e){}
     track("privacy_ok","Informativa primo accesso accettata",{lang});
-    const yn = v => v ? "presta il consenso" : "nega il consenso";
-    sendConsent("primo_accesso",{name:session?.name||null,lang,version:textVersion(ptext("privacyAppText",lang)),
-      ref:`Letta e compresa · Marketing diretto (punto 7): ${yn(privMkt)} · Dati particolari art. 9 (punto 8): ${yn(privSens)}`});
+    sendConsent("primo_accesso",{name:session?.name||null,lang,version:textVersion(ptext("privacyAppText",lang)),ref:"Informativa sull'uso dell'app letta e compresa"});
     setPrivPassed(true);
   };
   const onboardSteps0 = [
@@ -4126,16 +4125,6 @@ export default function AbatonApp() {
               <input type="checkbox" checked={privRead} onChange={e=>setPrivRead(e.target.checked)} style={{width:"20px",height:"20px",marginTop:"1px",flexShrink:0,accentColor:C.gold}}/>
               <span><b>{PRIV_APP.read[lang]||PRIV_APP.read.en}</b></span>
             </label>
-            {[["mkt",privMkt,setPrivMkt,PRIV_APP.mkt],["sens",privSens,setPrivSens,PRIV_APP.sens]].map(([k,val,set,lbl])=>(
-              <div key={k} style={{marginBottom:"10px"}}>
-                <div style={{fontSize:"13.5px",color:C.textS,lineHeight:"1.45",marginBottom:"6px"}}>{lbl[lang]||lbl.en}</div>
-                <div style={{display:"flex",gap:"8px",flexWrap:"wrap"}}>
-                  {[[true,PRIV_APP.yes],[false,PRIV_APP.no]].map(([v,t])=>(
-                    <button key={String(v)} onClick={()=>set(v)} style={{flex:"1 1 140px",padding:"9px 12px",borderRadius:"12px",border:`1px solid ${val===v?C.gold:C.border}`,background:val===v?C.gold:"none",color:val===v?C.white:C.textM,fontFamily:FB,fontSize:"14px",cursor:"pointer"}}>{t[lang]||t.en}</button>
-                  ))}
-                </div>
-              </div>
-            ))}
             <button onClick={acceptPrivacy} disabled={!privReady} style={{marginTop:"6px",padding:"13px",borderRadius:"14px",border:"none",background:privReady?C.gold:C.border,color:C.white,fontFamily:FB,fontSize:"15.5px",fontWeight:"600",cursor:privReady?"pointer":"default"}}>
               {PRIV_APP.accept[lang]||PRIV_APP.accept.en}
             </button>
