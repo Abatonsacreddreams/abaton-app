@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Abaton – Privacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== Colori del Brand Book ===== */
+  :root{
+    --blu:#1A2A4A; --oro:#C9A84C; --avorio:#F5F0E8;
+    --terracotta:#A0522D; --salvia:#6B7F5E; --testo:#2D2D2D;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--avorio);color:var(--testo);
+    font-family:"Avenir Next","Avenir",Montserrat,system-ui,sans-serif;font-weight:400;line-height:1.55}
+  header{background:var(--blu);color:var(--avorio);text-align:center;padding:28px 16px 22px}
+  header .brand{font-family:"EB Garamond",Georgia,serif;font-size:30px;letter-spacing:.12em;color:var(--oro);margin:0}
+  header .sub{font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.8;margin-top:4px}
+  .langs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:18px}
+  .langs button{font:500 13px Montserrat,sans-serif;background:transparent;color:var(--avorio);
+    border:1px solid rgba(201,168,76,.5);border-radius:999px;padding:6px 12px;cursor:pointer}
+  .langs button[aria-pressed="true"]{background:var(--oro);color:var(--blu);border-color:var(--oro)}
+  main{max-width:760px;margin:0 auto;padding:24px 16px 60px}
+  .org{font-size:13px;text-align:center;color:#555;margin-bottom:8px}
+  h1{font-family:"EB Garamond",Georgia,serif;font-weight:600;color:var(--blu);font-size:26px;line-height:1.25;text-align:center;margin:6px 0 20px}
+  h2{font-family:Montserrat,sans-serif;font-weight:600;color:var(--blu);font-size:15px;letter-spacing:.03em;margin:22px 0 6px}
+  .card{background:#fff;border:1px solid #e6dcc8;border-radius:14px;padding:20px}
+  .info{max-height:55vh;overflow-y:auto;font-size:14.5px}
+  .info h2:first-child{margin-top:0}
+  .info p,.info li{margin:0 0 8px}
+  .info ul,.info ol{padding-left:22px;margin:0 0 8px}
+  .info a{color:var(--terracotta)}
+  .scroll-hint{font-size:12px;color:#777;text-align:center;margin:6px 0 0}
+  form{margin-top:22px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:560px){.grid{grid-template-columns:1fr}}
+  label.f{display:block;font:500 13px Montserrat,sans-serif;color:var(--blu);margin-bottom:4px}
+  input[type=text],input[type=email],input[type=tel]{width:100%;font-size:16px;padding:10px 12px;border:1px solid #cfc3a9;border-radius:10px;background:#fffdf8}
+  input:focus{outline:2px solid var(--oro);outline-offset:1px}
+  .check{display:flex;gap:10px;align-items:flex-start;margin:18px 0 4px;font-size:15px}
+  .check input{width:20px;height:20px;margin-top:2px;accent-color:var(--blu);flex:none}
+  .consent-title{font-family:"EB Garamond",Georgia,serif;font-size:20px;color:var(--blu);text-align:center;letter-spacing:.06em;margin:26px 0 4px}
+  fieldset{border:1px solid #e6dcc8;border-radius:12px;padding:14px 16px;margin:14px 0;background:#fffdf8}
+  fieldset legend{display:none}
+  fieldset p{margin:0 0 10px;font-size:14.5px}
+  .opts{display:flex;flex-wrap:wrap;gap:10px}
+  .opts label{display:flex;align-items:center;gap:8px;border:1px solid #cfc3a9;border-radius:999px;padding:8px 14px;cursor:pointer;font-size:14px;background:#fff}
+  .opts input{accent-color:var(--blu);width:18px;height:18px}
+  .opts label:has(input:checked){border-color:var(--blu);background:#eef1f6}
+  .err{color:var(--terracotta);font-size:13px;margin-top:6px;display:none}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  button.send{display:block;width:100%;margin-top:22px;padding:14px;border:0;border-radius:12px;
+    background:var(--blu);color:var(--avorio);font:600 15px Montserrat,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  button.send:disabled{opacity:.6;cursor:wait}
+  .msg{margin-top:16px;padding:14px;border-radius:12px;font-size:15px;display:none;text-align:center}
+  .msg.ok{background:#e8eee4;color:#3c4e33;border:1px solid var(--salvia)}
+  .msg.ko{background:#f6e7df;color:#7a3a1d;border:1px solid var(--terracotta)}
+</style>
+</head>
+<body>
+<header>
+  <p class="brand">ABATON</p>
+  <div class="sub">Sacred Dreams</div>
+  <div class="langs" id="langs"></div>
+</header>
+
+<main>
+  <div class="org"><strong>Associazione La Grande Opera impresa sociale</strong><br>Via Baldissero, 21 – Vidracco (TO) · c.f./P.Iva 12957570018</div>
+  <h1 id="title"></h1>
+
+  <div class="card">
+    <div class="info" id="info"></div>
+  </div>
+  <p class="scroll-hint" id="scrollHint">↓</p>
+
+  <form id="form" novalidate>
+    <h2 id="tDati"></h2>
+    <div class="grid">
+      <div><label class="f" for="nome" id="lNome"></label><input type="text" id="nome" autocomplete="given-name" required maxlength="100"></div>
+      <div><label class="f" for="cognome" id="lCognome"></label><input type="text" id="cognome" autocomplete="family-name" required maxlength="100"></div>
+      <div><label class="f" for="email" id="lEmail"></label><input type="email" id="email" autocomplete="email" required maxlength="150"></div>
+      <div><label class="f" for="telefono" id="lTel"></label><input type="tel" id="telefono" autocomplete="tel" maxlength="40"></div>
+    </div>
+    <div class="hp" aria-hidden="true"><input type="text" id="website" tabindex="-1" autocomplete="off"></div>
+
+    <label class="check"><input type="checkbox" id="informativa" required><span id="tDichiaro"></span></label>
+    <div class="err" id="errInfo"></div>
+
+    <div class="consent-title" id="tModulo"></div>
+
+    <fieldset id="fs7">
+      <legend>7</legend>
+      <p id="t7"></p>
+      <div class="opts">
+        <label><input type="radio" name="p7" value="presta"><span class="tPresta"></span></label>
+        <label><input type="radio" name="p7" value="nega"><span class="tNega"></span></label>
+      </div>
+      <div class="err" id="err7"></div>
+    </fieldset>
+
+    <fieldset id="fs8">
+      <legend>8</legend>
+      <p id="t8"></p>
+      <div class="opts">
+        <label><input type="radio" name="p8" value="presta"><span class="tPresta"></span></label>
+        <label><input type="radio" name="p8" value="nega"><span class="tNega"></span></label>
+      </div>
+      <div class="err" id="err8"></div>
+    </fieldset>
+
+    <button type="submit" class="send" id="send"></button>
+    <div class="msg" id="msg"></div>
+  </form>
+</main>
+
+<script>
+/* =====================================================================
+   1) INCOLLA QUI l'indirizzo dello script Google (lo ottieni al passo 4
+      della guida). Deve finire con /exec
+   ===================================================================== */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1GAWGzZ7umlx4l-eOvIkCBdXobUSgS3UIHSKuW3VyCBBUPaxwIHy6rRJpq2x72_z5EA/exec";
+
+/* Versione dell'informativa: cambiala quando modifichi il testo */
+const VERSIONE = "2026-11";
+
+const LANGS = [
+  ["it","Italiano"],["en","English"],["de","Deutsch"],
+  ["fr","Français"],["es","Español"],["ru","Русский"]
+];
+
+const ORG = "<strong>Associazione La Grande Opera impresa sociale</strong>";
+
+/* ===================== TESTI DELLA PAGINA ===================== */
+const UI = {
+  it:{dati:"I tuoi dati",nome:"Nome",cognome:"Cognome",email:"E-Mail",tel:"Telefono",opt:"(facoltativo)",
+      send:"Invia",sending:"Invio in corso…",ok:"Grazie! I tuoi consensi sono stati registrati.",
+      ko:"Invio non riuscito. Controlla la connessione e riprova.",choose:"Seleziona una delle due opzioni.",
+      must:"Questa casella è obbligatoria.",fill:"Compila nome, cognome ed e-mail."},
+  en:{dati:"Your details",nome:"First name",cognome:"Last name",email:"E-Mail",tel:"Phone",opt:"(optional)",
+      send:"Send",sending:"Sending…",ok:"Thank you! Your choices have been recorded.",
+      ko:"Sending failed. Please check your connection and try again.",choose:"Please select one of the two options.",
+      must:"This box is required.",fill:"Please fill in first name, last name and e-mail."},
+  de:{dati:"Ihre Daten",nome:"Vorname",cognome:"Nachname",email:"E-Mail",tel:"Telefon",opt:"(optional)",
+      send:"Senden",sending:"Wird gesendet…",ok:"Vielen Dank! Ihre Angaben wurden gespeichert.",
+      ko:"Senden fehlgeschlagen. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",choose:"Bitte wählen Sie eine der beiden Optionen.",
+      must:"Dieses Feld ist erforderlich.",fill:"Bitte Vorname, Nachname und E-Mail ausfüllen."},
+  fr:{dati:"Vos coordonnées",nome:"Prénom",cognome:"Nom",email:"E-mail",tel:"Téléphone",opt:"(facultatif)",
+      send:"Envoyer",sending:"Envoi en cours…",ok:"Merci ! Vos choix ont été enregistrés.",
+      ko:"L'envoi a échoué. Vérifiez votre connexion et réessayez.",choose:"Veuillez choisir l'une des deux options.",
+      must:"Cette case est obligatoire.",fill:"Veuillez indiquer prénom, nom et e-mail."},
+  es:{dati:"Sus datos",nome:"Nombre",cognome:"Apellidos",email:"Correo electrónico",tel:"Teléfono",opt:"(opcional)",
+      send:"Enviar",sending:"Enviando…",ok:"¡Gracias! Sus opciones se han registrado.",
+      ko:"No se ha podido enviar. Compruebe su conexión e inténtelo de nuevo.",choose:"Seleccione una de las dos opciones.",
+      must:"Esta casilla es obligatoria.",fill:"Indique nombre, apellidos y correo electrónico."},
+  ru:{dati:"Ваши данные",nome:"Имя",cognome:"Фамилия",email:"Эл. почта",tel:"Телефон",opt:"(необязательно)",
+      send:"Отправить",sending:"Отправка…",ok:"Спасибо! Ваш выбор сохранён.",
+      ko:"Не удалось отправить. Проверьте подключение и попробуйте ещё раз.",choose:"Выберите один из двух вариантов.",
+      must:"Это поле обязательно.",fill:"Укажите имя, фамилию и электронную почту."}
+};
+
+/* ===================== INFORMATIVA (dai documenti) ===================== */
+const DOC = {
+
+/* ----------------------------- ITALIANO ----------------------------- */
+it:{
+title:"Informativa Clienti per la Residenza di Campagna “Abaton”",
+dichiaro:"Dichiaro di aver letto e compreso l'informativa che precede.",
+modulo:"MODULO DI ACQUISIZIONE DEL CONSENSO",
+p7:"L'interessato, in merito all'invio di comunicazioni commerciali e materiale informativo su offerte e tariffe relative a nuovi servizi o promozioni di terzi, ossia marketing diretto (punto 7 delle finalità del trattamento)",
+p8:"L'interessato, in merito al trattamento di dati appartenenti a categorie particolari ai sensi dell'art. 9 GDPR 679/2016 (dati sensibili) per l'erogazione dei servizi richiesti dagli ospiti, come quelli relativi a disabilità o allergie alimentari (punto 8 delle finalità del trattamento)",
+presta:"Presta il consenso al trattamento",nega:"Nega il consenso al trattamento",
+html:`
+<p>La presente informativa è resa, ai sensi dell'art. 13 GDPR 679/2016 – “Regolamento europeo sulla protezione dei dati personali”, alle persone che prenotano una camera presso Abaton, concludendo una transazione con Ass. La Grande Opera impresa sociale, oppure con uno dei soggetti che hanno designato Ass. La Grande Opera impresa sociale quale responsabile del trattamento (art. 28 GDPR).</p>
+<h2>Identità del Titolare del trattamento</h2>
+<p>Il Titolare del trattamento è ${ORG}, con sede legale in Via Baldissero, 21, Vidracco (TO), in persona del Presidente pro tempore.</p>
+<p>${ORG} è stata inoltre designata responsabile del trattamento, ai sensi dell'art. 28 GDPR, dai seguenti titolari autonomi o contitolari del trattamento elencati all'indirizzo <a href="http://www.damanhur.org/it/privacy" target="_blank" rel="noopener">www.damanhur.org/it/privacy</a>. Il trattamento per il quale ${ORG} è stata designata responsabile è la gestione dei dati di contatto delle persone per garantire la fruizione in sicurezza delle loro attività.</p>
+<p>Il riscontro agli interessati che esercitano i propri diritti spetta al Titolare o ai Contitolari del trattamento dei dati personali.</p>
+<p>${ORG} garantisce la sicurezza, la riservatezza e la protezione dei dati personali in suo possesso, in ogni fase del trattamento.</p>
+<h2>Identità del Responsabile della Protezione dei Dati</h2>
+<p>È stato nominato un Responsabile della Protezione dei Dati (DPO), domiciliato per la funzione presso la sede legale di ${ORG} in Via Baldissero, 21, Vidracco (TO), contattabile via e-mail all'indirizzo <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a></p>
+<h2>Fonte dei dati</h2>
+<p>I dati personali trattati sono quelli forniti dall'interessato in occasione di:</p>
+<ul><li>soggiorni o telefonate;</li><li>contatti diretti;</li><li>siti web, social network, e-mail;</li><li>predisposizione di proposte e preventivi;</li><li>trasmissioni e transazioni a seguito di un ordine;</li><li>recensioni rilasciate volontariamente, in forma cartacea o online.</li></ul>
+<h2>Finalità del trattamento</h2>
+<p>I dati personali sono trattati per lo svolgimento delle necessarie attività precontrattuali, per la definizione e l'accettazione del contratto di servizio che regola la prestazione e per il corretto svolgimento di tutte le attività connesse.</p>
+<p>In particolare, sono trattati per le seguenti finalità:</p>
+<ol>
+<li>acquisire, confermare, annullare e gestire le prenotazioni dei servizi di alloggio e dei servizi accessori, ed erogare i servizi richiesti;</li>
+<li>svolgimento delle attività connesse e strumentali alla gestione del rapporto contrattuale (erogazione dei servizi, rendicontazione della prestazione);</li>
+<li>comunicazione dei dati personali relativi al soggiorno per adempiere agli obblighi di legge in materia di pubblica sicurezza, nonché agli obblighi amministrativi, contabili e fiscali;</li>
+<li>registrazione degli accessi alla struttura;</li>
+<li>acquisizione, registrazione e consultazione dei dati personali dell'interessato a fini di tutela delle persone, dei beni e del patrimonio aziendale mediante un <u>eventuale</u> sistema di videosorveglianza (se e dove presente);</li>
+<li>Invio di comunicazioni commerciali e materiale informativo su offerte e tariffe relative a servizi di cui ha già usufruito (soft spam);</li>
+<li>Invio di comunicazioni commerciali e materiale informativo su offerte e tariffe relative a nuovi servizi o promozioni di terzi (marketing diretto);</li>
+<li>miglioramento e personalizzazione del servizio con riferimento a preferenze e abitudini di soggiorno, che possono riguardare categorie particolari di dati personali (ai sensi dell'art. 9 GDPR, cosiddetti “dati sensibili”, come ad esempio <em>richieste legate a disabilità, allergie alimentari, ecc.</em>). La informiamo che tali dati saranno trattati da personale autorizzato con la massima riservatezza e non saranno comunicati a terzi non autorizzati.</li>
+</ol>
+<h2>Base giuridica del trattamento</h2>
+<p>I dati raccolti per le finalità sopra indicate sono trattati lecitamente in quanto necessari per:</p>
+<ul>
+<li>l'esecuzione di un contratto di cui l'interessato è parte o l'esecuzione di misure precontrattuali adottate su richiesta dello stesso (finalità di cui ai punti 1 e 2);</li>
+<li>l'adempimento di un obbligo legale al quale è soggetto il Titolare (finalità di cui al punto 3);</li>
+<li>il perseguimento di un legittimo interesse del Titolare: tutela della sicurezza delle persone e del patrimonio aziendale (finalità 4 e 5). Soft spam art. 6, par. 1, lett. f) GDPR, per consentirci di offrirle un servizio migliore e coerente con i suoi acquisti. In questo caso non è richiesto il consenso preventivo, ma potrà opporsi a tali comunicazioni in qualsiasi momento (cliccando su “disiscriviti” in fondo alle e-mail o scrivendoci), gratuitamente e con effetto immediato (finalità 6);</li>
+<li>le finalità di cui ai punti 7 e 8, con il consenso esplicito dell'interessato espresso mediante sottoscrizione.</li>
+</ul>
+<h2>Destinatari dei dati</h2>
+<p>I dati personali trattati da ${ORG} non sono diffusi, ossia non vengono messi a disposizione di soggetti indeterminati in alcuna forma, neppure mediante la loro messa a disposizione o consultazione. Possono tuttavia essere comunicati a lavoratori dipendenti, volontari o collaboratori del Titolare, nonché a soggetti esterni che collaborano con il Titolare, designati responsabili del trattamento o autorizzati al trattamento in quanto operano sotto l'autorità del Titolare.</p>
+<p>In particolare, in base ai ruoli e alle mansioni svolte, i lavoratori sono stati autorizzati a trattare i suoi dati personali nei limiti delle rispettive competenze e in conformità alle istruzioni impartite dal Titolare.</p>
+<p>Possono inoltre essere comunicati, nella misura strettamente necessaria, a soggetti che, per dare seguito alle sue richieste, devono fornire beni o eseguire prestazioni per conto del Titolare. Infine, possono essere comunicati a soggetti legittimati ad accedervi in forza di leggi, regolamenti o normativa dell'Unione europea.</p>
+<p>Anche i soggetti esterni che operano sotto l'autorità del Titolare sono stati debitamente autorizzati in base al tipo di servizio prestato, al trattamento svolto e alla natura dei dati trattati.</p>
+<p>I soggetti esterni a cui il Titolare ha affidato il trattamento dei dati personali sono stati designati responsabili del trattamento.</p>
+<h2>Trasferimento dei dati</h2>
+<p>Qualora il Titolare trasferisca dati personali verso paesi terzi od organizzazioni internazionali, nell'ambito delle finalità sopra indicate, lei sarà informato circa l'esistenza o meno di una decisione di adeguatezza della Commissione europea.</p>
+<p>Il Titolare si riserva inoltre la possibilità di utilizzare servizi cloud; in tal caso i fornitori dei servizi saranno selezionati tra coloro che forniscono garanzie adeguate, come previsto dall'art. 46 GDPR 2016/679.</p>
+<h2>Conservazione dei dati</h2>
+<p>Il Titolare conserva e tratta i dati personali per il tempo necessario ad adempiere alle finalità indicate. In particolare, i dati dei clienti sono conservati fino al termine di prescrizione amministrativa applicabile.</p>
+<h2>Diritti dell'interessato</h2>
+<p>Con riferimento agli artt. 15 – diritto di accesso, 16 – diritto di rettifica, 17 – diritto alla cancellazione, 18 – diritto di limitazione del trattamento, 20 – diritto alla portabilità dei dati, 21 – diritto di opposizione, 22 – diritto di opposizione al processo decisionale automatizzato del GDPR, l'interessato può esercitare i propri diritti scrivendo a <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a> oppure al Titolare all'indirizzo sopra indicato, specificando l'oggetto della richiesta, il diritto che intende esercitare e allegando copia di un documento d'identità che attesti la legittimità della richiesta.</p>
+<p>Il Titolare ricorda in particolare che ogni interessato può esercitare il diritto di opposizione nei modi e nelle forme previsti dall'art. 21 GDPR.</p>
+<h2>Revoca del consenso</h2>
+<p>Con riferimento all'art. 7 del GDPR, l'interessato può revocare in qualsiasi momento il consenso prestato. Tuttavia, i trattamenti che non richiedono il consenso per essere leciti potranno essere effettuati anche in assenza di consenso, ad esempio per l'esecuzione di un contratto di cui l'interessato è parte (rapporto di fornitura di prodotti e/o servizi) e sulle altre basi giuridiche sopra indicate.</p>
+<h2>Rifiuto di conferire i dati</h2>
+<p>L'interessato non può rifiutarsi di fornire al Titolare i dati personali necessari per gli adempimenti civilistici, contabili e fiscali connessi alla fornitura o all'erogazione dei servizi.</p>
+<p>Il conferimento di ulteriori dati personali, pur essendo facoltativo, è necessario per una corretta ed efficiente gestione del rapporto contrattuale. Pertanto, l'eventuale rifiuto di fornire tali dati potrà compromettere in tutto o in parte il rapporto contrattuale stesso.</p>
+<h2>Processi decisionali automatizzati</h2>
+<p>Qualora si renda necessario un trattamento che comporti processi decisionali automatizzati sui dati di persone fisiche, sarà richiesto il consenso esplicito e debitamente specificato dell'interessato.</p>
+`},
+
+/* ----------------------------- ENGLISH ----------------------------- */
+en:{
+title:"Client Notice for the Country Residence “Abaton”",
+dichiaro:"I have read and understood the above notice.",
+modulo:"CONSENT ACQUISITION FORM",
+p7:"The data subject, with regard to the sending of commercial communications and informational materials on offers and rates relating to new services or third-party promotions, i.e. direct marketing (point 7 of the data processing purposes)",
+p8:"The data subject, with regard to the processing of data belonging to special categories of data pursuant to Art. 9 GDPR 679/2016 (sensitive data) for the provision of services requested by guests, such as those relating to disabilities or food allergies (point 8 of the data processing purposes)",
+presta:"Consents to processing",nega:"Withholds consent to processing",
+html:`
+<p>This notice is provided, pursuant to Art. 13 GDPR 679/2016 – “European Regulation on the protection of personal data”, to persons who book a room at Abaton, by completing a transaction with Ass. La Grande Opera impresa sociale, or with one of the entities that have designated Ass. La Grande Opera impresa sociale as data processor (Art. 28 GDPR).</p>
+<h2>Identity of the Data Controller</h2>
+<p>The Data Controller is ${ORG}, with registered office at Via Baldissero, 21, Vidracco (TO), represented by its President pro tempore.</p>
+<p>${ORG} has also been designated as data processor, pursuant to Art. 28 GDPR, by the following independent data controllers or joint controllers listed at <a href="http://www.damanhur.org/it/privacy" target="_blank" rel="noopener">www.damanhur.org/it/privacy</a>. The processing for which ${ORG} has been designated as processor is the management of individuals' contact details to ensure the safe enjoyment of their activities.</p>
+<p>Responses to data subjects exercising their rights are the responsibility of the Controller or Joint Controllers of personal data.</p>
+<p>${ORG} guarantees the security, confidentiality, and protection of the personal data in its possession, at every stage of the processing.</p>
+<h2>Identity of the Data Protection Officer</h2>
+<p>A Data Protection Officer has been appointed, with domicile for this function at the registered office of ${ORG} at Via Baldissero, 21, Vidracco (TO), reachable by email at <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a></p>
+<h2>Source of Data</h2>
+<p>The personal data processed are those provided by the data subject on the occasion of:</p>
+<ul><li>stays or telephone calls;</li><li>direct contacts;</li><li>websites, social networks, e-mail;</li><li>preparation of proposals and quotations;</li><li>transmissions and transactions following an order;</li><li>reviews voluntarily submitted, on paper or online.</li></ul>
+<h2>Purposes of Processing</h2>
+<p>Personal data are processed for the performance of the necessary pre-contractual activities, the definition and acceptance of the service agreement governing the provision, and the proper conduct of all related activities.</p>
+<p>In particular, they are processed for the following purposes:</p>
+<ol>
+<li>to acquire, confirm, cancel and manage bookings for accommodation services and ancillary services, and to provide the requested services;</li>
+<li>performance of activities related and instrumental to the management of the contractual relationship (provision of services, reporting on the provision);</li>
+<li>communication of personal data relating to the stay in order to comply with applicable legal obligations regarding public security, and administrative, accounting and fiscal obligations;</li>
+<li>registration of access to the facility;</li>
+<li>acquisition, recording and consultation of the data subject's personal data for the purpose of protecting persons, property and company assets through a <u>possible</u> video surveillance system (if and where present);</li>
+<li>Sending commercial communications and informational materials on offers and rates relating to services already provided to you (soft spam);</li>
+<li>Sending commercial communications and informational materials on offers and rates relating to new services or third-party promotions (direct marketing);</li>
+<li>improvement and personalisation of the service with reference to stay preferences and habits, which may relate to special categories of personal data (pursuant to Art. 9 GDPR, so-called “sensitive data”, such as <em>requests related to disabilities, food allergies, etc</em>). Please be informed that such data will be processed by authorised personnel with the utmost confidentiality and will not be disclosed to unauthorised third parties.</li>
+</ol>
+<h2>Legal Basis for Processing</h2>
+<p>The data collected for the purposes indicated above are lawfully processed as necessary for:</p>
+<ul>
+<li>the performance of a contract to which the data subject is party, or in order to take steps at the data subject's request prior to entering into a contract (purposes referred to in points 1 and 2);</li>
+<li>compliance with a legal obligation to which the Controller is subject (purpose referred to in point 3);</li>
+<li>the pursuit of a legitimate interest of the Controller: safeguarding the security of persons and company assets (purposes 4 and 5). Soft spam Art. 6(1)(f) GDPR, to enable us to offer you a better service consistent with your purchases. Prior consent is not required in this case, but you may object to these communications at any time (by clicking “unsubscribe” at the bottom of emails or by writing to us) free of charge and immediately (purpose 6);</li>
+<li>the purposes referred to in points 7 and 8, with the explicit consent of the data subject given by signature.</li>
+</ul>
+<h2>Recipients of Data</h2>
+<p>The personal data processed by ${ORG} are not disclosed, meaning they are not made available to unspecified parties in any form, including by making them accessible or available for consultation. They may, however, be communicated to workers employed by, or volunteers or collaborators of the Controller, and to external parties collaborating with the Controller who have been designated as data processors or authorised to process data as they operate under the Controller's authority.</p>
+<p>In particular, based on the roles and duties performed, workers have been authorised to process your personal data within the limits of their responsibilities and in accordance with the instructions given to them by the Controller.</p>
+<p>They may also be communicated, to the extent strictly necessary, to parties who, for the purpose of fulfilling your requests, must supply goods or perform services on behalf of the Controller. Finally, they may be communicated to parties entitled to access them by virtue of laws, regulations, or EU legislation.</p>
+<p>External parties operating under the authority of the Controller have also been duly authorised based on the type of service provided, the processing performed, and the nature of the data processed.</p>
+<p>External parties to whom the Controller has entrusted the processing of personal data have been designated as data processors.</p>
+<h2>Data Transfers</h2>
+<p>Should the Controller transfer personal data to third countries or international organisations, within the scope of the purposes indicated above, you will be informed as to whether or not an adequacy decision by the EU Commission exists.</p>
+<p>The Controller also reserves the right to use cloud services; in such case, service providers will be selected from among those who provide adequate guarantees, as required by Art. 46 GDPR 2016/679.</p>
+<h2>Data Retention</h2>
+<p>The Controller retains and processes personal data for the time necessary to fulfil the indicated purposes. Specifically, client data is retained until the applicable administrative limitation period.</p>
+<h2>Rights of the Data Subject</h2>
+<p>With reference to Arts. 15 – right of access, 16 – right to rectification, 17 – right to erasure, 18 – right to restriction of processing, 20 – right to data portability, 21 – right to object, 22 – right to object to automated decision-making under the GDPR, the data subject may exercise their rights by writing to <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a> or to the Controller at the address indicated above, specifying the subject of the request, the right they intend to exercise, and enclosing a copy of an identity document attesting to the legitimacy of the request.</p>
+<p>The Controller recalls in particular that every data subject may exercise the right to object in the manner and forms provided for by Art. 21 GDPR.</p>
+<h2>Withdrawal of Consent</h2>
+<p>With reference to Art. 7 of the GDPR, the data subject may withdraw any consent given at any time. However, processing that does not require consent to be lawful may be carried out even in the absence of consent, for example for the performance of a contract to which the data subject is party (the supply relationship for products and/or services) and on the other legal bases indicated above.</p>
+<h2>Refusal to Provide Data</h2>
+<p>The data subject may not refuse to provide the Controller with the personal data necessary for civil, accounting and fiscal obligations connected with the supply or provision of services.</p>
+<p>The provision of additional personal data, although optional, is necessary for the correct and efficient management of the contractual relationship. Therefore, any refusal to provide such data may wholly or partially compromise the contractual relationship itself.</p>
+<h2>Automated Decision-Making Processes</h2>
+<p>Should processing involving automated decision-making on the data of natural persons arise, the data subject's explicit and duly specified consent will be requested.</p>
+`},
+
+/* ----------------------------- DEUTSCH ----------------------------- */
+de:{
+title:"Datenschutzhinweise für Gäste der Landresidenz „Abaton“",
+dichiaro:"Ich erkläre, die vorstehenden Hinweise gelesen und verstanden zu haben.",
+modulo:"EINWILLIGUNGSFORMULAR",
+p7:"Die betroffene Person, in Bezug auf die Zusendung von Werbemitteilungen und Informationsmaterial über Angebote und Preise zu neuen Leistungen oder Werbeaktionen Dritter, d. h. Direktmarketing (Punkt 7 der Verarbeitungszwecke)",
+p8:"Die betroffene Person, in Bezug auf die Verarbeitung von Daten besonderer Kategorien gemäß Art. 9 DSGVO 679/2016 (sensible Daten) zur Erbringung der von den Gästen angeforderten Leistungen, wie z. B. im Zusammenhang mit Behinderungen oder Lebensmittelallergien (Punkt 8 der Verarbeitungszwecke)",
+presta:"Erteilt die Einwilligung zur Verarbeitung",nega:"Verweigert die Einwilligung zur Verarbeitung",
+html:`
+<p>Diese Hinweise werden gemäß Art. 13 DSGVO 679/2016 – „Europäische Datenschutz-Grundverordnung“ – den Personen erteilt, die ein Zimmer bei Abaton buchen, indem sie ein Rechtsgeschäft mit Ass. La Grande Opera impresa sociale abschließen oder mit einer der Stellen, die Ass. La Grande Opera impresa sociale als Auftragsverarbeiter benannt haben (Art. 28 DSGVO).</p>
+<h2>Identität des Verantwortlichen</h2>
+<p>Verantwortlicher für die Verarbeitung ist die ${ORG} mit Rechtssitz in Via Baldissero, 21, Vidracco (TO), vertreten durch den amtierenden Präsidenten.</p>
+<p>Die ${ORG} wurde außerdem gemäß Art. 28 DSGVO von den unter <a href="http://www.damanhur.org/it/privacy" target="_blank" rel="noopener">www.damanhur.org/it/privacy</a> aufgeführten eigenständigen bzw. gemeinsam Verantwortlichen als Auftragsverarbeiter benannt. Die Verarbeitung, für die die ${ORG} als Auftragsverarbeiter benannt wurde, ist die Verwaltung der Kontaktdaten von Personen, um die sichere Teilnahme an ihren Aktivitäten zu gewährleisten.</p>
+<p>Die Beantwortung von Anfragen betroffener Personen, die ihre Rechte ausüben, obliegt dem Verantwortlichen bzw. den gemeinsam Verantwortlichen für die Verarbeitung der personenbezogenen Daten.</p>
+<p>Die ${ORG} gewährleistet die Sicherheit, Vertraulichkeit und den Schutz der in ihrem Besitz befindlichen personenbezogenen Daten in jeder Phase der Verarbeitung.</p>
+<h2>Identität des Datenschutzbeauftragten</h2>
+<p>Es wurde ein Datenschutzbeauftragter (DSB) benannt, der für diese Funktion am Rechtssitz der ${ORG} in Via Baldissero, 21, Vidracco (TO) ansässig und per E-Mail unter <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a> erreichbar ist.</p>
+<h2>Herkunft der Daten</h2>
+<p>Die verarbeiteten personenbezogenen Daten sind diejenigen, die von der betroffenen Person bereitgestellt werden anlässlich von:</p>
+<ul><li>Aufenthalten oder Telefonaten;</li><li>direkten Kontakten;</li><li>Websites, sozialen Netzwerken, E-Mail;</li><li>der Erstellung von Angeboten und Kostenvoranschlägen;</li><li>Übermittlungen und Transaktionen im Anschluss an eine Bestellung;</li><li>freiwillig abgegebenen Bewertungen, in Papierform oder online.</li></ul>
+<h2>Zwecke der Verarbeitung</h2>
+<p>Die personenbezogenen Daten werden zur Durchführung der erforderlichen vorvertraglichen Tätigkeiten, zur Festlegung und Annahme des Dienstleistungsvertrags, der die Leistung regelt, sowie zur ordnungsgemäßen Durchführung aller damit verbundenen Tätigkeiten verarbeitet.</p>
+<p>Insbesondere werden sie zu folgenden Zwecken verarbeitet:</p>
+<ol>
+<li>Buchungen von Unterkunfts- und Zusatzleistungen entgegenzunehmen, zu bestätigen, zu stornieren und zu verwalten sowie die angeforderten Leistungen zu erbringen;</li>
+<li>Durchführung der mit der Verwaltung des Vertragsverhältnisses verbundenen und dafür erforderlichen Tätigkeiten (Erbringung der Leistungen, Abrechnung der Leistung);</li>
+<li>Übermittlung der personenbezogenen Daten zum Aufenthalt zur Erfüllung der gesetzlichen Pflichten im Bereich der öffentlichen Sicherheit sowie der verwaltungs-, buchhaltungs- und steuerrechtlichen Pflichten;</li>
+<li>Erfassung der Zutritte zur Unterkunft;</li>
+<li>Erhebung, Aufzeichnung und Einsichtnahme personenbezogener Daten der betroffenen Person zum Schutz von Personen, Sachen und Betriebsvermögen mittels einer <u>etwaigen</u> Videoüberwachungsanlage (falls und wo vorhanden);</li>
+<li>Zusendung von Werbemitteilungen und Informationsmaterial über Angebote und Preise zu Leistungen, die Sie bereits in Anspruch genommen haben (Soft Spam);</li>
+<li>Zusendung von Werbemitteilungen und Informationsmaterial über Angebote und Preise zu neuen Leistungen oder Werbeaktionen Dritter (Direktmarketing);</li>
+<li>Verbesserung und Personalisierung der Leistung in Bezug auf Vorlieben und Gewohnheiten beim Aufenthalt, die besondere Kategorien personenbezogener Daten betreffen können (gemäß Art. 9 DSGVO, sog. „sensible Daten“, wie z. B. <em>Anliegen im Zusammenhang mit Behinderungen, Lebensmittelallergien usw.</em>). Wir weisen darauf hin, dass diese Daten von befugtem Personal mit größter Vertraulichkeit verarbeitet und nicht an unbefugte Dritte weitergegeben werden.</li>
+</ol>
+<h2>Rechtsgrundlage der Verarbeitung</h2>
+<p>Die zu den oben genannten Zwecken erhobenen Daten werden rechtmäßig verarbeitet, da sie erforderlich sind für:</p>
+<ul>
+<li>die Erfüllung eines Vertrags, dessen Vertragspartei die betroffene Person ist, oder die Durchführung vorvertraglicher Maßnahmen, die auf ihre Anfrage erfolgen (Zwecke gemäß Punkt 1 und 2);</li>
+<li>die Erfüllung einer rechtlichen Verpflichtung, der der Verantwortliche unterliegt (Zweck gemäß Punkt 3);</li>
+<li>die Wahrung eines berechtigten Interesses des Verantwortlichen: Schutz der Sicherheit von Personen und des Betriebsvermögens (Zwecke 4 und 5). Soft Spam gemäß Art. 6 Abs. 1 lit. f DSGVO, um Ihnen einen besseren und auf Ihre Käufe abgestimmten Service anbieten zu können. In diesem Fall ist keine vorherige Einwilligung erforderlich, Sie können diesen Mitteilungen jedoch jederzeit kostenlos und mit sofortiger Wirkung widersprechen (durch Klicken auf „Abmelden“ am Ende der E-Mails oder indem Sie uns schreiben) (Zweck 6);</li>
+<li>die Zwecke gemäß Punkt 7 und 8 mit der ausdrücklichen, durch Unterschrift erteilten Einwilligung der betroffenen Person.</li>
+</ul>
+<h2>Empfänger der Daten</h2>
+<p>Die von der ${ORG} verarbeiteten personenbezogenen Daten werden nicht verbreitet, d. h. sie werden unbestimmten Personen in keiner Form zugänglich gemacht, auch nicht durch Bereitstellung oder Einsichtnahme. Sie können jedoch an Arbeitnehmer, Ehrenamtliche oder Mitarbeiter des Verantwortlichen sowie an externe Stellen weitergegeben werden, die mit dem Verantwortlichen zusammenarbeiten und als Auftragsverarbeiter benannt oder zur Verarbeitung befugt sind, da sie unter der Aufsicht des Verantwortlichen tätig sind.</p>
+<p>Insbesondere wurden die Mitarbeiter entsprechend ihren Rollen und Aufgaben befugt, Ihre personenbezogenen Daten im Rahmen ihrer jeweiligen Zuständigkeiten und gemäß den Anweisungen des Verantwortlichen zu verarbeiten.</p>
+<p>Sie können außerdem, soweit unbedingt erforderlich, an Stellen weitergegeben werden, die zur Erfüllung Ihrer Anfragen Waren liefern oder Leistungen im Auftrag des Verantwortlichen erbringen müssen. Schließlich können sie an Stellen weitergegeben werden, die aufgrund von Gesetzen, Verordnungen oder Rechtsvorschriften der Europäischen Union zum Zugriff berechtigt sind.</p>
+<p>Auch die externen Stellen, die unter der Aufsicht des Verantwortlichen tätig sind, wurden entsprechend der Art der erbrachten Leistung, der durchgeführten Verarbeitung und der Art der verarbeiteten Daten ordnungsgemäß befugt.</p>
+<p>Die externen Stellen, denen der Verantwortliche die Verarbeitung personenbezogener Daten übertragen hat, wurden als Auftragsverarbeiter benannt.</p>
+<h2>Übermittlung der Daten</h2>
+<p>Sollte der Verantwortliche im Rahmen der oben genannten Zwecke personenbezogene Daten an Drittländer oder internationale Organisationen übermitteln, werden Sie darüber informiert, ob ein Angemessenheitsbeschluss der Europäischen Kommission vorliegt oder nicht.</p>
+<p>Der Verantwortliche behält sich zudem vor, Cloud-Dienste zu nutzen; in diesem Fall werden die Dienstanbieter unter denjenigen ausgewählt, die geeignete Garantien gemäß Art. 46 DSGVO 2016/679 bieten.</p>
+<h2>Speicherdauer</h2>
+<p>Der Verantwortliche speichert und verarbeitet die personenbezogenen Daten so lange, wie es zur Erfüllung der genannten Zwecke erforderlich ist. Insbesondere werden die Daten der Kunden bis zum Ablauf der geltenden verwaltungsrechtlichen Verjährungsfrist aufbewahrt.</p>
+<h2>Rechte der betroffenen Person</h2>
+<p>In Bezug auf die Art. 15 – Auskunftsrecht, 16 – Recht auf Berichtigung, 17 – Recht auf Löschung, 18 – Recht auf Einschränkung der Verarbeitung, 20 – Recht auf Datenübertragbarkeit, 21 – Widerspruchsrecht, 22 – Recht auf Widerspruch gegen automatisierte Entscheidungsfindung der DSGVO kann die betroffene Person ihre Rechte ausüben, indem sie an <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a> oder an den Verantwortlichen unter der oben angegebenen Adresse schreibt und dabei den Gegenstand der Anfrage und das Recht, das sie ausüben möchte, angibt und eine Kopie eines Ausweisdokuments beifügt, das die Rechtmäßigkeit der Anfrage belegt.</p>
+<p>Der Verantwortliche weist insbesondere darauf hin, dass jede betroffene Person das Widerspruchsrecht in der in Art. 21 DSGVO vorgesehenen Art und Weise ausüben kann.</p>
+<h2>Widerruf der Einwilligung</h2>
+<p>Gemäß Art. 7 DSGVO kann die betroffene Person eine erteilte Einwilligung jederzeit widerrufen. Verarbeitungen, die für ihre Rechtmäßigkeit keine Einwilligung erfordern, können jedoch auch ohne Einwilligung durchgeführt werden, beispielsweise zur Erfüllung eines Vertrags, dessen Vertragspartei die betroffene Person ist (Liefer- bzw. Leistungsverhältnis über Produkte und/oder Dienstleistungen), sowie auf Grundlage der übrigen oben genannten Rechtsgrundlagen.</p>
+<h2>Verweigerung der Bereitstellung der Daten</h2>
+<p>Die betroffene Person kann sich nicht weigern, dem Verantwortlichen die personenbezogenen Daten bereitzustellen, die für die zivilrechtlichen, buchhalterischen und steuerlichen Pflichten im Zusammenhang mit der Lieferung oder Erbringung der Leistungen erforderlich sind.</p>
+<p>Die Bereitstellung weiterer personenbezogener Daten ist zwar freiwillig, aber für eine korrekte und effiziente Abwicklung des Vertragsverhältnisses erforderlich. Eine etwaige Weigerung, diese Daten bereitzustellen, kann daher das Vertragsverhältnis ganz oder teilweise beeinträchtigen.</p>
+<h2>Automatisierte Entscheidungsprozesse</h2>
+<p>Sollte eine Verarbeitung erforderlich werden, die automatisierte Entscheidungsprozesse in Bezug auf Daten natürlicher Personen umfasst, wird die ausdrückliche und ordnungsgemäß spezifizierte Einwilligung der betroffenen Person eingeholt.</p>
+`},
+
+/* ----------------------------- FRANÇAIS ----------------------------- */
+fr:{
+title:"Note d'information aux clients de la Résidence de campagne « Abaton »",
+dichiaro:"Je déclare avoir lu et compris la note d'information qui précède.",
+modulo:"FORMULAIRE DE RECUEIL DU CONSENTEMENT",
+p7:"La personne concernée, en ce qui concerne l'envoi de communications commerciales et de documentation sur des offres et tarifs relatifs à de nouveaux services ou à des promotions de tiers, c'est-à-dire le marketing direct (point 7 des finalités du traitement)",
+p8:"La personne concernée, en ce qui concerne le traitement de données appartenant à des catégories particulières au sens de l'art. 9 du RGPD 679/2016 (données sensibles) pour la fourniture des services demandés par les clients, comme celles relatives à un handicap ou à des allergies alimentaires (point 8 des finalités du traitement)",
+presta:"Donne son consentement au traitement",nega:"Refuse son consentement au traitement",
+html:`
+<p>La présente note d'information est fournie, conformément à l'art. 13 du RGPD 679/2016 – « Règlement européen relatif à la protection des données personnelles », aux personnes qui réservent une chambre à Abaton, en concluant une transaction avec Ass. La Grande Opera impresa sociale, ou avec l'une des entités ayant désigné Ass. La Grande Opera impresa sociale comme sous-traitant (art. 28 RGPD).</p>
+<h2>Identité du responsable du traitement</h2>
+<p>Le responsable du traitement est l'${ORG}, dont le siège social est situé Via Baldissero, 21, Vidracco (TO), représentée par son Président en exercice.</p>
+<p>L'${ORG} a en outre été désignée comme sous-traitant, conformément à l'art. 28 RGPD, par les responsables du traitement autonomes ou conjoints énumérés à l'adresse <a href="http://www.damanhur.org/it/privacy" target="_blank" rel="noopener">www.damanhur.org/it/privacy</a>. Le traitement pour lequel l'${ORG} a été désignée sous-traitant est la gestion des coordonnées des personnes afin de garantir le déroulement en toute sécurité de leurs activités.</p>
+<p>La réponse aux personnes concernées qui exercent leurs droits incombe au responsable du traitement ou aux responsables conjoints du traitement des données personnelles.</p>
+<p>L'${ORG} garantit la sécurité, la confidentialité et la protection des données personnelles en sa possession, à chaque étape du traitement.</p>
+<h2>Identité du délégué à la protection des données</h2>
+<p>Un délégué à la protection des données (DPO) a été désigné ; il est domicilié, pour l'exercice de cette fonction, au siège social de l'${ORG}, Via Baldissero, 21, Vidracco (TO), et peut être contacté par e-mail à l'adresse <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a></p>
+<h2>Source des données</h2>
+<p>Les données personnelles traitées sont celles fournies par la personne concernée à l'occasion de :</p>
+<ul><li>séjours ou appels téléphoniques ;</li><li>contacts directs ;</li><li>sites web, réseaux sociaux, e-mails ;</li><li>l'élaboration de propositions et de devis ;</li><li>transmissions et transactions faisant suite à une commande ;</li><li>avis laissés volontairement, sur papier ou en ligne.</li></ul>
+<h2>Finalités du traitement</h2>
+<p>Les données personnelles sont traitées pour l'exécution des activités précontractuelles nécessaires, pour la définition et l'acceptation du contrat de service qui régit la prestation et pour le bon déroulement de toutes les activités connexes.</p>
+<p>En particulier, elles sont traitées aux fins suivantes :</p>
+<ol>
+<li>recueillir, confirmer, annuler et gérer les réservations des services d'hébergement et des services annexes, et fournir les services demandés ;</li>
+<li>exercice des activités liées et nécessaires à la gestion de la relation contractuelle (fourniture des services, compte rendu de la prestation) ;</li>
+<li>communication des données personnelles relatives au séjour afin de satisfaire aux obligations légales en matière de sécurité publique, ainsi qu'aux obligations administratives, comptables et fiscales ;</li>
+<li>enregistrement des accès à l'établissement ;</li>
+<li>collecte, enregistrement et consultation des données personnelles de la personne concernée aux fins de protection des personnes, des biens et du patrimoine de l'entreprise au moyen d'un <u>éventuel</u> système de vidéosurveillance (si et là où il est présent) ;</li>
+<li>envoi de communications commerciales et de documentation sur des offres et tarifs relatifs à des services dont vous avez déjà bénéficié (soft spam) ;</li>
+<li>envoi de communications commerciales et de documentation sur des offres et tarifs relatifs à de nouveaux services ou à des promotions de tiers (marketing direct) ;</li>
+<li>amélioration et personnalisation du service en fonction des préférences et habitudes de séjour, qui peuvent concerner des catégories particulières de données personnelles (au sens de l'art. 9 RGPD, dites « données sensibles », telles que <em>des demandes liées à un handicap, des allergies alimentaires, etc.</em>). Nous vous informons que ces données seront traitées par du personnel autorisé avec la plus grande confidentialité et ne seront pas communiquées à des tiers non autorisés.</li>
+</ol>
+<h2>Base juridique du traitement</h2>
+<p>Les données collectées pour les finalités indiquées ci-dessus sont traitées de manière licite, car elles sont nécessaires :</p>
+<ul>
+<li>à l'exécution d'un contrat auquel la personne concernée est partie ou à l'exécution de mesures précontractuelles prises à sa demande (finalités visées aux points 1 et 2) ;</li>
+<li>au respect d'une obligation légale à laquelle le responsable du traitement est soumis (finalité visée au point 3) ;</li>
+<li>à la poursuite d'un intérêt légitime du responsable du traitement : protection de la sécurité des personnes et du patrimoine de l'entreprise (finalités 4 et 5). Soft spam art. 6, par. 1, point f) RGPD, afin de vous offrir un meilleur service, cohérent avec vos achats. Dans ce cas, le consentement préalable n'est pas requis, mais vous pourrez vous opposer à ces communications à tout moment (en cliquant sur « se désinscrire » en bas des e-mails ou en nous écrivant), gratuitement et avec effet immédiat (finalité 6) ;</li>
+<li>aux finalités visées aux points 7 et 8, avec le consentement explicite de la personne concernée exprimé par signature.</li>
+</ul>
+<h2>Destinataires des données</h2>
+<p>Les données personnelles traitées par l'${ORG} ne sont pas diffusées, c'est-à-dire qu'elles ne sont mises à la disposition de personnes indéterminées sous aucune forme, y compris par leur mise à disposition ou leur consultation. Elles peuvent toutefois être communiquées aux salariés, bénévoles ou collaborateurs du responsable du traitement, ainsi qu'à des entités externes qui collaborent avec le responsable du traitement, désignées comme sous-traitants ou autorisées au traitement car elles agissent sous l'autorité du responsable du traitement.</p>
+<p>En particulier, en fonction des rôles et des tâches exercés, les travailleurs ont été autorisés à traiter vos données personnelles dans les limites de leurs compétences respectives et conformément aux instructions données par le responsable du traitement.</p>
+<p>Elles peuvent en outre être communiquées, dans la mesure strictement nécessaire, à des entités qui, pour donner suite à vos demandes, doivent fournir des biens ou exécuter des prestations pour le compte du responsable du traitement. Enfin, elles peuvent être communiquées à des entités habilitées à y accéder en vertu de lois, de règlements ou de la réglementation de l'Union européenne.</p>
+<p>Les entités externes qui agissent sous l'autorité du responsable du traitement ont également été dûment autorisées en fonction du type de service fourni, du traitement effectué et de la nature des données traitées.</p>
+<p>Les entités externes auxquelles le responsable du traitement a confié le traitement des données personnelles ont été désignées comme sous-traitants.</p>
+<h2>Transfert des données</h2>
+<p>Si le responsable du traitement transfère des données personnelles vers des pays tiers ou des organisations internationales, dans le cadre des finalités indiquées ci-dessus, vous serez informé(e) de l'existence ou non d'une décision d'adéquation de la Commission européenne.</p>
+<p>Le responsable du traitement se réserve en outre la possibilité d'utiliser des services cloud ; dans ce cas, les fournisseurs seront choisis parmi ceux qui offrent des garanties appropriées, conformément à l'art. 46 du RGPD 2016/679.</p>
+<h2>Conservation des données</h2>
+<p>Le responsable du traitement conserve et traite les données personnelles pendant la durée nécessaire à la réalisation des finalités indiquées. En particulier, les données des clients sont conservées jusqu'à l'expiration du délai de prescription administrative applicable.</p>
+<h2>Droits de la personne concernée</h2>
+<p>En ce qui concerne les art. 15 – droit d'accès, 16 – droit de rectification, 17 – droit à l'effacement, 18 – droit à la limitation du traitement, 20 – droit à la portabilité des données, 21 – droit d'opposition, 22 – droit d'opposition à la prise de décision automatisée du RGPD, la personne concernée peut exercer ses droits en écrivant à <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a> ou au responsable du traitement à l'adresse indiquée ci-dessus, en précisant l'objet de la demande et le droit qu'elle entend exercer, et en joignant une copie d'une pièce d'identité attestant la légitimité de la demande.</p>
+<p>Le responsable du traitement rappelle en particulier que toute personne concernée peut exercer le droit d'opposition selon les modalités et formes prévues par l'art. 21 RGPD.</p>
+<h2>Retrait du consentement</h2>
+<p>Conformément à l'art. 7 du RGPD, la personne concernée peut retirer à tout moment le consentement donné. Toutefois, les traitements qui ne nécessitent pas de consentement pour être licites pourront être effectués même en l'absence de consentement, par exemple pour l'exécution d'un contrat auquel la personne concernée est partie (relation de fourniture de produits et/ou de services) et sur les autres bases juridiques indiquées ci-dessus.</p>
+<h2>Refus de fournir les données</h2>
+<p>La personne concernée ne peut pas refuser de fournir au responsable du traitement les données personnelles nécessaires aux obligations civiles, comptables et fiscales liées à la fourniture ou à la prestation des services.</p>
+<p>La fourniture d'autres données personnelles, bien que facultative, est nécessaire à une gestion correcte et efficace de la relation contractuelle. Par conséquent, un éventuel refus de fournir ces données pourra compromettre en tout ou en partie la relation contractuelle elle-même.</p>
+<h2>Processus décisionnels automatisés</h2>
+<p>Si un traitement impliquant des processus décisionnels automatisés portant sur les données de personnes physiques devait s'avérer nécessaire, le consentement explicite et dûment précisé de la personne concernée sera demandé.</p>
+`},
+
+/* ----------------------------- ESPAÑOL ----------------------------- */
+es:{
+title:"Información para los clientes de la Residencia de Campo «Abaton»",
+dichiaro:"Declaro haber leído y comprendido la información que antecede.",
+modulo:"FORMULARIO DE OBTENCIÓN DEL CONSENTIMIENTO",
+p7:"El interesado, en relación con el envío de comunicaciones comerciales y material informativo sobre ofertas y tarifas relativas a nuevos servicios o promociones de terceros, es decir, marketing directo (punto 7 de las finalidades del tratamiento)",
+p8:"El interesado, en relación con el tratamiento de datos pertenecientes a categorías especiales en el sentido del art. 9 RGPD 679/2016 (datos sensibles) para la prestación de los servicios solicitados por los huéspedes, como los relativos a discapacidades o alergias alimentarias (punto 8 de las finalidades del tratamiento)",
+presta:"Presta su consentimiento al tratamiento",nega:"Deniega su consentimiento al tratamiento",
+html:`
+<p>La presente información se facilita, de conformidad con el art. 13 del RGPD 679/2016 – «Reglamento europeo de protección de datos personales», a las personas que reservan una habitación en Abaton, celebrando una transacción con Ass. La Grande Opera impresa sociale, o con una de las entidades que han designado a Ass. La Grande Opera impresa sociale como encargada del tratamiento (art. 28 RGPD).</p>
+<h2>Identidad del responsable del tratamiento</h2>
+<p>El responsable del tratamiento es la ${ORG}, con domicilio social en Via Baldissero, 21, Vidracco (TO), representada por su Presidente en ejercicio.</p>
+<p>La ${ORG} ha sido designada además encargada del tratamiento, de conformidad con el art. 28 RGPD, por los responsables autónomos o corresponsables del tratamiento enumerados en <a href="http://www.damanhur.org/it/privacy" target="_blank" rel="noopener">www.damanhur.org/it/privacy</a>. El tratamiento para el que la ${ORG} ha sido designada encargada es la gestión de los datos de contacto de las personas para garantizar el disfrute seguro de sus actividades.</p>
+<p>La respuesta a los interesados que ejercen sus derechos corresponde al responsable o a los corresponsables del tratamiento de los datos personales.</p>
+<p>La ${ORG} garantiza la seguridad, la confidencialidad y la protección de los datos personales que obran en su poder, en cada fase del tratamiento.</p>
+<h2>Identidad del Delegado de Protección de Datos</h2>
+<p>Se ha designado un Delegado de Protección de Datos (DPD), con domicilio a efectos de esta función en la sede social de la ${ORG} en Via Baldissero, 21, Vidracco (TO), al que se puede contactar por correo electrónico en <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a></p>
+<h2>Origen de los datos</h2>
+<p>Los datos personales tratados son los facilitados por el interesado con ocasión de:</p>
+<ul><li>estancias o llamadas telefónicas;</li><li>contactos directos;</li><li>sitios web, redes sociales, correo electrónico;</li><li>elaboración de propuestas y presupuestos;</li><li>transmisiones y transacciones derivadas de un pedido;</li><li>reseñas publicadas voluntariamente, en papel o en línea.</li></ul>
+<h2>Finalidades del tratamiento</h2>
+<p>Los datos personales se tratan para la realización de las actividades precontractuales necesarias, para la definición y aceptación del contrato de servicio que regula la prestación y para el correcto desarrollo de todas las actividades relacionadas.</p>
+<p>En particular, se tratan para las siguientes finalidades:</p>
+<ol>
+<li>recibir, confirmar, cancelar y gestionar las reservas de los servicios de alojamiento y de los servicios complementarios, y prestar los servicios solicitados;</li>
+<li>realización de las actividades relacionadas e instrumentales a la gestión de la relación contractual (prestación de los servicios, rendición de cuentas de la prestación);</li>
+<li>comunicación de los datos personales relativos a la estancia para cumplir las obligaciones legales en materia de seguridad pública, así como las obligaciones administrativas, contables y fiscales;</li>
+<li>registro de los accesos al establecimiento;</li>
+<li>obtención, registro y consulta de los datos personales del interesado con fines de protección de las personas, los bienes y el patrimonio de la empresa mediante un <u>eventual</u> sistema de videovigilancia (si existe y donde exista);</li>
+<li>envío de comunicaciones comerciales y material informativo sobre ofertas y tarifas relativas a servicios que ya ha disfrutado (soft spam);</li>
+<li>envío de comunicaciones comerciales y material informativo sobre ofertas y tarifas relativas a nuevos servicios o promociones de terceros (marketing directo);</li>
+<li>mejora y personalización del servicio en relación con las preferencias y hábitos de estancia, que pueden afectar a categorías especiales de datos personales (en el sentido del art. 9 RGPD, los llamados «datos sensibles», como por ejemplo <em>solicitudes relacionadas con discapacidades, alergias alimentarias, etc.</em>). Le informamos de que dichos datos serán tratados por personal autorizado con la máxima confidencialidad y no se comunicarán a terceros no autorizados.</li>
+</ol>
+<h2>Base jurídica del tratamiento</h2>
+<p>Los datos recogidos para las finalidades indicadas se tratan lícitamente por ser necesarios para:</p>
+<ul>
+<li>la ejecución de un contrato en el que el interesado es parte o la aplicación de medidas precontractuales adoptadas a petición de este (finalidades de los puntos 1 y 2);</li>
+<li>el cumplimiento de una obligación legal aplicable al responsable (finalidad del punto 3);</li>
+<li>la satisfacción de un interés legítimo del responsable: protección de la seguridad de las personas y del patrimonio de la empresa (finalidades 4 y 5). Soft spam art. 6, apdo. 1, letra f) RGPD, para poder ofrecerle un servicio mejor y coherente con sus compras. En este caso no se requiere el consentimiento previo, pero podrá oponerse a dichas comunicaciones en cualquier momento (haciendo clic en «darse de baja» al final de los correos electrónicos o escribiéndonos), de forma gratuita y con efecto inmediato (finalidad 6);</li>
+<li>las finalidades de los puntos 7 y 8, con el consentimiento explícito del interesado expresado mediante firma.</li>
+</ul>
+<h2>Destinatarios de los datos</h2>
+<p>Los datos personales tratados por la ${ORG} no se difunden, es decir, no se ponen a disposición de sujetos indeterminados en ninguna forma, ni siquiera mediante su puesta a disposición o consulta. No obstante, pueden comunicarse a trabajadores, voluntarios o colaboradores del responsable, así como a entidades externas que colaboran con el responsable, designadas encargadas del tratamiento o autorizadas al tratamiento por actuar bajo la autoridad del responsable.</p>
+<p>En particular, en función de las funciones y tareas desempeñadas, los trabajadores han sido autorizados a tratar sus datos personales dentro de los límites de sus respectivas competencias y de conformidad con las instrucciones impartidas por el responsable.</p>
+<p>Además, pueden comunicarse, en la medida estrictamente necesaria, a entidades que, para dar curso a sus solicitudes, deban suministrar bienes o realizar prestaciones por cuenta del responsable. Por último, pueden comunicarse a entidades legitimadas para acceder a ellos en virtud de leyes, reglamentos o normativa de la Unión Europea.</p>
+<p>También las entidades externas que actúan bajo la autoridad del responsable han sido debidamente autorizadas en función del tipo de servicio prestado, del tratamiento realizado y de la naturaleza de los datos tratados.</p>
+<p>Las entidades externas a las que el responsable ha confiado el tratamiento de los datos personales han sido designadas encargadas del tratamiento.</p>
+<h2>Transferencia de los datos</h2>
+<p>Si el responsable transfiere datos personales a terceros países u organizaciones internacionales, en el marco de las finalidades indicadas, se le informará sobre la existencia o no de una decisión de adecuación de la Comisión Europea.</p>
+<p>El responsable se reserva además la posibilidad de utilizar servicios en la nube; en tal caso, los proveedores de los servicios se seleccionarán entre aquellos que ofrezcan garantías adecuadas, según lo previsto en el art. 46 del RGPD 2016/679.</p>
+<h2>Conservación de los datos</h2>
+<p>El responsable conserva y trata los datos personales durante el tiempo necesario para cumplir las finalidades indicadas. En particular, los datos de los clientes se conservan hasta el término del plazo de prescripción administrativa aplicable.</p>
+<h2>Derechos del interesado</h2>
+<p>En relación con los arts. 15 – derecho de acceso, 16 – derecho de rectificación, 17 – derecho de supresión, 18 – derecho a la limitación del tratamiento, 20 – derecho a la portabilidad de los datos, 21 – derecho de oposición, 22 – derecho de oposición a decisiones automatizadas del RGPD, el interesado puede ejercer sus derechos escribiendo a <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a> o al responsable en la dirección indicada, especificando el objeto de la solicitud y el derecho que desea ejercer, y adjuntando copia de un documento de identidad que acredite la legitimidad de la solicitud.</p>
+<p>El responsable recuerda en particular que todo interesado puede ejercer el derecho de oposición en los modos y formas previstos por el art. 21 RGPD.</p>
+<h2>Revocación del consentimiento</h2>
+<p>De conformidad con el art. 7 del RGPD, el interesado puede revocar en cualquier momento el consentimiento prestado. No obstante, los tratamientos que no requieren consentimiento para ser lícitos podrán realizarse incluso sin él, por ejemplo para la ejecución de un contrato en el que el interesado es parte (relación de suministro de productos y/o servicios) y sobre las demás bases jurídicas indicadas.</p>
+<h2>Negativa a facilitar los datos</h2>
+<p>El interesado no puede negarse a facilitar al responsable los datos personales necesarios para las obligaciones civiles, contables y fiscales relacionadas con el suministro o la prestación de los servicios.</p>
+<p>La comunicación de otros datos personales, aunque es facultativa, es necesaria para una gestión correcta y eficiente de la relación contractual. Por lo tanto, la eventual negativa a facilitar dichos datos podrá comprometer total o parcialmente la propia relación contractual.</p>
+<h2>Procesos de decisión automatizados</h2>
+<p>Si fuera necesario un tratamiento que implique procesos de decisión automatizados sobre datos de personas físicas, se solicitará el consentimiento explícito y debidamente especificado del interesado.</p>
+`},
+
+/* ----------------------------- РУССКИЙ ----------------------------- */
+ru:{
+title:"Уведомление для клиентов загородной резиденции «Abaton»",
+dichiaro:"Заявляю, что прочитал(а) и понял(а) вышеизложенное уведомление.",
+modulo:"ФОРМА ПОЛУЧЕНИЯ СОГЛАСИЯ",
+p7:"Субъект данных — в отношении направления коммерческих сообщений и информационных материалов о предложениях и тарифах на новые услуги или о рекламных акциях третьих лиц, то есть прямого маркетинга (пункт 7 целей обработки)",
+p8:"Субъект данных — в отношении обработки данных особых категорий в соответствии со ст. 9 GDPR 679/2016 (чувствительные данные) для оказания запрошенных гостями услуг, например связанных с инвалидностью или пищевой аллергией (пункт 8 целей обработки)",
+presta:"Даёт согласие на обработку",nega:"Не даёт согласия на обработку",
+html:`
+<p>Настоящее уведомление предоставляется в соответствии со ст. 13 GDPR 679/2016 — «Европейского регламента о защите персональных данных» — лицам, которые бронируют номер в Abaton, заключая сделку с Ass. La Grande Opera impresa sociale или с одним из субъектов, назначивших Ass. La Grande Opera impresa sociale обработчиком данных (ст. 28 GDPR).</p>
+<h2>Сведения о контролёре данных</h2>
+<p>Контролёром данных является ${ORG}, юридический адрес: Via Baldissero, 21, Vidracco (TO), в лице действующего Президента.</p>
+<p>${ORG} также назначена обработчиком данных в соответствии со ст. 28 GDPR самостоятельными или совместными контролёрами, перечисленными по адресу <a href="http://www.damanhur.org/it/privacy" target="_blank" rel="noopener">www.damanhur.org/it/privacy</a>. Обработка, для которой ${ORG} назначена обработчиком, — это управление контактными данными лиц для обеспечения безопасного участия в их мероприятиях.</p>
+<p>Ответ субъектам данных, осуществляющим свои права, предоставляется контролёром или совместными контролёрами персональных данных.</p>
+<p>${ORG} обеспечивает безопасность, конфиденциальность и защиту имеющихся у неё персональных данных на каждом этапе обработки.</p>
+<h2>Сведения об инспекторе по защите данных</h2>
+<p>Назначен инспектор по защите данных (DPO); адрес для исполнения этой функции — юридический адрес ${ORG}: Via Baldissero, 21, Vidracco (TO); связаться с ним можно по электронной почте <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a></p>
+<h2>Источник данных</h2>
+<p>Обрабатываются персональные данные, предоставленные субъектом данных в связи с:</p>
+<ul><li>проживанием или телефонными звонками;</li><li>прямыми контактами;</li><li>веб-сайтами, социальными сетями, электронной почтой;</li><li>подготовкой предложений и смет;</li><li>передачей данных и сделками после оформления заказа;</li><li>добровольно оставленными отзывами, в бумажном виде или онлайн.</li></ul>
+<h2>Цели обработки</h2>
+<p>Персональные данные обрабатываются для осуществления необходимых преддоговорных действий, для определения и принятия договора на оказание услуг, регулирующего их предоставление, а также для надлежащего выполнения всех связанных с этим действий.</p>
+<p>В частности, они обрабатываются в следующих целях:</p>
+<ol>
+<li>получение, подтверждение, отмена и управление бронированиями услуг размещения и дополнительных услуг, а также предоставление запрошенных услуг;</li>
+<li>осуществление действий, связанных с управлением договорными отношениями и необходимых для него (оказание услуг, отчётность об оказанных услугах);</li>
+<li>передача персональных данных, связанных с проживанием, для выполнения установленных законом обязанностей в сфере общественной безопасности, а также административных, бухгалтерских и налоговых обязанностей;</li>
+<li>регистрация входа на территорию объекта;</li>
+<li>получение, запись и просмотр персональных данных субъекта в целях защиты людей, имущества и активов организации с помощью <u>возможной</u> системы видеонаблюдения (если и где она имеется);</li>
+<li>направление коммерческих сообщений и информационных материалов о предложениях и тарифах на услуги, которыми вы уже воспользовались (soft spam);</li>
+<li>направление коммерческих сообщений и информационных материалов о предложениях и тарифах на новые услуги или о рекламных акциях третьих лиц (прямой маркетинг);</li>
+<li>улучшение и персонализация обслуживания с учётом предпочтений и привычек во время проживания, которые могут касаться особых категорий персональных данных (в соответствии со ст. 9 GDPR, так называемые «чувствительные данные», например <em>запросы, связанные с инвалидностью, пищевой аллергией и т. п.</em>). Сообщаем вам, что такие данные будут обрабатываться уполномоченным персоналом с соблюдением строжайшей конфиденциальности и не будут передаваться неуполномоченным третьим лицам.</li>
+</ol>
+<h2>Правовое основание обработки</h2>
+<p>Данные, собранные для указанных выше целей, обрабатываются правомерно, поскольку это необходимо для:</p>
+<ul>
+<li>исполнения договора, стороной которого является субъект данных, или принятия преддоговорных мер по его запросу (цели, указанные в пунктах 1 и 2);</li>
+<li>выполнения юридической обязанности, возложенной на контролёра (цель, указанная в пункте 3);</li>
+<li>реализации законного интереса контролёра: обеспечения безопасности людей и активов организации (цели 4 и 5). Soft spam — ст. 6, п. 1, пп. f) GDPR, чтобы мы могли предложить вам лучшее обслуживание, соответствующее вашим покупкам. В этом случае предварительное согласие не требуется, но вы можете в любой момент бесплатно и с немедленным эффектом возразить против таких сообщений (нажав «отписаться» в конце письма или написав нам) (цель 6);</li>
+<li>целей, указанных в пунктах 7 и 8, — с явного согласия субъекта данных, выраженного подписью.</li>
+</ul>
+<h2>Получатели данных</h2>
+<p>Персональные данные, обрабатываемые ${ORG}, не распространяются, то есть ни в какой форме не предоставляются неопределённому кругу лиц, в том числе путём предоставления к ним доступа или возможности ознакомления. Однако они могут передаваться работникам, волонтёрам или сотрудникам контролёра, а также внешним субъектам, сотрудничающим с контролёром, назначенным обработчиками или уполномоченным на обработку, поскольку они действуют под руководством контролёра.</p>
+<p>В частности, в зависимости от выполняемых ролей и обязанностей работники уполномочены обрабатывать ваши персональные данные в пределах своей компетенции и в соответствии с инструкциями контролёра.</p>
+<p>Кроме того, в строго необходимой мере данные могут передаваться субъектам, которые для выполнения ваших запросов должны поставлять товары или оказывать услуги от имени контролёра. Наконец, они могут передаваться субъектам, имеющим право доступа к ним в силу законов, нормативных актов или законодательства Европейского союза.</p>
+<p>Внешние субъекты, действующие под руководством контролёра, также надлежащим образом уполномочены в зависимости от вида оказываемых услуг, осуществляемой обработки и характера обрабатываемых данных.</p>
+<p>Внешние субъекты, которым контролёр поручил обработку персональных данных, назначены обработчиками данных.</p>
+<h2>Передача данных</h2>
+<p>Если контролёр будет передавать персональные данные в третьи страны или международные организации в рамках указанных выше целей, вы будете проинформированы о наличии или отсутствии решения Европейской комиссии о достаточности уровня защиты.</p>
+<p>Контролёр также оставляет за собой возможность использовать облачные сервисы; в этом случае поставщики услуг будут выбираться из числа тех, кто предоставляет надлежащие гарантии, как предусмотрено ст. 46 GDPR 2016/679.</p>
+<h2>Хранение данных</h2>
+<p>Контролёр хранит и обрабатывает персональные данные в течение срока, необходимого для достижения указанных целей. В частности, данные клиентов хранятся до истечения применимого срока административной давности.</p>
+<h2>Права субъекта данных</h2>
+<p>В соответствии со ст. 15 — право на доступ, 16 — право на исправление, 17 — право на удаление, 18 — право на ограничение обработки, 20 — право на переносимость данных, 21 — право на возражение, 22 — право на возражение против автоматизированного принятия решений GDPR субъект данных может осуществить свои права, написав по адресу <a href="mailto:direttivo@grandeopera.org">direttivo@grandeopera.org</a> или контролёру по указанному выше адресу, указав предмет запроса и право, которое он намерен осуществить, и приложив копию документа, удостоверяющего личность, который подтверждает правомерность запроса.</p>
+<p>Контролёр особо напоминает, что каждый субъект данных может осуществить право на возражение в порядке и формах, предусмотренных ст. 21 GDPR.</p>
+<h2>Отзыв согласия</h2>
+<p>В соответствии со ст. 7 GDPR субъект данных может в любой момент отозвать данное согласие. Однако обработка, для правомерности которой согласие не требуется, может осуществляться и без согласия, например для исполнения договора, стороной которого является субъект данных (отношения по поставке товаров и/или услуг), а также на других указанных выше правовых основаниях.</p>
+<h2>Отказ от предоставления данных</h2>
+<p>Субъект данных не может отказаться предоставить контролёру персональные данные, необходимые для выполнения гражданско-правовых, бухгалтерских и налоговых обязанностей, связанных с поставкой или оказанием услуг.</p>
+<p>Предоставление дополнительных персональных данных, хотя и является добровольным, необходимо для правильного и эффективного управления договорными отношениями. Поэтому возможный отказ от предоставления таких данных может полностью или частично поставить под угрозу сами договорные отношения.</p>
+<h2>Автоматизированное принятие решений</h2>
+<p>Если возникнет необходимость в обработке, предполагающей автоматизированное принятие решений в отношении данных физических лиц, будет запрошено явное и надлежащим образом конкретизированное согласие субъекта данных.</p>
+`}
+};
+
+/* ===================== FUNZIONAMENTO (non toccare) ===================== */
+const $ = id => document.getElementById(id);
+let lang = "it";
+
+function pickLang(){
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q && DOC[q]) return q;
+  const n = (navigator.language || "it").slice(0,2).toLowerCase();
+  return DOC[n] ? n : "it";
+}
+
+function render(l){
+  lang = l;
+  const d = DOC[l], u = UI[l];
+  document.documentElement.lang = l;
+  $("title").textContent = d.title;
+  $("info").innerHTML = d.html;
+  $("info").scrollTop = 0;
+  $("tDati").textContent = u.dati;
+  $("lNome").textContent = u.nome + " *";
+  $("lCognome").textContent = u.cognome + " *";
+  $("lEmail").textContent = u.email + " *";
+  $("lTel").textContent = u.tel + " " + u.opt;
+  $("tDichiaro").textContent = d.dichiaro;
+  $("tModulo").textContent = d.modulo;
+  $("t7").textContent = d.p7;
+  $("t8").textContent = d.p8;
+  document.querySelectorAll(".tPresta").forEach(e => e.textContent = d.presta);
+  document.querySelectorAll(".tNega").forEach(e => e.textContent = d.nega);
+  $("send").textContent = u.send;
+  document.querySelectorAll("#langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === l));
+  ["errInfo","err7","err8"].forEach(id => $(id).style.display = "none");
+  $("msg").style.display = "none";
+}
+
+LANGS.forEach(([code,name]) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.dataset.l = code; b.textContent = name;
+  b.onclick = () => render(code);
+  $("langs").appendChild(b);
+});
+
+function radio(name){ const r = document.querySelector(`input[name=${name}]:checked`); return r ? r.value : ""; }
+function showErr(id, text, show){ const e = $(id); e.textContent = text; e.style.display = show ? "block" : "none"; }
+
+$("form").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const u = UI[lang];
+  const nome = $("nome").value.trim(), cognome = $("cognome").value.trim(), email = $("email").value.trim();
+  const p7 = radio("p7"), p8 = radio("p8"), info = $("informativa").checked;
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  showErr("errInfo", u.must, !info);
+  showErr("err7", u.choose, !p7);
+  showErr("err8", u.choose, !p8);
+  const msg = $("msg");
+  if (!nome || !cognome || !emailOk){ msg.className = "msg ko"; msg.textContent = u.fill; msg.style.display = "block"; return; }
+  if (!info || !p7 || !p8){ msg.style.display = "none"; return; }
+
+  const btn = $("send");
+  btn.disabled = true; btn.textContent = u.sending; msg.style.display = "none";
+  try{
+    const res = await fetch(SCRIPT_URL, {
+      method:"POST",
+      body: JSON.stringify({
+        lingua: lang, nome, cognome, email, telefono: $("telefono").value.trim(),
+        informativa: true, p7, p8, versione: VERSIONE, website: $("website").value
+      })
+    });
+    const out = await res.json();
+    if (!out.ok) throw new Error(out.error || "errore");
+    $("form").querySelectorAll("input,button").forEach(e => e.disabled = true);
+    msg.className = "msg ok"; msg.textContent = u.ok;
+  }catch(e){
+    btn.disabled = false;
+    msg.className = "msg ko"; msg.textContent = u.ko;
+  }
+  msg.style.display = "block";
+  btn.textContent = u.send;
+});
+
+render(pickLang());
+</script>
+</body>
+</html>
