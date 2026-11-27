@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
       const pin = process.env.STATS_PIN || '1950';
       const { pin: sent, values } = req.body || {};
-      if (sent !== pin) return res.status(401).json({ error: 'Unauthorized' });
+      if (sent !== pin) { await new Promise((r) => setTimeout(r, 1200)); return res.status(401).json({ error: 'Unauthorized' }); }
       const clean = {};
       for (const k of ALLOWED) {
         if (values && typeof values[k] === 'string') clean[k] = values[k].trim().slice(0, k === 'privacyText' ? 20000 : 2000);

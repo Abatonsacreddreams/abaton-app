@@ -1211,7 +1211,11 @@ function QuickAsk({item,title,intro,chips,chipsLabel,chipsNoteLabel,noteLabel,sh
 }
 
 // ── TABLET / STAFF: stanza fissa del device + sessione ospite corrente ────────
-const STAFF_PIN = "1950";
+// Il PIN staff non è scritto qui: lo verifica il server (/api/pin, variabile STATS_PIN su Vercel).
+async function checkStaffPin(pin){
+  try{ const res = await fetch("/api/pin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin})}); return res.status===204 ? "ok" : res.status===401 ? "wrong" : "error"; }
+  catch(e){ return "error"; }
+}
 const ROOMS_LIST = [
   {id:"terra",   name:"Terra",   lineIT:"Dedicata alle forze della Natura e al principio maschile come elemento attivo e fecondante.", lineEN:"Dedicated to the forces of Nature and the masculine principle as an active, fertilizing element.", lineDE:"Der Erde gewidmet und dem männlichen Prinzip als aktives, befruchtendes Element.", lineFR:"Dédiée aux forces de la Nature et au principe masculin comme élément actif et fécondant.", lineRU:"Посвящён силам Природы и мужскому принципу как активному, оплодотворяющему элементу."},
   {id:"metalli", name:"Metalli", lineIT:"Dedicata alla trasformazione alchemica interiore, attraverso la metafora dei metalli — il piombo che diventa oro.", lineEN:"Dedicated to inner alchemical transformation, through the metaphor of metals — lead that becomes gold.", lineDE:"Gewidmet der inneren alchemistischen Transformation, durch die Metapher der Metalle — Blei, das zu Gold wird.", lineFR:"Dédiée à la transformation alchimique intérieure, à travers la métaphore des métaux — le plomb qui devient or.", lineRU:"Посвящён внутренней алхимической трансформации через метафору металлов — свинец, превращающийся в золото."},
@@ -1249,6 +1253,7 @@ function sessionExpired(s){
 }
 
 function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTestSaver,onToggleDebug,debugOn}) {
+  const [pinState,setPinState] = useState("idle");
   const [pinOk,setPinOk] = useState(false);
   const [pin,setPin] = useState("");
   const [name,setName] = useState(session?.name||"");
@@ -1257,16 +1262,25 @@ function StaffPanel({session,onSave,onClear,onClose,onDashboard,onEditInfo,onTes
   const [room,setRoomSel] = useState(getRoom());
   const [guestLang,setGuestLang] = useState(session?.lang||"it");
 
+  const tryPin = async () => {
+    if(!pin||pinState==="checking") return;
+    setPinState("checking");
+    const r = await checkStaffPin(pin);
+    if(r==="ok"){ setPinState("idle"); setPinOk(true); }
+    else { setPinState(r); if(r==="wrong") setPin(""); }
+  };
   if (!pinOk) {
     return (
       <div style={{position:"fixed",inset:0,background:"rgba(20,34,61,0.88)",zIndex:9999,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px"}} onClick={onClose}>
         <div onClick={e=>e.stopPropagation()} style={{background:C.white,borderRadius:"20px",padding:"28px",width:"100%",maxWidth:"320px"}}>
           <div style={{fontFamily:FD,fontWeight:"500",fontSize:"18px",color:C.blue,marginBottom:"14px"}}>Accesso staff</div>
-          <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&(pin===STAFF_PIN?setPinOk(true):setPin(""))} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"17.5px",marginBottom:"12px",outline:"none"}}/>
+          <input type="password" inputMode="numeric" autoFocus value={pin} onChange={e=>setPin(e.target.value)} onKeyDown={e=>e.key==="Enter"&&tryPin()} placeholder="PIN" style={{width:"100%",padding:"12px",borderRadius:"12px",border:`1px solid ${C.border}`,fontFamily:FB,fontSize:"17.5px",marginBottom:"12px",outline:"none"}}/>
           <div style={{display:"flex",gap:"10px"}}>
             <button onClick={onClose} style={{flex:1,padding:"12px",borderRadius:"14px",border:`1px solid ${C.border}`,background:"none",cursor:"pointer",fontFamily:FB}}>Annulla</button>
-            <button onClick={()=>{ if(pin===STAFF_PIN) setPinOk(true); else setPin(""); }} style={{flex:1,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB}}>Entra</button>
+            <button onClick={tryPin} disabled={pinState==="checking"} style={{flex:1,padding:"12px",borderRadius:"14px",border:"none",background:C.gold,color:C.white,cursor:"pointer",fontFamily:FB}}>{pinState==="checking"?"…":"Entra"}</button>
           </div>
+          {pinState==="wrong"&&<div style={{marginTop:"12px",fontSize:"14px",color:"#B04A4A"}}>PIN non corretto.</div>}
+          {pinState==="error"&&<div style={{marginTop:"12px",fontSize:"14px",color:"#B04A4A"}}>Non riesco a verificare il PIN: controlla la connessione e riprova.</div>}
         </div>
       </div>
     );

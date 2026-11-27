@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   const pin = process.env.STATS_PIN || '1950';
   const { pin: sent, room } = req.body || {};
-  if (sent !== pin) return res.status(401).json({ error: 'Unauthorized' });
+  if (sent !== pin) { await new Promise((r) => setTimeout(r, 1200)); return res.status(401).json({ error: 'Unauthorized' }); }
   try {
     if (!room || room === 'all') {
       await sql`TRUNCATE TABLE events`;

@@ -3,7 +3,7 @@ import { sql } from '@vercel/postgres';
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
   const pin = process.env.STATS_PIN || '1950';
-  if (req.query.pin !== pin) return res.status(401).json({ error: 'Unauthorized' });
+  if (req.query.pin !== pin) { await new Promise((r) => setTimeout(r, 1200)); return res.status(401).json({ error: 'Unauthorized' }); }
 
   try {
     await sql`CREATE TABLE IF NOT EXISTS feedback (id SERIAL PRIMARY KEY, rating INT, comment TEXT, room TEXT, lang TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT now())`;
