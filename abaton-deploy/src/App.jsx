@@ -3601,7 +3601,9 @@ const NAV = [
 ];
 
 // ── DASHBOARD (staff-only usage stats) ─────────────────────────────────────────
+const RESET_LABELS = {all:"tutte le stanze",terra:"stanza Terra",metalli:"stanza Metalli",acqua:"stanza Acqua",specchi:"stanza Specchi",popoli:"stanza Popoli",none:"senza stanza (telefoni)"};
 function DashboardPage({t,lang,setPage}) {
+  const [resetRoom,setResetRoom] = useState("all");
   const [pin,setPin] = useState("");
   const [pinOk,setPinOk] = useState(false);
   const [error,setError] = useState("");
@@ -3666,9 +3668,18 @@ function DashboardPage({t,lang,setPage}) {
         </div>
       </div>
       <div style={{padding:"24px 22px 0"}}>
-        <div style={{display:"flex",gap:"10px",marginBottom:"18px"}}>
+        <div style={{display:"flex",gap:"10px",marginBottom:"18px",flexWrap:"wrap",alignItems:"center"}}>
           <button onClick={()=>load(pin)} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:C.textS,cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>↻ Aggiorna</button>
-          <button onClick={async()=>{ if(!window.confirm("Cancellare tutte le statistiche di navigazione? Feedback e recensioni non vengono toccati.")) return; await fetch("/api/reset",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin})}); load(pin); }} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:"#B04A4A",cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>🗑 Azzera statistiche</button>
+          <select value={resetRoom} onChange={e=>setResetRoom(e.target.value)} aria-label="Statistiche da azzerare" style={{padding:"10px 12px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:C.textS,fontFamily:FB,fontSize:"14.5px"}}>
+            <option value="all">Tutte le stanze</option>
+            <option value="terra">Stanza Terra</option>
+            <option value="metalli">Stanza Metalli</option>
+            <option value="acqua">Stanza Acqua</option>
+            <option value="specchi">Stanza Specchi</option>
+            <option value="popoli">Stanza Popoli</option>
+            <option value="none">Senza stanza (telefoni)</option>
+          </select>
+          <button onClick={async()=>{ const nome = RESET_LABELS[resetRoom]; if(!window.confirm(`Cancellare le statistiche di navigazione di: ${nome}? Feedback, richieste e consensi non vengono toccati.`)) return; await fetch("/api/reset",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin,room:resetRoom})}); load(pin); }} style={{padding:"10px 16px",borderRadius:"12px",border:`1px solid ${C.border}`,background:C.white,color:"#B04A4A",cursor:"pointer",fontFamily:FB,fontSize:"14.5px"}}>Azzera</button>
         </div>
 
         <div style={{display:"flex",gap:"10px",marginBottom:"24px"}}>
