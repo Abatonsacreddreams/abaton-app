@@ -581,24 +581,53 @@ const LETTER_LATER = {it:"Più tardi",en:"Later",de:"Später",fr:"Plus tard",ru:
 const SS_WELCOME = {it:"Benvenuto",en:"Welcome",de:"Willkommen",fr:"Bienvenue",ru:"Добро пожаловать"};
 const SS_TAP = {it:"Clicca qui!",en:"Tap here!",de:"Hier tippen!",fr:"Touchez ici !",ru:"Нажмите здесь!"};
 const SS_IMGS = ["/temple/rosone-acqua-big.jpg","/temple/rosone-vittoria-big.jpg"];
+const SS_DARK = {it:"Tocca lo schermo",en:"Touch the screen",de:"Bildschirm berühren",fr:"Touchez l'écran",ru:"Коснитесь экрана"};
+const SS_ANIM_MS = 60*1000;      // rosone in movimento per 1 minuto
+const SS_DARK_MS = 10*60*1000;   // schermo nero dopo 10 minuti di salvaschermo
 function Screensaver({lang,onWake}) {
   const [i] = useState(()=>{
     try{ const n=(+localStorage.getItem("abaton_ss")||0)+1; localStorage.setItem("abaton_ss",String(n)); return n%SS_IMGS.length; }catch(e){ return 0; }
   });
   const L = o => o[lang]||o.en;
   const S = "min(84vmin, 680px)";
+  // Risparmio batteria: il rosone si muove solo per 1 minuto, poi resta fermo;
+  // dopo 10 minuti (di notte, dalle 22 alle 8, subito) lo schermo diventa nero.
+  const night = (()=>{ const h=new Date().getHours(); return h>=22||h<8; })();
+  const [stage,setStage] = useState(night?"dark":"anim");
+  const [spot,setSpot] = useState({x:50,y:50});
+  useEffect(()=>{
+    if(night) return;
+    const t1 = setTimeout(()=>setStage("still"), SS_ANIM_MS);
+    const t2 = setTimeout(()=>setStage("dark"), SS_DARK_MS);
+    return ()=>{ clearTimeout(t1); clearTimeout(t2); };
+  },[]);
+  useEffect(()=>{
+    if(stage!=="dark") return;
+    // Fully Kiosk (se "Enable JavaScript Interface" è attivo): luminosità al minimo, ripristinata al risveglio.
+    let prev = null;
+    try{ if(window.fully&&window.fully.getScreenBrightness){ prev = window.fully.getScreenBrightness(); window.fully.setScreenBrightness(1); } }catch(e){}
+    // La scritta cambia posto ogni minuto, per non segnare lo schermo AMOLED.
+    const id = setInterval(()=>setSpot({x:25+Math.random()*50,y:25+Math.random()*50}), 60*1000);
+    return ()=>{ clearInterval(id); try{ if(prev!==null&&window.fully&&window.fully.setScreenBrightness) window.fully.setScreenBrightness(prev); }catch(e){} };
+  },[stage]);
+  const moving = stage==="anim";
+  if(stage==="dark") return (
+    <div role="button" onClick={onWake} style={{position:"fixed",inset:0,zIndex:10002,cursor:"pointer",background:"#000"}}>
+      <div style={{position:"absolute",left:`${spot.x}%`,top:`${spot.y}%`,transform:"translate(-50%,-50%)",fontFamily:FD,fontStyle:"italic",fontSize:"clamp(16px, 3vmin, 24px)",color:"rgba(201,168,76,0.35)",whiteSpace:"nowrap"}}>{L(SS_DARK)}</div>
+    </div>
+  );
   return (
     <div role="button" onClick={onWake} style={{position:"fixed",inset:0,zIndex:10002,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",background:"radial-gradient(ellipse at center, #1B2C52 0%, #0C1428 78%)",animation:"abatonFade 1.2s ease both"}}>
-      <div style={{position:"relative",width:S,height:S,animation:"abatonFloat 9s ease-in-out infinite"}}>
+      <div style={{position:"relative",width:S,height:S,animation:moving?"abatonFloat 9s ease-in-out infinite":"none"}}>
         <div style={{position:"absolute",inset:"-3%",borderRadius:"50%",border:`1px solid ${C.gold}66`,boxShadow:`0 0 90px ${C.gold}40`}}/>
-        <img src={SS_IMGS[i]} alt="" style={{width:"100%",height:"100%",borderRadius:"50%",objectFit:"cover",border:`2px solid ${C.gold}`,animation:"abatonSpin 240s linear infinite",display:"block"}}/>
+        <img src={SS_IMGS[i]} alt="" style={{width:"100%",height:"100%",borderRadius:"50%",objectFit:"cover",border:`2px solid ${C.gold}`,animation:"abatonSpin 240s linear infinite",animationPlayState:moving?"running":"paused",display:"block"}}/>
         <div style={{position:"absolute",left:"50%",top:"50%",width:"60%",height:"60%",transform:"translate(-50%,-50%)",borderRadius:"50%",background:"radial-gradient(circle, rgba(12,20,40,0.9) 0%, rgba(12,20,40,0.82) 62%, rgba(12,20,40,0) 100%)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",textAlign:"center",padding:"6%"}}>
           <img src="/logo-eye2.png" alt="" style={{width:"22%",height:"auto",marginBottom:"3%",opacity:0.95}}/>
           <div style={{fontFamily:FD,fontSize:"clamp(26px, 7.2vmin, 58px)",color:C.white,lineHeight:1.1,textShadow:"0 2px 14px rgba(0,0,0,0.6)"}}>{L(SS_WELCOME)}</div>
           <div style={{display:"flex",alignItems:"center",gap:"10px",margin:"3% 0"}}>
             <div style={{height:"1px",width:"clamp(18px,5vmin,40px)",background:`${C.gold}99`}}/><div style={{color:C.gold,fontSize:"clamp(11px,2.6vmin,18px)"}}>✦</div><div style={{height:"1px",width:"clamp(18px,5vmin,40px)",background:`${C.gold}99`}}/>
           </div>
-          <div style={{fontFamily:FD,fontStyle:"italic",fontSize:"clamp(20px, 5vmin, 40px)",color:C.gold,animation:"abatonTap 2.4s ease-in-out infinite"}}>{L(SS_TAP)}</div>
+          <div style={{fontFamily:FD,fontStyle:"italic",fontSize:"clamp(20px, 5vmin, 40px)",color:C.gold,animation:moving?"abatonTap 2.4s ease-in-out infinite":"none"}}>{L(SS_TAP)}</div>
         </div>
       </div>
     </div>
